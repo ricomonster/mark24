@@ -1,0 +1,13 @@
+/* Post Stream */
+.post-stream-holder { padding: 0; }
+.post-stream-holder ul,
+.post-etcs ul { list-style: none; margin: 0; padding: 0; }
+
+.post-stream-holder .stream-title { border-bottom: 1px solid #dfe4e8; padding: 10px 20px; }
+
+.post-stream .post-holder { border-bottom: 1px solid #dfe4e8; padding: 20px; }
+.post-stream .post-holder .post-content { margin-left: 10px; width: 88%; }
+.post-stream .post-holder .post-content .post-content-container { padding: 10px 0; }
+
+.post-etcs { padding-left: 70px; }
+.post-etcs ul li { display: inline-block; }

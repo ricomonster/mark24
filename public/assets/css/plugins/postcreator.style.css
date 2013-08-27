@@ -1,0 +1,13 @@
+/* Post Creator */
+.post-creator-holder .nav-tabs { background-color: #f3f5f7; border: 1px solid #dfe4e8; border-bottom: 0;  }
+.post-creator-holder .nav-tabs li a {
+    border: 1px solid #dfe4e8 !important;
+    border-bottom: 0 !important;
+    border-left: 0 !important;
+    border-radius: 0;
+    border-top: 0 !important;
+    margin: 0;
+}
+
+.post-creator-holder .nav-tabs li:first-child a { border-left: 0 !important; }
+.post-creator-holder .nav-tabs li.active a { font-weight: bold; }

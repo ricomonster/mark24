@@ -1,0 +1,21 @@
+body { background-color: #e9ecef; padding-top: 60px; }
+/* override Bootstrap Components */
+.well {
+    background-color: #ffffff;
+    border-radius: 0;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+input, select, textarea { border-radius: 0 !important; }
+/* Modal */
+.modal-header { color: #ffffff; background-color: #265fa4; }
+.modal-header .close { color: #ffffff; }
+
+.modal-body .alert { display: none; padding: 5px 10px; !important; }
+
+.modal-footer { background-color: #f3f5f7; }
+
+.create-group-modal { margin: auto; width: 500px; }
+.create-group-modal #group_size { width: 200px; }
+.create-group-modal #group_description { height: 100px; resize: none; }
