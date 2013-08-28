@@ -21,9 +21,11 @@ class HomeController extends BaseController {
 
 	public function showHome() {
 		$groups = Group::getMyGroups();
+		$groupMembers = GroupMember::getAllGroupMembers();		
 
 		return View::make('home.index')
-			->with('groups', $groups);
+			->with('groups', $groups)
+			->with('groupMembers', $groupMembers);
 	}
 
 }

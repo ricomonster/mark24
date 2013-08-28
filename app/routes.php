@@ -26,6 +26,9 @@ Route::get('ajax/modal/show_create_group', 'AjaxModalController@showCreateGroup'
 
 Route::post('ajax/modal/create_group', 'AjaxModalController@createGroup');
 
+// AJAX PostCreator Routes
+Route::post('ajax/post_creator/create_note', 'AjaxPostCreatorController@createNote');
+
 // Home Routes
 Route::get('home', 'HomeController@showHome');
 

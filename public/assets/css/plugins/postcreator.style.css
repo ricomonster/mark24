@@ -11,3 +11,8 @@
 
 .post-creator-holder .nav-tabs li:first-child a { border-left: 0 !important; }
 .post-creator-holder .nav-tabs li.active a { font-weight: bold; }
+
+.post-creator-holder .tab-content .tab-pane { min-height: 90px; }
+.post-creator-holder .tab-content .tab-pane form { margin: 0; }
+.post-creator-holder .tab-content .tab-pane form .alert { display: none; padding: 10px; }
+.post-creator-holder .tab-content .tab-pane form .has-error-recipients { border-color: #b94a48; }

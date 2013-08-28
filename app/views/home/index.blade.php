@@ -8,8 +8,16 @@ Home
 <link href="/assets/css/site/home.style.css" rel="stylesheet">
 <link href="/assets/css/plugins/postcreator.style.css" rel="stylesheet">
 <link href="/assets/css/plugins/poststream.style.css" rel="stylesheet">
+<link href="/assets/css/plugins/chosen.css" rel="stylesheet">
 <style type="text/css">
+.postcreator-hidden { display: none; }
+.post-recipients { width: 100%; }
+.chosen-choices { min-height: 32px !important; }
+.chosen-choices .search-field input { height: 32px !important; }
+.chosen-choices .search-choice { padding: 6px 8px !important; }
 
+/*.postcreator-textarea { height: 32px !important; }*/
+.postcreator-form-controls .postcreator-controls { list-style: none; margin: 0; padding: 0 }
 </style>
 @stop
 
@@ -67,23 +75,11 @@ Home
 @stop
 
 @section('js')
+<script src="/assets/js/plugins/chosen.js"></script>
+<script src="/assets/js/plugins/expanding.js"></script>
+<script src="/assets/js/plugins/postcreator.js"></script>
 <script>
 (function($) {
-    $('#post_creator_options a').click(function (e) {
-        e.preventDefault();
-        $(this).tab('show');
-    });
-
-    // Create Group Modal
-    $('#show_create_group').on('click', function(e) {
-        $('#the_modal').modal('show');
-        $.get('/ajax/modal/show_create_group', function(response) {
-            $('#the_modal').html(response);
-        });
-
-        e.preventDefault();
-    });
-
     $(document).on('click', 'button#trigger_create_group', function() {
         var thisButton = $(this);
 
@@ -143,7 +139,9 @@ Home
             }
         })
     });
-
+    
+    // postcreator js
+    
 })(jQuery)
 </script>
 @stop
