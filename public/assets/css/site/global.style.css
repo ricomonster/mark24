@@ -1,4 +1,4 @@
-body { background-color: #e9ecef; padding-top: 60px; }
+body { background-color: #e9ecef; padding: 60px 0; }
 /* override Bootstrap Components */
 .well {
     background-color: #ffffff;
@@ -9,6 +9,9 @@ body { background-color: #e9ecef; padding-top: 60px; }
 }
 input, select, textarea { border-radius: 0 !important; }
 /* Modal */
+.modal-small-size { width: 300px; }
+.modal-medium-size { width: 500px; }
+
 .modal-header { color: #ffffff; background-color: #265fa4; }
 .modal-header .close { color: #ffffff; }
 
@@ -16,6 +19,6 @@ input, select, textarea { border-radius: 0 !important; }
 
 .modal-footer { background-color: #f3f5f7; }
 
-.create-group-modal { margin: auto; width: 500px; }
+/*.create-group-modal { margin: auto; width: 500px; }*/
 .create-group-modal #group_size { width: 200px; }
 .create-group-modal #group_description { height: 100px; resize: none; }

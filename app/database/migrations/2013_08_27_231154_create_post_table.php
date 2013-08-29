@@ -15,8 +15,8 @@ class CreatePostTable extends Migration {
 		Schema::create('posts', function(Blueprint $table)
 		{
 			$table->increments('post_id');
-			$table->integer('writer_id')->unsigned();
-			$table->foreign('writer_id')->references('id')->on('users');
+			$table->integer('user_id')->unsigned();
+			$table->foreign('user_id')->references('id')->on('users');
 			$table->string('post_type', 15);
 			// field for note items
 			$table->string('note_content')->nullable();

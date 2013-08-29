@@ -19,12 +19,16 @@
                         <div class="alert"></div>
                         <select name="note-recipients[]" class="post-recipients"
                         id="note_recipients" multiple="true" data-placeholder="Send to...">
+                            @if(!empty($groups))
                             @foreach($groups as $group)
                             <option value="{{ $group->group_id }}-group">{{ $group->group_name }}</option>
                             @endforeach
+                            @endif
+                            @if(!empty($groupMembers))
                             @foreach($groupMembers as $groupMember)
                             <option value="{{ $groupMember->id }}-user">{{ $groupMember->name }}</option>
                             @endforeach
+                            @endif
                         </select>
                     </div>
 
@@ -58,12 +62,16 @@
                     <div class="form-group">
                         <select name="alert-recipients" class="post-recipients"
                         id="alert_recipients" multiple="true" data-placeholder="Send to...">
+                            @if(!empty($groups))
                             @foreach($groups as $group)
                             <option value="{{ $group->group_id }}-group">{{ $group->group_name }}</option>
                             @endforeach
+                            @endif
+                            @if(!empty($groupMembers))
                             @foreach($groupMembers as $groupMember)
                             <option value="{{ $groupMember->id }}-user">{{ $groupMember->name }}</option>
                             @endforeach
+                            @endif
                         </select>
                     </div>
 
@@ -75,7 +83,7 @@
                         <div class="postcreator-buttons pull-right">
                             <a href="">Cancel</a>
                             <span class="postcreator-send-or">or</span>
-                            <button type="submit" id="submit_note" class="btn btn-primary">
+                            <button type="submit" id="submit_alert" class="btn btn-primary">
                                 Send
                             </button>
                         </div>

@@ -2,6 +2,11 @@
     var error = 0;
     // postcreator shits
     $('.postcreator-textarea').expandingTextarea();
+    // tab shits
+    $('#post_creator_options a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
 
     // note shits
     $('#note_content').on('focus', function() {
@@ -26,6 +31,9 @@
                     // let's reset the form elements
                     $('#note_content').val('');
                     $('#note_recipients').val('').trigger('chosen:updated');
+                    // show the newest to stream
+                    $('.post-stream-holder .post-stream').prepend(response)
+                        .find('li:first').hide().slideDown(800);
                 }
             });
         }
@@ -37,21 +45,6 @@
     $('#alert_content').on('focus', function() {
         $('#alert .postcreator-hidden').show();
         $('#alert .post-recipients').chosen();
-    });
-
-    $('#post_creator_options a').click(function (e) {
-        e.preventDefault();
-        $(this).tab('show');
-    });
-
-    // Create Group Modal
-    $('#show_create_group').on('click', function(e) {
-        $('#the_modal').modal('show');
-        $.get('/ajax/modal/show_create_group', function(response) {
-            $('#the_modal').html(response);
-        });
-
-        e.preventDefault();
     });
 
     // functions

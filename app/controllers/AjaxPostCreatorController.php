@@ -15,10 +15,11 @@ class AjaxPostCreatorController extends BaseController {
             $recipients = Input::get('note-recipients');
 
             // save the note into the database
-            $newNote                = new Post;
-            $newNote->writer_id     = Auth::user()->id;
-            $newNote->post_type     = 'note';
-            $newNote->note_content  = $note;
+            $newNote                    = new Post;
+            $newNote->user_id         = Auth::user()->id;
+            $newNote->post_type         = 'note';
+            $newNote->note_content      = $note;
+            $newNote->post_timestamp    = time();
             $newNote->save();
 
             // get the recipients.
@@ -32,12 +33,14 @@ class AjaxPostCreatorController extends BaseController {
                 $addRecipient->recipient_id = $exploded[0];
                 $addRecipient->recipient_type = $exploded[1];
                 $addRecipient->save();
-                // echo 'ID: '.$exploded[0].' Name:'.$exploded[1].'<br/>';
             }
 
             // return the HTML to show the newest post
             // to be loaded on the page
-            echo 'SUCCESS!';
+            return View::make('ajax.postcreator.postitem')
+                ->with('post', Post::where('post_id', '=', $newNote->post_id)
+                    ->join('users', 'posts.user_id', '=', 'users.id')
+                    ->first());
         }
     }
 

@@ -44,6 +44,47 @@ class AjaxModalController extends BaseController {
         }
     }
 
+    public function showJoinGroup() {
+        return View::make('ajax.modal.joingroup');
+    }
+
+    public function joinGroup() {
+        $groupCode  = Input::get('group-code');
+        $group      = Group::where('group_code', '=', $groupCode)->first();
+
+        // validate group membership
+        if(empty($groupCode)) {
+            $error = 'Please provide a group code';
+        } else if(empty($group)) {
+            $error = 'Group does not exists.';
+        } else {
+            $groupMember = GroupMember::where('group_id', '=', $group->group_id)
+                ->where('group_member_id', '=', Auth::user()->id)
+                ->first();
+
+            if(!empty($groupMember)) {
+                $error = 'You are already a member of that group.';
+            }
+        }
+
+        // check if there are errors detected
+        if(!empty($error)) {
+            $return['error']    = true;
+            $return['message']  = $error;
+        } else {
+            // join the user to the group
+            $addGroupMember = new GroupMember;
+            $addGroupMember->group_member_id = Auth::user()->id;
+            $addGroupMember->group_id = $group->group_id;
+            $addGroupMember->save();
+            // set json shits
+            $return['error'] = false;
+            $return['lz_link']  = sprintf(Request::root().'/groups/%s', $group->group_id);
+        }
+
+        return Response::json($return);
+    }
+
     /* Protected Methods
     -------------------------------*/
     protected function _validateGroupCreation() {

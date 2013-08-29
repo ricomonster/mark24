@@ -9,16 +9,6 @@ Home
 <link href="/assets/css/plugins/postcreator.style.css" rel="stylesheet">
 <link href="/assets/css/plugins/poststream.style.css" rel="stylesheet">
 <link href="/assets/css/plugins/chosen.css" rel="stylesheet">
-<style type="text/css">
-.postcreator-hidden { display: none; }
-.post-recipients { width: 100%; }
-.chosen-choices { min-height: 32px !important; }
-.chosen-choices .search-field input { height: 32px !important; }
-.chosen-choices .search-choice { padding: 6px 8px !important; }
-
-/*.postcreator-textarea { height: 32px !important; }*/
-.postcreator-form-controls .postcreator-controls { list-style: none; margin: 0; padding: 0 }
-</style>
 @stop
 
 @section('content')
@@ -54,16 +44,21 @@ Home
                 </div>
             </div>
             <ul class="nav nav-pills nav-stacked">
+                @if(!empty($groups))
                 @foreach($groups as $group)
                 <li><a href="/groups/{{ $group->group_id }}">{{ $group->group_name }}</a></li>
                 @endforeach
+                @else
+                <li>No Groups Found</li>
+                @endif
             </ul>
         </div>
 
     </div>
     <div class="col-md-9">
 
-        <div class="modal fade" id="the_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+        <div class="modal fade" id="the_modal" tabindex="-1" role="dialog"
+        aria-labelledby="the_modal_label" aria-hidden="true"></div>
 
         <!-- Main Content -->
         @include('plugins.postcreator')
@@ -80,8 +75,64 @@ Home
 <script src="/assets/js/plugins/postcreator.js"></script>
 <script>
 (function($) {
+    // Join Group Modal
+    $('#show_join_group').on('click', function(e) {
+        $('#the_modal').modal('show');
+        $.get('/ajax/modal/show_join_group', function(response) {
+            $('#the_modal').html(response);
+        });
+
+        e.preventDefault();
+    });
+
+    $(document).on('click', 'button#trigger_join_group', function(e) {
+        var thisButton = $(this);
+
+        thisButton.attr('disabled');
+        $('.join-group-modal .form-group').removeClass('has-error');
+        $('.join-group-modal .alert').hide();
+
+        $.ajax({
+            type        : 'post',
+            url         : '/ajax/modal/join_group',
+            data        : $('.join-group-modal').serialize(),
+            dataType    : 'json',
+            async       : false
+        }).done(function(response) {
+            if(response.error) {
+                // show error message
+                $('#group_code').parent().addClass('has-error');
+                $('#group_code').siblings('.alert').addClass('alert-danger')
+                    .html(response.message).show();
+
+                thisButton.removeAttr('disabled');
+
+                return false;
+            }
+
+            // no error get LZ link so page will redirect
+            window.location.href = response.lz_link;
+            return false;
+        });
+
+        e.preventDefault();
+    });
+
+    // Create Group Modal
+    $('#show_create_group').on('click', function(e) {
+        $('#the_modal').modal('show');
+        $.get('/ajax/modal/show_create_group', function(response) {
+            $('#the_modal').html(response);
+        });
+
+        e.preventDefault();
+    });
+
     $(document).on('click', 'button#trigger_create_group', function() {
         var thisButton = $(this);
+        // reset status
+        $('.create-group-modal .form-group').removeClass('has-error');
+        $('.create-group-modal .alert').hide();
 
         thisButton.attr('disabled');
 

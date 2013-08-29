@@ -23,8 +23,10 @@ Route::get('/', function()
 // AJAX Routes
 // AJAX Modal Routes
 Route::get('ajax/modal/show_create_group', 'AjaxModalController@showCreateGroup');
+Route::get('ajax/modal/show_join_group', 'AjaxModalController@showJoinGroup');
 
 Route::post('ajax/modal/create_group', 'AjaxModalController@createGroup');
+Route::post('ajax/modal/join_group', 'AjaxModalController@joinGroup');
 
 // AJAX PostCreator Routes
 Route::post('ajax/post_creator/create_note', 'AjaxPostCreatorController@createNote');

@@ -8,6 +8,7 @@ Group
 <link href="/assets/css/site/group.style.css" rel="stylesheet">
 <link href="/assets/css/plugins/postcreator.style.css" rel="stylesheet">
 <link href="/assets/css/plugins/poststream.style.css" rel="stylesheet">
+<link href="/assets/css/plugins/chosen.css" rel="stylesheet">
 <style type="text/css">
 
 </style>
@@ -89,76 +90,16 @@ Group
 
     <div class="col-md-9">
         <!-- Main Content -->
-        <div class="post-creator-holder">
-            <ul class="nav nav-tabs" id="post_creator_options">
-                <li class="active"><a href="#note"><i class="icon-edit"></i> Note</a></li>
-                <li><a href="#alert"><i class="icon-exclamation-sign"></i> Alert</a></li>
-                <li><a href="#assignment"><i class="icon-check"></i> Assigment</a></li>
-                <li><a href="#quiz"><i class="icon-question-sign"></i> Quiz</a></li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane well active" id="note">
-                    {{ Form::open(array('url' => 'ajax/post_creator/create_note')) }}
-                        <textarea name="note" id="note_holder" class="form-control"
-                        placeholder="Type your note here..."></textarea>
-                    {{ Form::close() }}
-                </div>
-                <div class="tab-pane well" id="alert">
-                    Alert
-                </div>
-                <div class="tab-pane well" id="assignment">
-                    Assignment
-                </div>
-                <div class="tab-pane well" id="quiz">
-                    Quiz
-                </div>
-            </div>
-        </div>
+        @include('plugins.postcreator')
 
-        <div class="post-stream-holder well">
-            <div class="stream-title"><h4>Latest Posts</h4></div>
-
-            <ul class="post-stream">
-                @for($x = 0; $x < 5; $x++)
-                <li class="post-holder">
-                    <a href="#"><img src="/assets/images/anon.png" width="50" class="img-rounded pull-left"></a>
-                    <div class="post-content pull-left">
-                        <div class="post-content-header">
-                            <a href="#" class="post-sender-name">Juan dela Cruz</a>
-                            <span class="subtext sender-to-receiver">to</span>
-                            <a href="#" class="post-receiver-name">Group 1</a>
-                        </div>
-                        <div class="post-content-container">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Vivamus arcu lectus, euismod et lectus non, euismod aliquet orci.
-                            Nam auctor eget ligula non porta.
-                            Integer feugiat nunc sed laoreet euismod.
-                        </div>
-                    </div>
-                    <div class="post-etcs pull-left">
-                        <ul class="post-etcs-holder">
-                            <li><a href="#"><i class="icon-thumbs-up-alt"></i> Like it</a></li>
-                            <li><a href="#"><i class="icon-comment-alt"></i> Reply</a></li>
-                            <li><a href="#"><i class="icon-time"></i> August 25, 2013</a></li>
-                        </ul>
-                    </div>
-                    <div class="clearfix"></div>
-                </li>
-                @endfor
-            </ul>
-        </div>
+        @include('plugins.poststream')
     </div>
 </div>
 
 @stop
 
 @section('js')
-<script>
-(function($) {
-    $('#post_creator_options a').click(function (e) {
-        e.preventDefault()
-        $(this).tab('show')
-    });
-})(jQuery)
-</script>
+<script src="/assets/js/plugins/chosen.js"></script>
+<script src="/assets/js/plugins/expanding.js"></script>
+<script src="/assets/js/plugins/postcreator.js"></script>
 @stop
