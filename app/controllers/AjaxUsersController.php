@@ -74,4 +74,36 @@ class AjaxUsersController extends BaseController {
 
         return Response::json($return);
     }
+
+    public function putUserInfo() {
+        if(Request::ajax()) {
+            $email = Input::get('email');
+            // check if email is changed
+            if($email != Auth::user()->email) {
+                // check if the new email already exists
+                $emailExists = User::where('email', '=', $email)
+                    ->first();
+                if(!empty($emailExists)) {
+                    $return['error']    = true;
+                    $return['message']  = 'Email already exists';
+                    $return['field']    = 'email';
+
+                    return Response::json($return);
+                }
+            }
+
+            // update user info in database
+            $updateUser                 = User::find(Auth::user()->id);
+            $updateUser->name           = ucwords(Input::get('firstname')).' '.ucwords(Input::get('lastname'));
+            $updateUser->salutation     = (Auth::user()->account_type == 1) ?
+                Input::get('salutation') : null;
+            $updateUser->firstname      = ucwords(Input::get('firstname'));
+            $updateUser->lastname       = ucwords(Input::get('lastname'));
+            $updateUser->save();
+
+            $return['error'] = false;
+
+            return Response::json($return);
+        }
+    }
 }

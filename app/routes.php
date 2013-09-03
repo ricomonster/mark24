@@ -24,6 +24,8 @@ Route::get('/', function()
 // AJAX User Routes
 Route::post('ajax/users/upload-photo', 'AjaxUsersController@postUploadPhoto');
 
+Route::put('ajax/users/update-personal-info', 'AjaxUsersController@putUserInfo');
+
 // AJAX Modal Routes
 Route::get('ajax/modal/show_create_group', 'AjaxModalController@showCreateGroup');
 Route::get('ajax/modal/show_join_group', 'AjaxModalController@showJoinGroup');

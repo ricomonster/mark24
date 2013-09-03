@@ -12,7 +12,14 @@
         @foreach($posts as $post)
         <?php $recipients = PostRecipient::getRecipients($post->post_id); ?>
         <li class="post-holder">
-            <a href="#" class="writer-profile"><img src="/assets/images/anon.png" width="50" class="img-rounded pull-left"></a>
+            <a href="#" class="writer-profile">
+                @if(empty($post->avatar))
+                <img src="/assets/images/anon.png" width="50" class="img-rounded pull-left">
+                @else
+                <img src="/assets/avatars/{{ $post->hashed_id }}/{{ $post->avatar_normal }}"
+                width="50" class="img-rounded pull-left">
+                @endif
+            </a>
             <div class="post-content pull-left">
                 <div class="post-content-header">
                     <a href="#" class="post-sender-name">
@@ -22,14 +29,14 @@
                         {{ $post->name }}
                         @endif
                     </a>
-                    <span class="subtext sender-to-receiver">to</span>
+                    <span class="sender-to-receiver">to</span>
                     <?php $groupCount = (!empty($recipients['groups'])) ? count($recipients['groups']) : null; ?>
                     <?php $userCount = (!empty($recipients['users'])) ? count($recipients['users']) : null; ?>
 
                     @if(!empty($recipients['groups']))
                     @foreach($recipients['groups'] as $key => $groupRecipient)
                     @if($key != $groupCount -1 || $userCount != 0)
-                    <a href="#" class="post-receiver-name">{{ $groupRecipient->group_name }}</a><span class="subtext post-receiver-comma">,</span>
+                    <a href="#" class="post-receiver-name">{{ $groupRecipient->group_name }}</a><span class="post-receiver-comma">,</span>
                     @else
                     <a href="#" class="post-receiver-name">{{ $groupRecipient->group_name }}</a>
                     @endif
@@ -42,7 +49,7 @@
                     <a href="#" class="post-receiver-name">
                         <?php if($userRecipient->account_type == 1) { echo $userRecipient->salutation.'. '; } ?>
                         {{ $userRecipient->name }}
-                    </a><span class="subtext post-receiver-comma">,</span>
+                    </a><span class="post-receiver-comma">,</span>
                     @else
                     <a href="#" class="post-receiver-name">
                         <?php if($userRecipient->account_type == 1) { echo $userRecipient->salutation.'. '; } ?>

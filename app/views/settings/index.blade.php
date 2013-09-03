@@ -16,6 +16,7 @@ Settings
     border-radius: 0;
 }
 
+.user-avatar-wrapper { border-bottom: 0; margin-bottom: 0; }
 .user-avatar-wrapper .current-avatar-wrapper { margin-right: 60px; }
 .user-avatar-wrapper .current-avatar-wrapper img { margin-bottom: 10px; }
 .user-avatar-wrapper .current-avatar-wrapper .current-avatar-subtext { text-align: center; }
@@ -53,10 +54,50 @@ Settings
                 <span class="subtext">Or select one of the shits.</span>
 
                 <div class="predefined-avatar-wrapper">
-                    Predifined shits here.
+                    Predefined shits here.
                 </div>
             </div>
             <div class="clearfix"></div>
+        </div>
+
+        <div class="personal-information-wrapper well">
+            <h3>Personal Information</h3>
+            {{ Form::open(array('url'=>'ajax/users/update-personal-info', 'method'=>'put', 'class'=>'personal-information-form')) }}
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <span class="help-block"></span>
+                    <input type="email" name="email" id="email" class="form-control"
+                    value="{{ Auth::user()->email }}">
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-2">
+                        <label for="salutation">Title</label>
+                        <select name="salutation" class="form-control">
+                            <option value="Mr." <?php echo (Auth::user()->salutation == 'Mr.') ? 'selected' : null; ?>>Mr.</option>
+                            <option value="Mrs." <?php echo (Auth::user()->salutation == 'Mrs.') ? 'selected' : null; ?>>Mrs.</option>
+                            <option value="Ms." <?php echo (Auth::user()->salutation == 'Ms.') ? 'selected' : null; ?>>Ms.</option>
+                            <option value="Dr." <?php echo (Auth::user()->salutation == 'Dr.') ? 'selected' : null; ?>>Dr.</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <label for="firstname">First Name</label>
+                        <input type="text" name="firstname" class="form-control"
+                        value="{{ Auth::user()->firstname }}">
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <label for="lastname">Last Name</label>
+                        <input type="text" name="lastname" class="form-control"
+                        value="{{ Auth::user()->lastname }}">
+                    </div>
+                </div>
+
+                <button type="submit" id="submit_personal_info" class="btn btn-primary">
+                    Save Personal Info
+                </button>
+            {{ Form::close() }}
         </div>
     </div>
 </div>
@@ -85,6 +126,35 @@ Settings
                 }
             }
         }).submit();
+    });
+
+    $('#submit_personal_info').on('click', function(e) {
+        var $this = $(this);
+
+        $this.attr('disabled');
+
+        $.ajax({
+            type : 'put',
+            data : $('.personal-information-form').serialize(),
+            url : $('.personal-information-form').attr('action'),
+            dataType : 'json'
+        }).done(function(response) {
+            if(response.error) {
+                if(response.field == 'email') {
+                    $this.removeAttr('disabled');
+
+                    $('#email').parent().addClass('has-error').find('.help-block')
+                        .text(response.message);
+                }
+            } else {
+                $this.removeAttr('disabled');
+                
+                $('.personal-information-form .form-group').removeClass('has-error')
+                    .find('.help-block').hide();
+            }
+        })
+
+        e.preventDefault();
     })
 })(jQuery);
 </script>
