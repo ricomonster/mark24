@@ -27,7 +27,7 @@ class AddTimestampColumn extends Migration {
 	{
 		Schema::table('posts', function(Blueprint $table)
 		{
-			//
+			$table->dropColumns('post_timestamp');
 		});
 	}
 

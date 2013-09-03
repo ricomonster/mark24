@@ -21,6 +21,9 @@ Route::get('/', function()
 });
 
 // AJAX Routes
+// AJAX User Routes
+Route::post('ajax/users/upload-photo', 'AjaxUsersController@postUploadPhoto');
+
 // AJAX Modal Routes
 Route::get('ajax/modal/show_create_group', 'AjaxModalController@showCreateGroup');
 Route::get('ajax/modal/show_join_group', 'AjaxModalController@showJoinGroup');
@@ -30,16 +33,20 @@ Route::post('ajax/modal/join_group', 'AjaxModalController@joinGroup');
 
 // AJAX PostCreator Routes
 Route::post('ajax/post_creator/create_note', 'AjaxPostCreatorController@createNote');
-
-// Home Routes
-Route::get('home', 'HomeController@showHome');
+Route::post('ajax/post_creator/create_alert', 'AjaxPostCreatorController@createAlert');
 
 // Group Routes
 Route::get('groups/{groupId}', 'GroupsController@showIndex');
 Route::get('groups/{groupId}/members', 'GroupsController@showMembers');
 
+// Home Routes
+Route::get('home', 'HomeController@showHome');
+
 // Profile Routes
 Route::get('profile', 'ProfileController@showIndex');
+
+// Setting Routes
+Route::get('settings', 'SettingsController@getIndex');
 
 // User Routes
 Route::get('signout', 'UsersController@getSignout');

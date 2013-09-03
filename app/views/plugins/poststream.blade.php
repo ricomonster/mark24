@@ -1,12 +1,18 @@
 <div class="post-stream-holder well">
-    <div class="stream-title"><h4>Latest Posts</h4></div>
+    <div class="stream-title">
+        @if(isset($groupDetails))
+        <h4>Group Posts</h4>
+        @else
+        <h4>Latest Posts</h4>
+        @endif
+    </div>
 
     <ul class="post-stream">
         @if(!empty($posts))
         @foreach($posts as $post)
         <?php $recipients = PostRecipient::getRecipients($post->post_id); ?>
         <li class="post-holder">
-            <a href="#"><img src="/assets/images/anon.png" width="50" class="img-rounded pull-left"></a>
+            <a href="#" class="writer-profile"><img src="/assets/images/anon.png" width="50" class="img-rounded pull-left"></a>
             <div class="post-content pull-left">
                 <div class="post-content-header">
                     <a href="#" class="post-sender-name">
@@ -48,25 +54,29 @@
                 </div>
 
                 <div class="post-content-container">
+                    <div class="{{ $post->post_type }}">
                     <?php
-                        switch($post->post_type) {
-                            case 'note' :
-                                echo $post->note_content;
-                                break;
-                            default :
-                                break;
-                        }
+                    switch($post->post_type) {
+                        case 'note' :
+                            echo nl2br(htmlentities(($post->note_content)));
+                            break;
+                        case 'alert' :
+                            echo nl2br(htmlentities(($post->alert_content)));
+                        default :
+                            break;
+                    }
                     ?>
+                    </div>
                 </div>
             </div>
-            <div class="post-etcs pull-left">
+            <div class="clearfix"></div>
+            <div class="post-etcs">
                 <ul class="post-etcs-holder">
                     <li><a href="#"><i class="icon-thumbs-up-alt"></i> Like it</a></li>
                     <li><a href="#"><i class="icon-comment-alt"></i> Reply</a></li>
                     <li><a href="#"><i class="icon-time"></i> August 25, 2013</a></li>
                 </ul>
             </div>
-            <div class="clearfix"></div>
         </li>
         @endforeach
         @else

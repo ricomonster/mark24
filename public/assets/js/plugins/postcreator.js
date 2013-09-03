@@ -23,18 +23,19 @@
                 type    : 'post',
                 url     : $('#note form').attr('action'),
                 data    : $('#note form').serialize(),
+                async   : false
 
-                success : function(response) {
-                    // assuming no errors occured
-                    // reset to former state
-                    $('#note .postcreator-hidden').hide();
-                    // let's reset the form elements
-                    $('#note_content').val('');
-                    $('#note_recipients').val('').trigger('chosen:updated');
-                    // show the newest to stream
-                    $('.post-stream-holder .post-stream').prepend(response)
-                        .find('li:first').hide().slideDown(800);
-                }
+            }).done(function(response) {
+                // assuming no errors occured
+                // reset to former state
+                $('#note .postcreator-hidden').hide();
+                // let's reset the form elements
+                $('#note_content').val('');
+                $('#note_recipients').val('').trigger('chosen:updated');
+                // show the newest to stream
+                $('.post-stream-holder .post-stream').prepend(response)
+                    .find('li:first').hide().slideDown(800);
+                $('.post-stream-holder .post-stream').find('.no-post-found').hide();
             });
         }
 
@@ -45,6 +46,32 @@
     $('#alert_content').on('focus', function() {
         $('#alert .postcreator-hidden').show();
         $('#alert .post-recipients').chosen();
+    });
+
+    $('#submit_alert').on('click', function(e) {
+        validateAlert();
+
+        if(error == 0) {
+            $.ajax({
+                type    : 'post',
+                url     : $('#alert form').attr('action'),
+                data    : $('#alert form').serialize(),
+                async   : false
+            }).done(function(response) {
+                // assuming no errors occured
+                // reset to former state
+                $('#alert .postcreator-hidden').hide();
+                // let's reset the form elements
+                $('#alert_content').val('');
+                $('#alert_recipients').val('').trigger('chosen:updated');
+                // show the newest to stream
+                $('.post-stream-holder .post-stream').prepend(response)
+                    .find('li:first').hide().slideDown(800);
+                $('.post-stream-holder .post-stream').find('.no-post-found').hide();
+            })
+        }
+
+        e.preventDefault();
     });
 
     // functions
@@ -82,4 +109,40 @@
                 .removeClass('alert-danger').hide().text('');
         }
     }
+
+    function validateAlert() {
+        var alertContent     = $('#alert_content');
+        var alertRecipients  = $('#alert_recipients');
+
+        // set error counter to zero to reset
+        error = 0;  
+
+        // validate alert fields
+        if(alertContent.val() == '' || alertContent.length == 0) {
+            alertContent.parent()
+                .parent().addClass('has-error');
+            alertContent.parent().parent().
+                find('.alert').addClass('alert-danger').show().text('Your message is empty!');
+            error++;
+        } else {
+            alertContent.parent()
+                .parent().removeClass('has-error');
+            alertContent.parent().parent().
+                find('.alert').removeClass('alert-danger').hide().text('');
+        }
+
+        if(alertRecipients.val() == null || alertRecipients.length == 0) {
+            alertRecipients.parent().find('.chosen-container .chosen-choices')
+                .addClass('has-error-recipients');
+            alertRecipients.parent().find('.alert')
+                .addClass('alert-danger').show().text('Select recipients for your message');
+            error++;
+        } else {
+            alertRecipients.parent().find('.chosen-container .chosen-choices')
+                .removeClass('has-error-recipients');
+            alertRecipients.parent().find('.alert')
+                .removeClass('alert-danger').hide().text('');
+        }
+    }
+
 })(jQuery)

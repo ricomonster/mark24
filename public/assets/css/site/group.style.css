@@ -21,6 +21,8 @@
 
 .group-details-holder .group-controls li.active a { background-color: #f3f5f7; color: #2a6496; }
 
+.group-details-holder .group-description-holder { color: #777; padding: 10px; word-wrap: break-word; }
+
 .user-groups-holder .section-title-holder { background-color: #757f93; color: #ffffff; padding: 12px; }
 .user-groups-holder .section-title-holder #group_options { color: #b6bbc6; font-size: 16px; }
 .user-groups-holder .section-title-holder #group_options:hover { text-decoration: none; }

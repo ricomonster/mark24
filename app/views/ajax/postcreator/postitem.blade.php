@@ -41,15 +41,19 @@
             @endif
         </div>
         <div class="post-content-container">
+            <div class="{{ $post->post_type }}">
             <?php
-                switch($post->post_type) {
-                    case 'note' :
-                        echo $post->note_content;
-                        break;
-                    default :
-                        break;
-                }
+            switch($post->post_type) {
+                case 'note' :
+                    echo nl2br(htmlentities(($post->note_content)));
+                    break;
+                case 'alert' :
+                    echo nl2br(htmlentities(($post->alert_content)));
+                default :
+                    break;
+            }
             ?>
+            </div>
         </div>
     </div>
     <div class="post-etcs pull-left">

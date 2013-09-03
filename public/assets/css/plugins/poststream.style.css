@@ -5,9 +5,11 @@
 
 .post-stream-holder .stream-title { border-bottom: 1px solid #dfe4e8; padding: 10px 20px; }
 
-.post-stream .post-holder { border-bottom: 1px solid #dfe4e8; padding: 20px; }
-.post-stream .post-holder .post-content { margin-left: 10px; width: 88%; }
+.post-stream .post-holder { border-bottom: 1px solid #dfe4e8; }
+.post-stream .post-holder .writer-profile img { margin: 20px 0 0 20px; }
+.post-stream .post-holder .post-content { margin: 20px 0 20px 10px; width: 88%; }
 .post-stream .post-holder .post-content .post-content-container { padding: 10px 0; }
+.post-stream .post-holder .post-content .post-content-container .alert { font-weight: bold; margin: 0; padding: 0; }
 
-.post-etcs { padding-left: 70px; }
+.post-etcs { background-color: #f3f5f6; padding: 10px 65px 10px; }
 .post-etcs ul li { display: inline-block; }

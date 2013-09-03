@@ -21,7 +21,12 @@
                         id="note_recipients" multiple="true" data-placeholder="Send to...">
                             @if(!empty($groups))
                             @foreach($groups as $group)
+                            @if(isset($groupDetails))
+                            <option value="{{ $group->group_id }}-group"
+                            <?php echo ($groupDetails->group_id == $group->group_id) ? 'selected' : null; ?>>{{ $group->group_name }}</option>
+                            @else
                             <option value="{{ $group->group_id }}-group">{{ $group->group_name }}</option>
+                            @endif
                             @endforeach
                             @endif
                             @if(!empty($groupMembers))
@@ -50,21 +55,28 @@
                 <div class="clearfix"></div>
             {{ Form::close() }}
         </div>
-
+        
         <div class="tab-pane well" id="alert">
             {{ Form::open(array('url'=>'ajax/post_creator/create_alert')) }}
                 <div class="form-group">
+                    <div class="alert"></div>
                     <textarea name="alert-content" id="alert_content" class="postcreator-textarea form-control"
-                    placeholder="Type your alert (140 character max)..."></textarea>
+                    placeholder="Type your alert (140 character max)..." maxlength="140"></textarea>
                 </div>
 
                 <div class="postcreator-hidden">
                     <div class="form-group">
-                        <select name="alert-recipients" class="post-recipients"
+                        <div class="alert"></div>
+                        <select name="alert-recipients[]" class="post-recipients"
                         id="alert_recipients" multiple="true" data-placeholder="Send to...">
                             @if(!empty($groups))
                             @foreach($groups as $group)
+                            @if(isset($groupDetails))
+                            <option value="{{ $group->group_id }}-group"
+                            <?php echo ($groupDetails->group_id == $group->group_id) ? 'selected' : null; ?>>{{ $group->group_name }}</option>
+                            @else
                             <option value="{{ $group->group_id }}-group">{{ $group->group_name }}</option>
+                            @endif
                             @endforeach
                             @endif
                             @if(!empty($groupMembers))

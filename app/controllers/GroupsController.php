@@ -15,10 +15,15 @@ class GroupsController extends BaseController {
 
         // get current user groups
         $groups = Group::getMyGroups();
+        // get posts for the group
+        $groupPosts = Post::getGroupPosts($groupId);
+
+        // print_r($groupPosts)
 
         return View::make('group.index')
             ->with('groupDetails', $group)
-            ->with('groups', $groups);
+            ->with('groups', $groups)
+            ->with('posts', $groupPosts);
     }
 
     public function showMembers($groupId) {

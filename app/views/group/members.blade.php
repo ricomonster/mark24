@@ -62,6 +62,10 @@ Group
                     </a>
                 </li>
             </ul>
+
+            <div class="group-description-holder">
+                {{ $groupDetails->group_description }}
+            </div>
         </div>
 
         <div class="user-groups-holder">
@@ -90,6 +94,9 @@ Group
 
     <div class="col-md-9">
         <!-- Main Content -->
+        <div class="modal fade" id="the_modal" tabindex="-1" role="dialog"
+        aria-labelledby="the_modal_label" aria-hidden="true"></div>
+
         <div class="member-stream-holder well">
             <div class="stream-title"><h3>Members</h3></div>
 
@@ -139,12 +146,5 @@ Group
 @stop
 
 @section('js')
-<script>
-(function($) {
-    $('#post_creator_options a').click(function (e) {
-        e.preventDefault()
-        $(this).tab('show')
-    });
-})(jQuery)
-</script>
+<script src="/assets/js/plugins/groups.js"></script>
 @stop

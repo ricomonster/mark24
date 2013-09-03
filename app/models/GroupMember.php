@@ -10,6 +10,7 @@ class GroupMember extends Eloquent {
     public static function getGroupMembers($groupId) {
         $members = GroupMember::where('group_id', '=', $groupId)
             ->join('users', 'group_members.group_member_id', '=', 'users.id')
+            ->orderBy('users.USERname', 'ASC')
             ->get();
 
         return $members;

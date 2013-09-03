@@ -63,6 +63,10 @@ Group
                     </a>
                 </li>
             </ul>
+
+            <div class="group-description-holder">
+                {{ $groupDetails->group_description }}
+            </div>
         </div>
 
         <div class="user-groups-holder">
@@ -90,6 +94,9 @@ Group
 
     <div class="col-md-9">
         <!-- Main Content -->
+        <div class="modal fade" id="the_modal" tabindex="-1" role="dialog"
+        aria-labelledby="the_modal_label" aria-hidden="true"></div>
+        
         @include('plugins.postcreator')
 
         @include('plugins.poststream')
@@ -102,4 +109,5 @@ Group
 <script src="/assets/js/plugins/chosen.js"></script>
 <script src="/assets/js/plugins/expanding.js"></script>
 <script src="/assets/js/plugins/postcreator.js"></script>
+<script src="/assets/js/plugins/groups.js"></script>
 @stop

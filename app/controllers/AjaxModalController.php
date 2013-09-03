@@ -77,6 +77,7 @@ class AjaxModalController extends BaseController {
             $addGroupMember->group_member_id = Auth::user()->id;
             $addGroupMember->group_id = $group->group_id;
             $addGroupMember->save();
+            
             // set json shits
             $return['error'] = false;
             $return['lz_link']  = sprintf(Request::root().'/groups/%s', $group->group_id);

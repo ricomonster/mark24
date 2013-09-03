@@ -24,4 +24,16 @@ class Post extends Eloquent {
 
         return false;
     }
+
+    public static function getGroupPosts($groupId) {
+        $groupPosts = PostRecipient::where('post_recipients.recipient_id', '=', $groupId)
+            ->where('post_recipients.recipient_type', '=', 'group')
+            ->join('posts', 'post_recipients.post_id', '=', 'posts.post_id')
+            ->join('users', 'posts.user_id', '=', 'users.id')
+            ->groupBy('posts.post_id')
+            ->orderBy('posts.post_id', 'DESC')
+            ->get();
+
+        return (strlen($groupPosts) > 2) ? $groupPosts : false;
+    }
 }
