@@ -49,6 +49,7 @@ Route::get('profile', 'ProfileController@showIndex');
 
 // Setting Routes
 Route::get('settings', 'SettingsController@getIndex');
+Route::get('settings/password', 'SettingsController@getPasswordPage');
 
 // User Routes
 Route::get('signout', 'UsersController@getSignout');

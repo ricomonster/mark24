@@ -5,37 +5,16 @@ Settings
 @stop
 
 @section('internalCss')
-<style type="text/css">
-.settings-nav-wrapper .nav li { margin: 0; }
-.settings-nav-wrapper .nav li.active a { background-color: #f3f5f7; color: #2a6496; }
-.settings-nav-wrapper .nav li a:hover { background-color: #f3f5f7; }
-.settings-nav-wrapper .nav li a {
-    background-color: #ffffff;
-    border: 1px solid #dfe4e8 !important;
-    border-top: 0 !important;
-    border-radius: 0;
-}
-
-.user-avatar-wrapper { border-bottom: 0; margin-bottom: 0; }
-.user-avatar-wrapper .current-avatar-wrapper { margin-right: 60px; }
-.user-avatar-wrapper .current-avatar-wrapper img { margin-bottom: 10px; }
-.user-avatar-wrapper .current-avatar-wrapper .current-avatar-subtext { text-align: center; }
-
-.user-avatar-wrapper .choose-avatar-wrapper .avatar-uploader-form { margin-bottom: 10px; }
-
-.user-avatar-wrapper .choose-avatar-wrapper .predefined-avatar-wrapper { margin-top: 10px; }
-
-.image-loader-gif { display: none; }
-</style>
+<link rel="stylesheet" type="text/css" href="/assets/css/site/settings.style.css">
 @stop
 
 @section('content')
 <div class="row">
     <div class="settings-nav-wrapper col-md-3">
         <ul class="nav nav-stacked nav-pills">
-            <li class="active"><a href="">Account</a></li>
-            <li><a href="">Password</a></li>
-            <li><a href="">Privacy</a></li>
+            <li class="active"><a href="/settings">Account</a></li>
+            <li><a href="/settings/password">Password</a></li>
+            <li><a href="/settings/privacy">Privacy</a></li>
         </ul>
     </div>
     <div class="col-md-9">

@@ -6,4 +6,7 @@ class SettingsController extends BaseController {
         return View::make('settings.index');
     }
 
+    public function getPasswordPage() {
+        return View::make('settings.password');
+    }
 }

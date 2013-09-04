@@ -48,10 +48,10 @@ class AjaxUsersController extends BaseController {
                 // setup the files for thumbnails
                 // small thumbnail
                 $smallThumbnailImage = $hashedAvatarName.'_small.'.$avatarExtensionName;
-                Helper::thumbnailMaker($storagePath, $finalAvatarName, $smallThumbnailImage, 45);
+                Helper::thumbnailMaker($storagePath, $finalAvatarName, $smallThumbnailImage, 60);
                 // normal thumbnail
                 $normalThumbnailImage = $hashedAvatarName.'_normal.'.$avatarExtensionName;
-                Helper::thumbnailMaker($storagePath, $finalAvatarName, $normalThumbnailImage, 80);
+                Helper::thumbnailMaker($storagePath, $finalAvatarName, $normalThumbnailImage, 100);
                 // large thumbnail
                 $largeThumbnailImage = $hashedAvatarName.'_large.'.$avatarExtensionName;
                 Helper::thumbnailMaker($storagePath, $finalAvatarName, $largeThumbnailImage, 200);

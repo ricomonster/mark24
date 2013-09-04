@@ -16,11 +16,21 @@
                 @if(empty($post->avatar))
                 <img src="/assets/images/anon.png" width="50" class="img-rounded pull-left">
                 @else
-                <img src="/assets/avatars/{{ $post->hashed_id }}/{{ $post->avatar_normal }}"
+                <img src="/assets/avatars/{{ $post->hashed_id }}/{{ $post->avatar_small }}"
                 width="50" class="img-rounded pull-left">
                 @endif
             </a>
             <div class="post-content pull-left">
+
+                <div class="dropdown dropdown-post-options pull-right">
+                    <a data-toggle="dropdown" href="#"><i class="icon-gear"></i></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <li><a href="#">Delete Post</a></li>
+                        <li><a href="#">Edit Post</a></li>
+                        <li><a href="#">Link to this Post</a></li>
+                    </ul>
+                </div>
+
                 <div class="post-content-header">
                     <a href="#" class="post-sender-name">
                         @if($post->account_type == '1')

@@ -103,7 +103,14 @@ Group
             <ul class="member-stream">
                 <!-- Group Owner Details -->
                 <li class="member-details-holder owner-details-holder">
-                    <a href="#"><img src="/assets/images/anon.png" width="80" class="pull-left"></a>
+                    <a href="#">
+                        @if($ownerDetails->avatar == 'default_avatar.png')
+                        <img src="/assets/images/anon.png" width="80" class="pull-left">
+                        @else
+                        <img src="/assets/avatars/{{ $ownerDetails->hashed_id }}/{{ $ownerDetails->avatar_normal }}"
+                        width="80" class="pull-left">
+                        @endif
+                    </a>
                     <div class="member-content-holder pull-right">
                         <div class="member-name-text">
                             <a href="#">{{ $ownerDetails->salutation.' '.$ownerDetails->name }}</a>
@@ -116,7 +123,14 @@ Group
                 @foreach($members as $member)
                 @if($member->group_member_id != $ownerDetails->id)
                 <li class="member-details-holder">
-                    <a href="#"><img src="/assets/images/default_avatar.png" width="80" class="pull-left"></a>
+                    <a href="#">
+                        @if($member->avatar == 'default_avatar.png')
+                        <img src="/assets/images/{{ $member->avatar }}" width="80" class="pull-left">
+                        @else
+                        <img src="/assets/avatars/{{ $member->hashed_id }}/{{ $member->avatar_normal }}"
+                        width="80" class="pull-left">
+                        @endif
+                    </a>
                     <div class="member-content-holder pull-right">
                         <div class="dropdown pull-right">
                             <a data-toggle="dropdown" href="#">More <i class="icon-chevron-down"></i></a>
