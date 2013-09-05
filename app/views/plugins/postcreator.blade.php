@@ -111,7 +111,7 @@
         </div>
         <div class="tab-pane well" id="quiz">
             <div class="quiz-first-choices">
-                <a href="/quiz_creator" class="btn btn-primary">Create a Quiz</a>
+                <a href="/quiz-creator" class="btn btn-primary">Create a Quiz</a>
                 <span class="postcreator-or">or</span>
                 <a href="#">Load a previously created Quiz</a>
             </div>

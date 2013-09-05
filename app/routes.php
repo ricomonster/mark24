@@ -47,6 +47,9 @@ Route::get('home', 'HomeController@showHome');
 // Profile Routes
 Route::get('profile', 'ProfileController@showIndex');
 
+// Quiz Creator Routes
+Route::get('quiz-creator', 'QuizCreatorController@getIndex');
+
 // Setting Routes
 Route::get('settings', 'SettingsController@getIndex');
 Route::get('settings/password', 'SettingsController@getPasswordPage');
