@@ -17,12 +17,17 @@ class CreateMultipleChoiceTable extends Migration {
 			$table->increments('multiple_choice_id');
 			$table->integer('question_id')
 				->unsigned();
+
 			$table->foreign('question_id')
 				->references('question_id')
 				->on('questions');
-			$table->string('choice_text');
+
+			$table->string('choice_text')
+				->nullable();
+				
 			$table->string('is_answer', 6)
 				->default('FALSE');
+
 			$table->timestamps();
 		});
 	}

@@ -28,4 +28,24 @@ input, select, textarea { border-radius: 0 !important; }
 /*
 subtext should be a span
 */
-.subtext { display: block; }
+.message-holder {
+    display: none;
+    left: 0;
+    padding-top: 5px;
+    position: fixed;
+    text-align: center;
+    top: 55px;
+    z-index: 101;
+    width: 100%;
+}
+
+.message-holder span {
+    background: #fdfcc4;
+    border: 1px solid #eae99e;
+    border-radius: 0 0 2px 2px;
+    box-shadow: 0 1px 2px 0 rgba(213,219,225,.6);
+    padding: 8px 25px;
+    position: static;
+    text-align: center;
+}
+/*.subtext { display: block; }*/

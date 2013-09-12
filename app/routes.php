@@ -33,6 +33,9 @@ Route::get('ajax/modal/show_join_group', 'AjaxModalController@showJoinGroup');
 Route::post('ajax/modal/create_group', 'AjaxModalController@createGroup');
 Route::post('ajax/modal/join_group', 'AjaxModalController@joinGroup');
 
+// AJAX QuizCreator Routes
+Route::post('ajax/quiz-creator/create-new-quiz', 'AjaxQuizCreatorController@postCreateQuiz');
+
 // AJAX PostCreator Routes
 Route::post('ajax/post_creator/create_note', 'AjaxPostCreatorController@createNote');
 Route::post('ajax/post_creator/create_alert', 'AjaxPostCreatorController@createAlert');

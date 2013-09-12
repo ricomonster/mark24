@@ -19,10 +19,12 @@ class CreateQuestionListsTable extends Migration {
 			$table->foreign('quiz_id')
 				->references('quiz_id')
 				->on('quiz');
+
 			$table->integer('question_id')->unsigned();
 			$table->foreign('question_id')
 				->references('question_id')
 				->on('questions');
+				
 			$table->timestamps();
 		});
 	}

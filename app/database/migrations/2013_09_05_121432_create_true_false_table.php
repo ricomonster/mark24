@@ -17,10 +17,14 @@ class CreateTrueFalseTable extends Migration {
 			$table->increments('true_false_id');
 			$table->integer('question_id')
 				->unsigned();
+
 			$table->foreign('question_id')
 				->references('question_id')
 				->on('questions');
-			$table->string('answer', 6);
+
+			$table->string('answer', 6)
+				->default('TRUE');
+				
 			$table->timestamps();
 		});
 	}
