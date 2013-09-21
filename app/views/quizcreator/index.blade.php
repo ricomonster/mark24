@@ -11,6 +11,7 @@ Quiz Creator
 .item-list-wrapper { padding: 19px 0; text-align: center; }
 .item-list-wrapper ul { margin: 10px 0 !important; }
 .item-list-wrapper ul li a { padding: 5px 10px; }
+.item-list-wrapper ul li.active a { border-radius: 0; }
 
 .quiz-creator-header { padding: 19px 0; }
 .quiz-creator-header .form-group { margin: 0; }
@@ -155,60 +156,10 @@ Quiz Creator
                                 <div class="clearfix"></div>
                             </div>
 
+                            <!-- question stream -->
                             <ul class="question-stream-holder">
-                                <li class="question-wrapper">
-                                    <div class="question-prompt-wrapper">
-                                        <div class="form-group">
-                                            <label class="question-prompt">Question Prompt:</label>
-                                            <textarea name="question-prompt" id="question_prompt"
-                                            class="form-control"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="question-responses-wrapper">
-                                        <span class="question-response-title">Responses:</span>
-
-                                        <div class="multiple-choice-response" style="display: none;">
-                                            <ul class="multiple-choice-response-holder">
-                                                <li class="clearfix correct-option">
-                                                    <div class="option-holder">
-                                                        <div class="choice-letter">A</div>
-                                                        <textarea class="form-control multipe-choice-option"></textarea>
-                                                    </div>
-
-                                                    <div class="option-controls">
-                                                        <a href="" class="pull-right">Correct Answer</a>
-                                                    </div>
-                                                </li>
-                                                <li class="clearfix">
-                                                    <div class="option-holder">
-                                                        <div class="choice-letter">B</div>
-                                                        <textarea class="form-control multipe-choice-option"></textarea>
-                                                    </div>
-                                                    <div class="option-controls">
-                                                        <a href="" class="pull-right">Set as Correct Answer</a>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                            <div class="clearfix"></div>
-                                            <button class="btn btn-default">Add Response</button>
-                                            <div class="clearfix"></div>
-                                        </div>
-
-                                        <div class="true-false-response">
-                                            <span class="label label-success">Correct Answer</span>
-                                            <select class="true-false-option form-control">
-                                                <option value="TRUE" selected>True</option>
-                                                <option value="FALSE">False</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="short-answer-response">
-
-                                        </div>
-                                    </div>
-                                </li>
                             </ul>
+
                         </div>
 
                     </div>
@@ -225,80 +176,5 @@ Quiz Creator
 @stop
 
 @section('js')
-<script>
-// Quiz Creator version 4.x
-var QuizCreator = {
-    init : function(config) {
-        // this acts as the constructor which gets
-        // all of the elements/data that the init gets
-        this.config = config;
-        this.bindEvents();
-    },
-
-    bindEvents : function() {
-        // all of event triggers are here
-        // it will fire the certain function that the 
-        // event has on it
-        $(document)
-            .on('click', this.config.buttonSubmitFirstQuestion.selector, this.createNewQuiz);
-    },
-
-    // creates a new quiz and creates the first question
-    createNewQuiz : function() {
-        var self            = QuizCreator;
-        var quizTimeLimit   = 0;
-
-        self.config.messageHolder.show().find('span').text('Saving...');
-        // check if quiz time limit is empty.
-        // if empty, set the time limit to 1 hour or 60 minutes
-        if(self.config.inputQuizTimeLimit.val().length == 0) {
-            // set time limit to 60 minutes
-            quizTimeLimit = 60;
-        } else {
-            quizTimeLimit = self.config.inputQuizTimeLimit.val();
-        }
-
-        $.ajax({
-            type    : 'post',
-            url     : '/ajax/quiz-creator/create-new-quiz',
-            data    : {
-                quiz_title      : self.config.inputQuizTitle.val(),
-                quiz_time_limit : quizTimeLimit,
-                question_type   : self.config.selectFirstQuestionType.val()
-            },
-            async   : false
-        }).done(function() {
-            // hide the welcome wrapper
-            self.config.welcomeMessageWrapper.hide();
-            // show the quiz proper
-            self.config.quizCreatorProper.show();
-            // pop out the quiz item holder
-            self.config.itemListWrapper.show();
-            // set the global details
-            // load the first question wrapper
-
-            // hide message holder
-            self.config.messageHolder.hide();
-        });
-    }
-}
-
-QuizCreator.init({
-    // get all the elements we need!
-    // global
-    // div/span/p/strong/
-    messageHolder : $('.message-holder'),
-
-    welcomeMessageWrapper : $('.quiz-creator-welcome-wrapper'),
-    itemListWrapper : $('.item-list-wrapper'),
-    quizCreatorProper : $('.quiz-creator-proper'),
-    // buttons
-    buttonSubmitFirstQuestion : $('#submit_first_question'),
-    // form elements
-    inputQuizTitle : $('#quiz_title'),
-    inputQuizTimeLimit : $('#quiz_time_limit'),
-
-    selectFirstQuestionType : $('#first_question_type')
-})
-</script>
+<script src="/assets/js/sitefunc/quizcreator.js"></script>
 @stop

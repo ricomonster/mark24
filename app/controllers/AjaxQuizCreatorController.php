@@ -79,4 +79,100 @@ class AjaxQuizCreatorController extends BaseController {
 
         return Response::json($return);
     }
+
+    public function getQuestion() {
+        $quizId = Input::get('quiz_id');
+        $questionListId = Input::get('question_list_id');
+
+        // let's search for the question details
+        $question = QuestionList::where('question_list_id', '=', $questionListId)
+            ->where('quiz_id', '=', $quizId)
+            ->join('questions', 'question_lists.question_id', '=', 'questions.question_id')
+            ->first();
+
+        // determine the question type
+        switch($question->question_type) {
+            case 'MULTIPLE_CHOICE' :
+                $response = MultipleChoice::where('question_id', '=', $question->question_id)
+                    ->get();
+                break;
+
+            case 'TRUE_FALSE' :
+                $response = TrueFalse::where('question_id', '=', $question->question_id)
+                    ->first();
+                break;
+            default :
+                $response = null;
+                break; 
+        }
+
+        // return Response::json($question);
+        return View::make('ajax.quizcreator.question')
+            ->with('question', $question)
+            ->with('response', $response);
+    }
+
+    public function postUpdateQuestion() {
+        $questionId = Input::get('question_id');
+        $questionType = Input::get('question_type');
+
+        $question = Question::find($questionId);
+
+        if(isset($questionType) && !empty($questionType)) {
+            // delete first the previous
+            switch($question->question_type) {
+                case 'MULTIPLE_CHOICE' :
+                    MultipleChoice::where('question_id', '=', $question->question_id)
+                        ->delete();
+                    break;
+                case 'TRUE_FALSE' :
+                    TrueFalse::where('question_id', '=', $question->question_id)
+                        ->delete();
+                    break;
+                default :
+                    break;       
+            }
+
+            // create the choices
+            switch($questionType) {
+                case 'MULTIPLE_CHOICE' :
+                    // create 2 choices. one is the correct answer
+                    // while the other one is just a choice
+                    $correctOption              = new MultipleChoice;
+                    $correctOption->question_id = $question->question_id;
+                    $correctOption->is_answer   = 'TRUE';
+                    $correctOption->save();
+
+                    // create another option
+                    $anotherOption              = new MultipleChoice;
+                    $anotherOption->question_id = $question->question_id;
+                    $anotherOption->save();
+
+                    $response = MultipleChoice::where('question_id', '=', $question->question_id)
+                        ->get();
+                    break;
+                case 'TRUE_FALSE' :
+                    $addAnswer              = new TrueFalse;
+                    $addAnswer->question_id = $question->question_id;
+                    $addAnswer->save();
+
+                    $response = TrueFalse::where('question_id', '=', $question->question_id)
+                        ->first();
+                    break;
+                default :
+                    $response = null;
+                    break;       
+            }
+
+            // update the question type of the question
+            $question->question_type = $questionType;
+            $question->save();
+        }
+
+        // get the responses
+        // return Response::json($response);
+        return View::make('ajax.quizcreator.responses')
+            ->with('question', $question)
+            ->with('response', $response);
+    }
 }
