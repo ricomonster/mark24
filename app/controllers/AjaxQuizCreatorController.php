@@ -81,7 +81,7 @@ class AjaxQuizCreatorController extends BaseController {
     }
 
     public function getQuestion() {
-        $quizId = Input::get('quiz_id');
+        $quizId         = Input::get('quiz_id');
         $questionListId = Input::get('question_list_id');
 
         // let's search for the question details
@@ -113,8 +113,13 @@ class AjaxQuizCreatorController extends BaseController {
     }
 
     public function postUpdateQuestion() {
-        $questionId = Input::get('question_id');
-        $questionType = Input::get('question_type');
+        $questionId         = Input::get('question_id');
+        $multipleChoiceId   = Input::get('multiple_choice_id');
+
+        $questionType   = Input::get('question_type');
+        $questionText   = Input::get('question_text');
+
+        $choiceText = Input::get('choice_text');
 
         $question = Question::find($questionId);
 
@@ -167,12 +172,40 @@ class AjaxQuizCreatorController extends BaseController {
             // update the question type of the question
             $question->question_type = $questionType;
             $question->save();
-        }
 
-        // get the responses
-        // return Response::json($response);
-        return View::make('ajax.quizcreator.responses')
-            ->with('question', $question)
-            ->with('response', $response);
+            // get the responses
+            // return Response::json($response);
+            return View::make('ajax.quizcreator.responses')
+                ->with('question', $question)
+                ->with('response', $response);
+        } else if(isset($questionText) && !empty($questionText)) {
+            $question->question = $questionText;
+            $question->save();
+
+            $return['error'] = false;
+
+            return Response::json($return);
+        } else if(isset($choiceText) && !empty($choiceText)) {
+            $multipleChoice                 = MultipleChoice::find($multipleChoiceId);
+            $multipleChoice->choice_text    = $choiceText;
+            $multipleChoice->save();
+
+            $return['error'] = false;
+
+            return Response::json($return);
+        } else if(isset($multipleChoiceId) && isset($questionId)) {
+            // reset first all choices to not an answer
+            $choices = MultipleChoice::where('question_id', '=', $questionId)
+                ->update(array('is_answer' => 'FALSE'));
+
+            // set the choice to correct one
+            $correctChoice = MultipleChoice::find($multipleChoiceId);
+            $correctChoice->is_answer = 'TRUE';
+            $correctChoice->save();
+
+            $return['error'] = false;
+
+            return Response::json($return);
+        }
     }
 }

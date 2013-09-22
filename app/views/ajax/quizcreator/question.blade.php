@@ -3,8 +3,8 @@ data-question-id="{{ $question->question_id }}">
     <div class="question-prompt-wrapper">
         <div class="form-group">
             <label class="question-prompt">Question Prompt:</label>
-            <textarea name="question-prompt" id="question_prompt"
-            class="form-control" data-question-id="{{ $question->question_id }}"></textarea>
+            <textarea name="question-prompt" class="form-control question-prompt"
+            data-question-id="{{ $question->question_id }}">{{ $question->question }}</textarea>
         </div>
     </div>
 
@@ -17,17 +17,20 @@ data-question-id="{{ $question->question_id }}">
                 <ul class="multiple-choice-response-holder">
                     <?php $alpha = 'A'; ?>
                     @foreach($response as $key => $r)
-                    <li class="clearfix <?php if($r->is_answer == 'TRUE') { ?>correct-option<?php  } ?>">
+                    <li class="clearfix option-wrapper <?php if($r->is_answer == 'TRUE') { ?>correct-option<?php  } ?>">
                         <div class="option-holder">
                             <div class="choice-letter"><?php echo ($key == 0) ? 'A' : ++$alpha; ?></div>
-                            <textarea class="form-control multipe-choice-option"></textarea>
+                            <textarea class="form-control multiple-choice-option"
+                            data-multiple-choice-id="{{ $r->multiple_choice_id }}">{{ $r->choice_text }}</textarea>
                         </div>
 
                         <div class="option-controls">
                             @if($r->is_answer == 'TRUE')
-                            <a href="#" class="pull-right correct-answer">Correct Answer</a>
+                            <a href="#" class="pull-right correct-answer"
+                            data-multiple-choice-id="{{ $r->multiple_choice_id }}">Correct Answer</a>
                             @else
-                            <a href="#" class="pull-right set-as-correct-answer">Set as Correct Answer</a>
+                            <a href="#" class="pull-right set-as-correct-answer"
+                            data-multiple-choice-id="{{ $r->multiple_choice_id }}">Set as Correct Answer</a>
                             @endif
                         </div>
                     </li>

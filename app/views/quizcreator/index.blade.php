@@ -53,7 +53,7 @@ Quiz Creator
 .multiple-choice-response .multiple-choice-response-holder li.correct-option .choice-letter { color: #ffffff; }
 .multiple-choice-response .multiple-choice-response-holder li.correct-option .option-controls a { background-color: #439724; color: #ffffff; }
 
-.multiple-choice-response .multiple-choice-response-holder li.option-error .option-holder { border: 1px solid red; }
+.multiple-choice-response .multiple-choice-response-holder li.option-error .option-holder { border: 1px solid #b94a48; }
 
 /* True or False */
 .true-false-response .true-false-option { display: inline-block; width: 100px; }
@@ -157,8 +157,7 @@ Quiz Creator
                             </div>
 
                             <!-- question stream -->
-                            <ul class="question-stream-holder">
-                            </ul>
+                            <ul class="question-stream-holder"></ul>
 
                         </div>
 
