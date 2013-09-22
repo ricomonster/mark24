@@ -32,6 +32,8 @@ Quiz Creator
 .quiz-creator-proper .question-proper-header .form-group #question_point { display: inline-block; width: 50px; }
 
 .quiz-creator-proper .question-stream-holder { list-style: none; margin: 0; padding: 0; }
+.quiz-creator-proper .question-stream-holder .question-wrapper { display: none; }
+.quiz-creator-proper .question-stream-holder .active-question { display: block; }
 .quiz-creator-proper .question-stream-holder .question-wrapper textarea { resize: none; }
 .quiz-creator-proper .question-stream-holder .question-wrapper .question-prompt-wrapper { border-bottom: 1px solid #000; padding: 19px; }
 
@@ -87,9 +89,7 @@ Quiz Creator
                 <div class="col-md-2">
                     <div class="item-list-wrapper well" style="display: none;">
                         <span class="">QUESTIONS</span>
-                        <ul class="nav nav-stacked nav-pills">
-                            <li class="active"><a href="">1</a></li>
-                        </ul>
+                        <ul class="item-list-holder nav nav-stacked nav-pills"></ul>
                         <button id="add_question" class="btn btn-default"><i class="icon-plus"></i></button>
                     </div>
                 </div>

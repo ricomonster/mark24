@@ -36,8 +36,12 @@ Route::post('ajax/modal/join_group', 'AjaxModalController@joinGroup');
 // AJAX QuizCreator Routes
 Route::post('ajax/quiz-creator/create-new-quiz', 'AjaxQuizCreatorController@postCreateQuiz');
 Route::post('ajax/quiz-creator/update-question', 'AjaxQuizCreatorController@postUpdateQuestion');
+Route::post('ajax/quiz-creator/add-question', 'AjaxQuizCreatorController@postAddQuestion');
 
+Route::get('ajax/quiz-creator/check-active-quiz', 'AjaxQuizCreatorController@getCheckActiveQuiz');
 Route::get('ajax/quiz-creator/get-question', 'AjaxQuizCreatorController@getQuestion');
+Route::get('ajax/quiz-creator/get-questions', 'AjaxQuizCreatorController@getQuestions');
+Route::get('ajax/quiz-creator/get-question-lists', 'AjaxQuizCreatorController@getQuestionLists');
 
 // AJAX PostCreator Routes
 Route::post('ajax/post_creator/create_note', 'AjaxPostCreatorController@createNote');

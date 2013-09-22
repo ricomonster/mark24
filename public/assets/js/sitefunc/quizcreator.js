@@ -12,12 +12,45 @@ var QuizCreator = {
         // it will fire the certain function that the 
         // event has on it
         $(document)
+            .ready(this.checkActiveQuiz)
             .on('click', this.config.buttonSubmitFirstQuestion.selector, this.createNewQuiz)
             .on('click', this.config.buttonAddQuestion.selector, this.addQuestion)
+            .on('click', this.config.aQuestionListItem.selector, this.selectQuestion)
             .on('change', this.config.selectQuestionType.selector, this.changeQuestionType)
             .on('blur', this.config.textareaQuestionPrompt.selector, this.changeQuestionText)
             .on('blur', this.config.textareaMultipleChoiceOption.selector, this.changeMultipleChoiceText)
             .on('click', this.config.aSetOptionCorrectAnswer.selector, this.changeCorrectOption);
+    },
+
+    // check for active quiz
+    checkActiveQuiz : function() {
+        var self = QuizCreator;
+
+        $.ajax({
+            url : '/ajax/quiz-creator/check-active-quiz',
+        }).done(function(response) {
+            if(response.active) {
+                // self.config.inputQuizTimeLimit.val(quizTimeLimit);
+                // hide the welcome wrapper
+                self.config.welcomeMessageWrapper.hide();
+                // show the quiz proper
+                self.config.quizCreatorProper.show();
+                // pop out the quiz item holder
+                self.config.itemListWrapper.show();
+                // set the global details
+                self.config.quizId          = response.quiz_id;
+                self.config.questionListId  = response.question_list_id;
+                self.config.questionId      = response.question_id;
+                self.config.questionType    = response.question_type;
+
+                // set the question type to the first question type
+                self.config.selectQuestionType.val(response.question_type);
+                // load the question lists
+                self.loadQuestionLists();
+                // load all the questions
+                self.loadQuestions();
+            }
+        });
     },
 
     // creates a new quiz and creates the first question
@@ -55,24 +88,85 @@ var QuizCreator = {
             // pop out the quiz item holder
             self.config.itemListWrapper.show();
             // set the global details
-            self.config.quizId = response.quiz_id;
-            self.config.questionListId = response.question_list_id;
-            self.config.questionId = response.question_id;
-            self.config.questionType = self.config.selectFirstQuestionType.val();
+            self.config.quizId          = response.quiz_id;
+            self.config.questionListId  = response.question_list_id;
+            self.config.questionId      = response.question_id;
+            self.config.questionType    = response.question_type;
 
+            // load the question lists
+            self.loadQuestionLists();
             // load the first question wrapper
-            self.loadFirstQuestion();
+            self.loadQuestion();
         });
     },
 
     // adds a new question
     addQuestion : function(e) {
         var self = QuizCreator;
+        var currentQuestionWrapper  = $('.question-wrapper[data-question-id="'+self.config.questionId+'"]');
+        var currentActiveItem       = self.config.itemListHolder.find('.active'); 
+        var lastItem                = self.config.itemListHolder.find('li').last();
 
         self.config.messageHolder.show().find('span').text('Saving...');
+                
         $.ajax({
-            
-        })
+            type    : 'post',
+            url     : '/ajax/quiz-creator/add-question',
+            data    : {
+                quiz_id         : self.config.quizId,
+                question_type   : self.config.questionType
+            },
+            async   : false
+        }).done(function(response) {
+            // set the previous active question to hide
+            currentQuestionWrapper.removeClass('active-question');
+
+            // set inactive the current item in the question lists
+            currentActiveItem.removeClass('active');
+
+            // get last item in the list
+            var itemNumber = parseInt(lastItem.find('a').text());
+            // create new item
+            self.config.itemListHolder
+                .append(
+                    '<li class="active"><a href="#" class="question-list-item" data-question-list-id="'+response.question_list_id+'"'+
+                    'data-question-id="'+response.question_id+'">'
+                    +(itemNumber+1)+'</a></li>');
+
+            // set the global variables
+            self.config.questionId = response.question_id;
+            self.config.questionListId = response.question_list_id;
+
+            // load the question
+            self.loadQuestion();
+        });
+
+        e.preventDefault();
+    },
+
+    selectQuestion : function(e) {
+        var self    = QuizCreator;
+        var $this   = $(this);
+
+        // look for the current active item and make it inactive
+        self.config.itemListHolder.find('.active').removeClass('active');
+        // hide the active question
+        self.config.questionStreamHolder.find('.active-question')
+            .removeClass('active-question');
+        // make this as active item
+        $this.parent().addClass('active');
+        // get needed data
+        self.config.questionId      = $this.data('question-id');
+        self.config.questionListId  = $this.data('question-list-id');
+        // show the new question
+        var newActiveQuestion = $('.question-wrapper[data-question-id="'+self.config.questionId+'"]');
+
+        newActiveQuestion.addClass('active-question');
+        // get the question type
+        self.config.questionType = newActiveQuestion
+            .find('.question-type[data-question-id="'+self.config.questionId+'"]').val();
+        // set the question type
+        self.config.selectQuestionType.val(self.config.questionType);
 
         e.preventDefault();
     },
@@ -97,6 +191,8 @@ var QuizCreator = {
             currentQuestionWrapper.find('.responses-wrapper').empty();
             // load the new one
             currentQuestionWrapper.find('.responses-wrapper').append(response);
+            // set the current question
+            self.config.questionType = self.config.selectQuestionType.val();
             // hide the message
             self.config.messageHolder.hide();
         });
@@ -206,9 +302,8 @@ var QuizCreator = {
         e.preventDefault();
     },
 
-    // loads the first question
-    // applicable only to first time quiz makers
-    loadFirstQuestion : function() {
+    // loads the question
+    loadQuestion : function() {
         var self = QuizCreator;
 
         $.ajax({
@@ -223,6 +318,38 @@ var QuizCreator = {
             // hide message holder
             self.config.messageHolder.hide();
         })
+    },
+
+    // ONE TIME FUNCTIONS
+    // loads the question list
+    loadQuestionLists : function() {
+        var self    = QuizCreator;
+        
+        $.ajax({
+            url     : '/ajax/quiz-creator/get-question-lists',
+            data    : { quiz_id : self.config.quizId },
+            async   : false
+        }).done(function(response) {
+            // load the question lists
+            self.config.itemListHolder.append(response);
+        })
+    },
+
+    loadQuestions : function() {
+        var self = QuizCreator;
+
+        $.ajax({
+            url     : '/ajax/quiz-creator/get-questions',
+            data    : { quiz_id : self.config.quizId },
+            async   : false
+        }).done(function(response) {
+            // append the question to the template
+            self.config.questionStreamHolder.append(response);
+            // get the the details of the first question
+            // assign to global variables
+            // hide message holder
+            self.config.messageHolder.hide();
+        })  
     }
 }
 
@@ -242,11 +369,13 @@ QuizCreator.init({
     quizCreatorProper : $('.quiz-creator-proper'),
 
     questionStreamHolder : $('.question-stream-holder'),
+    itemListHolder : $('.item-list-holder'),
 
     // buttons/a
     buttonSubmitFirstQuestion : $('#submit_first_question'),
     buttonAddQuestion : $('#add_question'),
     aSetOptionCorrectAnswer : $('.set-as-correct-answer'),
+    aQuestionListItem : $('.question-list-item'),
 
     // form elements
     inputQuizTitle : $('#quiz_title'),

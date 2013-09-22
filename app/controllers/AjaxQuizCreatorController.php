@@ -8,7 +8,17 @@ class AjaxQuizCreatorController extends BaseController {
             ->first();
 
         if(!empty($existingQuiz)) {
-            // get the question lists
+            // get the first question
+            $question = QuestionList::where('quiz_id', '=', $existingQuiz->quiz_id)
+                ->join('questions', 'question_lists.question_id', '=', 'questions.question_id')
+                ->first();
+
+            return Response::json(array(
+                'quiz_id'           => $existingQuiz->quiz_id,
+                'question_list_id'  => $question->question_list_id,
+                'question_id'       => $question->question_id,
+                'question_type'     => $question->question_type,
+                'active'            => true));
         }
 
         return false;
@@ -34,7 +44,7 @@ class AjaxQuizCreatorController extends BaseController {
 
         // add to question list
         $addToList              = new QuestionList;
-        $addToList->quiz_id     = $newQuiz->quiz_id;;
+        $addToList->quiz_id     = $newQuiz->quiz_id;
         $addToList->question_id = $newQuestion->question_id;
         // $addToList->save();
 
@@ -110,6 +120,27 @@ class AjaxQuizCreatorController extends BaseController {
         return View::make('ajax.quizcreator.question')
             ->with('question', $question)
             ->with('response', $response);
+    }
+
+    public function getQuestions() {
+        $quizId = Input::get('quiz_id');
+
+        $questions = QuestionList::where('quiz_id', '=', $quizId)
+            ->join('questions', 'question_lists.question_id', '=', 'questions.question_id')
+            ->get();
+
+        return View::make('ajax.quizcreator.questions')
+            ->with('questions', $questions);
+    }
+
+    public function getQuestionLists() {
+        $quizId = Input::get('quiz_id');
+
+        $questionLists = QuestionList::where('quiz_id', '=', $quizId)
+            ->get();
+
+        return View::make('ajax.quizcreator.questionlists')
+            ->with('lists', $questionLists);
     }
 
     public function postUpdateQuestion() {
@@ -207,5 +238,59 @@ class AjaxQuizCreatorController extends BaseController {
 
             return Response::json($return);
         }
+    }
+
+    public function postAddQuestion() {
+        $quizId = Input::get('quiz_id');
+        $questionType = Input::get('question_type');
+
+        // create question
+        $newQuestion                = new Question;
+        $newQuestion->question_type = $questionType;
+        // $newQuestion->save();
+
+        // add to question list
+        $addToList              = new QuestionList;
+        $addToList->quiz_id     = $quizId;
+        $addToList->question_id = $newQuestion->question_id;
+        // $addToList->save();
+
+        // create an answer field for the question type
+        switch($questionType) {
+            // multiple choice
+            case 'MULTIPLE_CHOICE' :
+                // create 2 choices. one is the correct answer
+                // while the other one is just a choice
+                $correctOption              = new MultipleChoice;
+                $correctOption->question_id = $newQuestion->question_id;
+                $correctOption->is_answer   = 'TRUE';
+                // $correctOption->save();
+
+                // create another option
+                $anotherOption              = new MultipleChoice;
+                $anotherOption->question_id = $newQuestion->question_id;
+                // $anotherOption->save();
+
+                break;
+            // true or false
+            case 'TRUE_FALSE' :
+                // by default, the answer is true
+                $addAnswer              = new TrueFalse;
+                $addAnswer->question_id = $newQuestion->question_id;
+                // $addAnswer->save();
+
+                break;
+            default :
+                break;
+        }
+
+        // $return = array(
+        //     'question_id'       => $newQuestion->question_id,
+        //     'question_list_id'  => $addToList->question_list_id);
+        $return = array(
+            'question_id'       => 2,
+            'question_list_id'  => 2);
+
+        return Response::json($return);
     }
 }

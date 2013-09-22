@@ -61,4 +61,23 @@ class Helper {
             }
         }
     }
+
+    public static function getResponses($questionId, $questionType) {
+        switch($questionType) {
+            case 'MULTIPLE_CHOICE' :
+                $response = MultipleChoice::where('question_id', '=', $questionId)
+                    ->get();
+                break;
+
+            case 'TRUE_FALSE' :
+                $response = TrueFalse::where('question_id', '=', $questionId)
+                    ->first();
+                break;
+            default :
+                $response = null;
+                break; 
+        }
+
+        return $response;
+    }
 }
