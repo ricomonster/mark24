@@ -30,7 +30,7 @@ class AddPointColumn extends Migration {
 	{
 		Schema::table('questions', function(Blueprint $table)
 		{
-			$table->dropColumns('question_point');
+			$table->dropColumn('question_point');
 		});
 	}
 

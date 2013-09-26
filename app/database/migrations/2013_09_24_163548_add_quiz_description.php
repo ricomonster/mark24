@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddTimestampColumn extends Migration {
+class AddQuizDescription extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,9 +12,10 @@ class AddTimestampColumn extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('posts', function(Blueprint $table)
+		Schema::table('quiz', function(Blueprint $table)
 		{
-			$table->bigInteger('post_timestamp');
+			$table->text('description')
+				->after('title');
 		});
 	}
 
@@ -25,9 +26,9 @@ class AddTimestampColumn extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('posts', function(Blueprint $table)
+		Schema::table('quiz', function(Blueprint $table)
 		{
-			$table->dropColumn('post_timestamp');
+			$table->dropColumn('description');
 		});
 	}
 

@@ -167,7 +167,12 @@ Quiz Creator
         </div>
         <div class="col-md-3">
             <div class="well">
+                <button class="btn btn-primary btn-lg btn-block">Assign Quiz</button>
 
+                <div class="about-quiz-holder">
+                    <span class="subtext">About this Quiz</span>
+                    <textarea class="form-control"></textarea>
+                </div>
             </div>
         </div>
     </div>

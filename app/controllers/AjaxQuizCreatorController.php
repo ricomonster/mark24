@@ -18,10 +18,11 @@ class AjaxQuizCreatorController extends BaseController {
                 'question_list_id'  => $question->question_list_id,
                 'question_id'       => $question->question_id,
                 'question_type'     => $question->question_type,
+                'question_point'    => $question->question_point,
                 'active'            => true));
         }
 
-        return false;
+        return Response::json(array('active' => false));
     }
 
     public function postCreateQuiz() {
@@ -146,11 +147,13 @@ class AjaxQuizCreatorController extends BaseController {
     public function postUpdateQuestion() {
         $questionId         = Input::get('question_id');
         $multipleChoiceId   = Input::get('multiple_choice_id');
+        $trueFalseId        = Input::get('true_false_id');
 
-        $questionType   = Input::get('question_type');
-        $questionText   = Input::get('question_text');
+        $questionType       = Input::get('question_type');
+        $questionText       = Input::get('question_text');
 
-        $choiceText = Input::get('choice_text');
+        $choiceText         = Input::get('choice_text');
+        $trueFalseAnswer    = Input::get('answer');
 
         $question = Question::find($questionId);
 
@@ -234,6 +237,17 @@ class AjaxQuizCreatorController extends BaseController {
             $correctChoice->is_answer = 'TRUE';
             $correctChoice->save();
 
+            $return['error'] = false;
+
+            return Response::json($return);
+        } else if(isset($trueFalseId) && isset($trueFalseAnswer)) {
+            // find the true false answer
+            $answer = TrueFalse::find($trueFalseId);
+            $answer->answer = $trueFalseAnswer;
+            // update
+            $answer->save();    
+
+            // return response
             $return['error'] = false;
 
             return Response::json($return);

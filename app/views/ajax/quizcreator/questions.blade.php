@@ -47,9 +47,12 @@ data-question-list-id="{{ $question->question_list_id }}" data-question-id="{{ $
 
             <div class="true-false-response"
                 <span class="label label-success">Correct Answer</span>
-                <select class="true-false-option form-control">
-                    <option value="TRUE" selected>True</option>
-                    <option value="FALSE">False</option>
+                <select class="true-false-option form-control"
+                data-true-false-id="{{ $response->true_false_id }}">
+                    <option value="TRUE"
+                    <?php echo ($response->answer == 'TRUE') ? 'selected' : null; ?>>True</option>
+                    <option value="FALSE"
+                    <?php echo ($response->answer == 'FALSE') ? 'selected' : null; ?>>False</option>
                 </select>
             </div>
 
@@ -59,6 +62,7 @@ data-question-list-id="{{ $question->question_list_id }}" data-question-id="{{ $
 
     <input type="hidden" class="question-type" data-question-id="{{ $question->question_id }}"
     value="{{ $question->question_type }}">
-    <!-- <input type="hidden" class="" -->
+    <input type="hidden" class="question-point" data-question-id="{{ $question->question_id }}"
+    value="{{ $question->question_point }}">
 </li>
 @endforeach
