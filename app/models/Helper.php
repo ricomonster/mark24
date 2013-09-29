@@ -1,8 +1,10 @@
 <?php //-->
 
-class Helper {
+class Helper
+{
 
-    public static function thumbnailMaker($directory, $image_to_thumbnail, $new_filename, $size){
+    public static function thumbnailMaker($directory, $image_to_thumbnail, $new_filename, $size)
+    {
         $image_file = $new_filename;
         $image = $directory.'/'.$image_to_thumbnail;
 
@@ -62,7 +64,9 @@ class Helper {
         }
     }
 
-    public static function getResponses($questionId, $questionType) {
+    // get responses for the question
+    public static function getResponses($questionId, $questionType)
+    {
         switch($questionType) {
             case 'MULTIPLE_CHOICE' :
                 $response = MultipleChoice::where('question_id', '=', $questionId)
@@ -75,9 +79,20 @@ class Helper {
                 break;
             default :
                 $response = null;
-                break; 
+                break;
         }
 
         return $response;
+    }
+
+    // get the comments of a post
+    public static function getComments($postId)
+    {
+        $comments = Comment::where('post_id', '=', $postId)
+            ->join('users', 'comments.user_id', '=', 'users.id')
+            ->orderBy('comments.comment_id', 'ASC')
+            ->get();
+
+        return $comments;
     }
 }

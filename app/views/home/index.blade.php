@@ -23,7 +23,7 @@ Home
             <img src="/assets/avatars/{{ Auth::user()->hashed_id }}/{{ Auth::user()->avatar_normal }}"
             width="50" class="pull-left">
             @endif
-            
+
             <div class="user-details-content pull-left">
                 @if(Auth::user()->account_type == 1)
                 <a href="#">Hi, {{ Auth::user()->salutation.' '.Auth::user()->lastname }}</a>
@@ -80,4 +80,5 @@ Home
 <script src="/assets/js/plugins/expanding.js"></script>
 <script src="/assets/js/plugins/postcreator.js"></script>
 <script src="/assets/js/plugins/groups.js"></script>
+<script src="/assets/js/sitefunc/comment.creator.js"></script>
 @stop

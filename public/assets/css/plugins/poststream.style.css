@@ -7,7 +7,7 @@
 
 .post-stream .post-holder { border-bottom: 1px solid #dfe4e8; }
 .post-stream .post-holder .writer-profile img { margin: 20px 0 0 20px; }
-.post-stream .post-holder .post-content { margin: 20px 0 20px 10px; width: 88%; }
+.post-stream .post-holder .post-content { margin: 20px 0 20px 20px; width: 84%; }
 .post-stream .post-holder .post-content .post-content-container { padding: 10px 0; }
 .post-stream .post-holder .post-content .post-content-container .alert { font-weight: bold; margin: 0; padding: 0; }
 
@@ -18,3 +18,23 @@
 .post-etcs ul li { display: inline-block; margin-right: 10px; }
 .post-etcs ul li a { color: #869399; font-size: 13px; }
 .post-etcs ul li a:hover { text-decoration: none; }
+
+.post-comment-holder { background-color: #f3f5f6; padding: 0; }
+.post-comment-holder .comment-stream { margin: 0 0 0 35px; padding: 0; }
+.post-comment-holder .comment-stream li { border-top: 1px solid #e0e3e7; padding-top: 10px; }
+.post-comment-holder .comment-stream li .comment-content-holder { margin-left: 20px; }
+
+.comment-form-holder { background-color: #f3f5f6; border-top: 1px solid #e0e3e7; padding: 10px 30px 10px 0; }
+.comment-form-holder .comment-form { margin-left: 90px; }
+.comment-form-holder .comment-form .post-comment {
+    display: inline;
+    height: 32px;
+    overflow: hidden;
+    resize: none;
+    width: 470px;
+}
+.comment-form-holder .comment-form .submit-comment {
+    /*display: none;*/
+    height: 32px;
+    width: 100px;
+}

@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function()
-{   
+{
     $loginError = Session::get('loginError');
     $loginError = (isset($loginError)) ? $loginError : null;
 
@@ -32,6 +32,9 @@ Route::get('ajax/modal/show_join_group', 'AjaxModalController@showJoinGroup');
 
 Route::post('ajax/modal/create_group', 'AjaxModalController@createGroup');
 Route::post('ajax/modal/join_group', 'AjaxModalController@joinGroup');
+
+// AJAX CommentCreator Routes
+Route::post('ajax/comment-creator/add-comment', 'AjaxCommentCreator@postCreateComment');
 
 // AJAX QuizCreator Routes
 Route::post('ajax/quiz-creator/create-new-quiz', 'AjaxQuizCreatorController@postCreateQuiz');
