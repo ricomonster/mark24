@@ -96,7 +96,7 @@ Group
         <!-- Main Content -->
         <div class="modal fade" id="the_modal" tabindex="-1" role="dialog"
         aria-labelledby="the_modal_label" aria-hidden="true"></div>
-        
+
         @include('plugins.postcreator')
 
         @include('plugins.poststream')
@@ -110,4 +110,5 @@ Group
 <script src="/assets/js/plugins/expanding.js"></script>
 <script src="/assets/js/plugins/postcreator.js"></script>
 <script src="/assets/js/plugins/groups.js"></script>
+<script src="/assets/js/sitefunc/comment.creator.js"></script>
 @stop

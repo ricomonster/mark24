@@ -58,7 +58,9 @@ Group
                     <a href="/groups/{{ $groupDetails->group_id }}/members">
                         <i class="icon-chevron-right pull-right"></i>
                         <i class="group-control-icon icon-user"></i> Members
-                        <span class="label label-success pull-right">100 joined</span>
+                        <span class="label label-success pull-right">
+                            {{ $members->count() }} joined
+                        </span>
                     </a>
                 </li>
             </ul>
@@ -81,7 +83,7 @@ Group
                     </ul>
                 </div>
             </div>
-            
+
             <ul class="nav nav-pills nav-stacked">
                 @foreach($groups as $group)
                 <li class="<?php echo ($group->group_id == $groupDetails->group_id) ? 'active' : null; ?>">

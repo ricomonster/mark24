@@ -50,7 +50,7 @@ var CommentCreator = {
             // unhide the comment stream wrapper
             commentStreamHolder.show()
                 .find('ul').append(response).find('li:last-child')
-                .hide().slideDown(400);
+                .hide().slideDown(200);
             // show comment in the stream
         })
 
