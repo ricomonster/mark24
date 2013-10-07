@@ -93,6 +93,7 @@ class AjaxQuizCreatorController extends BaseController {
         $return = array(
             'quiz_id'           => 1,
             'question_id'       => 1,
+            'question_type'     => $questionType,
             'question_list_id'  => 1);
 
         return Response::json($return);
@@ -398,11 +399,10 @@ class AjaxQuizCreatorController extends BaseController {
         $quiz = Quiz::find($quizId);
         $quiz->status = 'READY';
         $quiz->total_score = $totalScore;
-        // $quiz->save();
+        $quiz->save();
 
         // set up session with quiz details
-        $details = $quiz;
-        Session::put('quiz_details', $details);
+        Session::flash('quiz_details', $quiz);
 
         return Response::json(array(
             'lz'    => Request::root().'/home',

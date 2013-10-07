@@ -75,6 +75,9 @@ Quiz Creator
 .true-false-response .true-false-option { display: inline-block; width: 100px; }
 
 .top-message-holder { display: none; padding: 10px 15px; text-align: center; }
+.about-quiz-holder { border-top: 2px solid #e3e3e3; margin-top: 20px; padding-top: 10px; }
+.quiz-total-score { font-size: 14px; }
+.quiz-description { margin-top: 10px; }
 </style>
 @stop
 
@@ -190,8 +193,9 @@ Quiz Creator
                 <button class="btn btn-primary btn-lg btn-block assign-quiz">Assign Quiz</button>
 
                 <div class="about-quiz-holder">
-                    <span class="subtext">About this Quiz</span>
-                    <textarea class="form-control"></textarea>
+                    <span class="quiz-total-score pull-right label label-primary"></span>
+                    <strong>About this Quiz</strong>
+                    <textarea class="form-control quiz-description"></textarea>
                 </div>
             </div>
         </div>

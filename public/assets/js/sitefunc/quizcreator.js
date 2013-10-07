@@ -113,11 +113,13 @@ var QuizCreator = {
             self.config.itemListWrapper.show();
             // set the global details
             self.config.quizId          = response.quiz_id;
+            self.config.quizScore       = response.quiz_total_score;
             self.config.questionListId  = response.question_list_id;
             self.config.questionId      = response.question_id;
             self.config.questionType    = response.question_type;
             self.config.questionCount   = 1;
 
+            self.config.totalScoreHolder.text(self.config.quizScore);
             // load the question lists
             self.loadQuestionLists();
             // load the first question wrapper
@@ -189,8 +191,8 @@ var QuizCreator = {
                     totalQuestionPoint += parseInt($(this).val());
                 });
 
-                // show the total question point
-                console.log('Total Question Point: ' + totalQuestionPoint);
+                self.config.quizScore = totalQuestionPoint;
+                self.config.totalScoreHolder.text(self.config.quizScore);
 
                 // hide message holder
                 self.config.messageHolder.hide();
@@ -280,13 +282,6 @@ var QuizCreator = {
         self.config.inputQuestionPoint.val(questionPoint);
 
         self.config.messageHolder.hide();
-
-        // prototype point counter
-        var t = 0;
-        $('.question-point').each(function() {
-            t += parseInt($(this).val());
-        });
-        console.log(t);
 
         e.preventDefault();
     },
@@ -519,6 +514,8 @@ var QuizCreator = {
     // removes question
     removeQuestion : function(e) {
         var self = QuizCreator;
+        var totalQuestionPoint = 0;
+
         // get current/active question details/elements
         var currentQuestionWrapper  = $('.question-wrapper[data-question-id="'+self.config.questionId+'"]');
         var currentQuestionItemList = $('.question-list-item[data-question-id="'+self.config.questionId+'"]');
@@ -578,14 +575,19 @@ var QuizCreator = {
             // set the question point
             self.config.inputQuestionPoint.val(questionPoint);
 
-            console.log(self.config.questionCount);
             // count the number of items
             // hide the remove question button if items are just one
             if(self.config.questionCount == 1) {
                 self.config.buttonRemoveQuestion.hide();
             }
 
-            // remove the element
+            // compute the new total question point
+            $('.question-point').each(function() {
+                totalQuestionPoint += parseInt($(this).val());
+            });
+
+            self.config.quizScore = totalQuestionPoint;
+            self.config.totalScoreHolder.text(self.config.quizScore);
         });
 
         e.preventDefault();
@@ -606,6 +608,7 @@ var QuizCreator = {
         // check for question text that are empty
         $('.question-prompt').each(function() {
             var questionId = $(this).data('question-id');
+
             if($(this).val() == '' && $(this).val().length == 0) {
                 // highlight the textarea
                 $(this).parent().addClass('has-error');
@@ -626,6 +629,8 @@ var QuizCreator = {
         // check for option text if there are empty
         $('.multiple-choice-option').each(function() {
             var questionId = $(this).data('question-id');
+            var questionPrompt = $('.question-prompt[data-question-id="'+questionId+'"]');
+
             if($(this).val() == '' && $(this).val().length == 0) {
                 // highlight textarera
                 $(this).parent().parent().addClass('option-error');
@@ -640,8 +645,10 @@ var QuizCreator = {
                 // highlight textarera
                 $(this).parent().parent().removeClass('option-error');
                 // highlight the question list number
-                $('.question-list-item[data-question-id="'+questionId+'"]')
-                    .parent().removeClass('has-error');
+                if(questionPrompt.val() != '' && questionPrompt.val().length != 0) {
+                    $('.question-list-item[data-question-id="'+questionId+'"]')
+                        .parent().removeClass('has-error');
+                }
             }
         });
 
@@ -685,6 +692,7 @@ var QuizCreator = {
     // loads the question
     loadQuestion : function() {
         var self = QuizCreator;
+        var totalQuestionPoint = 0;
 
         $.ajax({
             url : '/ajax/quiz-creator/get-question',
@@ -695,6 +703,15 @@ var QuizCreator = {
         }).done(function(response) {
             // append the question to the template
             self.config.questionStreamHolder.append(response);
+
+            // count the total question point
+            $('.question-point').each(function() {
+                totalQuestionPoint += parseInt($(this).val());
+            });
+
+            self.config.quizScore = totalQuestionPoint;
+            self.config.totalScoreHolder.text(self.config.quizScore);
+
             // hide message holder
             self.config.messageHolder.hide();
         })
@@ -727,13 +744,13 @@ var QuizCreator = {
             // append the question to the template
             self.config.questionStreamHolder.append(response);
 
-            // count all question point
+            // count the total question point
             $('.question-point').each(function() {
                 totalQuestionPoint += parseInt($(this).val());
             });
 
-            // show the total question point
-            console.log('Total Question Point: ' + totalQuestionPoint);
+            self.config.quizScore = totalQuestionPoint;
+            self.config.totalScoreHolder.text(self.config.quizScore);
 
             // hide message holder
             self.config.messageHolder.hide();
@@ -745,6 +762,7 @@ QuizCreator.init({
     // get all the elements we need!
     // global
     quizId          : 0,
+    quizScore       : 0,
     questionListId  : 0,
     questionId      : 0,
     questionCount   : 0,
@@ -761,6 +779,7 @@ QuizCreator.init({
     itemListHolder                  : $('.item-list-holder'),
 
     topMessageHolder                : $('.top-message-holder'),
+    totalScoreHolder                : $('.quiz-total-score'),
 
     // buttons/a
     buttonSubmitFirstQuestion       : $('#submit_first_question'),
