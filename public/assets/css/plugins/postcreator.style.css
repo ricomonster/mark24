@@ -20,6 +20,11 @@
 .postcreator-hidden { display: none; }
 .post-recipients { width: 100%; }
 
+.quiz-details { background-color: #f3f5f6; padding: 8px; }
+.quiz-details .quiz-title { display: block; }
+
+.quiz-due-date { width: 100px; }
+
 /* plugin */
 .chosen-choices { min-height: 32px !important; }
 .chosen-choices .search-field input { height: 32px !important; }
