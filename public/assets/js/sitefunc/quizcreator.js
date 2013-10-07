@@ -497,13 +497,55 @@ var QuizCreator = {
             dataType : 'json',
             async   : false
         }).done(function(response) {
-            // check if the element is first child or last child
-            if(currentQuestionWrapper.is(':first-child')) {
-                //
-            } else if(currentQuestionWrapper.is(':last-child')) {
-                // get the previous element and get details
-            } else if(!currentQuestionWrapper.is(':first-child')) {
-                // get the details of the next element
+            if(currentQuestionItemList.parent().is(':first-child') ||
+                (!currentQuestionItemList.parent().is(':first-child') &&
+                !currentQuestionItemList.parent().is(':last-child'))) {
+                // loop the next item lists
+                currentQuestionItemList.parent().nextAll().each(function() {
+                    // get the item number
+                    $(this).children().text(
+                        parseInt($(this).children().text()) - 1);
+                });
+
+                // set active the next item
+                var newActiveItem = currentQuestionItemList.parent().next();
+                newActiveItem.addClass('active');
+            } else if(currentQuestionItemList.parent().is(':last-child')) {
+                // set active the previous item
+                var newActiveItem = currentQuestionItemList.parent().prev();
+                newActiveItem.addClass('active');
+            }
+
+            // remove current question and question item
+            currentQuestionItemList.parent().remove();
+            currentQuestionWrapper.remove();
+
+            // set the question_id and question_list_id
+            self.config.questionId      = newActiveItem.find('.question-list-item').data('question-id');
+            self.config.questionListId  = newActiveItem.find('.question-list-item').data('question-list-id');
+            self.config.questionCount   -= 1;
+
+            // get the question details
+            // show the new question
+            var newActiveQuestion = $('.question-wrapper[data-question-id="'+self.config.questionId+'"]');
+
+            newActiveQuestion.addClass('active-question');
+            // get the question type
+            self.config.questionType = newActiveQuestion
+                .find('.question-type[data-question-id="'+self.config.questionId+'"]').val();
+            // get the question point
+            var questionPoint = newActiveQuestion
+                .find('.question-point[data-question-id="'+self.config.questionId+'"]').val();
+            // set the question type
+            self.config.selectQuestionType.val(self.config.questionType);
+            // set the question point
+            self.config.inputQuestionPoint.val(questionPoint);
+
+            console.log(self.config.questionCount);
+            // count the number of items
+            // hide the remove question button if items are just one
+            if(self.config.questionCount == 1) {
+                self.config.buttonRemoveQuestion.hide();
             }
 
             // remove the element
