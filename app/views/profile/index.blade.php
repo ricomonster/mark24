@@ -33,11 +33,24 @@ Profile
 
 <div class="profile-header well">
     <div class="profile-avatar pull-left">
+        @if($user->avatar == 'default_avatar.png')
         <img src="/assets/images/default_avatar.png" width="140" class="img-rounded">
+        @endif
+        @if($user->avatar != 'default_avatar.png')
+        <img src="/assets/avatars/{{ $user->hashed_id }}/{{ $user->avatar_large }}" width="140" class="img-rounded">
+        @endif
     </div>
     <div class="profile-user-details pull-left">
-        <h3 class="profile-user-fullname">Mr. Juan dela Cruz</h3>
-        <div class="profile-user-type">Teacher</div>
+        <h3 class="profile-user-fullname">
+            @if(isset($user->salutation))
+            {{ $user->salutation }}
+            @endif
+            {{ $user->name }}
+        </h3>
+        <div class="profile-user-type">
+            @if($user->account_type == 1) Teacher @endif
+            @if($user->account_type == 2) Student @endif
+        </div>
         <hr />
         <ul class="user-stats">
             <li>

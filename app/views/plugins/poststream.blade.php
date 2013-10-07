@@ -12,7 +12,7 @@
         @foreach($posts as $post)
         <?php $recipients = PostRecipient::getRecipients($post->post_id); ?>
         <li class="post-holder">
-            <a href="#" class="writer-profile">
+            <a href="/profile/{{ $post->username }}" class="writer-profile">
                 @if(empty($post->avatar))
                 <img src="/assets/images/anon.png" width="50" class="img-rounded pull-left">
                 @else
@@ -32,11 +32,15 @@
                 </div>
 
                 <div class="post-content-header">
-                    <a href="#" class="post-sender-name">
+                    <a href="/profile/{{ $post->username }}" class="post-sender-name">
+                        @if($post->id == Auth::user()->id)
+                        Me
+                        @else
                         @if($post->account_type == '1')
                         {{ $post->salutation.' '.$post->name }}
                         @else
                         {{ $post->name }}
+                        @endif
                         @endif
                     </a>
                     <span class="sender-to-receiver">to</span>
@@ -100,7 +104,7 @@
                 <ul class="comment-stream">
                     @foreach($comments as $comment)
                     <li data-comment-id="{{ $comment->commment_id }}">
-                        <a href="#">
+                        <a href="/profile/{{ $comment->username }}">
                             @if(empty($comment->avatar))
                             <img src="/assets/images/anon.png" width="35" class="img-rounded pull-left">
                             @else
@@ -111,9 +115,9 @@
                         <div class="comment-content-holder pull-left">
                             <div class="commenter-details">
                                 @if($comment->id == Auth::user()->id)
-                                <a href="#">Me</a>
+                                <a href="/profile/{{ $comment->username }}">Me</a>
                                 @else
-                                <a href="#">{{ $comment->name }}</a>
+                                <a href="/profile/{{ $comment->username }}">{{ $comment->name }}</a>
                                 @endif
                                 <span class="subtext"> said 1 hour ago:</span>
                             </div>

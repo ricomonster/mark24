@@ -105,7 +105,7 @@ Group
             <ul class="member-stream">
                 <!-- Group Owner Details -->
                 <li class="member-details-holder owner-details-holder">
-                    <a href="#">
+                    <a href="/profile/{{ $ownerDetails->username }}">
                         @if($ownerDetails->avatar == 'default_avatar.png')
                         <img src="/assets/images/anon.png" width="80" class="pull-left">
                         @else
@@ -115,7 +115,9 @@ Group
                     </a>
                     <div class="member-content-holder pull-right">
                         <div class="member-name-text">
-                            <a href="#">{{ $ownerDetails->salutation.' '.$ownerDetails->name }}</a>
+                            <a href="/profile/{{ $ownerDetails->username }}">
+                                {{ $ownerDetails->salutation.' '.$ownerDetails->name }}
+                            </a>
                         </div>
                         <div class="member-type text-muted">Teacher (Owner)</div>
                     </div>
@@ -125,7 +127,7 @@ Group
                 @foreach($members as $member)
                 @if($member->group_member_id != $ownerDetails->id)
                 <li class="member-details-holder">
-                    <a href="#">
+                    <a href="/profile/{{ $member->username }}">
                         @if($member->avatar == 'default_avatar.png')
                         <img src="/assets/images/{{ $member->avatar }}" width="80" class="pull-left">
                         @else
@@ -143,7 +145,7 @@ Group
                         </div>
 
                         <div class="member-name-text">
-                            <a href="#">{{ $member->name }}</a>
+                            <a href="/profile/{{ $member->username }}">{{ $member->name }}</a>
                         </div>
                         <div class="member-type text-muted">Student</div>
                         <div class="member-username text-muted">{{ $member->username }}</div>

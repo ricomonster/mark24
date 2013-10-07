@@ -3,7 +3,7 @@
 data-question-list-id="{{ $question->question_list_id }}" data-question-id="{{ $question->question_id }}">
     <div class="question-prompt-wrapper">
         <div class="form-group">
-            <label class="question-prompt">Question Prompt:</label>
+            <label for="question-prompt">Question Prompt:</label>
             <textarea name="question-prompt" class="form-control question-prompt"
             data-question-id="{{ $question->question_id }}">{{ $question->question }}</textarea>
         </div>
@@ -23,7 +23,8 @@ data-question-list-id="{{ $question->question_list_id }}" data-question-id="{{ $
                         <div class="option-holder">
                             <div class="choice-letter"><?php echo ($key == 0) ? 'A' : ++$alpha; ?></div>
                             <textarea class="form-control multiple-choice-option"
-                            data-multiple-choice-id="{{ $r->multiple_choice_id }}">{{ $r->choice_text }}</textarea>
+                            data-multiple-choice-id="{{ $r->multiple_choice_id }}"
+                            data-question-id="{{ $question->question_id }}">{{ $r->choice_text }}</textarea>
                         </div>
 
                         <div class="option-controls">
@@ -39,7 +40,8 @@ data-question-list-id="{{ $question->question_list_id }}" data-question-id="{{ $
                     @endforeach
                 </ul>
                 <div class="clearfix"></div>
-                <button class="btn btn-default">Add Response</button>
+                <button class="btn btn-default add-response"
+                data-question-id="{{ $question->question_id }}">Add Response</button>
                 <div class="clearfix"></div>
             </div>
 

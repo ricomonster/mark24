@@ -81,4 +81,11 @@ Home
 <script src="/assets/js/plugins/postcreator.js"></script>
 <script src="/assets/js/plugins/groups.js"></script>
 <script src="/assets/js/sitefunc/comment.creator.js"></script>
+@if(isset($quiz))
+<script>
+(function($) {
+    $('#quiz .post-recipients').chosen();
+})(jQuery);
+</script>
+@endif
 @stop

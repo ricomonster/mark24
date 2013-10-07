@@ -20,6 +20,10 @@ Route::get('/', function()
         ->with('loginError', $loginError);
 });
 
+Route::get('test', function() {
+    echo 'Get fucking lost.';
+});
+
 // AJAX Routes
 // AJAX User Routes
 Route::post('ajax/users/upload-photo', 'AjaxUsersController@postUploadPhoto');
@@ -38,8 +42,12 @@ Route::post('ajax/comment-creator/add-comment', 'AjaxCommentCreator@postCreateCo
 
 // AJAX QuizCreator Routes
 Route::post('ajax/quiz-creator/create-new-quiz', 'AjaxQuizCreatorController@postCreateQuiz');
+Route::post('ajax/quiz-creator/update-quiz', 'AjaxQuizCreatorController@postUpdateQuiz');
 Route::post('ajax/quiz-creator/update-question', 'AjaxQuizCreatorController@postUpdateQuestion');
 Route::post('ajax/quiz-creator/add-question', 'AjaxQuizCreatorController@postAddQuestion');
+Route::post('ajax/quiz-creator/add-response', 'AjaxQuizCreatorController@postAddResponse');
+Route::post('ajax/quiz-creator/remove-question', 'AjaxQuizCreatorController@postRemoveQuestion');
+Route::post('ajax/quiz-creator/submit-quiz', 'AjaxQuizCreatorController@postSubmitQuiz');
 
 Route::get('ajax/quiz-creator/check-active-quiz', 'AjaxQuizCreatorController@getCheckActiveQuiz');
 Route::get('ajax/quiz-creator/get-question', 'AjaxQuizCreatorController@getQuestion');
@@ -58,7 +66,7 @@ Route::get('groups/{groupId}/members', 'GroupsController@showMembers');
 Route::get('home', 'HomeController@showHome');
 
 // Profile Routes
-Route::get('profile', 'ProfileController@showIndex');
+Route::get('profile/{user}', 'ProfileController@showIndex');
 
 // Quiz Creator Routes
 Route::get('quiz-creator', 'QuizCreatorController@getIndex');

@@ -59,7 +59,7 @@ Group
                     <a href="/groups/{{ $groupDetails->group_id }}/members">
                         <i class="icon-chevron-right pull-right"></i>
                         <i class="group-control-icon icon-user"></i> Members
-                        <span class="label label-success pull-right">100 joined</span>
+                        <span class="label label-success pull-right">{{ $memberCount }} joined</span>
                     </a>
                 </li>
             </ul>

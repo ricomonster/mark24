@@ -2,7 +2,7 @@
 data-question-id="{{ $question->question_id }}">
     <div class="question-prompt-wrapper">
         <div class="form-group">
-            <label class="question-prompt">Question Prompt:</label>
+            <label for="question-prompt">Question Prompt:</label>
             <textarea name="question-prompt" class="form-control question-prompt"
             data-question-id="{{ $question->question_id }}">{{ $question->question }}</textarea>
         </div>

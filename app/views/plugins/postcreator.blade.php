@@ -1,12 +1,12 @@
 <div class="post-creator-holder">
     <ul class="nav nav-tabs" id="post_creator_options">
-        <li class="active"><a href="#note"><i class="icon-edit"></i> Note</a></li>
+        <li class="<?php echo (isset($quiz)) ? null : 'active'; ?>"><a href="#note"><i class="icon-edit"></i> Note</a></li>
         <li><a href="#alert"><i class="icon-exclamation-sign"></i> Alert</a></li>
         <li><a href="#assignment"><i class="icon-check"></i> Assigment</a></li>
-        <li><a href="#quiz"><i class="icon-question-sign"></i> Quiz</a></li>
+        <li class="<?php echo (isset($quiz)) ? 'active' : null; ?>"><a href="#quiz"><i class="icon-question-sign"></i> Quiz</a></li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane well active" id="note">
+        <div class="tab-pane well <?php echo (isset($quiz)) ? null : 'active'; ?>" id="note">
             {{ Form::open(array('url'=>'ajax/post_creator/create_note')) }}
                 <div class="form-group">
                     <div class="alert"></div>
@@ -55,7 +55,7 @@
                 <div class="clearfix"></div>
             {{ Form::close() }}
         </div>
-        
+
         <div class="tab-pane well" id="alert">
             {{ Form::open(array('url'=>'ajax/post_creator/create_alert')) }}
                 <div class="form-group">
@@ -109,12 +109,34 @@
         <div class="tab-pane well" id="assignment">
             Assignment
         </div>
-        <div class="tab-pane well" id="quiz">
+
+        <div class="tab-pane well <?php echo (isset($quiz)) ? 'active' : null; ?>" id="quiz">
+            @if(isset($quiz))
+                <select name="alert-recipients[]" class="post-recipients"
+                id="alert_recipients" multiple="true" data-placeholder="Send to...">
+                    @if(!empty($groups))
+                    @foreach($groups as $group)
+                    @if(isset($groupDetails))
+                    <option value="{{ $group->group_id }}-group"
+                    <?php echo ($groupDetails->group_id == $group->group_id) ? 'selected' : null; ?>>{{ $group->group_name }}</option>
+                    @else
+                    <option value="{{ $group->group_id }}-group">{{ $group->group_name }}</option>
+                    @endif
+                    @endforeach
+                    @endif
+                    @if(!empty($groupMembers))
+                    @foreach($groupMembers as $groupMember)
+                    <option value="{{ $groupMember->id }}-user">{{ $groupMember->name }}</option>
+                    @endforeach
+                    @endif
+                </select>
+            @else
             <div class="quiz-first-choices">
                 <a href="/quiz-creator" class="btn btn-primary">Create a Quiz</a>
                 <span class="postcreator-or">or</span>
                 <a href="#">Load a previously created Quiz</a>
             </div>
+            @endif
         </div>
     </div>
 </div>

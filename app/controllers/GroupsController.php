@@ -18,12 +18,15 @@ class GroupsController extends BaseController {
         // get posts for the group
         $groupPosts = Post::getGroupPosts($groupId);
 
-        // print_r($groupPosts)
+        // get number of group members
+        $groupMembers = GroupMember::getGroupMembers($groupId)
+            ->count();
 
         return View::make('group.index')
             ->with('groupDetails', $group)
             ->with('groups', $groups)
-            ->with('posts', $groupPosts);
+            ->with('posts', $groupPosts)
+            ->with('memberCount', $groupMembers);
     }
 
     public function showMembers($groupId) {

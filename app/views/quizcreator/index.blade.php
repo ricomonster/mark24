@@ -12,6 +12,8 @@ Quiz Creator
 .item-list-wrapper ul { margin: 10px 0 !important; }
 .item-list-wrapper ul li a { padding: 5px 10px; }
 .item-list-wrapper ul li.active a { border-radius: 0; }
+.item-list-wrapper ul li.has-error a,
+.item-list-wrapper ul li.has-error:hover a { color: #b94a48; font-weight: bold; }
 
 .quiz-creator-header { padding: 19px 0; }
 .quiz-creator-header .form-group { margin: 0; }
@@ -30,6 +32,7 @@ Quiz Creator
 .quiz-creator-proper .question-proper-header .form-group { margin: 0; }
 .quiz-creator-proper .question-proper-header .form-group #question_type { display: inline-block; width: 150px; }
 .quiz-creator-proper .question-proper-header .form-group #question_point { display: inline-block; width: 50px; }
+.quiz-creator-proper .question-proper-header .form-group .remove-question { display: inline-block; display: none; }
 
 .quiz-creator-proper .question-stream-holder { list-style: none; margin: 0; padding: 0; }
 .quiz-creator-proper .question-stream-holder .question-wrapper { display: none; }
@@ -59,6 +62,8 @@ Quiz Creator
 
 /* True or False */
 .true-false-response .true-false-option { display: inline-block; width: 100px; }
+
+.top-message-holder { display: none; padding: 10px 15px; text-align: center; }
 </style>
 @stop
 
@@ -70,6 +75,7 @@ Quiz Creator
 
 <div class="quiz-creator-wrapper">
     <div class="row">
+        <div class="alert alert-danger top-message-holder">Testing</div>
         <div class="col-md-9">
             <div class="quiz-creator-header well">
                 <div class="form-group col-md-7">
@@ -123,7 +129,7 @@ Quiz Creator
 
                             <div class="quiz-creator-welcome-message-wrapper">
                                 <strong>Quiz Help</strong>
-                                
+
                                 <p>
                                     Changes made to the quiz will automatically save.
                                     You can assign or edit this quiz at a later time by
@@ -148,10 +154,13 @@ Quiz Creator
                                         <option value="SHORT_ANSWER">Short Answer</option>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-7">
                                     <label for="question-point">Points</label>
                                     <input type="text" name="question-point" id="question_point"
                                     class="form-control">
+                                    <button class="remove-question btn btn-default pull-right">
+                                        Remove Question
+                                    </button>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -167,7 +176,7 @@ Quiz Creator
         </div>
         <div class="col-md-3">
             <div class="well">
-                <button class="btn btn-primary btn-lg btn-block">Assign Quiz</button>
+                <button class="btn btn-primary btn-lg btn-block assign-quiz">Assign Quiz</button>
 
                 <div class="about-quiz-holder">
                     <span class="subtext">About this Quiz</span>

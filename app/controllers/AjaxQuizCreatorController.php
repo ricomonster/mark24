@@ -2,12 +2,15 @@
 
 class AjaxQuizCreatorController extends BaseController {
 
-    public function getCheckActiveQuiz() {
+    public function getCheckActiveQuiz()
+    {
         $existingQuiz = Quiz::where('user_id', '=', Auth::user()->id)
             ->where('status', '=', 'ACTIVE')
             ->first();
 
         if(!empty($existingQuiz)) {
+            $questionCount = QuestionList::where('quiz_id', '=', $existingQuiz->quiz_id)
+                ->count();
             // get the first question
             $question = QuestionList::where('quiz_id', '=', $existingQuiz->quiz_id)
                 ->join('questions', 'question_lists.question_id', '=', 'questions.question_id')
@@ -15,17 +18,21 @@ class AjaxQuizCreatorController extends BaseController {
 
             return Response::json(array(
                 'quiz_id'           => $existingQuiz->quiz_id,
+                'quiz_title'        => $existingQuiz->title,
+                'quiz_time_limit'   => $existingQuiz->time_limit,
                 'question_list_id'  => $question->question_list_id,
                 'question_id'       => $question->question_id,
                 'question_type'     => $question->question_type,
                 'question_point'    => $question->question_point,
+                'question_count'    => $questionCount,
                 'active'            => true));
         }
 
         return Response::json(array('active' => false));
     }
 
-    public function postCreateQuiz() {
+    public function postCreateQuiz()
+    {
         $questionType   = Input::get('question_type');
         $quizTitle      = Input::get('quiz_title');
         $quizTimeLimit  = Input::get('quiz_time_limit');
@@ -91,7 +98,24 @@ class AjaxQuizCreatorController extends BaseController {
         return Response::json($return);
     }
 
-    public function getQuestion() {
+    public function postUpdateQuiz()
+    {
+        $quizId     = Input::get('quiz_id');
+        $quizTitle  = Input::get('title');
+
+        // update the quiz
+        $quiz = Quiz::find($quizId);
+        $quiz->title = $quizTitle;
+        $quiz->save();
+
+        // send a response
+        $return['error'] = false;
+
+        return Response::json($return);
+    }
+
+    public function getQuestion()
+    {
         $quizId         = Input::get('quiz_id');
         $questionListId = Input::get('question_list_id');
 
@@ -114,7 +138,7 @@ class AjaxQuizCreatorController extends BaseController {
                 break;
             default :
                 $response = null;
-                break; 
+                break;
         }
 
         // return Response::json($question);
@@ -123,7 +147,8 @@ class AjaxQuizCreatorController extends BaseController {
             ->with('response', $response);
     }
 
-    public function getQuestions() {
+    public function getQuestions()
+    {
         $quizId = Input::get('quiz_id');
 
         $questions = QuestionList::where('quiz_id', '=', $quizId)
@@ -134,7 +159,8 @@ class AjaxQuizCreatorController extends BaseController {
             ->with('questions', $questions);
     }
 
-    public function getQuestionLists() {
+    public function getQuestionLists()
+    {
         $quizId = Input::get('quiz_id');
 
         $questionLists = QuestionList::where('quiz_id', '=', $quizId)
@@ -144,13 +170,15 @@ class AjaxQuizCreatorController extends BaseController {
             ->with('lists', $questionLists);
     }
 
-    public function postUpdateQuestion() {
+    public function postUpdateQuestion()
+    {
         $questionId         = Input::get('question_id');
         $multipleChoiceId   = Input::get('multiple_choice_id');
         $trueFalseId        = Input::get('true_false_id');
 
         $questionType       = Input::get('question_type');
         $questionText       = Input::get('question_text');
+        $questionPoint      = Input::get('question_point');
 
         $choiceText         = Input::get('choice_text');
         $trueFalseAnswer    = Input::get('answer');
@@ -169,7 +197,7 @@ class AjaxQuizCreatorController extends BaseController {
                         ->delete();
                     break;
                 default :
-                    break;       
+                    break;
             }
 
             // create the choices
@@ -200,7 +228,7 @@ class AjaxQuizCreatorController extends BaseController {
                     break;
                 default :
                     $response = null;
-                    break;       
+                    break;
             }
 
             // update the question type of the question
@@ -245,7 +273,17 @@ class AjaxQuizCreatorController extends BaseController {
             $answer = TrueFalse::find($trueFalseId);
             $answer->answer = $trueFalseAnswer;
             // update
-            $answer->save();    
+            $answer->save();
+
+            // return response
+            $return['error'] = false;
+
+            return Response::json($return);
+        } else if(isset($questionPoint) && !empty($questionPoint)) {
+            // update question point
+            $question = Question::find($questionId);
+            $question->question_point = $questionPoint;
+            $question->save();
 
             // return response
             $return['error'] = false;
@@ -254,7 +292,8 @@ class AjaxQuizCreatorController extends BaseController {
         }
     }
 
-    public function postAddQuestion() {
+    public function postAddQuestion()
+    {
         $quizId = Input::get('quiz_id');
         $questionType = Input::get('question_type');
 
@@ -306,5 +345,59 @@ class AjaxQuizCreatorController extends BaseController {
             'question_list_id'  => 2);
 
         return Response::json($return);
+    }
+
+    public function postAddResponse()
+    {
+        $questionId = Input::get('question_id');
+
+        // add a response
+        $response = new MultipleChoice;
+        $response->question_id = $questionId;
+        $response->save();
+
+        // get details
+        $responseDetails = MultipleChoice::find($response->multiple_choice_id);
+
+        // return the view response
+        return View::make('ajax.quizcreator.addresponse')
+            ->with('question_id', $questionId)
+            ->with('r', $responseDetails);
+    }
+
+    public function postRemoveQuestion()
+    {
+        $quizId         = Input::get('quiz_id');
+        $questionId     = Input::get('question_id');
+        $questionListId = Input::get('question_list_id');
+
+        // delete the question from the list
+        // QuestionList::where('quiz_id', '=', $quizId)
+        //     ->where('question_id', '=', $questionId)
+        //     ->where('question_list_id', '=', $questionListId)
+        //     ->delete();
+
+        // return a response
+        return Response::json(array('error' => false));
+    }
+
+    public function postSubmitQuiz()
+    {
+        $quizId     = Input::get('quiz_id');
+        $totalScore = Input::get('total_score');
+
+        // update the quiz
+        $quiz = Quiz::find($quizId);
+        $quiz->status = 'READY';
+        $quiz->total_score = $totalScore;
+        // $quiz->save();
+
+        // set up session with quiz details
+        $details = $quiz;
+        Session::put('quiz_details', $details);
+
+        return Response::json(array(
+            'lz'    => Request::root().'/home',
+            'error' => false));
     }
 }

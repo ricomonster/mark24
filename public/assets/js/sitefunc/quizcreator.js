@@ -9,17 +9,22 @@ var QuizCreator = {
 
     bindEvents : function() {
         // all of event triggers are here
-        // it will fire the certain function that the 
+        // it will fire the certain function that the
         // event has on it
         $(document)
             .ready(this.checkActiveQuiz)
             .on('click', this.config.buttonSubmitFirstQuestion.selector, this.createNewQuiz)
             .on('click', this.config.buttonAddQuestion.selector, this.addQuestion)
             .on('click', this.config.aQuestionListItem.selector, this.selectQuestion)
+            .on('click', this.config.buttonAddResponse.selector, this.addResponse)
+            .on('click', this.config.buttonAssignQuiz.selector, this.assignQuiz)
+            .on('click', this.config.buttonRemoveQuestion.selector, this.removeQuestion)
             .on('change', this.config.selectQuestionType.selector, this.changeQuestionType)
             .on('change', this.config.selectTrueFalseOption.selector, this.changeTrueFalseAnswer)
+            .on('blur', this.config.inputQuizTitle.selector, this.updateQuizTitle)
             .on('blur', this.config.textareaQuestionPrompt.selector, this.changeQuestionText)
             .on('blur', this.config.textareaMultipleChoiceOption.selector, this.changeMultipleChoiceText)
+            .on('blur', this.config.inputQuestionPoint.selector, this.updateQuestionPoint)
             .on('click', this.config.aSetOptionCorrectAnswer.selector, this.changeCorrectOption);
     },
 
@@ -44,6 +49,18 @@ var QuizCreator = {
                 self.config.questionListId  = response.question_list_id;
                 self.config.questionId      = response.question_id;
                 self.config.questionType    = response.question_type;
+                self.config.questionCount   = response.question_count;
+
+                // show the quiz title
+                self.config.inputQuizTitle.val(response.quiz_title);
+
+                // show the quiz time limit
+                self.config.inputQuizTimeLimit.val(response.quiz_time_limit);
+
+                // show the remove question button if 2 or more questions
+                if(self.config.questionCount != 1) {
+                    self.config.buttonRemoveQuestion.show();
+                }
 
                 // set the question type to the first question type
                 self.config.selectQuestionType.val(response.question_type);
@@ -98,6 +115,7 @@ var QuizCreator = {
             self.config.questionListId  = response.question_list_id;
             self.config.questionId      = response.question_id;
             self.config.questionType    = response.question_type;
+            self.config.questionCount   = 1;
 
             // load the question lists
             self.loadQuestionLists();
@@ -106,15 +124,88 @@ var QuizCreator = {
         });
     },
 
+    // updates the title of the quiz
+    updateQuizTitle : function() {
+        var self    = QuizCreator;
+        var $this   = $(this);
+
+        if($this.val() != '' && $this.val().lenght != 0) {
+            // trigger ajax call
+            $.ajax({
+                type        : 'post',
+                url         : '/ajax/quiz-creator/update-quiz',
+                data        : {
+                    quiz_id : self.config.quizId,
+                    title   : $this.val()
+                },
+                dataType    : 'json',
+                async       : false
+            }).done(function(response) {
+
+            })
+        }
+    },
+
+    // updates the time limit of the quiz
+    updateQuizTimeLimit : function() {
+
+    },
+
+    // updates the description of the quiz
+    updateQuizDescription : function() {
+
+    },
+
+    updateQuestionPoint : function() {
+        var self                    = QuizCreator;
+        var $this                   = $(this);
+        var totalQuestionPoint      = 0;
+        var currentQuestionWrapper  = $('.question-wrapper[data-question-id="'+self.config.questionId+'"]');
+
+        // check first if the value is either 0 or empty
+        if($this.val() != 0 && $this.val().length != 0) {
+            self.config.messageHolder.show().find('span').text('Saving...');
+
+            // trigger ajax
+            $.ajax({
+                type        : 'post',
+                url         : '/ajax/quiz-creator/update-question',
+                data        : {
+                    question_id     : self.config.questionId,
+                    question_point  : $this.val()
+                },
+
+                dataType    : 'json',
+                async       : false
+            }).done(function(response) {
+                // update the hidden input for the question point
+                var questionPoint = currentQuestionWrapper
+                    .find('.question-point[data-question-id="'+self.config.questionId+'"]')
+                    .val($this.val());
+
+                // count the total question point
+                $('.question-point').each(function() {
+                    totalQuestionPoint += parseInt($(this).val());
+                });
+
+                // show the total question point
+                console.log('Total Question Point: ' + totalQuestionPoint);
+
+                // hide message holder
+                self.config.messageHolder.hide();
+            });
+        }
+    },
+
     // adds a new question
     addQuestion : function(e) {
         var self = QuizCreator;
         var currentQuestionWrapper  = $('.question-wrapper[data-question-id="'+self.config.questionId+'"]');
-        var currentActiveItem       = self.config.itemListHolder.find('.active'); 
+        var currentActiveItem       = self.config.itemListHolder.find('.active');
         var lastItem                = self.config.itemListHolder.find('li').last();
 
         self.config.messageHolder.show().find('span').text('Saving...');
-                
+
         $.ajax({
             type    : 'post',
             url     : '/ajax/quiz-creator/add-question',
@@ -142,6 +233,12 @@ var QuizCreator = {
             // set the global variables
             self.config.questionId      = response.question_id;
             self.config.questionListId  = response.question_list_id;
+            self.config.questionCount   += 1;
+
+            // show the remove question button if 2 or more questions
+            if(self.config.questionCount != 1) {
+                self.config.buttonRemoveQuestion.show();
+            }
 
             // load the question
             self.loadQuestion();
@@ -197,7 +294,7 @@ var QuizCreator = {
     changeQuestionType : function() {
         var self                    = QuizCreator;
         var currentQuestionWrapper  = $('.question-wrapper[data-question-id="'+self.config.questionId+'"]');
-        
+
         self.config.messageHolder.show().find('span').text('Saving...');
         // update the question
         $.ajax({
@@ -287,7 +384,7 @@ var QuizCreator = {
 
         var currentQuestionWrapper  = $('.question-wrapper[data-question-id="'+self.config.questionId+'"]');
         var optionTextarea = $this.parent().parent()
-            .find('.option-holder').find('.multiple-choice-option');        
+            .find('.option-holder').find('.multiple-choice-option');
 
         // check first if textarea is not empty
         if(optionTextarea.val().length != 0) {
@@ -347,6 +444,165 @@ var QuizCreator = {
         })
     },
 
+    // adds a multiple choice response
+    addResponse : function(e) {
+        var self    = QuizCreator;
+        var $this   = $(this);
+        var currentQuestionWrapper = $('.question-wrapper[data-question-id="'+self.config.questionId+'"]');
+        // get the last option
+        var lastOption = currentQuestionWrapper.find('.responses-wrapper')
+            .find('.multiple-choice-response-holder').find('.option-wrapper:last-child')
+            .find('.choice-letter');
+
+        var newOptionLetter = String.fromCharCode(lastOption.text().charCodeAt(0) + 1);
+
+        self.config.messageHolder.show().find('span').text('Saving...');
+
+        // add a response and get the template
+        $.ajax({
+            type    : 'post',
+            url     : '/ajax/quiz-creator/add-response',
+            data    : {
+                question_id : $this.data('question-id')
+            },
+            async   : false
+        }).done(function(response) {
+            // append the new response
+            currentQuestionWrapper.find('.responses-wrapper')
+                .find('.multiple-choice-response-holder').append(response)
+                .find('.option-wrapper:last-child').find('.choice-letter')
+                .text(newOptionLetter);
+
+            self.config.messageHolder.hide();
+        });
+
+        e.preventDefault();
+    },
+
+    // removes question
+    removeQuestion : function(e) {
+        var self = QuizCreator;
+        // get current/active question details/elements
+        var currentQuestionWrapper  = $('.question-wrapper[data-question-id="'+self.config.questionId+'"]');
+        var currentQuestionItemList = $('.question-list-item[data-question-id="'+self.config.questionId+'"]');
+
+        $.ajax({
+            type    : 'post',
+            url     : '/ajax/quiz-creator/remove-question',
+            data    : {
+                quiz_id             : self.config.quizId,
+                question_id         : self.config.questionId,
+                question_list_id    : self.config.questionListId
+            },
+            dataType : 'json',
+            async   : false
+        }).done(function(response) {
+            // check if the element is first child or last child
+            if(currentQuestionWrapper.is(':first-child')) {
+                //
+            } else if(currentQuestionWrapper.is(':last-child')) {
+                // get the previous element and get details
+            } else if(!currentQuestionWrapper.is(':first-child')) {
+                // get the details of the next element
+            }
+
+            // remove the element
+        });
+
+        e.preventDefault();
+    },
+
+    // assigns the quiz
+    assignQuiz : function(e) {
+        var self                = QuizCreator;
+        var $this               = $(this);
+        var errorCounter        = 0;
+        var totalQuestionPoint  = 0;
+
+        self.config.messageHolder.show().find('span').text('Saving...');
+        self.config.topMessageHolder.slideUp(400);
+
+        errorCounter = 0;
+
+        // check for question text that are empty
+        $('.question-prompt').each(function() {
+            var questionId = $(this).data('question-id');
+            if($(this).val() == '' && $(this).val().length == 0) {
+                // highlight the textarea
+                $(this).parent().addClass('has-error');
+                // highlight the question list number
+                $('.question-list-item[data-question-id="'+questionId+'"]')
+                    .parent().addClass('has-error');
+                // increment errorCounter
+                errorCounter++;
+            }
+
+            if($(this).val() != '' && $(this).val().length != 0) {
+                $(this).parent().removeClass('has-error');
+                $('.question-list-item[data-question-id="'+questionId+'"]')
+                    .parent().removeClass('has-error');
+            }
+        });
+
+        // check for option text if there are empty
+        $('.multiple-choice-option').each(function() {
+            var questionId = $(this).data('question-id');
+            if($(this).val() == '' && $(this).val().length == 0) {
+                // highlight textarera
+                $(this).parent().parent().addClass('option-error');
+                // highlight the question list number
+                $('.question-list-item[data-question-id="'+questionId+'"]')
+                    .parent().addClass('has-error');
+                // increment errorCounter
+                errorCounter++;
+            }
+
+            if($(this).val() != '' && $(this).val().length != 0) {
+                // highlight textarera
+                $(this).parent().parent().removeClass('option-error');
+                // highlight the question list number
+                $('.question-list-item[data-question-id="'+questionId+'"]')
+                    .parent().removeClass('has-error');
+            }
+        });
+
+        // check if there are errors
+        if(errorCounter == 0) {
+            // count the total question point
+            $('.question-point').each(function() {
+                totalQuestionPoint += parseInt($(this).val());
+            });
+
+            // ajax call
+            $.ajax({
+                type : 'post',
+                url : '/ajax/quiz-creator/submit-quiz',
+                data : {
+                    quiz_id : self.config.quizId,
+                    totalScore : totalQuestionPoint
+                },
+                dataType : 'json',
+                async : false
+            }).done(function(response) {
+                if(!response.error) {
+                    window.location.href = response.lz;
+                }
+            })
+
+            return false;
+        }
+
+        // there are errors
+        if(errorCounter != 0) {
+            // show an alert message
+            self.config.topMessageHolder.text('There are errors. Please fix before continuing...')
+                .hide().slideDown(400);
+            self.config.messageHolder.hide();
+        }
+
+        e.preventDefault();
+    },
+
     // loads the question
     loadQuestion : function() {
         var self = QuizCreator;
@@ -369,7 +625,7 @@ var QuizCreator = {
     // loads the question list
     loadQuestionLists : function() {
         var self    = QuizCreator;
-        
+
         $.ajax({
             url     : '/ajax/quiz-creator/get-question-lists',
             data    : { quiz_id : self.config.quizId },
@@ -382,6 +638,7 @@ var QuizCreator = {
 
     loadQuestions : function() {
         var self = QuizCreator;
+        var totalQuestionPoint = 0;
 
         $.ajax({
             url     : '/ajax/quiz-creator/get-questions',
@@ -390,9 +647,18 @@ var QuizCreator = {
         }).done(function(response) {
             // append the question to the template
             self.config.questionStreamHolder.append(response);
+
+            // count all question point
+            $('.question-point').each(function() {
+                totalQuestionPoint += parseInt($(this).val());
+            });
+
+            // show the total question point
+            console.log('Total Question Point: ' + totalQuestionPoint);
+
             // hide message holder
             self.config.messageHolder.hide();
-        })  
+        })
     }
 }
 
@@ -402,6 +668,7 @@ QuizCreator.init({
     quizId          : 0,
     questionListId  : 0,
     questionId      : 0,
+    questionCount   : 0,
     questionType    : null,
 
     // div/span/p/strong/
@@ -414,11 +681,16 @@ QuizCreator.init({
     questionStreamHolder            : $('.question-stream-holder'),
     itemListHolder                  : $('.item-list-holder'),
 
+    topMessageHolder                : $('.top-message-holder'),
+
     // buttons/a
     buttonSubmitFirstQuestion       : $('#submit_first_question'),
+    buttonRemoveQuestion            : $('.remove-question'),
     buttonAddQuestion               : $('#add_question'),
+    buttonAddResponse               : $('.add-response'),
     aSetOptionCorrectAnswer         : $('.set-as-correct-answer'),
     aQuestionListItem               : $('.question-list-item'),
+    buttonAssignQuiz                : $('.assign-quiz'),
 
     // form elements
     inputQuizTitle                  : $('#quiz_title'),

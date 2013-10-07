@@ -1,27 +1,36 @@
 /* Post Stream */
-.post-stream-holder { padding: 0; }
+.post-stream-holder { background-color: transparent; border: 0; padding: 0; }
 .post-stream-holder ul,
 .post-etcs ul { list-style: none; margin: 0; padding: 0; }
 
-.post-stream-holder .stream-title { border-bottom: 1px solid #dfe4e8; padding: 10px 20px; }
+.post-stream-holder .stream-title {
+    background-color: #fff;
+    border: 1px solid #dfe4e8;
+    border-bottom: 0;
+    padding: 10px 20px;
+}
 
-.post-stream .post-holder { border-bottom: 1px solid #dfe4e8; }
+.post-stream .post-holder { background-color: #fff; border: 1px solid #dfe4e8; margin-bottom: 10px; }
 .post-stream .post-holder .writer-profile img { margin: 20px 0 0 20px; }
 .post-stream .post-holder .post-content { margin: 20px 0 20px 20px; width: 84%; }
 .post-stream .post-holder .post-content .post-content-container { padding: 10px 0; }
-.post-stream .post-holder .post-content .post-content-container .alert { font-weight: bold; margin: 0; padding: 0; }
+.post-stream .post-holder .post-content .post-content-container .alert {
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+}
 
 .post-stream .post-holder .post-content .dropdown-post-options { margin-right: 10px; }
 .post-stream .post-holder .post-content .dropdown-post-options a { color: #383d48; }
 
-.post-etcs { background-color: #f3f5f6; border-top: 1px solid #e0e3e7; padding: 10px 65px 10px; }
+.post-etcs { background-color: #f3f5f6; border-top: 1px solid #e0e3e7; padding: 10px 90px 10px; }
 .post-etcs ul li { display: inline-block; margin-right: 10px; }
 .post-etcs ul li a { color: #869399; font-size: 13px; }
 .post-etcs ul li a:hover { text-decoration: none; }
 
 .post-comment-holder { background-color: #f3f5f6; padding: 0; }
-.post-comment-holder .comment-stream { margin: 0 0 0 35px; padding: 0; }
-.post-comment-holder .comment-stream li { border-top: 1px solid #e0e3e7; padding-top: 10px; }
+.post-comment-holder .comment-stream { padding: 0; }
+.post-comment-holder .comment-stream li { border-top: 1px solid #e0e3e7; padding: 10px 0 0 34px; }
 .post-comment-holder .comment-stream li .comment-content-holder { margin-left: 20px; }
 
 .comment-form-holder { background-color: #f3f5f6; border-top: 1px solid #e0e3e7; padding: 10px 30px 10px 0; }

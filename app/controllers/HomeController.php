@@ -12,10 +12,15 @@ class HomeController extends BaseController {
 
 		$posts = Post::getAllPosts();
 
+		$quiz = Session::get('quiz_details');
+	    // $quiz = null;
+	    $quiz = (isset($quiz)) ? $quiz : null;
+
 		return View::make('home.index')
 			->with('groups', $groups)
 			->with('groupMembers', $groupMembers)
-			->with('posts', $posts);
+			->with('posts', $posts)
+			->with('quiz', $quiz);
 	}
 
 }
