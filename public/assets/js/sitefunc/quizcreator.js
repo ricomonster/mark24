@@ -19,6 +19,7 @@ var QuizCreator = {
             .on('click', this.config.buttonAddResponse.selector, this.addResponse)
             .on('click', this.config.buttonAssignQuiz.selector, this.assignQuiz)
             .on('click', this.config.buttonRemoveQuestion.selector, this.removeQuestion)
+            .on('click', this.config.aRemoveOption.selector, this.removeMultipleChoiceAnswer)
             .on('change', this.config.selectQuestionType.selector, this.changeQuestionType)
             .on('change', this.config.selectTrueFalseOption.selector, this.changeTrueFalseAnswer)
             .on('blur', this.config.inputQuizTitle.selector, this.updateQuizTitle)
@@ -396,6 +397,9 @@ var QuizCreator = {
                 .find('.correct-answer').removeClass('correct-answer')
                 .addClass('set-as-correct-answer').text('Set as Correct Answer');
 
+            currentQuestionWrapper.find('.multiple-choice-response-holder')
+                .find('.option-wrapper').find('.remove-answer').show();
+
             // update
             $.ajax({
                 type    : 'post',
@@ -408,12 +412,14 @@ var QuizCreator = {
                 dataType    : 'json',
                 async       : false
             }).done(function(response) {
-                self.config.messageHolder.hide();
-
+                // look for a remove-answer class and hide it
+                $this.parent().find('.remove-answer').hide();
                 // set the trigger to the selected one
                 $this.removeClass('set-as-correct-answer').addClass('correct-answer')
                     .text('Correct Answer').parent().parent()
                     .addClass('correct-option');
+
+                self.config.messageHolder.hide();
             });
         } else {
             optionTextarea.parent().parent().addClass('option-error');
@@ -474,6 +480,37 @@ var QuizCreator = {
                 .text(newOptionLetter);
 
             self.config.messageHolder.hide();
+        });
+
+        e.preventDefault();
+    },
+
+    // removes a multiple choice response
+    removeMultipleChoiceAnswer : function(e) {
+        var self    = QuizCreator;
+        var $this   = $(this);
+
+        $.ajax({
+            type    : 'post',
+            url     : '/ajax/quiz-creator/update-question',
+            data    : {
+                multiple_choice_id :$this.data('multiple-choice-id')
+            },
+            dataType : 'json',
+            async : false
+        }).done(function(response) {
+            if(!response.error) {
+                if(!$this.parent().parent().is(':last-child') && !$this.parent().parent().is(':first-child')) {
+                    // update first the letters next options
+                    var toRemoveOption = $this.parent().parent();
+                    toRemoveOption.nextAll('.option-wrapper').each(function() {
+                        $(this).find('.choice-letter').text(
+                            String.fromCharCode($(this).find('.choice-letter').text().charCodeAt(0) - 1));
+                    });
+                }
+
+                $this.parent().parent().remove();
+            }
         });
 
         e.preventDefault();
@@ -732,6 +769,7 @@ QuizCreator.init({
     buttonAddResponse               : $('.add-response'),
     aSetOptionCorrectAnswer         : $('.set-as-correct-answer'),
     aQuestionListItem               : $('.question-list-item'),
+    aRemoveOption                   : $('.remove-option'),
     buttonAssignQuiz                : $('.assign-quiz'),
 
     // form elements

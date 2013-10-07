@@ -289,6 +289,14 @@ class AjaxQuizCreatorController extends BaseController {
             $return['error'] = false;
 
             return Response::json($return);
+        } else if(isset($multipleChoiceId) && !empty($multipleChoiceId)) {
+            // let's delete the choice
+            $choice = MultipleChoice::find($multipleChoiceId);
+            // $choice->delete();
+
+            $return['error'] = false;
+
+            return Response::json($return);
         }
     }
 

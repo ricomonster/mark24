@@ -28,7 +28,7 @@ Quiz Creator
 .quiz-creator-welcome-message-wrapper { padding: 0 19px 19px; }
 
 .quiz-creator-proper { display: none; }
-.quiz-creator-proper .question-proper-header { border-bottom: 1px solid #000; padding: 19px 0; }
+.quiz-creator-proper .question-proper-header { border-bottom: 1px solid #e3e3e3; padding: 19px 0; }
 .quiz-creator-proper .question-proper-header .form-group { margin: 0; }
 .quiz-creator-proper .question-proper-header .form-group #question_type { display: inline-block; width: 150px; }
 .quiz-creator-proper .question-proper-header .form-group #question_point { display: inline-block; width: 50px; }
@@ -38,7 +38,7 @@ Quiz Creator
 .quiz-creator-proper .question-stream-holder .question-wrapper { display: none; }
 .quiz-creator-proper .question-stream-holder .active-question { display: block; }
 .quiz-creator-proper .question-stream-holder .question-wrapper textarea { resize: none; }
-.quiz-creator-proper .question-stream-holder .question-wrapper .question-prompt-wrapper { border-bottom: 1px solid #000; padding: 19px; }
+.quiz-creator-proper .question-stream-holder .question-wrapper .question-prompt-wrapper { border-bottom: 1px solid #e3e3e3; padding: 19px; }
 
 .quiz-creator-proper .question-stream-holder .question-responses-wrapper { padding: 19px; }
 .quiz-creator-proper .question-stream-holder .question-responses-wrapper .question-response-title { display: block; font-weight: bold; }
@@ -48,15 +48,26 @@ Quiz Creator
 .multiple-choice-response .multiple-choice-response-holder { list-style: none; margin: 0; padding: 0; }
 .multiple-choice-response .multiple-choice-response-holder li { margin-bottom: 10px; }
 .multiple-choice-response .multiple-choice-response-holder li .option-holder .choice-letter,
-.multiple-choice-response .multiple-choice-response-holder li .option-holder .form-control { display: inline-block; }
-.multiple-choice-response .multiple-choice-response-holder li .option-holder { background-color: #ccc; padding: 1px 1px 3px; }
+.multiple-choice-response .multiple-choice-response-holder li .option-holder .form-control {
+    display: inline-block;
+}
+.multiple-choice-response .multiple-choice-response-holder li .option-holder {
+    background-color: #ccc;
+    padding: 1px 1px 3px;
+}
+
 .multiple-choice-response .multiple-choice-response-holder li .option-holder .choice-letter { font-weight: bold; text-align: center; width: 25px; }
 .multiple-choice-response .multiple-choice-response-holder li .form-control { margin-left: 0; width: 94.5% !important; }
 .multiple-choice-response .multiple-choice-response-holder li .option-controls a { padding: 2px 10px; }
 
 .multiple-choice-response .multiple-choice-response-holder li.correct-option .option-holder { background-color: #439724; }
 .multiple-choice-response .multiple-choice-response-holder li.correct-option .choice-letter { color: #ffffff; }
-.multiple-choice-response .multiple-choice-response-holder li.correct-option .option-controls a { background-color: #439724; color: #ffffff; }
+.multiple-choice-response .multiple-choice-response-holder li.correct-option .option-controls .correct-answer {
+    background-color: #439724;
+    color: #ffffff;
+}
+
+.multiple-choice-response .multiple-choice-response-holder li .option-controls .remove-option { color: #ac2f2f; }
 
 .multiple-choice-response .multiple-choice-response-holder li.option-error .option-holder { border: 1px solid #b94a48; }
 
