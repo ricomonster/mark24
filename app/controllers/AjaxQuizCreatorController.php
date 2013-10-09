@@ -43,18 +43,18 @@ class AjaxQuizCreatorController extends BaseController {
         $newQuiz->title         = $quizTitle;
         $newQuiz->time_limit    = $quizTimeLimit;
         $newQuiz->total_score   = 1;
-        // $newQuiz->save();
+        $newQuiz->save();
 
         // create question
         $newQuestion                = new Question;
         $newQuestion->question_type = $questionType;
-        // $newQuestion->save();
+        $newQuestion->save();
 
         // add to question list
         $addToList              = new QuestionList;
         $addToList->quiz_id     = $newQuiz->quiz_id;
         $addToList->question_id = $newQuestion->question_id;
-        // $addToList->save();
+        $addToList->save();
 
         // create an answer field for the question type
         switch($questionType) {
@@ -65,12 +65,12 @@ class AjaxQuizCreatorController extends BaseController {
                 $correctOption              = new MultipleChoice;
                 $correctOption->question_id = $newQuestion->question_id;
                 $correctOption->is_answer   = 'TRUE';
-                // $correctOption->save();
+                $correctOption->save();
 
                 // create another option
                 $anotherOption              = new MultipleChoice;
                 $anotherOption->question_id = $newQuestion->question_id;
-                // $anotherOption->save();
+                $anotherOption->save();
 
                 break;
             // true or false
@@ -78,7 +78,7 @@ class AjaxQuizCreatorController extends BaseController {
                 // by default, the answer is true
                 $addAnswer              = new TrueFalse;
                 $addAnswer->question_id = $newQuestion->question_id;
-                // $addAnswer->save();
+                $addAnswer->save();
 
                 break;
             default :
@@ -86,15 +86,11 @@ class AjaxQuizCreatorController extends BaseController {
         }
 
         // return awesome data
-        // $return = array(
-        //     'quiz_id'           => $newQuiz->quiz_id,
-        //     'question_id'       => $newQuestion->question_id,
-        //     'question_list_id'  => $addToList->question_list_id);
         $return = array(
-            'quiz_id'           => 1,
-            'question_id'       => 1,
+            'quiz_id'           => $newQuiz->quiz_id,
+            'question_id'       => $newQuestion->question_id,
             'question_type'     => $questionType,
-            'question_list_id'  => 1);
+            'question_list_id'  => $addToList->question_list_id);
 
         return Response::json($return);
     }
@@ -237,7 +233,6 @@ class AjaxQuizCreatorController extends BaseController {
             $question->save();
 
             // get the responses
-            // return Response::json($response);
             return View::make('ajax.quizcreator.responses')
                 ->with('question', $question)
                 ->with('response', $response);
@@ -293,7 +288,7 @@ class AjaxQuizCreatorController extends BaseController {
         } else if(isset($multipleChoiceId) && !empty($multipleChoiceId)) {
             // let's delete the choice
             $choice = MultipleChoice::find($multipleChoiceId);
-            // $choice->delete();
+            $choice->delete();
 
             $return['error'] = false;
 
@@ -309,13 +304,13 @@ class AjaxQuizCreatorController extends BaseController {
         // create question
         $newQuestion                = new Question;
         $newQuestion->question_type = $questionType;
-        // $newQuestion->save();
+        $newQuestion->save();
 
         // add to question list
         $addToList              = new QuestionList;
         $addToList->quiz_id     = $quizId;
         $addToList->question_id = $newQuestion->question_id;
-        // $addToList->save();
+        $addToList->save();
 
         // create an answer field for the question type
         switch($questionType) {
@@ -326,12 +321,12 @@ class AjaxQuizCreatorController extends BaseController {
                 $correctOption              = new MultipleChoice;
                 $correctOption->question_id = $newQuestion->question_id;
                 $correctOption->is_answer   = 'TRUE';
-                // $correctOption->save();
+                $correctOption->save();
 
                 // create another option
                 $anotherOption              = new MultipleChoice;
                 $anotherOption->question_id = $newQuestion->question_id;
-                // $anotherOption->save();
+                $anotherOption->save();
 
                 break;
             // true or false
@@ -339,19 +334,16 @@ class AjaxQuizCreatorController extends BaseController {
                 // by default, the answer is true
                 $addAnswer              = new TrueFalse;
                 $addAnswer->question_id = $newQuestion->question_id;
-                // $addAnswer->save();
+                $addAnswer->save();
 
                 break;
             default :
                 break;
         }
 
-        // $return = array(
-        //     'question_id'       => $newQuestion->question_id,
-        //     'question_list_id'  => $addToList->question_list_id);
         $return = array(
-            'question_id'       => 2,
-            'question_list_id'  => 2);
+            'question_id'       => $newQuestion->question_id,
+            'question_list_id'  => $addToList->question_list_id);
 
         return Response::json($return);
     }
@@ -381,10 +373,10 @@ class AjaxQuizCreatorController extends BaseController {
         $questionListId = Input::get('question_list_id');
 
         // delete the question from the list
-        // QuestionList::where('quiz_id', '=', $quizId)
-        //     ->where('question_id', '=', $questionId)
-        //     ->where('question_list_id', '=', $questionListId)
-        //     ->delete();
+        QuestionList::where('quiz_id', '=', $quizId)
+            ->where('question_id', '=', $questionId)
+            ->where('question_list_id', '=', $questionListId)
+            ->delete();
 
         // return a response
         return Response::json(array('error' => false));

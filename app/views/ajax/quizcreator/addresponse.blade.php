@@ -15,9 +15,7 @@
         data-multiple-choice-id="{{ $r->multiple_choice_id }}">Set as Correct Answer</a>
         @endif
 
-        @if($key > 1)
         <a href="#" class="pull-right remove-option"
         data-multiple-choice-id="{{ $r->multiple_choice_id }}">Remove Answer</a>
-        @endif
     </div>
 </li>
