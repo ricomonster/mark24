@@ -83,6 +83,27 @@
                             break;
                         case 'alert' :
                             echo nl2br(htmlentities(($post->alert_content)));
+                        case 'quiz' :
+                            $quizDetails = Helper::getQuizDetails($post->quiz_id);
+                    ?>
+                        <strong class="quiz-title">{{ $quizDetails['title'] }}</strong>
+                        <div class="quiz-button-wrapper">
+                            @if(Auth::user()->id == 1)
+                            <a href="/quiz-manager/{{ $post->quiz_id }}" class="btn btn-default">
+                                Turned In (0)
+                            </a>
+                            @else
+                            <a href="/quiz-sheet/{{ $post->quiz_id }}" class="btn btn-default">
+                                Take Quiz
+                            </a>
+                            @endif
+                            <span class="due-date">Due {{ date('M d, Y', strtotime($post->quiz_due_date)) }}</span>
+                        </div>
+                        <div class="question-count-wrapper">
+                            <strong class="count-text">x question</strong>
+                        </div>
+                    <?php
+                            break;
                         default :
                             break;
                     }

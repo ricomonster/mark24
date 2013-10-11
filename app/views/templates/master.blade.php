@@ -49,7 +49,9 @@
                                 Me <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="/profile">Profile</a></li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="/profile/{{ Auth::user()->username }}">Profile</a>
+                                </li>
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="/settings">Settings</a></li>
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Report a Problem</a></li>
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="/signout">Logout</a></li>

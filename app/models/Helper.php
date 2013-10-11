@@ -95,4 +95,11 @@ class Helper
 
         return $comments;
     }
+
+    // gets the details of the quiz
+    public static function getQuizDetails($quizId)
+    {
+        $details = Quiz::find($quizId);
+        return $details;
+    }
 }

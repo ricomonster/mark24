@@ -23,7 +23,8 @@
 .quiz-details { background-color: #f3f5f6; padding: 8px; }
 .quiz-details .quiz-title { display: block; }
 
-.quiz-due-date { width: 100px; }
+.quiz-due-date { margin-top: 15px; }
+.quiz-due-date #quiz_due_date { width: 110px; }
 
 /* plugin */
 .chosen-choices { min-height: 32px !important; }

@@ -665,7 +665,7 @@ var QuizCreator = {
                 url : '/ajax/quiz-creator/submit-quiz',
                 data : {
                     quiz_id : self.config.quizId,
-                    totalScore : totalQuestionPoint
+                    total_score : totalQuestionPoint
                 },
                 dataType : 'json',
                 async : false

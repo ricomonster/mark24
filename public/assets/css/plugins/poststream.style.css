@@ -20,6 +20,24 @@
     padding: 0;
 }
 
+.post-stream .post-holder .post-content .post-content-container .quiz .quiz-button-wrapper {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    padding: 10px;
+    margin-top: 5px;
+}
+
+.post-stream .post-holder .post-content .post-content-container .quiz .question-count-wrapper {
+    border: 1px solid #ccc;
+    border-top: 0;
+    border-radius: 3px;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    padding: 10px;
+}
+
 .post-stream .post-holder .post-content .dropdown-post-options { margin-right: 10px; }
 .post-stream .post-holder .post-content .dropdown-post-options a { color: #383d48; }
 

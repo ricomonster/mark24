@@ -121,14 +121,15 @@
                 </div>
 
                 <div class="quiz-due-date form-group">
-                    <label for="due-date"></label>
-                    <input type="text" name="due-date" class="form-control" placeholder="due date">
+                    <div class="alert"></div>
+                    <input type="text" name="due-date" class="form-control"
+                    id="quiz_due_date" placeholder="due date">
                 </div>
 
                 <div class="form-group">
                     <div class="alert"></div>
-                    <select name="alert-recipients[]" class="post-recipients"
-                    id="alert_recipients" multiple="true" data-placeholder="Send to...">
+                    <select name="quiz-recipients[]" class="post-recipients"
+                    id="quiz_recipients" multiple="true" data-placeholder="Send to...">
                         @if(!empty($groups))
                         @foreach($groups as $group)
                         @if(isset($groupDetails))
@@ -150,20 +151,20 @@
                 <div class="postcreator-form-controls">
                     <input type="hidden" name="quiz-id" value="{{ $quiz->quiz_id }}">
                     <div class="postcreator-buttons pull-right">
-                        <button type="submit" id="submit_alert" class="btn btn-primary">
+                        <button type="submit" id="submit_quiz" class="btn btn-primary">
                             Send
                         </button>
                     </div>
                 </div>
                 <div class="clearfix"></div>
             {{ Form::close() }}
-            @else
-            <div class="quiz-first-choices">
+            @endif
+            <div class="quiz-first-choices"
+            <?php echo (isset($quiz)) ? 'style="display: none;"' : null; ?>>
                 <a href="/quiz-creator" class="btn btn-primary">Create a Quiz</a>
                 <span class="postcreator-or">or</span>
                 <a href="#">Load a previously created Quiz</a>
             </div>
-            @endif
         </div>
     </div>
 </div>

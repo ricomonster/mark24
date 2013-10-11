@@ -4,7 +4,7 @@
  * return response can be either in JSON or HTML format
  *
  * @package default
- * @author 
+ * @author
  **/
 
 class AjaxPostCreatorController extends BaseController {
@@ -79,4 +79,41 @@ class AjaxPostCreatorController extends BaseController {
         }
     }
 
+    public function postCreateQuiz()
+    {
+        if(Request::ajax()) {
+            $quizId         = Input::get('quiz-id');
+            $quizDueDate    = Input::get('due-date');
+            $recipients     = Input::get('quiz-recipients');
+
+            // save the quiz into the database
+            $newQuiz                    = new Post;
+            $newQuiz->user_id           = Auth::user()->id;
+            $newQuiz->post_type         = 'quiz';
+            $newQuiz->quiz_id           = $quizId;
+            $newQuiz->quiz_due_date     = $quizDueDate;
+            $newQuiz->post_timestamp    = time();
+            $newQuiz->save();
+
+            // get the recipients.
+            // will use for loop because it is stored in an array
+            for($x = 0; $x < count($recipients); $x++) {
+                // exploded the value to get the id and recipient type
+                $exploded = explode('-', $recipients[$x]);
+                // save to database
+                $addRecipient = new PostRecipient;
+                $addRecipient->post_id = $newQuiz->post_id;
+                $addRecipient->recipient_id = $exploded[0];
+                $addRecipient->recipient_type = $exploded[1];
+                $addRecipient->save();
+            }
+
+            // return the HTML to show the newest post
+            // to be loaded on the page
+            return View::make('ajax.postcreator.postitem')
+                ->with('post', Post::where('post_id', '=', $newQuiz->post_id)
+                    ->join('users', 'posts.user_id', '=', 'users.id')
+                    ->first());
+        }
+    }
 }

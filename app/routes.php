@@ -54,9 +54,13 @@ Route::get('ajax/quiz-creator/get-question', 'AjaxQuizCreatorController@getQuest
 Route::get('ajax/quiz-creator/get-questions', 'AjaxQuizCreatorController@getQuestions');
 Route::get('ajax/quiz-creator/get-question-lists', 'AjaxQuizCreatorController@getQuestionLists');
 
+// AJAX QuizSheet Routes
+
+
 // AJAX PostCreator Routes
 Route::post('ajax/post_creator/create_note', 'AjaxPostCreatorController@createNote');
 Route::post('ajax/post_creator/create_alert', 'AjaxPostCreatorController@createAlert');
+Route::post('ajax/post_creator/create_quiz', 'AjaxPostCreatorController@postCreateQuiz');
 
 // Group Routes
 Route::get('groups/{groupId}', 'GroupsController@showIndex');
@@ -70,6 +74,9 @@ Route::get('profile/{user}', 'ProfileController@showIndex');
 
 // Quiz Creator Routes
 Route::get('quiz-creator', 'QuizCreatorController@getIndex');
+
+// Quiz Sheet Routes
+Route::get('quiz-sheet/{quizId}', 'QuizSheetController@index');
 
 // Setting Routes
 Route::get('settings', 'SettingsController@getIndex');

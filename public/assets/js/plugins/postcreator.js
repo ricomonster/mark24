@@ -74,13 +74,41 @@
         e.preventDefault();
     });
 
+    // submits a quiz
+    $('#submit_quiz').on('click', function(e) {
+        validateQuiz();
+
+        if(error == 0) {
+            $.ajax({
+                type    : 'post',
+                url     : $('#quiz form').attr('action'),
+                data    : $('#quiz form').serialize(),
+                async   : false
+            }).done(function(response) {
+                // assuming no errors occured
+                // remove the quiz form
+                $('#quiz form').remove();
+                // show the create quiz links
+                $('#quiz').find('.quiz-first-choices').show();
+                // let's reset the form elements
+                $('#quiz_recipients').val('').trigger('chosen:updated');
+                // show the newest to stream
+                $('.post-stream-holder .post-stream').prepend(response)
+                    .find('li:first').hide().slideDown(800);
+                $('.post-stream-holder .post-stream').find('.no-post-found').hide();
+            })
+        }
+
+        e.preventDefault();
+    });
+
     // functions
     function validateNote() {
         var noteContent     = $('#note_content');
         var noteRecipients  = $('#note_recipients');
 
         // set error counter to zero to reset
-        error = 0;  
+        error = 0;
 
         // validate note fields
         if(noteContent.val() == '' || noteContent.length == 0) {
@@ -115,7 +143,7 @@
         var alertRecipients  = $('#alert_recipients');
 
         // set error counter to zero to reset
-        error = 0;  
+        error = 0;
 
         // validate alert fields
         if(alertContent.val() == '' || alertContent.length == 0) {
@@ -141,6 +169,41 @@
             alertRecipients.parent().find('.chosen-container .chosen-choices')
                 .removeClass('has-error-recipients');
             alertRecipients.parent().find('.alert')
+                .removeClass('alert-danger').hide().text('');
+        }
+    }
+
+    function validateQuiz() {
+        var quizDueDate     = $('#quiz_due_date')
+        var quizRecipients  = $('#quiz_recipients');
+
+        // set error counter to zero to reset
+        error = 0;
+
+        // validate alert fields
+        if(quizDueDate.val() == '' || quizDueDate.length == 0) {
+            quizDueDate.parent()
+                .parent().addClass('has-error');
+            quizDueDate.parent().parent().
+                find('.alert').addClass('alert-danger').show().text('Please specify a due date');
+            error++;
+        } else {
+            quizDueDate.parent()
+                .parent().removeClass('has-error');
+            quizDueDate.parent().parent().
+                find('.alert').removeClass('alert-danger').hide().text('');
+        }
+
+        if(quizRecipients.val() == null || quizRecipients.length == 0) {
+            quizRecipients.parent().find('.chosen-container .chosen-choices')
+                .addClass('has-error-recipients');
+            quizRecipients.parent().find('.alert')
+                .addClass('alert-danger').show().text('Select recipients for your message');
+            error++;
+        } else {
+            quizRecipients.parent().find('.chosen-container .chosen-choices')
+                .removeClass('has-error-recipients');
+            quizRecipients.parent().find('.alert')
                 .removeClass('alert-danger').hide().text('');
         }
     }
