@@ -13,8 +13,12 @@ class QuizSheetController extends BaseController
             return Redirect::to('/pagenotfound');
         }
 
-        // continue
+        // get the questions
+        $questions = QuestionList::getQuizQuestions($quizId);
+
         // show quiz sheet page
-        return View::make('quizsheet.index');
+        return View::make('quizsheet.index')
+            ->with('quiz', $quiz)
+            ->with('questions', $questions);
     }
 }

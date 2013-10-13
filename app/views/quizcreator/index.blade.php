@@ -89,7 +89,7 @@ Quiz Creator
 
 <div class="quiz-creator-wrapper">
     <div class="row">
-        <div class="alert alert-danger top-message-holder">Testing</div>
+        <div class="alert alert-danger top-message-holder"></div>
         <div class="col-md-9">
             <div class="quiz-creator-header well">
                 <div class="form-group col-md-7">
