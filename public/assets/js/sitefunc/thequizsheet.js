@@ -10,10 +10,49 @@ var TheQuizSheet = {
     bindEvents : function()
     {
         $(document)
+            .ready(this.checkTaker)
+            .on('click', this.config.startQuiz.selector, this.startQuiz)
             .on('click', this.config.choiceText.selector, this.selectMultipleChoice)
+            .on('click', this.config.trueFalseAnswer.selector, this.trueFalseQuestion)
             .on('click', this.config.questionItem.selector, this.changeQuestion)
             .on('click', this.config.nextButton.selector, this.changeNextQuestion)
             .on('click', this.config.previousButton.selector, this.changePreviousQuestion);
+    },
+
+    // checks if the current user already took the quiz
+    checkTaker : function()
+    {
+
+    },
+
+    // starts the quiz
+    startQuiz : function(e)
+    {
+        var self    = TheQuizSheet;
+        var $this   = $(this);
+
+        self.config.messageHolder.show().find('span').text('Loading...');
+
+        // triggers ajax call to start the quiz
+        $.ajax({
+            type : 'post',
+            url : '/ajax/the-quiz-sheet/start-quiz',
+            data : {
+                quiz_id : $this.data('quiz-id')
+            },
+            dataType : 'json',
+            async : false
+        }).done(function(response) {
+            // hide the welcome wrapper
+            self.config.welcomeWrapper.hide();
+            // show the quiz sheet proper
+            self.config.theQuizSheetProper.show();
+            self.config.quizTakerId = response.taker_id;
+
+            self.config.messageHolder.hide();
+        })
+
+        e.preventDefault();
     },
 
     // triggers the answer of the student multiple choice
@@ -22,7 +61,7 @@ var TheQuizSheet = {
         var self    = TheQuizSheet;
         var $this   = $(this);
 
-        self.config.messageHolder.show().find('span').text('Saving...');
+        self.config.messageHolder.show().find('span').text('Updating...');
 
         // find first if there's an active choice
         $this.parent().parent().parent()
@@ -39,8 +78,39 @@ var TheQuizSheet = {
             },
             dataType : 'json'
         }).done(function(response) {
-
+            self.config.messageHolder.hide();
         });
+    },
+
+    // triggers the true or false response
+    trueFalseQuestion : function(e)
+    {
+        var self = TheQuizSheet;
+        var $this = $(this);
+        var questionId = $this.data('question-id');
+
+        self.config.messageHolder.show().find('span').text('Updating...');
+        // if there's an already selected answer
+        // unset it first
+        $('.response-true-false[data-question-id="'+questionId+'"]').find('.true-false-answer')
+            .removeClass('btn-success').addClass('btn-default');
+
+        // trigger the ajax call
+        $.ajax({
+            type : 'post',
+            url : '/ajax/the-quiz-sheet/update-answer',
+            data : {
+                question_id : questionId,
+                true_false : $this.data('answer')
+            },
+            dataType : 'json'
+        }).done(function(response) {
+            // set the clicked button to success state
+            $this.removeClass('btn-default').addClass('btn-success');
+            self.config.messageHolder.hide();
+        });
+
+        e.preventDefault();
     },
 
     // changes the question shown
@@ -159,8 +229,15 @@ var TheQuizSheet = {
 }
 
 TheQuizSheet.init({
+    quizTakerId : 0,
+
+    startQuiz : $('.start-quiz'),
     questionItem : $('.question-item'),
     choiceText : $('.choice-text'),
+    trueFalseAnswer : $('.true-false-answer'),
+
+    welcomeWrapper : $('.welcome-quiz-sheet-wrapper'),
+    theQuizSheetProper : $('.the-quiz-sheet-proper'),
 
     questionStream : $('.quiz-questions-stream'),
     questionItemsHolder : $('.question-items-holder'),

@@ -54,6 +54,7 @@ The Quiz Sheet
 .quiz-sheet .quiz-questions-stream .question-holder .question-responses {
     border-top: 1px solid #e3e3e3;
     margin-top: 20px;
+    padding-top: 10px;
 }
 
 .question-responses .multiple-choice-response-holder {
@@ -101,7 +102,7 @@ The Quiz Sheet
 </div>
 
 <div class="the-quiz-sheet">
-    <div class="welcome-quiz-sheet-wrapper well" style="display: none;">
+    <div class="welcome-quiz-sheet-wrapper well">
         <div class="welcome-contents">
             <h2>{{ $quiz->title }}</h2>
             <div class="quiz-stats">
@@ -109,13 +110,14 @@ The Quiz Sheet
                 <span class="the-quiz-sheet-divider">|</span>
                 <span class="time-limit-quiz">Time Limit: 1:00:00</span>
             </div>
-            <button class="btn btn-primary btn-large start-quiz">
+            <button class="btn btn-primary btn-large start-quiz"
+            data-quiz-id="{{ $quiz->quiz_id }}">
                 Start Quiz
             </button>
         </div>
     </div>
 
-    <div class="the-quiz-sheet-proper">
+    <div class="the-quiz-sheet-proper" style="display: none;">
         <div class="row">
             <div class="col-md-9">
                 <div class="the-quiz-sheet-header well">
@@ -178,7 +180,8 @@ The Quiz Sheet
                                                     <div class="choice-letter">
                                                         <?php echo ($key == 0) ? 'A' : ++$alpha; ?>
                                                     </div>
-                                                    <div class="choice-text" data-choice-id="{{ $r['multiple_choice_id'] }}" data-question-id="">
+                                                    <div class="choice-text" data-choice-id="{{ $r['multiple_choice_id'] }}"
+                                                    data-question-id="{{ $question['question']['question_id'] }}">
                                                         {{ $r['choice_text'] }}
                                                     </div>
                                                 </div>
@@ -186,8 +189,21 @@ The Quiz Sheet
                                             @endforeach
                                         </ul>
                                         @elseif($question['question']['question_type'] == 'TRUE_FALSE')
-                                        <div class="response-true-false">
-
+                                        <div class="response-true-false"
+                                        data-question-id="{{ $question['question']['question_id'] }}">
+                                            <button class="btn btn-default true-false-answer"
+                                            data-question-id="{{ $question['question']['question_id'] }}" data-answer="TRUE">
+                                                TRUE
+                                            </button>
+                                            <button class="btn btn-default true-false-answer"
+                                            data-question-id="{{ $question['question']['question_id'] }}" data-answer="FALSE">
+                                                FALSE
+                                            </button>
+                                        </div>
+                                        @elseif($question['question']['question_type'] == 'SHORT_ANSWER')
+                                        <div class="response-short-answer">
+                                            <textarea class="form-control"
+                                            data-question-id="{{ $question['question']['question_id'] }}"></textarea>
                                         </div>
                                         @endif
                                     </div>
