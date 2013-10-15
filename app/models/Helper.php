@@ -102,4 +102,15 @@ class Helper
         $details = Quiz::find($quizId);
         return $details;
     }
+
+    // gets the answer of the question by the taker
+    public static function getAnswer($quizTakerId, $questionId)
+    {
+        // check first if there's an answer
+        $answer = QuizAnswer::where('quiz_taker_id', '=', $quizTakerId)
+            ->where('question_id', '=', $questionId)
+            ->first();
+
+        return $answer;
+    }
 }

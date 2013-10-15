@@ -2,6 +2,42 @@
 
 class AjaxTheQuizSheetController extends BaseController
 {
+    public function checkQuizTaker()
+    {
+        // checks if the current user already took the
+        // quiz and checks if the user already finished the quiz
+        $quizId = Input::get('quiz_id');
+
+        $taker = QuizTaker::where('quiz_id', '=', $quizId)
+            ->where('status', '=', 'NOT YET PASSED')
+            ->where('user_id', '=', Auth::user()->id)
+            ->first();
+
+        if(empty($taker)) {
+            $return['taken'] = false;
+        }
+
+        if(!empty($taker)) {
+            $return = array(
+                'taken'     => true,
+                'details'   => $taker->toArray());
+        }
+
+        return Response::json($return);
+    }
+
+    public function getQuestions()
+    {
+        $quizId         = Input::get('quiz_id');
+        $quizTakerId    = Input::get('quiz_taker_id');
+
+        $questions = QuestionList::getQuizQuestions($quizId);
+
+        return View::make('ajax.quizsheet.questions')
+            ->with('quizTakerId', $quizTakerId)
+            ->with('questions', $questions);
+    }
+
     public function startQuiz()
     {
         $quizId = Input::get('quiz_id');
@@ -17,13 +53,129 @@ class AjaxTheQuizSheetController extends BaseController
 
     public function updateAnswer()
     {
-        $questionId = Input::get('question_id');
+        $quizTakerId    = Input::get('quiz_taker_id');
+        $questionId     = Input::get('question_id');
 
-        $choiceId = Input::get('choice_id');
-        $trueFalse = Input::get('true_false');
+        $choiceId       = Input::get('choice_id');
+        $trueFalse      = Input::get('true_false');
+        $shortAnswer    = Input::get('short_answer');
 
         // check first if there's already an existing row
         // for the answer
+        $answer = QuizAnswer::where('quiz_taker_id', '=', $quizTakerId)
+            ->where('question_id', '=',  $questionId)
+            ->first();
+
+        // get the question details to get the points
+        $question = Question::find($questionId);
+
+        // this means that the user hasn't yet answered the question
+        if(empty($answer)) {
+            // let's now create the answer for the user!
+            $toAnswer                   = new QuizAnswer;
+            $toAnswer->quiz_taker_id    = $quizTakerId;
+            $toAnswer->question_id      = $questionId;
+
+            // question is a multiple choice
+            if(isset($choiceId)) {
+                // determine if answer is correct
+                $checkAnswer = MultipleChoice::where('question_id', '=', $questionId)
+                    ->where('multiple_choice_id', '=', $choiceId)
+                    ->first();
+
+                switch ($checkAnswer->is_answer) {
+                    case 'TRUE' :
+                        $toAnswer->is_correct = 'TRUE';
+                        $toAnswer->points = $question->question_point;
+                        break;
+                    case 'FALSE' :
+                        $toAnswer->is_correct = 'TRUE';
+                        $toAnswer->points = 0;
+                        break;
+                    default:
+                        break;
+                }
+
+                $toAnswer->multiple_choice_answer = $choiceId;
+            // question is a true false
+            } else if(isset($trueFalse)) {
+                // determine if the answer is correct
+                $checkAnswer = TrueFalse::where('question_id', '=', $questionId)
+                    ->first();
+
+                if($checkAnswer->answer == $trueFalse) {
+                    $toAnswer->is_correct = 'TRUE';
+                    $toAnswer->points = $question->question_point;
+                }
+
+                if($checkAnswer->answer != $trueFalse) {
+                    $toAnswer->is_correct = 'FALSE';
+                    $toAnswer->points = 0;
+                }
+
+                $toAnswer->true_false_answer = $trueFalse;
+            // question is a short answer
+            } else if(isset($shortAnswer)) {
+                $toAnswer->short_answer_text = $shortAnswer;
+            }
+
+            $toAnswer->save();
+        }
+
+        // user already answered the question
+        if(!empty($answer)) {
+            // let's update the answer
+             // question is a multiple choice
+            if(isset($choiceId)) {
+                // determine if answer is correct
+                $checkAnswer = MultipleChoice::where('question_id', '=', $questionId)
+                    ->where('multiple_choice_id', '=', $choiceId)
+                    ->first();
+
+                switch ($checkAnswer->is_answer) {
+                    case 'TRUE' :
+                        $answer->is_correct = 'TRUE';
+                        $answer->points = $question->question_point;
+                        break;
+                    case 'FALSE' :
+                        $answer->is_correct = 'FALSE';
+                        $answer->points = 0;
+                        break;
+                    default:
+                        break;
+                }
+
+                $answer->multiple_choice_answer = $choiceId;
+            // question is a true false
+            } else if(isset($trueFalse)) {
+                // determine if the answer is correct
+                $checkAnswer = TrueFalse::where('question_id', '=', $questionId)
+                    ->first();
+
+                if($checkAnswer->answer == $trueFalse) {
+                    $answer->is_correct = 'TRUE';
+                    $answer->points = $question->question_point;
+                }
+
+                if($checkAnswer->answer != $trueFalse) {
+                    $answer->is_correct = 'FALSE';
+                    $answer->points = 0;
+                }
+
+                $answer->true_false_answer = $trueFalse;
+            // question is a short answer
+            } else if(isset($shortAnswer)) {
+                $answer->short_answer_text = $shortAnswer;
+            }
+
+            $answer->save();
+        }
+
+        return Response::json(array('error' => false));
+    }
+
+    public function submitQuiz()
+    {
 
     }
 }

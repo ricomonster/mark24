@@ -35,8 +35,9 @@ The Quiz Sheet
     width: 80px;
 }
 
+.quiz-items-holder { background-color: #f3f5f7; padding: 10px 0; text-align: center; }
 .question-items-holder { margin: 15px 0 0 0; list-style: none; padding: 0; }
-.question-items-holder li a { padding: 5px 10px; }
+.question-items-holder li a { padding: 5px 10px; text-align: left; }
 .question-items-holder li.active a { border-radius: 0; }
 .question-items-holder li.has-error a,
 .question-items-holder li.has-error:hover a { color: #b94a48; font-weight: bold; }
@@ -92,6 +93,11 @@ The Quiz Sheet
 .question-responses .multiple-choice-response-holder .choice-answer .option-holder .choice-letter {
     color: #ffffff;
 }
+
+.assigned-wrapper { border-top: 2px solid #dfe4e8; margin-top: 15px; padding-top: 10px; }
+.assigned-wrapper .assigned-details { margin-top: 5px; }
+.assigned-wrapper .assigned-details p { margin: 0 0 0 10px; }
+.instruction-wrapper { border-top: 2px solid #dfe4e8; margin-top: 15px; padding-top: 10px; }
 </style>
 @stop
 
@@ -101,7 +107,7 @@ The Quiz Sheet
     <span></span>
 </div>
 
-<div class="the-quiz-sheet">
+<div class="the-quiz-sheet" data-quiz-id="{{ $quiz->quiz_id }}">
     <div class="welcome-quiz-sheet-wrapper well">
         <div class="welcome-contents">
             <h2>{{ $quiz->title }}</h2>
@@ -130,19 +136,22 @@ The Quiz Sheet
 
                 <div class="row">
                     <div class="col-md-2">
-                        <span class="">QUESTIONS</span>
-                        <ul class="question-items-holder nav nav-stacked nav-pills">
-                            @foreach($questions['list'] as $key => $question)
-                            <li <?php echo ($key == 0) ? 'class="active"' : null; ?>>
-                                <a href="#" data-question-list-id="{{ $question['question_list_id'] }}"
-                                data-question-id="{{ $question['question']['question_id'] }}"
-                                class="question-item">
-                                    {{ $key + 1 }}
-                                </a>
-                            </li>
-                            @endforeach
-                        </ul>
+                        <div class="well quiz-items-holder"
+                            <span>QUESTIONS</span>
+                            <ul class="question-items-holder nav nav-stacked nav-pills">
+                                @foreach($questions['list'] as $key => $question)
+                                <li <?php echo ($key == 0) ? 'class="active"' : null; ?>>
+                                    <a href="#" data-question-list-id="{{ $question['question_list_id'] }}"
+                                    data-question-id="{{ $question['question']['question_id'] }}"
+                                    class="question-item">
+                                        {{ $key + 1 }}
+                                    </a>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
+
                     <div class="col-md-10">
                         <div class="quiz-sheet well">
                             <div class="quiz-sheet-controls">
@@ -158,65 +167,42 @@ The Quiz Sheet
                                 <div class="clearfix"></div>
                             </div>
 
-                            <ul class="quiz-questions-stream">
-                                @foreach($questions['list'] as $key => $question)
-                                <li class="question-holder <?php echo ($key == 0) ? 'show-question' : null; ?>"
-                                data-question-list-id="{{ $question['question_list_id'] }}"
-                                data-question-id="{{ $question['question']['question_id'] }}">
-                                    <div class="question-point pull-right">Question Total: {{ $question['question']['question_point'] }} points</div>
-                                    <div class="clearfix"></div>
-
-                                    <div class="question-text">
-                                        {{ $question['question']['question'] }}
-                                    </div>
-
-                                    <div class="question-responses">
-                                        @if($question['question']['question_type'] == 'MULTIPLE_CHOICE')
-                                        <ul class="multiple-choice-response-holder">
-                                            <?php $alpha = 'A'; ?>
-                                            @foreach($question['question']['response'] as $key => $r)
-                                            <li class="clearfix option-wrapper">
-                                                <div class="option-holder">
-                                                    <div class="choice-letter">
-                                                        <?php echo ($key == 0) ? 'A' : ++$alpha; ?>
-                                                    </div>
-                                                    <div class="choice-text" data-choice-id="{{ $r['multiple_choice_id'] }}"
-                                                    data-question-id="{{ $question['question']['question_id'] }}">
-                                                        {{ $r['choice_text'] }}
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            @endforeach
-                                        </ul>
-                                        @elseif($question['question']['question_type'] == 'TRUE_FALSE')
-                                        <div class="response-true-false"
-                                        data-question-id="{{ $question['question']['question_id'] }}">
-                                            <button class="btn btn-default true-false-answer"
-                                            data-question-id="{{ $question['question']['question_id'] }}" data-answer="TRUE">
-                                                TRUE
-                                            </button>
-                                            <button class="btn btn-default true-false-answer"
-                                            data-question-id="{{ $question['question']['question_id'] }}" data-answer="FALSE">
-                                                FALSE
-                                            </button>
-                                        </div>
-                                        @elseif($question['question']['question_type'] == 'SHORT_ANSWER')
-                                        <div class="response-short-answer">
-                                            <textarea class="form-control"
-                                            data-question-id="{{ $question['question']['question_id'] }}"></textarea>
-                                        </div>
-                                        @endif
-                                    </div>
-                                </li>
-                                @endforeach
-                            </ul>
+                            <ul class="quiz-questions-stream"></ul>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="the-quiz-sheet-details well">
+                    <button class="btn btn-primary btn-large btn-block submit-quiz">
+                        Submit Quiz
+                    </button>
 
+                    <div class="assigned-wrapper">
+                        <strong>Assigned By</strong>
+                        <div class="assigned-details">
+                            @if(empty($assigned->avatar))
+                            <img src="/assets/images/anon.png" width="50" class="pull-left">
+                            @else
+                            <img src="/assets/avatars/{{ $assigned->hashed_id }}/{{ $assigned->avatar_small }}"
+                            width="50" class="pull-left">
+                            @endif
+                            <div class="pull-left">
+                                <p>{{ $assigned->name }}</p>
+                                <p>Teacher</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="instruction-wrapper">
+                        <strong>Instructions</strong>
+                        <p>
+                            Answer each question to the left. When you have answered
+                            all of the questions, click the "Submit Quiz" button above.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

@@ -55,6 +55,9 @@ Route::get('ajax/quiz-creator/get-questions', 'AjaxQuizCreatorController@getQues
 Route::get('ajax/quiz-creator/get-question-lists', 'AjaxQuizCreatorController@getQuestionLists');
 
 // AJAX QuizSheet Routes
+Route::get('ajax/the-quiz-sheet/check-quiz-taker', 'AjaxTheQuizSheetController@checkQuizTaker');
+Route::get('ajax/the-quiz-sheet/get-questions', 'AjaxTheQuizSheetController@getQuestions');
+
 Route::post('ajax/the-quiz-sheet/start-quiz', 'AjaxTheQuizSheetController@startQuiz');
 Route::post('ajax/the-quiz-sheet/update-answer', 'AjaxTheQuizSheetController@updateAnswer');
 

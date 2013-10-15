@@ -15,12 +15,19 @@
         <link href="/assets/css/site/global.style.css" rel="stylesheet">
         <style>
             body { padding-top: 0; }
+            .header .text-muted { position: relative; }
             .main-content { padding-top: 20px; }
             .left-panel,
             .right-panel { width: 350px; margin: auto !important; }
+            .left-panel p { font-size: 20px; }
 
             /* Right Panel */
-            .right-panel { min-height: 350px; }
+            .right-panel {
+                background: rgb(245, 245, 245);
+                background: rgba(245, 245, 245, 0.7);
+                min-height: 350px;
+            }
+
             /* Signin */
             .signin-form .section-title { font-size: 18px; }
             .signin-form form { padding-top: 20px; }
@@ -35,11 +42,30 @@
             .student-signup-form form { padding-top: 20px; }
             /* Footer */
             .footer { font-size: 11px; margin-top: 30px; padding: 20px 0; text-align: center; }
+            /* Background Image */
+            .bg {
+               min-height: 100%;
+               min-width: 1024px;
+               width: 100%;
+               height: auto;
+               position: fixed;
+               top: -200px;
+               left: 0;
+               z-index: 0;
+               display: none;
+             }
+
+             @media screen and (max-width: 1024px){
+                .bg {
+                    left: 50%;
+                    margin-left: -512px;
+                }
+             }
         </style>
     </head>
 
     <body>
-
+        <img src="/assets/images/test-splash.gif" class="bg">
         <!-- Header -->
         <div class="header container">
             <h1 class="text-muted">eLinet</h1>
@@ -49,7 +75,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="left-panel">
-                        <h2>Welcome to eLinet</h2>
+                        <h1>Welcome to eLinet</h1>
                         <p>
                             eLinet helps connect all learners with the people
                             and resources needed to reach their full potential
@@ -60,7 +86,7 @@
                     <div class="right-panel well">
                         <div class="signin-form">
                             <div class="section-title">Sign in to eLinet.</div>
-                            {{ Form::open(array('url'=>'users/validate_signin')) }}
+                            {{ Form::open(array('url'=>'users/validate_signin', 'autocomplete' => 'off')) }}
                                 @if(isset($loginError))
                                 <div class="alert alert-danger">{{ $loginError }}</div>
                                 @endif
@@ -90,7 +116,7 @@
 
                         <div class="teacher-signup-form">
                             <div class="section-title">Teacher Sign Up</div>
-                            {{ Form::open(array('url'=>'users/validate_teacher_signup')) }}
+                            {{ Form::open(array('url'=>'users/validate_teacher_signup', 'autocomplete' => 'off')) }}
                                 <div class="form-group">
                                     <select name="teacher-title" id="teacher_title" class="form-control">
                                         <option value="">Select Title:</option>
@@ -129,7 +155,7 @@
 
                         <div class="student-signup-form">
                             <div class="section-title">Student Sign Up</div>
-                            {{ Form::open(array('url'=>'users/validate_student_signup')) }}
+                            {{ Form::open(array('url'=>'users/validate_student_signup', 'autocomplete' => 'off')) }}
                                 <div class="form-group">
                                     <input type="text" name="student-group-code" id="student_group_code"
                                     class="form-control" placeholder="Group Code">
@@ -191,7 +217,7 @@
                     setTimeout(function() {
                         studentForm.slideDown();
                     }, 600);
-                    
+
                     return false;
                 });
 
@@ -211,6 +237,10 @@
                     }, 600);
 
                     e.preventDefault();
+                });
+
+                $('.bg').load(function() {
+                    $(this).fadeIn(1000);
                 });
             })(jQuery);
         </script>

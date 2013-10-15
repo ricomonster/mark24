@@ -29,10 +29,6 @@ class CreateQuizAnswersTable extends Migration {
 
 			$table->integer('multiple_choice_answer')
 				->unsigned();
-			$table->foreign('multiple_choice_answer')
-				->references('multiple_choice_id')
-				->on('multiple_choice');
-
 			$table->string('true_false_answer', 6);
 			$table->text('short_answer_text');
 

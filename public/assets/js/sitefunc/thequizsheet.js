@@ -16,13 +16,38 @@ var TheQuizSheet = {
             .on('click', this.config.trueFalseAnswer.selector, this.trueFalseQuestion)
             .on('click', this.config.questionItem.selector, this.changeQuestion)
             .on('click', this.config.nextButton.selector, this.changeNextQuestion)
-            .on('click', this.config.previousButton.selector, this.changePreviousQuestion);
+            .on('click', this.config.previousButton.selector, this.changePreviousQuestion)
+            .on('blur', this.config.shortAnswerText.selector, this.shortAnswer);
     },
 
     // checks if the current user already took the quiz
     checkTaker : function()
     {
+        var self    = TheQuizSheet;
+        var $this   = $(this);
 
+        self.config.messageHolder.show().find('span').text('Loading...');
+
+        $.ajax({
+            url : '/ajax/the-quiz-sheet/check-quiz-taker',
+            data : {
+                quiz_id : self.config.theQuizSheet.data('quiz-id')
+            },
+            dataType : 'json'
+        }).done(function(response) {
+            if(response.taken) {
+                self.config.welcomeWrapper.hide();
+                // show the quiz sheet proper
+                self.config.theQuizSheetProper.show();
+
+                self.config.quizTakerId = response.details.quiz_taker_id;
+
+                // load the questions
+                self.loadQuestions();
+            }
+
+            self.config.messageHolder.hide();
+        })
     },
 
     // starts the quiz
@@ -49,7 +74,8 @@ var TheQuizSheet = {
             self.config.theQuizSheetProper.show();
             self.config.quizTakerId = response.taker_id;
 
-            self.config.messageHolder.hide();
+            // load the questions
+            self.loadQuestions();
         })
 
         e.preventDefault();
@@ -68,13 +94,13 @@ var TheQuizSheet = {
             .find('.choice-answer').removeClass('choice-answer');
         // set the selected choice as active
         $this.parent().parent().addClass('choice-answer');
-
         $.ajax({
             type : 'post',
             url : '/ajax/the-quiz-sheet/update-answer',
             data : {
-                question_id : $this.data('question-id'),
-                choice_id : $this.data('choice-id')
+                quiz_taker_id   : self.config.quizTakerId,
+                question_id     : $this.data('question-id'),
+                choice_id       : $this.data('choice-id')
             },
             dataType : 'json'
         }).done(function(response) {
@@ -100,8 +126,9 @@ var TheQuizSheet = {
             type : 'post',
             url : '/ajax/the-quiz-sheet/update-answer',
             data : {
-                question_id : questionId,
-                true_false : $this.data('answer')
+                quiz_taker_id   : self.config.quizTakerId,
+                question_id     : questionId,
+                true_false      : $this.data('answer')
             },
             dataType : 'json'
         }).done(function(response) {
@@ -111,6 +138,35 @@ var TheQuizSheet = {
         });
 
         e.preventDefault();
+    },
+
+    // short answer
+    shortAnswer : function()
+    {
+        var self        = TheQuizSheet;
+        var $this       = $(this);
+        var questionId  = $this.data('question-id');
+
+        if($this.val() == '' || $this.val().length == 0) {
+            // add state class
+        }
+
+        if($this.val() != '' || $this.val().length != 0) {
+            self.config.messageHolder.show().find('span').text('Updating...');
+
+            // trigger ajax
+            $.ajax({
+                type : 'post',
+                url : '/ajax/the-quiz-sheet/update-answer',
+                data : {
+                    quiz_taker_id   : self.config.quizTakerId,
+                    question_id     : questionId,
+                    short_answer    : $this.val()
+                }
+            }).done(function(response) {
+                self.config.messageHolder.hide()
+            });
+        }
     },
 
     // changes the question shown
@@ -200,7 +256,6 @@ var TheQuizSheet = {
 
         self.validateNavigation();
         self.config.messageHolder.hide();
-
     },
 
     // checks if the current question is the first or last one
@@ -225,6 +280,25 @@ var TheQuizSheet = {
             self.config.nextButton.removeAttr('disabled');
             return false;
         }
+    },
+
+    // loads the questions
+    loadQuestions : function()
+    {
+        var self = TheQuizSheet;
+
+        $.ajax({
+            url : '/ajax/the-quiz-sheet/get-questions',
+            data : {
+                quiz_id         : self.config.theQuizSheet.data('quiz-id'),
+                quiz_taker_id   : self.config.quizTakerId
+            },
+            async : false
+        }).done(function(response) {
+            // load the question
+            self.config.questionStream.append(response);
+            self.config.messageHolder.hide();
+        })
     }
 }
 
@@ -235,7 +309,9 @@ TheQuizSheet.init({
     questionItem : $('.question-item'),
     choiceText : $('.choice-text'),
     trueFalseAnswer : $('.true-false-answer'),
+    shortAnswerText : $('.short-answer-text'),
 
+    theQuizSheet : $('.the-quiz-sheet'),
     welcomeWrapper : $('.welcome-quiz-sheet-wrapper'),
     theQuizSheetProper : $('.the-quiz-sheet-proper'),
 
