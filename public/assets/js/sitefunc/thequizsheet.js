@@ -17,6 +17,7 @@ var TheQuizSheet = {
             .on('click', this.config.questionItem.selector, this.changeQuestion)
             .on('click', this.config.nextButton.selector, this.changeNextQuestion)
             .on('click', this.config.previousButton.selector, this.changePreviousQuestion)
+            .on('click', this.config.submitButton.selector, this.submitQuiz)
             .on('blur', this.config.shortAnswerText.selector, this.shortAnswer);
     },
 
@@ -282,6 +283,28 @@ var TheQuizSheet = {
         }
     },
 
+    // submits the quiz
+    submitQuiz : function()
+    {
+        var self = TheQuizSheet;
+
+        self.config.messageHolder.show().find('span').text('Loading...');
+
+        $.ajax({
+            type : 'post',
+            url : '/ajax/the-quiz-sheet/submit-quiz',
+            data : {
+                quiz_id         : self.config.theQuizSheet.data('quiz-id'),
+                quiz_taker_id   : self.config.quizTakerId
+            },
+            dataType : 'json',
+            async : false
+        }).done(function(response) {
+            // redirect page
+            window.location.href = response.lz;
+        })
+    },
+
     // loads the questions
     loadQuestions : function()
     {
@@ -310,6 +333,7 @@ TheQuizSheet.init({
     choiceText : $('.choice-text'),
     trueFalseAnswer : $('.true-false-answer'),
     shortAnswerText : $('.short-answer-text'),
+    submitButton : $('.submit-quiz'),
 
     theQuizSheet : $('.the-quiz-sheet'),
     welcomeWrapper : $('.welcome-quiz-sheet-wrapper'),

@@ -60,6 +60,7 @@ Route::get('ajax/the-quiz-sheet/get-questions', 'AjaxTheQuizSheetController@getQ
 
 Route::post('ajax/the-quiz-sheet/start-quiz', 'AjaxTheQuizSheetController@startQuiz');
 Route::post('ajax/the-quiz-sheet/update-answer', 'AjaxTheQuizSheetController@updateAnswer');
+Route::post('ajax/the-quiz-sheet/submit-quiz', 'AjaxTheQuizSheetController@submitQuiz');
 
 // AJAX PostCreator Routes
 Route::post('ajax/post_creator/create_note', 'AjaxPostCreatorController@createNote');

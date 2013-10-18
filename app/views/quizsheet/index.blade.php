@@ -213,4 +213,18 @@ The Quiz Sheet
 
 @section('js')
 <script type="text/javascript" src="/assets/js/sitefunc/thequizsheet.js"></script>
+<script>
+// prototype counter
+var counter = 0;
+var interval = setInterval(function() {
+    counter++;
+    // Display 'counter' wherever you want to display it.
+    console.log(counter);
+    if (counter == 5) {
+        // Display a login box
+        // alert('TIME!');
+        clearInterval(interval);
+    }
+}, 1000);
+</script>
 @stop

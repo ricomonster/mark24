@@ -176,6 +176,34 @@ class AjaxTheQuizSheetController extends BaseController
 
     public function submitQuiz()
     {
+        $itemsCorrect   = 0;
+        $totalPoints    = 0;
 
+        $quizId         = Input::get('quiz_id');
+        $quizTakerId    = Input::get('quiz_taker_id');
+
+        // get the answers
+        $answers = QuizAnswer::where('quiz_taker_id', '=', $quizTakerId)
+            ->get();
+
+        foreach($answers as $answer) {
+            // check the correct answers
+            if($answer->is_correct == 'TRUE') {
+                $itemsCorrect++;
+            }
+
+            // compute total score
+            $totalPoints += $answer->points;
+        }
+
+        // save data
+        $taker = QuizTaker::find($quizTakerId);
+        $taker->status = 'PASSED';
+        $taker->score = $totalPoints;
+        $taker->no_items_correct = $itemsCorrect;
+        $taker->save();
+
+        // return redirect url
+        return Response::json(array('lz' => Request::root().'/home'));
     }
 }

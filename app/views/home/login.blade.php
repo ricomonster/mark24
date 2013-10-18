@@ -41,7 +41,7 @@
             .student-signup-form .section-title { font-size: 18px; }
             .student-signup-form form { padding-top: 20px; }
             /* Footer */
-            .footer { font-size: 11px; margin-top: 30px; padding: 20px 0; text-align: center; }
+            .footer { font-size: 11px; margin-top: 30px; padding: 20px 0; position: relative; text-align: center; }
             /* Background Image */
             .bg {
                min-height: 100%;
@@ -49,17 +49,10 @@
                width: 100%;
                height: auto;
                position: fixed;
-               top: -200px;
+               top: 0;
                left: 0;
                z-index: 0;
                display: none;
-             }
-
-             @media screen and (max-width: 1024px){
-                .bg {
-                    left: 50%;
-                    margin-left: -512px;
-                }
              }
         </style>
     </head>
