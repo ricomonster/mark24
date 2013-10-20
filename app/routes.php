@@ -21,7 +21,9 @@ Route::get('/', function()
 });
 
 Route::get('test', function() {
-    echo 'Get fucking lost.';
+    $test = 'Get fucking lost.';
+
+    $url = Helper::seoFriendlyUrl($test);
 });
 
 // AJAX Routes
@@ -33,9 +35,11 @@ Route::put('ajax/users/update-personal-info', 'AjaxUsersController@putUserInfo')
 // AJAX Modal Routes
 Route::get('ajax/modal/show_create_group', 'AjaxModalController@showCreateGroup');
 Route::get('ajax/modal/show_join_group', 'AjaxModalController@showJoinGroup');
+Route::get('ajax/modal/show-add-forum-category', 'AjaxModalController@showAddCategory');
 
 Route::post('ajax/modal/create_group', 'AjaxModalController@createGroup');
 Route::post('ajax/modal/join_group', 'AjaxModalController@joinGroup');
+Route::post('ajax/modal/submit-new-category', 'AjaxModalController@addCategory');
 
 // AJAX CommentCreator Routes
 Route::post('ajax/comment-creator/add-comment', 'AjaxCommentCreator@postCreateComment');
@@ -66,6 +70,13 @@ Route::post('ajax/the-quiz-sheet/submit-quiz', 'AjaxTheQuizSheetController@submi
 Route::post('ajax/post_creator/create_note', 'AjaxPostCreatorController@createNote');
 Route::post('ajax/post_creator/create_alert', 'AjaxPostCreatorController@createAlert');
 Route::post('ajax/post_creator/create_quiz', 'AjaxPostCreatorController@postCreateQuiz');
+
+// Forum Routes
+Route::get('the-forum', 'ForumController@index');
+Route::get('the-forum/add-topic', 'ForumController@showAddTopic');
+Route::get('the-forum/{category}', 'ForumController@showCategory');
+
+Route::post('the-forum/submit-new-topic', 'ForumController@submitTopic');
 
 // Group Routes
 Route::get('groups/{groupId}', 'GroupsController@showIndex');

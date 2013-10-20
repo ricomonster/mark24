@@ -83,9 +83,7 @@ Quiz Creator
 
 @section('content')
 
-<div class="message-holder">
-    <span></span>
-</div>
+<div class="message-holder"><span></span></div>
 
 <div class="quiz-creator-wrapper">
     <div class="row">

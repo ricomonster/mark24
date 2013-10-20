@@ -39,7 +39,7 @@
                     <ul class="nav navbar-nav">
                         <li><a href="/home" title="Home" style="font-size: 20px;"><i class="icon-home"></i></a></li>
                         <li><a href="/planner" title="Planner" style="font-size: 20px;"><i class="icon-list-alt"></i></a></li>
-                        <li><a href="/forums" title="Forums" style="font-size: 20px;"><i class="icon-trello"></i></a></li>
+                        <li><a href="/the-forum" title="The Forum" style="font-size: 20px;"><i class="icon-trello"></i></a></li>
                     </ul>
 
                     <ul class="nav navbar-nav pull-right">

@@ -113,4 +113,27 @@ class Helper
 
         return $answer;
     }
+
+    public static function checkQuizTaken($quizId)
+    {
+        $check = QuizTaker::where('quiz_id', '=', $quizId)
+            ->where('status', '=', 'PASSED')
+            ->where('user_id', '=', Auth::user()->id)
+            ->first();
+
+        return $check;
+    }
+
+    // creates an seo friendly url by passing a string
+    public static function seoFriendlyUrl($string)
+    {
+        $numwords = 10;
+        $padding = null;
+
+        $output = strtok($string, " \n");
+        while(--$numwords > 0) $output .= " " . strtok(" \n");
+        if($output != $string) $output .= $padding;
+
+        return preg_replace('/[^a-z0-9_-]/i', '', strtolower(str_replace(' ', '-', trim($output))));
+    }
 }

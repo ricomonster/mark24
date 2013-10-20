@@ -3,7 +3,7 @@
 .group-details-holder { padding: 0; }
 .group-details-holder .group-details-content { padding: 19px 19px 0 19px; }
 .group-details-holder .group-details-content .group-name { color: #000000; font-size: 16px; width: 200px; word-wrap: break-word; }
-.group-details-holder .group-details-content .dropdown a:hover { text-decoration: none; }
+.group-details-holder .group-details-content .dropdown a { text-decoration: none; }
 .group-details-holder .group-details-content .dropdown .icon-gear { color: #757e93; font-size: 18px; }
 
 .group-details-holder .group-code-holder { padding: 19px 19px 10px 19px; }
@@ -11,6 +11,7 @@
 .group-details-holder .group-code-holder .group-code-icon { font-size: 18px; }
 .group-details-holder .group-code-holder select { display: inline-block; margin-left: 10px; width: 140px; }
 
+.group-details-holder .group-controls { margin-top: 10px; }
 .group-details-holder .group-controls .group-control-icon { font-size: 18px; margin-right: 10px; }
 .group-details-holder .group-controls li { margin: 0; }
 .group-details-holder .group-controls li a {

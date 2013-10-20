@@ -18,18 +18,25 @@ Group
 <div class="row">
     <div class="col-md-3">
         <!-- Left Sidebar -->
+        <!-- Left Sidebar -->
         <div class="group-details-holder well">
             <div class="group-details-content">
                 <div class="dropdown pull-right">
                     <a data-toggle="dropdown" href="#"><i class="icon-gear"></i></a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                        <li><a href="#"></a></li>
+                        @if(Auth::user()->account_type == 1)
+                        <li><a href="#" class="show-group-settings">Group Settings</a></li>
+                        @endif
+                        @if(Auth::user()->account_type == 2)
+                        <li><a href="#" class="leave-group">Leave Group</a></li>
+                        @endif
                     </ul>
                 </div>
                 <div class="group-name">{{ $groupDetails->group_name }}</div>
                 <div class="text-muted">Group</div>
             </div>
 
+            @if(Auth::user()->account_type == 1)
             <div class="group-code-holder">
                 <div class="group-code-title">Group Code</div>
                 @if($groupDetails->group_code == 'LOCKED')
@@ -46,6 +53,7 @@ Group
                     <option value="">Reset</option>
                 </select>
             </div>
+            @endif
 
             <ul class="nav nav-pills nav-stacked group-controls">
                 <li>
@@ -58,16 +66,19 @@ Group
                     <a href="/groups/{{ $groupDetails->group_id }}/members">
                         <i class="icon-chevron-right pull-right"></i>
                         <i class="group-control-icon icon-user"></i> Members
-                        <span class="label label-success pull-right">
-                            {{ $members->count() }} joined
-                        </span>
+                        <span class="label label-success pull-right">{{ $members->count() }} joined</span>
                     </a>
                 </li>
+                @if(Auth::user()->account_type == 1)
+                <li>
+                    <a href="/groups/chat">
+                        <i class="group-control-icon icon-comments-alt"></i> Start Group Chat
+                    </a>
+                </li>
+                @endif
             </ul>
 
-            <div class="group-description-holder">
-                {{ $groupDetails->group_description }}
-            </div>
+            <div class="group-description-holder">{{ $groupDetails->group_description }}</div>
         </div>
 
         <div class="user-groups-holder">
@@ -83,7 +94,6 @@ Group
                     </ul>
                 </div>
             </div>
-
             <ul class="nav nav-pills nav-stacked">
                 @foreach($groups as $group)
                 <li class="<?php echo ($group->group_id == $groupDetails->group_id) ? 'active' : null; ?>">

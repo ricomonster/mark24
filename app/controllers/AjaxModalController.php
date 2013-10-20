@@ -4,6 +4,7 @@ class AjaxModalController extends BaseController {
 
     protected $_errors = null;
 
+    // Group Module Functions
     public function showCreateGroup() {
         return View::make('ajax.modal.creategroup');
     }
@@ -77,7 +78,7 @@ class AjaxModalController extends BaseController {
             $addGroupMember->group_member_id = Auth::user()->id;
             $addGroupMember->group_id = $group->group_id;
             $addGroupMember->save();
-            
+
             // set json shits
             $return['error'] = false;
             $return['lz_link']  = sprintf(Request::root().'/groups/%s', $group->group_id);
@@ -85,6 +86,60 @@ class AjaxModalController extends BaseController {
 
         return Response::json($return);
     }
+
+    // End of Group Module Functions
+
+    // Forum Functions
+    public function showAddCategory()
+    {
+        return View::make('ajax.modal.addforumcategory');
+    }
+
+    public function addCategory()
+    {
+        // validate first the form
+        $this->_validateAddForumCategory();
+
+        // check if there are errors stored
+        if(!empty($this->_errors)) {
+            $return = array(
+                'error'     => true,
+                'messages'  => $this->_errors);
+
+            return Response::json($return);
+        }
+
+        // no errors
+        // check first if there's already a general topic in the forum
+        $general = ForumCategory::where('name', '=', 'General Discussion')->first();
+        if(empty($general)) {
+            $generalCategory = new ForumCategory;
+            // add a general discussion category
+            $generalCategory->name = 'General Discussion';
+            $generalCategory->description = 'Let\'s talk everything under the sun. :)';
+            $generalCategory->seo_name = Helper::seoFriendlyUrl('General Discussion');
+            $generalCategory->save();
+        }
+
+        // save category name
+        // and create seo friendly url
+        $addCategory = new ForumCategory;
+
+        $newCategoryUrl = Helper::seoFriendlyUrl(Input::get('category-name'));
+        $addCategory->name = ucwords(Input::get('category-name'));
+        $addCategory->description = Input::get('category-description');
+        $addCategory->seo_name = $newCategoryUrl;
+        $addCategory->save();
+
+        // create redirect link
+        $lzLink = Request::root().'/forum/'.$newCategoryUrl.'/'.$addCategory->forum_category_id;
+        // redirect to the category page
+        return Response::json(array(
+            'error' => false,
+            'lz' => $lzLink));
+    }
+
+    // End of Forum Functions
 
     /* Protected Methods
     -------------------------------*/
@@ -124,4 +179,28 @@ class AjaxModalController extends BaseController {
         return $randomString;
     }
 
+    protected function _validateAddForumCategory()
+    {
+        $this->_errors = array();
+
+        $name = Input::get('category-name');
+        $description = Input::get('category-description');
+
+        $nameExists = ForumCategory::where('name', '=', $name)->first();
+
+        if(empty($name)) {
+            $this->_errors['category_name'] = 'There should be a category name';
+        } else if(!empty($name)) {
+            // check if name already exists
+            if(!empty($nameExists)) {
+                $this->_errors['category_name'] = 'Category name '.$name.' already exists';
+            }
+        }
+
+        if(empty($description)) {
+            $this->_errors['category_description'] = 'Add a category description';
+        }
+
+        return empty($this->_errors);
+    }
 }

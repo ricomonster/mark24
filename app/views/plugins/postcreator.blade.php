@@ -1,10 +1,12 @@
 <div class="post-creator-holder">
+    @if(Auth::user()->account_type == 1)
     <ul class="nav nav-tabs" id="post_creator_options">
         <li class="<?php echo (isset($quiz)) ? null : 'active'; ?>"><a href="#note"><i class="icon-edit"></i> Note</a></li>
         <li><a href="#alert"><i class="icon-exclamation-sign"></i> Alert</a></li>
         <li><a href="#assignment"><i class="icon-check"></i> Assigment</a></li>
         <li class="<?php echo (isset($quiz)) ? 'active' : null; ?>"><a href="#quiz"><i class="icon-question-sign"></i> Quiz</a></li>
     </ul>
+    @endif
     <div class="tab-content">
         <div class="tab-pane well <?php echo (isset($quiz)) ? null : 'active'; ?>" id="note">
             {{ Form::open(array('url'=>'ajax/post_creator/create_note')) }}
@@ -18,7 +20,8 @@
                     <div class="form-group">
                         <div class="alert"></div>
                         <select name="note-recipients[]" class="post-recipients"
-                        id="note_recipients" multiple="true" data-placeholder="Send to...">
+                        id="note_recipients" data-placeholder="Send to..."
+                        <?php echo (Auth::user()->account_type == 1) ? 'multiple="true"' : null; ?>>
                             @if(!empty($groups))
                             @foreach($groups as $group)
                             @if(isset($groupDetails))

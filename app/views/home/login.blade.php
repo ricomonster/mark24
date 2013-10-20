@@ -232,9 +232,11 @@
                     e.preventDefault();
                 });
 
-                $('.bg').load(function() {
-                    $(this).fadeIn(1000);
-                });
+                $(document).ready(function() {
+                    $('.bg').load(function() {
+                        $(this).fadeIn(1000);
+                    });
+                })
             })(jQuery);
         </script>
     </body>

@@ -35,7 +35,7 @@ subtext should be a span
     position: fixed;
     text-align: center;
     top: 55px;
-    z-index: 101;
+    z-index: 10000;
     width: 100%;
 }
 
