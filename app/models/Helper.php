@@ -136,4 +136,44 @@ class Helper
 
         return preg_replace('/[^a-z0-9_-]/i', '', strtolower(str_replace(' ', '-', trim($output))));
     }
+
+    // creates a timestamp of a post
+    public static function timestamp($timestamp)
+    {
+        $string = null;
+
+        $timenow = time();
+        $diff = $timenow - $timestamp;
+
+        switch(1){
+            case ($diff < 60):
+                $count = $diff;
+                if ($count == 0) {
+                    $string = 'just now';
+                }
+
+                if($count != 0) {
+                    $string = $count.' seconds ago';
+                }
+
+                break;
+
+            case ($diff > 60 && $diff < 3600):
+                $count = floor($diff/60);
+                $string = $count.' minutes ago';
+                break;
+
+            case ($diff > 3600 && $diff < 86400):
+                $count = floor($diff/3600);
+                $string = $count.' hours ago';
+                break;
+
+            case ($diff >  86400):
+                $count = $date;
+                $string = date('M d', $timestamp);
+                break;
+        }
+
+        return $string;
+    }
 }

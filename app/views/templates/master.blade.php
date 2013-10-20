@@ -37,9 +37,21 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="/home" title="Home" style="font-size: 20px;"><i class="icon-home"></i></a></li>
-                        <li><a href="/planner" title="Planner" style="font-size: 20px;"><i class="icon-list-alt"></i></a></li>
-                        <li><a href="/the-forum" title="The Forum" style="font-size: 20px;"><i class="icon-trello"></i></a></li>
+                        <li>
+                            <a href="/home" data-toggle="tooltip" title="Home" style="font-size: 20px;">
+                                <i class="icon-home"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/planner" data-toggle="tooltip" title="Planner" style="font-size: 20px;">
+                                <i class="icon-list-alt"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/the-forum" data-toggle="tooltip" title="The Forum" style="font-size: 20px;">
+                                <i class="icon-trello"></i>
+                            </a>
+                        </li>
                     </ul>
 
                     <ul class="nav navbar-nav pull-right">
@@ -68,5 +80,10 @@
         <script src="/assets/js/jquery.min.js"></script>
         <script src="/assets/js/bootstrap.min.js"></script>
         @yield('js')
+        <script>
+            $(document).ready(function() {
+                $('[data-toggle="tooltip"]').tooltip({'placement': 'bottom'});
+            })
+        </script>
     </body>
 </html>

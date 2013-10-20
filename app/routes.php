@@ -75,6 +75,7 @@ Route::post('ajax/post_creator/create_quiz', 'AjaxPostCreatorController@postCrea
 Route::get('the-forum', 'ForumController@index');
 Route::get('the-forum/add-topic', 'ForumController@showAddTopic');
 Route::get('the-forum/{category}', 'ForumController@showCategory');
+Route::get('the-forum/topic/{slug}/{id}', 'ForumController@showTopic');
 
 Route::post('the-forum/submit-new-topic', 'ForumController@submitTopic');
 

@@ -84,15 +84,15 @@ aria-labelledby="the_modal_label" aria-hidden="true"></div>
             </div>
 
             <ul class="nav nav-tabs forum-thread-types">
-                <li class="active"><a href="/the-forum/latest">Latest</a></li>
-                <li><a href="/the-forum/popular">Popular</a></li>
-                <li><a href="/the-forum/unanswered">Unanswered</a></li>
+                <li class="active"><a href="?sort=latest">Latest</a></li>
+                <li><a href="?sort=popular">Popular</a></li>
+                <li><a href="?sort=unanswered">Unanswered</a></li>
             </ul>
 
             <ul class="forum-thread-stream">
                 @for($i = 0; $i < 5; $i++)
                 <li class="thread-holder">
-                    <img src="/assets/images/anon.png" width="50" class="img-rounded pull-left">
+                    <img src="/assets/images/anon.png" width="70" class="img-rounded pull-left">
                     <div class="thread-details-holder pull-left">
                         <div class="thread-title">
                             <h4>

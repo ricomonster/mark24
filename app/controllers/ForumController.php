@@ -49,16 +49,28 @@ class ForumController extends BaseController
         if(!$validator->fails()) {
             $seoUrl = Helper::seoFriendlyUrl(Input::get('topic-title'));
             // save topic
-            $newTopic = new ForumTopic;
-            $newTopic->user_id = Auth::user()->id;
-            $newTopic->category_id = Input::get('topic-category');
-            $newTopic->title = Input::get('topic-title');
-            $newTopic->description = Input::get('topic-description');
-            $newTopic->timestamp = time();
-            $newTopic->save();
+            $newThread              = new ForumThread;
+            $newThread->user_id     = Auth::user()->id;
+            $newThread->category_id = Input::get('topic-category');
+            $newThread->title       = Input::get('topic-title');
+            $newThread->description = Input::get('topic-description');
+            $newThread->seo_url     = $seoUrl;
+            $newThread->timestamp   = time();
+            $newThread->save();
+
+            // add topic to topics followed
+            $addThread = new FollowedForumThread;
+            $addThread->user_id = Auth::user()->id;
+            $addThread->forum_thread_id = $newThread->forum_thread_id;
+            $addThread->save();
+
+            // update number of posts
+            $updateCount = User::find(Auth::user()->id);
+            $updateCount->forum_posts += 1;
+            $updateCount->save();
 
             // redirect to topic page
-            return Redirect::to('the-forum/topic/'.$seoUrl.'/'.$newTopic->forum_topic_id);
+            return Redirect::to('the-forum/topic/'.$seoUrl.'/'.$newThread->forum_topic_id);
         }
     }
 
@@ -74,5 +86,27 @@ class ForumController extends BaseController
         }
 
         echo $category;
+    }
+
+    public function showTopic($slug, $id)
+    {
+        // get the details of the topic
+        $topic = ForumThread::where('seo_url', '=', $slug)
+            ->where('forum_thread_id', '=', $id)
+            ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
+            ->first();
+
+        // check if the topic exists
+        if(empty($topic)) {
+            // redirect to page not found
+            return Redirect::to('page-not-found');
+        }
+
+        // get all categories
+        $categories = ForumCategory::all();
+
+        return View::make('forums.topic')
+            ->with('topic', $topic)
+            ->with('categories', $categories);
     }
 }

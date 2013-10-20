@@ -132,7 +132,7 @@ class AjaxModalController extends BaseController {
         $addCategory->save();
 
         // create redirect link
-        $lzLink = Request::root().'/forum/'.$newCategoryUrl.'/'.$addCategory->forum_category_id;
+        $lzLink = Request::root().'/forum/'.$newCategoryUrl;
         // redirect to the category page
         return Response::json(array(
             'error' => false,
