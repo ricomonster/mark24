@@ -4,11 +4,52 @@ class ForumController extends BaseController
 {
     public function index()
     {
+        $sort = Input::get('sort');
+
         // let's get the categories
         $categories = ForumCategory::all();
 
+        switch($sort) {
+            case 'latest' :
+                // get latest threads
+                $threads = ForumThread::orderBy('forum_thread_id', 'DESC')
+                    ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
+                    ->leftJoin('forum_categories',
+                        'forum_threads.category_id',
+                        '=',
+                        'forum_categories.forum_category_id')
+                    ->get();
+                break;
+            case 'popular' :
+                break;
+            case 'unanswered' :
+                // get unanswered threads
+                $threads = ForumThread::orderBy('forum_thread_id', 'DESC')
+                    ->where('replies', '=', 0)
+                    ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
+                    ->leftJoin('forum_categories',
+                        'forum_threads.category_id',
+                        '=',
+                        'forum_categories.forum_category_id')
+                    ->get();
+                break;
+                break;
+            default :
+                // get latest threads
+                $threads = ForumThread::orderBy('forum_thread_id', 'DESC')
+                    ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
+                    ->leftJoin('forum_categories',
+                        'forum_threads.category_id',
+                        '=',
+                        'forum_categories.forum_category_id')
+                    ->get();
+                break;
+        }
+
         return View::make('forums.index')
-            ->with('categories', $categories);
+            ->with('categories', $categories)
+            ->with('threads', $threads)
+            ->with('sort', $sort);
     }
 
     public function showAddThread()
@@ -76,6 +117,8 @@ class ForumController extends BaseController
 
     public function showCategory($category)
     {
+        $sort = Input::get('sort');
+
         // check if category exists
         $category = ForumCategory::where('seo_name', '=', $category)->first();
 
@@ -85,7 +128,53 @@ class ForumController extends BaseController
             return Redirect::to('page-not-found');
         }
 
-        echo $category;
+        $categories = ForumCategory::all();
+
+        switch($sort) {
+            case 'latest' :
+                // get latest threads
+                $threads = ForumThread::orderBy('forum_thread_id', 'DESC')
+                    ->where('category_id', '=', $category->forum_category_id)
+                    ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
+                    ->leftJoin('forum_categories',
+                        'forum_threads.category_id',
+                        '=',
+                        'forum_categories.forum_category_id')
+                    ->get();
+                break;
+            case 'popular' :
+                break;
+            case 'unanswered' :
+                // get unanswered threads
+                $threads = ForumThread::orderBy('forum_thread_id', 'DESC')
+                    ->where('category_id', '=', $category->forum_category_id)
+                    ->where('replies', '=', 0)
+                    ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
+                    ->leftJoin('forum_categories',
+                        'forum_threads.category_id',
+                        '=',
+                        'forum_categories.forum_category_id')
+                    ->get();
+                break;
+                break;
+            default :
+                // get latest threads
+                $threads = ForumThread::orderBy('forum_thread_id', 'DESC')
+                    ->where('category_id', '=', $category->forum_category_id)
+                    ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
+                    ->leftJoin('forum_categories',
+                        'forum_threads.category_id',
+                        '=',
+                        'forum_categories.forum_category_id')
+                    ->get();
+                break;
+        }
+
+        return View::make('forums.categorythread')
+            ->with('categoryDetails', $category)
+            ->with('categories', $categories)
+            ->with('threads', $threads)
+            ->with('sort', $sort);
     }
 
     public function showThread($slug, $id)
@@ -107,12 +196,63 @@ class ForumController extends BaseController
             ->where('forum_thread_id', '=', $thread->forum_thread_id)
             ->first();
 
+        // get the thread replies
+        $replies = ForumThreadReply::where('forum_thread_id', '=', $thread->forum_thread_id)
+            ->leftJoin('users', 'forum_thread_replies.user_id', '=', 'users.id')
+            ->get();
+
         // get all categories
         $categories = ForumCategory::all();
 
         return View::make('forums.thread')
             ->with('thread', $thread)
+            ->with('replies', $replies)
             ->with('followed', $followed)
             ->with('categories', $categories);
+    }
+
+    public function submitReplyThread()
+    {
+        $threadReply    = Input::get('thread-reply');
+        $threadId       = Input::get('thread-id');
+
+        // get thread details
+        $thread = ForumThread::find($threadId);
+
+        // check first the user already follows the thread
+        $following = FollowedForumThread::where('user_id', '=', Auth::user()->id)
+            ->where('forum_thread_id', '=', $thread->forum_thread_id)
+            ->first();
+
+        // current user doesn't follow the thread
+        if(empty($following)) {
+            $addThread = new FollowedForumThread;
+            $addThread->user_id = Auth::user()->id;
+            $addThread->forum_thread_id = $thread->forum_thread_id;
+            $addThread->save();
+        }
+
+        $time = time();
+
+        // create the reply
+        $reply                  = new ForumThreadReply;
+        $reply->forum_thread_id = $thread->forum_thread_id;
+        $reply->user_id         = Auth::user()->id;
+        $reply->reply           = $threadReply;
+        $reply->reply_timestamp = $time;
+        $reply->save();
+
+        // update the thread details
+        $thread->replies += 1;
+        $thread->last_reply_timestamp = $time;
+        $thread->save();
+
+        // update the user's forum post count
+        $userPostCount = User::find(Auth::user()->id);
+        $userPostCount->forum_posts += 1;
+        $userPostCount->save();
+
+        // redirect to the page
+        return Redirect::to('the-forum/thread/'.$thread->seo_url.'/'.$thread->forum_thread_id);
     }
 }

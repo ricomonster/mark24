@@ -77,7 +77,8 @@ Route::get('the-forum/add-thread', 'ForumController@showAddThread');
 Route::get('the-forum/{category}', 'ForumController@showCategory');
 Route::get('the-forum/thread/{slug}/{id}', 'ForumController@showThread');
 
-Route::post('the-forum/submit-new-topic', 'ForumController@submitTopic');
+Route::post('the-forum/submit-new-thread', 'ForumController@submitThread');
+Route::post('the-forum/create-thread-reply', 'ForumController@submitReplyThread');
 
 // Group Routes
 Route::get('groups/{groupId}', 'GroupsController@showIndex');

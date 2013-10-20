@@ -169,7 +169,6 @@ class Helper
                 break;
 
             case ($diff >  86400):
-                $count = $date;
                 $string = date('M d', $timestamp);
                 break;
         }

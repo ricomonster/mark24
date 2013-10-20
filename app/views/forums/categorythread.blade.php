@@ -6,7 +6,7 @@ The Forum
 
 @section('internalCss')
 <style>
-.the-forum .forum-body { margin: 0; padding: 0; }
+.the-forum .forum-body { /*background-color: transparent;*/ margin: 0; padding: 0; }
 .the-forum .forum-body .forum-title {
     background-color: #fff;
     padding: 10px 20px;
@@ -21,6 +21,11 @@ The Forum
 }
 
 .the-forum .forum-category-holder ul li { margin: 0; }
+.the-forum .forum-category-holder ul li.active a {
+    background-color: #f3f5f7;
+    color: #2a6496;
+}
+
 .the-forum .forum-category-holder ul li a {
     background-color: #ffffff;
     border: 1px solid #dfe4e8 !important;
@@ -31,6 +36,8 @@ The Forum
 .forum-body .forum-thread-types { border: 0; padding: 0 20px; }
 
 .forum-thread-stream { margin: 0; list-style: none; padding: 0; }
+.forum-thread-stream .empty-thread { border-top: 1px solid #dfe4e8; padding: 20px; }
+
 .forum-thread-stream .thread-holder { border-top: 1px solid #dfe4e8; }
 .forum-thread-stream .thread-holder img { margin: 20px 0 0 20px; }
 .forum-thread-stream .thread-holder .thread-details-holder {
@@ -65,7 +72,9 @@ aria-labelledby="the_modal_label" aria-hidden="true"></div>
             <div class="title-holder">Forum Categories</div>
             <ul class="nav nav-pills nav-stacked">
                 @foreach($categories as $category)
-                <li><a href="/the-forum/{{ $category->seo_name }}">{{ $category->category_name }}</a></li>
+                <li class="<?php echo ($categoryDetails->forum_category_id == $category->forum_category_id) ? 'active' : null; ?>">
+                    <a href="/the-forum/{{ $category->seo_name }}">{{ $category->category_name }}</a>
+                </li>
                 @endforeach
             </ul>
         </div>
@@ -97,7 +106,9 @@ aria-labelledby="the_modal_label" aria-hidden="true"></div>
 
             <ul class="forum-thread-stream">
                 @if($threads->isEmpty())
-                <li class="empty-thread"></li>
+                <li class="empty-thread">
+                    Ooops, there are no threads found..
+                </li>
                 @endif
                 @if(!$threads->isEmpty())
                 @foreach($threads as $thread)

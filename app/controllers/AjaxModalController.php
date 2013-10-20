@@ -115,7 +115,7 @@ class AjaxModalController extends BaseController {
         if(empty($general)) {
             $generalCategory = new ForumCategory;
             // add a general discussion category
-            $generalCategory->name = 'General Discussion';
+            $generalCategory->category_name = 'General Discussion';
             $generalCategory->description = 'Let\'s talk everything under the sun. :)';
             $generalCategory->seo_name = Helper::seoFriendlyUrl('General Discussion');
             $generalCategory->save();
@@ -126,7 +126,7 @@ class AjaxModalController extends BaseController {
         $addCategory = new ForumCategory;
 
         $newCategoryUrl = Helper::seoFriendlyUrl(Input::get('category-name'));
-        $addCategory->name = ucwords(Input::get('category-name'));
+        $addCategory->category_name = ucwords(Input::get('category-name'));
         $addCategory->description = Input::get('category-description');
         $addCategory->seo_name = $newCategoryUrl;
         $addCategory->save();
@@ -186,7 +186,7 @@ class AjaxModalController extends BaseController {
         $name = Input::get('category-name');
         $description = Input::get('category-description');
 
-        $nameExists = ForumCategory::where('name', '=', $name)->first();
+        $nameExists = ForumCategory::where('category_name', '=', $name)->first();
 
         if(empty($name)) {
             $this->_errors['category_name'] = 'There should be a category name';
