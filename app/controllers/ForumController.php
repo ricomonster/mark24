@@ -11,54 +11,54 @@ class ForumController extends BaseController
             ->with('categories', $categories);
     }
 
-    public function showAddTopic()
+    public function showAddThread()
     {
         // let's get the categories
         $categories = ForumCategory::all();
 
-        return View::make('forums.addtopic')
+        return View::make('forums.addthread')
             ->with('categories', $categories);
     }
 
-    public function submitTopic()
+    public function submitThread()
     {
-        // a new topic is submitted
+        // a new thread is submitted
         // let's validate first the form submitted
         $rules = array(
-            'topic-title'       => 'required|min:6',
-            'topic-category'    => 'required',
-            'topic-description' => 'required|min:6');
+            'thread-title'       => 'required|min:6',
+            'thread-category'    => 'required',
+            'thread-description' => 'required|min:6');
 
         $messages = array(
-            'topic-title.required' => 'Title is required.',
-            'topic-title.min' => 'Title should be atleast 6+ characters long.',
-            'topic-category.required' => 'Category is required',
-            'topic-description.required' => 'Description is required.',
-            'topic-description.min' => 'Description should be atleast 6+ characters long.');
+            'thread-title.required' => 'Title is required.',
+            'thread-title.min' => 'Title should be atleast 6+ characters long.',
+            'thread-category.required' => 'Category is required',
+            'thread-description.required' => 'Description is required.',
+            'thread-description.min' => 'Description should be atleast 6+ characters long.');
 
         $validator = Validator::make(Input::all(), $rules, $messages);
 
         // there are errors
         if($validator->fails()) {
-            return Redirect::to('the-forum/add-topic')
+            return Redirect::to('the-forum/add-thread')
                 ->withErrors($validator)
                 ->withInput();
         }
 
         // no errors
         if(!$validator->fails()) {
-            $seoUrl = Helper::seoFriendlyUrl(Input::get('topic-title'));
-            // save topic
+            $seoUrl = Helper::seoFriendlyUrl(Input::get('thread-title'));
+            // save thread
             $newThread              = new ForumThread;
             $newThread->user_id     = Auth::user()->id;
-            $newThread->category_id = Input::get('topic-category');
-            $newThread->title       = Input::get('topic-title');
-            $newThread->description = Input::get('topic-description');
+            $newThread->category_id = Input::get('thread-category');
+            $newThread->title       = Input::get('thread-title');
+            $newThread->description = Input::get('thread-description');
             $newThread->seo_url     = $seoUrl;
             $newThread->timestamp   = time();
             $newThread->save();
 
-            // add topic to topics followed
+            // add thread to threads followed
             $addThread = new FollowedForumThread;
             $addThread->user_id = Auth::user()->id;
             $addThread->forum_thread_id = $newThread->forum_thread_id;
@@ -69,8 +69,8 @@ class ForumController extends BaseController
             $updateCount->forum_posts += 1;
             $updateCount->save();
 
-            // redirect to topic page
-            return Redirect::to('the-forum/topic/'.$seoUrl.'/'.$newThread->forum_topic_id);
+            // redirect to thread page
+            return Redirect::to('the-forum/thread/'.$seoUrl.'/'.$newThread->forum_thread_id);
         }
     }
 
@@ -88,25 +88,31 @@ class ForumController extends BaseController
         echo $category;
     }
 
-    public function showTopic($slug, $id)
+    public function showThread($slug, $id)
     {
-        // get the details of the topic
-        $topic = ForumThread::where('seo_url', '=', $slug)
+        // get the details of the thread
+        $thread = ForumThread::where('seo_url', '=', $slug)
             ->where('forum_thread_id', '=', $id)
             ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
             ->first();
 
-        // check if the topic exists
-        if(empty($topic)) {
+        // check if the thread exists
+        if(empty($thread)) {
             // redirect to page not found
             return Redirect::to('page-not-found');
         }
 
+        // check also if the thread is being followed
+        $followed = FollowedForumThread::where('user_id', '=', Auth::user()->id)
+            ->where('forum_thread_id', '=', $thread->forum_thread_id)
+            ->first();
+
         // get all categories
         $categories = ForumCategory::all();
 
-        return View::make('forums.topic')
-            ->with('topic', $topic)
+        return View::make('forums.thread')
+            ->with('thread', $thread)
+            ->with('followed', $followed)
             ->with('categories', $categories);
     }
 }

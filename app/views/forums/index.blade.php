@@ -12,7 +12,7 @@ The Forum
     padding: 10px 20px;
 }
 
-.the-forum .post-topic-link { margin-bottom: 10px; }
+.the-forum .post-thread-link { margin-bottom: 10px; }
 .the-forum .forum-category-holder { margin-bottom: 10px; }
 .the-forum .forum-category-holder .title-holder {
     background-color: #757f93;
@@ -57,8 +57,8 @@ aria-labelledby="the_modal_label" aria-hidden="true"></div>
 
 <div class="row the-forum">
     <div class="col-md-3">
-        <a href="/the-forum/add-topic" class="btn btn-info btn-large btn-block post-topic-link">
-            Post a Topic
+        <a href="/the-forum/add-thread" class="btn btn-info btn-large btn-block post-thread-link">
+            Post a Thread
         </a>
 
         <div class="forum-category-holder">
