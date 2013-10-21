@@ -22,7 +22,7 @@ The Forum
     border-radius: 0;
 }
 
-.the-forum .forum-add-thread {}
+.the-forum .add-forum-category { margin-bottom: 20px; }
 .the-forum .forum-add-thread textarea { height: 200px; resize: none; }
 </style>
 @stop
@@ -43,6 +43,7 @@ aria-labelledby="the_modal_label" aria-hidden="true"></div>
         <div class="forum-category-holder">
             <div class="title-holder">Forum Categories</div>
             <ul class="nav nav-pills nav-stacked">
+                <li><a href="/the-forum">Home</a></li>
                 @foreach($categories as $category)
                 <li><a href="/the-forum/{{ $category->seo_name }}">{{ $category->category_name }}</a></li>
                 @endforeach

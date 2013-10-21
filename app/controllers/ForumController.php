@@ -12,7 +12,8 @@ class ForumController extends BaseController
         switch($sort) {
             case 'latest' :
                 // get latest threads
-                $threads = ForumThread::orderBy('forum_thread_id', 'DESC')
+                $threads = ForumThread::orderBy('last_reply_timestamp', 'DESC')
+                    ->orderBy('timestamp', 'DESC')
                     ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
                     ->leftJoin('forum_categories',
                         'forum_threads.category_id',
@@ -179,6 +180,8 @@ class ForumController extends BaseController
 
     public function showThread($slug, $id)
     {
+        $page = Input::get('page');
+
         // get the details of the thread
         $thread = ForumThread::where('seo_url', '=', $slug)
             ->where('forum_thread_id', '=', $id)
@@ -199,7 +202,8 @@ class ForumController extends BaseController
         // get the thread replies
         $replies = ForumThreadReply::where('forum_thread_id', '=', $thread->forum_thread_id)
             ->leftJoin('users', 'forum_thread_replies.user_id', '=', 'users.id')
-            ->get();
+            ->orderBy('reply_timestamp', 'ASC')
+            ->paginate(10);
 
         // get all categories
         $categories = ForumCategory::all();
@@ -208,7 +212,8 @@ class ForumController extends BaseController
             ->with('thread', $thread)
             ->with('replies', $replies)
             ->with('followed', $followed)
-            ->with('categories', $categories);
+            ->with('categories', $categories)
+            ->with('page', $page);
     }
 
     public function submitReplyThread()

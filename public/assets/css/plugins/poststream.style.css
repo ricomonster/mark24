@@ -38,6 +38,7 @@
     padding: 10px;
 }
 
+.post-stream .no-post-found { font-size: 16px; padding: 50px 20px; }
 .post-stream .post-holder .post-content .dropdown-post-options { margin-right: 10px; }
 .post-stream .post-holder .post-content .dropdown-post-options a { color: #383d48; }
 

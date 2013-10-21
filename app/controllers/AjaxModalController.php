@@ -111,7 +111,7 @@ class AjaxModalController extends BaseController {
 
         // no errors
         // check first if there's already a general topic in the forum
-        $general = ForumCategory::where('name', '=', 'General Discussion')->first();
+        $general = ForumCategory::where('category_name', '=', 'General Discussion')->first();
         if(empty($general)) {
             $generalCategory = new ForumCategory;
             // add a general discussion category
@@ -132,7 +132,7 @@ class AjaxModalController extends BaseController {
         $addCategory->save();
 
         // create redirect link
-        $lzLink = Request::root().'/forum/'.$newCategoryUrl;
+        $lzLink = Request::root().'/the-forum/'.$newCategoryUrl;
         // redirect to the category page
         return Response::json(array(
             'error' => false,

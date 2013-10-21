@@ -160,12 +160,14 @@ class Helper
 
             case ($diff > 60 && $diff < 3600):
                 $count = floor($diff/60);
-                $string = $count.' minutes ago';
+                $ago = ($count == 1) ? ' minute ago' : ' minutes ago';
+                $string = $count.$ago;
                 break;
 
             case ($diff > 3600 && $diff < 86400):
                 $count = floor($diff/3600);
-                $string = $count.' hours ago';
+                $ago = ($count == 1) ? ' hour ago' : ' hours ago';
+                $string = $count.$ago;
                 break;
 
             case ($diff >  86400):

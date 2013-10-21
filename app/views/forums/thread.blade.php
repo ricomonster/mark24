@@ -48,8 +48,9 @@ The Forum
     color: #2a6496;
 }
 
+.the-forum .add-forum-category { margin-bottom: 20px; }
+
 .forum-thread-body { background-color: inherit; border: 0; margin: 0; padding: 0; }
-.forum-thread-body .forum-thread-stream {}
 .forum-thread-stream { margin: 0; list-style: none; padding: 0; }
 .forum-thread-stream li { background-color: #ffffff; padding-bottom: 20px; }
 .forum-thread-stream .thread-holder { border: 1px solid #dfe4e8; margin-bottom: 20px; }
@@ -97,6 +98,31 @@ The Forum
     height: 200px;
     resize: none;
 }
+
+.forum-thread-stream .thread-pagination {
+    background-color: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+.forum-thread-stream .thread-pagination .pagination { margin: 10px 0 0; }
+
+.forum-thread-stream .thread-pagination ul { margin: 0; list-style: none; padding: 0; }
+.forum-thread-stream .thread-pagination ul li { background-color: inherit; display: inline-block; }
+.forum-thread-stream .thread-pagination ul li a {
+    background-color: #ffffff;
+    border: 1px solid #dfe4e8;
+    margin: 0 2px;
+    padding: 10px 15px;
+}
+
+.forum-thread-stream .thread-pagination ul li a:hover { text-decoration: none; }
+.forum-thread-stream .thread-pagination ul li span {
+    background-color: #f0f0f0;
+    border: 1px solid #dfe4e8;
+    margin: 0 2px;
+    padding: 10px 15px;
+}
 </style>
 @stop
 
@@ -127,6 +153,7 @@ aria-labelledby="the_modal_label" aria-hidden="true"></div>
         <div class="forum-category-holder">
             <div class="title-holder">Forum Categories</div>
             <ul class="nav nav-pills nav-stacked">
+                <li><a href="/the-forum">Home</a></li>
                 @foreach($categories as $category)
                 <li
                 class="<?php echo ($thread->category_id == $category->forum_category_id) ? 'active' : null; ?>">
@@ -148,6 +175,11 @@ aria-labelledby="the_modal_label" aria-hidden="true"></div>
     <div class="col-md-9">
         <div class="well forum-thread-body">
             <ul class="forum-thread-stream">
+                <li class="thread-pagination">
+                    {{ $replies->links() }}
+                </li>
+
+                @if(empty($page) || $page == 1)
                 <li class="thread-holder">
                     <?php $timestamp = Helper::timestamp($thread->timestamp); ?>
                     <div class="author-details pull-left">
@@ -177,6 +209,7 @@ aria-labelledby="the_modal_label" aria-hidden="true"></div>
                     </div>
                     <div class="clearfix"></div>
                 </li>
+                @endif
 
                 @if(!$replies->isEmpty())
                 @foreach($replies as $reply)
@@ -210,6 +243,10 @@ aria-labelledby="the_modal_label" aria-hidden="true"></div>
                 </li>
                 @endforeach
                 @endif
+
+                <li class="thread-pagination">
+                    {{ $replies->links() }}
+                </li>
 
                 <li class="reply-to-thread-holder">
                     <div class="author-details pull-left">

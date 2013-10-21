@@ -33,18 +33,21 @@ The Forum
     border-radius: 0;
 }
 
+.the-forum .add-forum-category { margin-bottom: 20px; }
+
 .forum-body .forum-thread-types { border: 0; padding: 0 20px; }
 
 .forum-thread-stream { margin: 0; list-style: none; padding: 0; }
 .forum-thread-stream .empty-thread { border-top: 1px solid #dfe4e8; padding: 20px; }
 
 .forum-thread-stream .thread-holder { border-top: 1px solid #dfe4e8; }
-.forum-thread-stream .thread-holder img { margin: 20px 0 0 20px; }
+.forum-thread-stream .thread-holder img { margin: 20px 0 20px 20px; }
 .forum-thread-stream .thread-holder .thread-details-holder {
     margin: 20px 0 20px 20px;
     width: 45%;
 }
 
+.forum-thread-stream .thread-holder .thread-details-holder .thread-title { font-size: 20px; }
 .forum-thread-stream .thread-holder .thread-details-holder .thread-details { color: #999999; }
 .forum-thread-stream .thread-holder .thread-stats {
     font-size: 16px;
@@ -71,6 +74,7 @@ aria-labelledby="the_modal_label" aria-hidden="true"></div>
         <div class="forum-category-holder">
             <div class="title-holder">Forum Categories</div>
             <ul class="nav nav-pills nav-stacked">
+                <li><a href="/the-forum">Home</a></li>
                 @foreach($categories as $category)
                 <li class="<?php echo ($categoryDetails->forum_category_id == $category->forum_category_id) ? 'active' : null; ?>">
                     <a href="/the-forum/{{ $category->seo_name }}">{{ $category->category_name }}</a>
@@ -89,7 +93,8 @@ aria-labelledby="the_modal_label" aria-hidden="true"></div>
     <div class="col-md-9">
         <div class="well forum-body">
             <div class="forum-title">
-                <h3>The Forum</h3>
+                <h3>The Forum: {{ $categoryDetails->category_name }}</h3>
+                <div class="text-muted"><?php echo nl2br($categoryDetails->description); ?></div>
             </div>
 
             <ul class="nav nav-tabs forum-thread-types">
@@ -122,11 +127,9 @@ aria-labelledby="the_modal_label" aria-hidden="true"></div>
                     @endif
                     <div class="thread-details-holder pull-left">
                         <div class="thread-title">
-                            <h4>
-                                <a href="/the-forum/thread/{{ $thread->seo_url }}/{{ $thread->forum_thread_id }}">
-                                    {{ $thread->title }}
-                                </a>
-                            </h4>
+                            <a href="/the-forum/thread/{{ $thread->seo_url }}/{{ $thread->forum_thread_id }}">
+                                {{ $thread->title }}
+                            </a>
                         </div>
                         <div class="thread-details">
                             By <a href="/profile/{{ $thread->username }}" class="thread-author">{{ $thread->username }}</a>,
