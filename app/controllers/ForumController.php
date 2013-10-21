@@ -22,10 +22,11 @@ class ForumController extends BaseController
                     ->get();
                 break;
             case 'popular' :
+                $threads = array();
                 break;
             case 'unanswered' :
                 // get unanswered threads
-                $threads = ForumThread::orderBy('forum_thread_id', 'DESC')
+                $threads = ForumThread::orderBy('timestamp', 'DESC')
                     ->where('replies', '=', 0)
                     ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
                     ->leftJoin('forum_categories',
@@ -34,6 +35,30 @@ class ForumController extends BaseController
                         'forum_categories.forum_category_id')
                     ->get();
                 break;
+            case 'following' :
+                $threads = FollowedForumThread::where('followed_forum_threads.user_id', '=', Auth::user()->id)
+                    ->leftJoin('forum_threads', 'followed_forum_threads.forum_thread_id', '=', 'forum_threads.forum_thread_id')
+                    ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
+                    ->leftJoin('forum_categories',
+                        'forum_threads.category_id',
+                        '=',
+                        'forum_categories.forum_category_id')
+                    ->orderBy('forum_threads.last_reply_timestamp', 'DESC')
+                    ->orderBy('forum_threads.timestamp', 'DESC')
+                    ->get();
+                break;
+            case 'my-topics' :
+                $threads = ForumThread::where('user_id', '=', Auth::user()->id)
+                    ->orderBy('last_reply_timestamp', 'DESC')
+                    ->orderBy('timestamp', 'DESC')
+                    ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
+                    ->leftJoin('forum_categories',
+                        'forum_threads.category_id',
+                        '=',
+                        'forum_categories.forum_category_id')
+                    ->get();
+                break;
+            case 'last-viewed' :
                 break;
             default :
                 // get latest threads
@@ -46,6 +71,7 @@ class ForumController extends BaseController
                     ->get();
                 break;
         }
+        // print_r($threads);
 
         return View::make('forums.index')
             ->with('categories', $categories)

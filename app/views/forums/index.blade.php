@@ -29,6 +29,7 @@ The Forum
 }
 
 .forum-body .forum-thread-types { border: 0; padding: 0 20px; }
+.forum-thread-stream .empty-thread { border-top: 1px solid #dfe4e8; padding: 20px; }
 
 .forum-thread-stream { margin: 0; list-style: none; padding: 0; }
 .forum-thread-stream .thread-holder { border-top: 1px solid #dfe4e8; }
@@ -95,11 +96,22 @@ aria-labelledby="the_modal_label" aria-hidden="true"></div>
                 <li class="<?php echo (!empty($sort) && $sort == 'unanswered') ? 'active' : null; ?>">
                     <a href="?sort=unanswered">Unanswered</a>
                 </li>
+                <li class="<?php echo (!empty($sort) && $sort == 'following') ? 'active' : null; ?>">
+                    <a href="?sort=following">Following</a>
+                </li>
+                <li class="<?php echo (!empty($sort) && $sort == 'my-topics') ? 'active' : null; ?>">
+                    <a href="?sort=my-topics">My Topics</a>
+                </li>
+                <li class="<?php echo (!empty($sort) && $sort == 'last-viewed') ? 'active' : null; ?>">
+                    <a href="?sort=last-viewed">Last Viewed</a>
+                </li>
             </ul>
 
             <ul class="forum-thread-stream">
                 @if($threads->isEmpty())
-                <li class="empty-thread"></li>
+                <li class="empty-thread">
+                    Ooops, there are no threads found..
+                </li>
                 @endif
                 @if(!$threads->isEmpty())
                 @foreach($threads as $thread)
