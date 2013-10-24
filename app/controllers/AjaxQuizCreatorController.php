@@ -41,7 +41,7 @@ class AjaxQuizCreatorController extends BaseController {
         $newQuiz                = new Quiz;
         $newQuiz->user_id       = Auth::user()->id;
         $newQuiz->title         = $quizTitle;
-        $newQuiz->time_limit    = $quizTimeLimit;
+        $newQuiz->time_limit    = $quizTimeLimit * 60;
         $newQuiz->total_score   = 1;
         $newQuiz->save();
 
@@ -89,6 +89,7 @@ class AjaxQuizCreatorController extends BaseController {
         $return = array(
             'quiz_id'           => $newQuiz->quiz_id,
             'question_id'       => $newQuestion->question_id,
+            'quiz_time_limit'   => $quizTimeLimit * 60,
             'question_type'     => $questionType,
             'question_list_id'  => $addToList->question_list_id);
 

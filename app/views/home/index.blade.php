@@ -13,6 +13,7 @@ Home
 
 @section('content')
 
+<div class="message-holder"><span></span></div>
 <div class="row">
     <div class="col-md-3">
         <!-- Left Sidebar -->

@@ -170,7 +170,12 @@ class Helper
                 $string = $count.$ago;
                 break;
 
-            case ($diff >  86400):
+            case ($diff >  86400 && $diff < 604800) :
+                $count = floor($diff/86400);
+                $ago = ($count == 1) ? ' day ago' : ' days ago';
+                $string = $count.$ago;
+                break;
+            case ($diff > 604800) :
                 $string = date('M d', $timestamp);
                 break;
         }

@@ -183,6 +183,32 @@ class ForumController extends BaseController
                         'forum_categories.forum_category_id')
                     ->get();
                 break;
+            case 'following' :
+                $threads = FollowedForumThread::where('followed_forum_threads.user_id', '=', Auth::user()->id)
+                    ->where('forum_threads.category_id', '=', $category->forum_category_id)
+                    ->leftJoin('forum_threads', 'followed_forum_threads.forum_thread_id', '=', 'forum_threads.forum_thread_id')
+                    ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
+                    ->leftJoin('forum_categories',
+                        'forum_threads.category_id',
+                        '=',
+                        'forum_categories.forum_category_id')
+                    ->orderBy('forum_threads.last_reply_timestamp', 'DESC')
+                    ->orderBy('forum_threads.timestamp', 'DESC')
+                    ->get();
+                break;
+            case 'my-topics' :
+                $threads = ForumThread::where('user_id', '=', Auth::user()->id)
+                    ->where('forum_threads.category_id', '=', $category->forum_category_id)
+                    ->orderBy('last_reply_timestamp', 'DESC')
+                    ->orderBy('timestamp', 'DESC')
+                    ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
+                    ->leftJoin('forum_categories',
+                        'forum_threads.category_id',
+                        '=',
+                        'forum_categories.forum_category_id')
+                    ->get();
+                break;
+            case 'last-viewed' :
                 break;
             default :
                 // get latest threads

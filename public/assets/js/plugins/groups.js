@@ -12,6 +12,8 @@
     $(document).on('click', 'button#trigger_join_group', function(e) {
         var thisButton = $(this);
 
+        $('.message-holder').show().find('span').text('Saving...');
+
         thisButton.attr('disabled');
         $('.join-group-modal .form-group').removeClass('has-error');
         $('.join-group-modal .alert').hide();
@@ -30,6 +32,8 @@
                     .html(response.message).show();
 
                 thisButton.removeAttr('disabled');
+
+                $('.message-holder').hide();
 
                 return false;
             }
@@ -54,6 +58,8 @@
 
     $(document).on('click', 'button#trigger_create_group', function(e) {
         var thisButton = $(this);
+
+        $('.message-holder').show().find('span').text('Saving...');
         // reset status
         $('.create-group-modal .form-group').removeClass('has-error');
         $('.create-group-modal .alert').hide();
@@ -108,6 +114,7 @@
                 }
 
                 thisButton.removeAttr('disabled');
+                $('.message-holder').hide();
             } else {
                 // no error get LZ link so page will redirect
                 window.location.href = response.lz_link;

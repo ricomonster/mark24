@@ -11,6 +11,7 @@
         @if(!empty($posts))
         @foreach($posts as $post)
         <?php $recipients = PostRecipient::getRecipients($post->post_id); ?>
+        <?php $postTimestamp = Helper::timestamp($post->post_timestamp); ?>
         <li class="post-holder">
             <a href="/profile/{{ $post->username }}" class="writer-profile">
                 @if(empty($post->avatar))
@@ -130,7 +131,7 @@
                 <ul class="post-etcs-holder">
                     <li><a href="#"><i class="icon-thumbs-up-alt"></i> Like it</a></li>
                     <li><a href="#"><i class="icon-comment-alt"></i> Reply</a></li>
-                    <li><a href="#"><i class="icon-time"></i> August 25, 2013</a></li>
+                    <li><a href="#"><i class="icon-time"></i> {{ $postTimestamp }}</a></li>
                 </ul>
             </div>
             <?php $comments = Helper::getComments($post->post_id); ?>

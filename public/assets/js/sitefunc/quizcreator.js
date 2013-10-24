@@ -56,7 +56,8 @@ var QuizCreator = {
                 self.config.inputQuizTitle.val(response.quiz_title);
 
                 // show the quiz time limit
-                self.config.inputQuizTimeLimit.val(response.quiz_time_limit);
+                var timeLimit = response.quiz_time_limit / 60;
+                self.config.inputQuizTimeLimit.val(timeLimit);
 
                 // show the remove question button if 2 or more questions
                 if(self.config.questionCount != 1) {

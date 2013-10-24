@@ -4,8 +4,7 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"require": {
-		"laravel/framework": "4.0.*",
-		"filp/whoops": "1.0.7"
+		"laravel/framework": "4.0.*"
 	},
 	"autoload": {
 		"classmap": [

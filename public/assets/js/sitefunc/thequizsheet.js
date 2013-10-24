@@ -42,6 +42,9 @@ var TheQuizSheet = {
                 self.config.theQuizSheetProper.show();
 
                 self.config.quizTakerId = response.details.quiz_taker_id;
+                self.config.quizTimeLimit = self.config.theQuizSheet.data('time-limit');
+
+                self.quizTimer();
 
                 // load the questions
                 self.loadQuestions();
@@ -74,6 +77,7 @@ var TheQuizSheet = {
             // show the quiz sheet proper
             self.config.theQuizSheetProper.show();
             self.config.quizTakerId = response.taker_id;
+            self.config.quizTimeLimit = self.config.theQuizSheet.data('time-limit');
 
             // load the questions
             self.loadQuestions();
@@ -322,11 +326,28 @@ var TheQuizSheet = {
             self.config.questionStream.append(response);
             self.config.messageHolder.hide();
         })
+    },
+
+    // sets up the time
+    quizTimer : function()
+    {
+        var self = TheQuizSheet;
+        var counter = self.config.quizTimeLimit;
+        var interval = setInterval(function() {
+            counter--;
+            self.config.quizTimer.val(counter);
+            // if (counter == 5) {
+            //     // Display a login box
+            //     // alert('TIME!');
+            //     clearInterval(interval);
+            // }
+        }, 1000);
     }
 }
 
 TheQuizSheet.init({
     quizTakerId : 0,
+    quizTimeLimit : 0,
 
     startQuiz : $('.start-quiz'),
     questionItem : $('.question-item'),
@@ -338,6 +359,7 @@ TheQuizSheet.init({
     theQuizSheet : $('.the-quiz-sheet'),
     welcomeWrapper : $('.welcome-quiz-sheet-wrapper'),
     theQuizSheetProper : $('.the-quiz-sheet-proper'),
+    quizTimer : $('.quiz-timer'),
 
     questionStream : $('.quiz-questions-stream'),
     questionItemsHolder : $('.question-items-holder'),

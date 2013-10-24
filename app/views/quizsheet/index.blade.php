@@ -107,7 +107,8 @@ The Quiz Sheet
     <span></span>
 </div>
 
-<div class="the-quiz-sheet" data-quiz-id="{{ $quiz->quiz_id }}">
+<div class="the-quiz-sheet" data-quiz-id="{{ $quiz->quiz_id }}"
+data-time-limit="{{ $quiz->time_limit }}">
     <div class="welcome-quiz-sheet-wrapper well">
         <div class="welcome-contents">
             <h2>{{ $quiz->title }}</h2>
@@ -214,17 +215,17 @@ The Quiz Sheet
 @section('js')
 <script type="text/javascript" src="/assets/js/sitefunc/thequizsheet.js"></script>
 <script>
-// prototype counter
-var counter = 0;
-var interval = setInterval(function() {
-    counter++;
-    // Display 'counter' wherever you want to display it.
-    console.log(counter);
-    if (counter == 5) {
-        // Display a login box
-        // alert('TIME!');
-        clearInterval(interval);
-    }
-}, 1000);
+// // prototype counter
+// var counter = 0;
+// var interval = setInterval(function() {
+//     counter++;
+//     // Display 'counter' wherever you want to display it.
+//     console.log(counter);
+//     if (counter == 5) {
+//         // Display a login box
+//         // alert('TIME!');
+//         clearInterval(interval);
+//     }
+// }, 1000);
 </script>
 @stop
