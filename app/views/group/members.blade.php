@@ -23,7 +23,7 @@ Group
         <div class="group-details-holder well">
             <div class="group-details-content">
                 <div class="dropdown pull-right">
-                    <a data-toggle="dropdown" href="#"><i class="icon-gear"></i></a>
+                    <a data-toggle="dropdown" href="#"><i class="fa fa-gear"></i></a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         @if(Auth::user()->account_type == 1)
                         <li><a href="#" class="show-group-settings">Group Settings</a></li>
@@ -41,9 +41,9 @@ Group
             <div class="group-code-holder">
                 <div class="group-code-title">Group Code</div>
                 @if($groupDetails->group_code == 'LOCKED')
-                <a href="#"><i class="group-code-icon icon-lock"></i></a>
+                <a href="#"><i class="group-code-icon fa fa-lock"></i></a>
                 @else
-                <a href="#"><i class="group-code-icon icon-unlock"></i></a>
+                <a href="#"><i class="group-code-icon fa fa-unlock"></i></a>
                 @endif
                 <select class="form-control">
                     @if($groupDetails->group_code == 'LOCKED')
@@ -59,21 +59,21 @@ Group
             <ul class="nav nav-pills nav-stacked group-controls">
                 <li>
                     <a href="/groups/{{ $groupDetails->group_id }}">
-                        <i class="icon-chevron-right pull-right"></i>
-                        <i class="group-control-icon icon-comment-alt"></i> Posts
+                        <i class="fa fa-chevron-right pull-right"></i>
+                        <i class="group-control-icon fa fa-comment"></i> Posts
                     </a>
                 </li>
                 <li class="active">
                     <a href="/groups/{{ $groupDetails->group_id }}/members">
-                        <i class="icon-chevron-right pull-right"></i>
-                        <i class="group-control-icon icon-user"></i> Members
+                        <i class="fa fa-chevron-right pull-right"></i>
+                        <i class="group-control-icon fa fa-user"></i> Members
                         <span class="label label-success pull-right">{{ $members->count() }} joined</span>
                     </a>
                 </li>
                 @if(Auth::user()->account_type == 1)
                 <li>
                     <a href="/groups/chat">
-                        <i class="group-control-icon icon-comments-alt"></i> Start Group Chat
+                        <i class="group-control-icon fa fa-comments"></i> Start Group Chat
                     </a>
                 </li>
                 @endif
@@ -86,7 +86,9 @@ Group
             <div class="section-title-holder">
                 <span>Groups</span>
                 <div class="dropdown pull-right">
-                    <a data-toggle="dropdown" href="#" id="group_options"><i class="icon-plus-sign"></i></a>
+                    <a data-toggle="dropdown" href="#" id="group_options">
+                        <i class="fa fa-plus-circle"></i>
+                    </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         @if(Auth::user()->account_type == 1)
                         <li><a href="#" id="show_create_group">Create</a></li>
@@ -148,7 +150,7 @@ Group
                     </a>
                     <div class="member-content-holder pull-right">
                         <div class="dropdown pull-right">
-                            <a data-toggle="dropdown" href="#">More <i class="icon-chevron-down"></i></a>
+                            <a data-toggle="dropdown" href="#">More <i class="fa fa-chevron-down"></i></a>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                                 <li><a href="#">Change Password</a></li>
                                 <li><a href="#">Remove from Group</a></li>

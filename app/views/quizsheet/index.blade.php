@@ -131,7 +131,7 @@ data-time-limit="{{ $quiz->time_limit }}">
                     <input type="text" class="form-control quiz-title" value="{{ $quiz->title }}">
                     <input type="text" class="form-control questions-completed" value="0/1" readonly>
                     <span class="the-quiz-sheet-label">questions completed</span>
-                    <input type="text" class="form-control quiz-timer" value="1:00:00" readonly>
+                    <input type="text" class="form-control quiz-timer" value="00:00:00" readonly>
                     <span class="the-quiz-sheet-label">left</span>
                 </div>
 
@@ -159,10 +159,10 @@ data-time-limit="{{ $quiz->time_limit }}">
                                 <span class="question-number-label">Question 1</span>
                                 <div class="quiz-sheet-navs pull-right">
                                     <button class="show-previous btn btn-default" disabled>
-                                        <i class="icon-chevron-left"></i>
+                                        <i class="fa fa-chevron-left"></i>
                                     </button>
                                     <button class="show-next btn btn-default">
-                                        <i class="icon-chevron-right"></i>
+                                        <i class="fa fa-chevron-right"></i>
                                     </button>
                                 </div>
                                 <div class="clearfix"></div>

@@ -1,10 +1,10 @@
 <div class="post-creator-holder">
     @if(Auth::user()->account_type == 1)
     <ul class="nav nav-tabs" id="post_creator_options">
-        <li class="<?php echo (isset($quiz)) ? null : 'active'; ?>"><a href="#note"><i class="icon-edit"></i> Note</a></li>
-        <li><a href="#alert"><i class="icon-exclamation-sign"></i> Alert</a></li>
-        <li><a href="#assignment"><i class="icon-check"></i> Assigment</a></li>
-        <li class="<?php echo (isset($quiz)) ? 'active' : null; ?>"><a href="#quiz"><i class="icon-question-sign"></i> Quiz</a></li>
+        <li class="<?php echo (isset($quiz)) ? null : 'active'; ?>"><a href="#note"><i class="fa fa-edit"></i> Note</a></li>
+        <li><a href="#alert"><i class="fa fa-exclamation-triangle"></i> Alert</a></li>
+        <li><a href="#assignment"><i class="fa fa-check-circle"></i> Assigment</a></li>
+        <li class="<?php echo (isset($quiz)) ? 'active' : null; ?>"><a href="#quiz"><i class="fa fa-question-circle"></i> Quiz</a></li>
     </ul>
     @endif
     <div class="tab-content">

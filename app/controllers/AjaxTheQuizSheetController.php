@@ -174,6 +174,18 @@ class AjaxTheQuizSheetController extends BaseController
         return Response::json(array('error' => false));
     }
 
+    public function timeRemaining()
+    {
+        $quizTakerId    = Input::get('quiz_taker_id');
+        $time           = Input::get('time');
+
+        $taker = QuizTaker::find($quizTakerId);
+        $taker->time_remaining = $time;
+        $taker->save();
+
+        return Response::json(array('error' => false));
+    }
+
     public function submitQuiz()
     {
         $itemsCorrect   = 0;

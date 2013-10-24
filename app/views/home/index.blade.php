@@ -9,6 +9,7 @@ Home
 <link href="/assets/css/plugins/postcreator.style.css" rel="stylesheet">
 <link href="/assets/css/plugins/poststream.style.css" rel="stylesheet">
 <link href="/assets/css/plugins/chosen.css" rel="stylesheet">
+<link href="/assets/css/plugins/datepicker.css" rel="stylesheet">
 @stop
 
 @section('content')
@@ -41,7 +42,9 @@ Home
             <div class="section-title-holder">
                 <span>Groups</span>
                 <div class="dropdown pull-right">
-                    <a data-toggle="dropdown" href="#" id="group_options"><i class="icon-plus-sign"></i></a>
+                    <a data-toggle="dropdown" href="#" id="group_options">
+                        <i class="fa fa-plus-circle"></i>
+                    </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         @if(Auth::user()->account_type == 1)
                         <li><a href="#" id="show_create_group">Create</a></li>
@@ -81,11 +84,24 @@ Home
 <script src="/assets/js/plugins/expanding.js"></script>
 <script src="/assets/js/plugins/postcreator.js"></script>
 <script src="/assets/js/plugins/groups.js"></script>
+<script src="/assets/js/plugins/bootstrap-datepicker.js"></script>
 <script src="/assets/js/sitefunc/comment.creator.js"></script>
 @if(isset($quiz))
 <script>
 (function($) {
     $('#quiz .post-recipients').chosen();
+
+    var nowTemp = new Date();
+    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
+    var checkin = $('#quiz_due_date').datepicker({
+        onRender: function(date) {
+            return date.valueOf() < now.valueOf() ? 'disabled' : '';
+        },
+        format : 'yyyy-mm-dd'
+    }).on('changeDate', function(ev) {
+        checkin.hide();
+    }).data('datepicker');
 })(jQuery);
 </script>
 @endif

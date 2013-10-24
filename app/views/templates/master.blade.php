@@ -39,17 +39,17 @@
                     <ul class="nav navbar-nav">
                         <li>
                             <a href="/home" data-toggle="tooltip" title="Home" style="font-size: 20px;">
-                                <i class="icon-home"></i>
+                                <i class="fa fa-home"></i>
                             </a>
                         </li>
                         <li>
                             <a href="/planner" data-toggle="tooltip" title="Planner" style="font-size: 20px;">
-                                <i class="icon-list-alt"></i>
+                                <i class="fa fa-list-alt"></i>
                             </a>
                         </li>
                         <li>
                             <a href="/the-forum" data-toggle="tooltip" title="The Forum" style="font-size: 20px;">
-                                <i class="icon-trello"></i>
+                                <i class="fa fa-trello"></i>
                             </a>
                         </li>
                     </ul>

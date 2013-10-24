@@ -108,7 +108,7 @@ Quiz Creator
                     <div class="item-list-wrapper well" style="display: none;">
                         <span class="">QUESTIONS</span>
                         <ul class="item-list-holder nav nav-stacked nav-pills"></ul>
-                        <button id="add_question" class="btn btn-default"><i class="icon-plus"></i></button>
+                        <button id="add_question" class="btn btn-default"><i class="fa fa-plus-circle"></i></button>
                     </div>
                 </div>
 

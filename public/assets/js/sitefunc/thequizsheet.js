@@ -42,7 +42,13 @@ var TheQuizSheet = {
                 self.config.theQuizSheetProper.show();
 
                 self.config.quizTakerId = response.details.quiz_taker_id;
-                self.config.quizTimeLimit = self.config.theQuizSheet.data('time-limit');
+                if(response.details.time_remaining != 0) {
+                    self.config.quizTimeLimit = response.details.time_remaining;
+                }
+
+                if(response.details.time_remaining == 0) {
+                    self.config.quizTimeLimit = self.config.theQuizSheet.data('time-limit');
+                }
 
                 self.quizTimer();
 
@@ -333,15 +339,47 @@ var TheQuizSheet = {
     {
         var self = TheQuizSheet;
         var counter = self.config.quizTimeLimit;
+        var timeRemaining = 0;
+
         var interval = setInterval(function() {
             counter--;
-            self.config.quizTimer.val(counter);
-            // if (counter == 5) {
-            //     // Display a login box
-            //     // alert('TIME!');
-            //     clearInterval(interval);
-            // }
+            var totalSec = counter;
+            var hours = parseInt( totalSec / 3600 ) % 24;
+            var minutes = parseInt( totalSec / 60 ) % 60;
+            var seconds = totalSec % 60;
+
+            var result = (hours < 10 ? "0" + hours : hours) + ":"
+                + (minutes < 10 ? "0" + minutes : minutes) + ":"
+                + (seconds  < 10 ? "0" + seconds : seconds);
+
+            self.config.quizTimer.val(result);
+
+            if (counter == 0) {
+                self.config.messageHolder.show().find('span').text('Saving...');
+                // submit the quiz
+                alert('TIME!');
+                clearInterval(interval);
+            }
+
+            timeRemaining = counter;
         }, 1000);
+
+        // saves the time remaining every x seconds
+        var remaining = setInterval(function() {
+            $.ajax({
+                type : 'post',
+                url : '/ajax/the-quiz-sheet/time-remaining',
+                data : {
+                    time : timeRemaining,
+                    quiz_taker_id : self.config.quizTakerId
+                },
+                dataType : 'json',
+                async : false
+            }).done(function(response) {
+                // do something. :)
+            });
+
+        }, 10000);
     }
 }
 

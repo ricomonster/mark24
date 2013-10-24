@@ -136,12 +136,12 @@ aria-labelledby="the_modal_label" aria-hidden="true"></div>
                         </div>
                     </div>
                     <div class="thread-stats pull-right">
-                        <span class="badge"><i class="icon-eye-open"></i> {{ $thread->views }}</span>
-                        <span class="badge"><i class="icon-comment"></i> {{ $thread->replies }}</span>
+                        <span class="badge"><i class="fa fa-eye"></i> {{ $thread->views }}</span>
+                        <span class="badge"><i class="fa fa-comment"></i> {{ $thread->replies }}</span>
                         @if(!empty($thread->last_reply_timestamp))
                         <?php $replyTimestamp = Helper::timestamp($thread->last_reply_timestamp); ?>
                         <span class="badge">
-                            <i class="icon-share-alt"></i> {{ $replyTimestamp }}
+                            <i class="fa fa-share"></i> {{ $replyTimestamp }}
                         </span>
                         @endif
                     </div>

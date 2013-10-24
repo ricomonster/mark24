@@ -24,7 +24,7 @@
             <div class="post-content pull-left">
 
                 <div class="dropdown dropdown-post-options pull-right">
-                    <a data-toggle="dropdown" href="#"><i class="icon-gear"></i></a>
+                    <a data-toggle="dropdown" href="#"><i class="fa fa-gear"></i></a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         <li><a href="#">Delete Post</a></li>
                         <li><a href="#">Edit Post</a></li>
@@ -129,9 +129,9 @@
             <div class="clearfix"></div>
             <div class="post-etcs">
                 <ul class="post-etcs-holder">
-                    <li><a href="#"><i class="icon-thumbs-up-alt"></i> Like it</a></li>
-                    <li><a href="#"><i class="icon-comment-alt"></i> Reply</a></li>
-                    <li><a href="#"><i class="icon-time"></i> {{ $postTimestamp }}</a></li>
+                    <li><a href="#"><i class="fa fa-thumbs-up"></i> Like it</a></li>
+                    <li><a href="#"><i class="fa fa-comment"></i> Reply</a></li>
+                    <li><a href="#"><i class="fa fa-clock-o"></i> {{ $postTimestamp }}</a></li>
                 </ul>
             </div>
             <?php $comments = Helper::getComments($post->post_id); ?>
