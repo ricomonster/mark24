@@ -3,8 +3,14 @@ body {
     background-attachment:fixed;
     background-image:url('/assets/images/maze.png');
     background-repeat:repeat;
-    padding: 60px 0;
+    padding: 70px 0;
 }
+
+.navigation-items .navbar-nav li a { line-height: 30px; padding: 10px 15px; }
+.navigation-items .navbar-nav li .menu-items { font-size: 26px; }
+.nav-profile-avatar a { padding: 8px 12px 0 !important; }
+.navigation-items .navbar-nav .dropdown .dropdown-menu li a { padding: 3px 20px; }
+
 /* override Bootstrap Components */
 .well {
     background-color: #ffffff;

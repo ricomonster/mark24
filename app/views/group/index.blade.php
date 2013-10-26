@@ -1,7 +1,7 @@
 @extends('templates.master')
 
 @section('title')
-Group
+{{ $groupDetails->group_name }}
 @stop
 
 @section('internalCss')
@@ -23,13 +23,20 @@ Group
         <div class="group-details-holder well">
             <div class="group-details-content">
                 <div class="dropdown pull-right">
-                    <a data-toggle="dropdown" href="#"><i class="fa fa-gear"></i></a>
+                    <a data-toggle="dropdown" href="#">
+                        <i class="fa fa-gear"></i>
+                    </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         @if(Auth::user()->account_type == 1)
-                        <li><a href="#" class="show-group-settings">Group Settings</a></li>
+                        <li>
+                            <a href="#" id="show_settings_modal"
+                            data-group-id="{{ $groupDetails->group_id }}">
+                                Group Settings
+                            </a>
+                        </li>
                         @endif
                         @if(Auth::user()->account_type == 2)
-                        <li><a href="#" class="leave-group">Leave Group</a></li>
+                        <li><a href="#" id="leave-group">Leave Group</a></li>
                         @endif
                     </ul>
                 </div>

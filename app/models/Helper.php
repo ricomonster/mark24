@@ -182,4 +182,23 @@ class Helper
 
         return $string;
     }
+
+    public static function getTakenDetails($quizId)
+    {
+        $takers = QuizTaker::where('quiz_id', '=', $quizId)
+            ->where(function($query) {
+                $query->where('status', '=', 'PASSED')
+                    ->where('status', '=', 'GRADED');
+            })
+            ->get()
+            ->count();
+
+        $count = QuestionList::where('quiz_id', '=', $quizId)
+            ->get()
+            ->count();
+
+        return array(
+            'takers'    => $takers,
+            'count'     => ($count == 1) ? $count.' question' : $count.' questions');
+    }
 }

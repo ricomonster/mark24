@@ -35,26 +35,38 @@
                         <span class="icon-bar"></span>
                     </button>
                 </div>
-                <div class="collapse navbar-collapse">
+                <div class="collapse navbar-collapse navigation-items">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="/home" data-toggle="tooltip" title="Home" style="font-size: 20px;">
+                            <a href="/home" data-toggle="tooltip" title="Home"
+                            class="menu-items">
                                 <i class="fa fa-home"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="/planner" data-toggle="tooltip" title="Planner" style="font-size: 20px;">
+                            <a href="/planner" data-toggle="tooltip" title="Planner"
+                            class="menu-items">
                                 <i class="fa fa-list-alt"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="/the-forum" data-toggle="tooltip" title="The Forum" style="font-size: 20px;">
+                            <a href="/the-forum" data-toggle="tooltip" title="The Forum"
+                            class="menu-items">
                                 <i class="fa fa-trello"></i>
                             </a>
                         </li>
                     </ul>
 
                     <ul class="nav navbar-nav pull-right">
+                        <li class="nav-profile-avatar">
+                            <a href="/profile/{{ Auth::user()->username }}">
+                                @if(Auth::user()->avatar == 'default_avatar.png')
+                                <img src="/assets/images/anon.png" width="35">
+                                @else
+                                <img src="/assets/avatars/{{ Auth::user()->hashed_id }}/{{ Auth::user()->avatar_small }}" width="35">
+                                @endif
+                            </a>
+                        </li>
                         <li class="dropdown">
                             <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
                                 Me <b class="caret"></b>

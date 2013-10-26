@@ -20,7 +20,7 @@ Home
         <!-- Left Sidebar -->
         <div class="user-details-holder well">
             @if(Auth::user()->avatar == 'default_avatar.png')
-            <img src="/assets/images/anon.png" width="50" class="img-rounded pull-left">
+            <img src="/assets/images/anon.png" width="50" class="pull-left">
             @else
             <img src="/assets/avatars/{{ Auth::user()->hashed_id }}/{{ Auth::user()->avatar_normal }}"
             width="50" class="pull-left">

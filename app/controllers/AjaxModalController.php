@@ -87,6 +87,68 @@ class AjaxModalController extends BaseController {
         return Response::json($return);
     }
 
+    public function showGroupSettings()
+    {
+        $groupId = Input::get('group_id');
+
+        $group = Group::find($groupId);
+
+        return View::make('ajax.modal.groupsettings')
+            ->with('group', $group);
+    }
+
+    public function updateGroup()
+    {
+        $this->_validateGroupCreation();
+        if(!empty($this->_errors)) {
+            // return to page the errors via JSON
+            $return['error']    = true;
+            $return['messages'] = $this->_errors;
+
+            return Response::json($return);
+        }
+
+        // no errors
+        // update details
+        $group = Group::find(Input::get('group-id'));
+        $group->group_name = Input::get('group-name');
+        $group->group_description = Input::get('group-description');
+        $group->group_size = Input::get('group-size');
+        $group->save();
+
+        return Response::json(array('error' => false));
+    }
+
+    public function confirmGroupDelete()
+    {
+        $groupId = Input::get('group_id');
+        // get group details
+        $group = Group::find($groupId);
+
+        return View::make('ajax.modal.confirmdeletegroup')
+            ->with('group', $group);
+    }
+
+    public function deleteGroup()
+    {
+        $groupId = Input::get('group_id');
+
+        // delete first the members
+        GroupMember:: where('group_id', '=', $groupId)->delete();
+
+        // delete posts for the group
+        PostRecipient::where('recipient_id', '=', $groupId)
+            ->where('recipient_type', '=', 'group')
+            ->delete();
+
+        // delete the group
+        Group::where('group_id', '=', $groupId)->delete();
+
+        return Response::json(array(
+            'error' => false,
+            'lz' => Request::root().'/home'));
+    }
+
     // End of Group Module Functions
 
     // Forum Functions

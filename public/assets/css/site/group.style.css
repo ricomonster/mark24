@@ -51,3 +51,4 @@
 .member-content-holder .member-type,
 .member-content-holder .member-username { font-size: 13px; }
 .member-content-holder .dropdown a { font-size: 13px; }
+.member-content-holder .dropdown .dropdown-menu li a { font-size: 14px; }
