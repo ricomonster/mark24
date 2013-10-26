@@ -36,6 +36,11 @@ input, select, textarea { border-radius: 0 !important; }
 .create-group-modal #group_size { width: 200px; }
 .create-group-modal #group_description { height: 100px; resize: none; }
 
+.footer { font-size: 13px; padding: 20px 0; }
+.footer ul { list-style: none; margin: 0; padding: 0; }
+.footer ul li { display: inline-block; padding: 0 5px; }
+.footer ul li:first-child { padding-left: 0; }
+
 /* CUSTOM SHITS */
 /*
 subtext should be a span

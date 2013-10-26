@@ -48,6 +48,10 @@ Route::post('ajax/modal/delete-group', 'AjaxModalController@deleteGroup');
 // AJAX CommentCreator Routes
 Route::post('ajax/comment-creator/add-comment', 'AjaxCommentCreator@postCreateComment');
 
+// AJAX Forum Routes
+Route::post('ajax/the-forum/follow-thread', 'AjaxForumController@followThread');
+Route::post('ajax/the-forum/unfollow-thread', 'AjaxForumController@unfollowThread');
+
 // AJAX QuizCreator Routes
 Route::post('ajax/quiz-creator/create-new-quiz', 'AjaxQuizCreatorController@postCreateQuiz');
 Route::post('ajax/quiz-creator/update-quiz', 'AjaxQuizCreatorController@postUpdateQuiz');

@@ -25,6 +25,7 @@ class ForumController extends BaseController
                 $threads = ForumThread::where('views', '!=', '0')
                     ->orderBy('views', 'DESC')
                     ->orderBy('timestamp', 'DESC')
+                    ->orderBy('replies', 'DESC')
                     ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
                     ->leftJoin('forum_categories',
                         'forum_threads.category_id',
@@ -195,6 +196,7 @@ class ForumController extends BaseController
                     ->where('category_id', '=', $category->forum_category_id)
                     ->orderBy('views', 'DESC')
                     ->orderBy('timestamp', 'DESC')
+                    ->orderBy('replies', 'DESC')
                     ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
                     ->leftJoin('forum_categories',
                         'forum_threads.category_id',

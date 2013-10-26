@@ -12,7 +12,9 @@ var TheForum = {
     {
         $(document)
             .on('click', this.config.addForumCategory.selector, this.showModalAddCategory)
-            .on('click', this.config.submitCategory.selector, this.addCategory);
+            .on('click', this.config.submitCategory.selector, this.addCategory)
+            .on('click', this.config.followThread.selector, this.followTheThread)
+            .on('click', this.config.unfollowThread.selector, this.unfollowTheThread);
     },
 
     // shows the modal for adding a category
@@ -84,6 +86,59 @@ var TheForum = {
         })
 
         e.preventDefault();
+    },
+
+    // follow the thread
+    followTheThread : function(e)
+    {
+        var self    = TheForum;
+        var $this   = $(this);
+
+        self.config.messageHolder.show().find('span').text('Updating...');
+
+        $.ajax({
+            type : 'post',
+            url : '/ajax/the-forum/follow-thread',
+            data : { thread_id : $this.data('thread-id') },
+            dataType : 'json',
+            async : false
+        }).done(function(response) {
+            // change the text and class
+            $this.removeClass('follow-thread')
+                .addClass('unfollow-thread').text('Unfollow');
+
+            self.config.messageHolder.hide();
+        });
+
+        e.preventDefault();
+    },
+
+    // unfollow the thread
+    unfollowTheThread : function(e)
+    {
+        var self    = TheForum;
+        var $this   = $(this);
+
+        var self    = TheForum;
+        var $this   = $(this);
+
+        self.config.messageHolder.show().find('span').text('Updating...');
+
+        $.ajax({
+            type : 'post',
+            url : '/ajax/the-forum/unfollow-thread',
+            data : { thread_id : $this.data('thread-id') },
+            dataType : 'json',
+            async : false
+        }).done(function(response) {
+            // change the text and class
+            $this.removeClass('unfollow-thread')
+                .addClass('follow-thread').text('Follow');
+
+            self.config.messageHolder.hide();
+        });
+
+        e.preventDefault();
     }
 }
 
@@ -91,6 +146,8 @@ TheForum.init({
     theModal : $('#the_modal'),
     messageHolder : $('.message-holder'),
 
+    followThread : $('.follow-thread'),
+    unfollowThread : $('.unfollow-thread'),
     addForumCategory : $('.add-forum-category'),
     submitCategory : $('#trigger_add_category')
 });

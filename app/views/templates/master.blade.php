@@ -87,6 +87,21 @@
 
         <div class="container">
             @yield('content')
+
+            <div class="footer">
+                <strong>eLinet - eLearning Networking &copy; {{ date('Y') }}</strong>
+                <ul>
+                    <li>About</li>
+                    <li>Blog</li>
+                    <li>Platform</li>
+                    <li>Press</li>
+                    <li>Help</li>
+                    <li>Jobs</li>
+                    <li>Terms</li>
+                    <li>Privacy</li>
+                    <li>Mobile</li>
+                </ul>
+            </div>
         </div>
 
         <script src="/assets/js/jquery.min.js"></script>

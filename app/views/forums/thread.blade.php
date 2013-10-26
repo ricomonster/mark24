@@ -1,7 +1,7 @@
 @extends('templates.master')
 
 @section('title')
-The Forum
+The Forum - {{ $thread->title }}
 @stop
 
 @section('internalCss')
@@ -143,9 +143,15 @@ aria-labelledby="the_modal_label" aria-hidden="true"></div>
             <div class="title-holder">Thread Actions</div>
             <ul class="nav nav-pills nav-stacked">
                 @if(empty($followed))
-                <li><a href="#">Follow</a></li>
+                <li>
+                    <a href="#" class="follow-thread"
+                    data-thread-id="{{ $thread->forum_thread_id }}">Follow</a>
+                </li>
                 @else
-                <li><a href="#">Unfollow</a></li>
+                <li>
+                    <a href="#" class="unfollow-thread"
+                    data-thread-id="{{ $thread->forum_thread_id }}">Unfollow</a>
+                </li>
                 @endif
             </ul>
         </div>
