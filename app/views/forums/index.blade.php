@@ -21,6 +21,10 @@ The Forum
 }
 
 .the-forum .forum-category-holder ul li { margin: 0; }
+.the-forum .forum-category-holder ul li.active a {
+    background-color: #f3f5f7;
+    color: #2a6496;
+}
 .the-forum .forum-category-holder ul li a {
     background-color: #ffffff;
     border: 1px solid #dfe4e8 !important;
@@ -66,7 +70,7 @@ aria-labelledby="the_modal_label" aria-hidden="true"></div>
         <div class="forum-category-holder">
             <div class="title-holder">Forum Categories</div>
             <ul class="nav nav-pills nav-stacked">
-                <li><a href="/the-forum">Home</a></li>
+                <li class="active"><a href="/the-forum">Home</a></li>
                 @foreach($categories as $category)
                 <li><a href="/the-forum/{{ $category->seo_name }}">{{ $category->category_name }}</a></li>
                 @endforeach

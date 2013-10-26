@@ -22,7 +22,15 @@ class ForumController extends BaseController
                     ->get();
                 break;
             case 'popular' :
-                $threads = array();
+                $threads = ForumThread::where('views', '!=', '0')
+                    ->orderBy('views', 'DESC')
+                    ->orderBy('timestamp', 'DESC')
+                    ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
+                    ->leftJoin('forum_categories',
+                        'forum_threads.category_id',
+                        '=',
+                        'forum_categories.forum_category_id')
+                    ->get();
                 break;
             case 'unanswered' :
                 // get unanswered threads
@@ -59,6 +67,19 @@ class ForumController extends BaseController
                     ->get();
                 break;
             case 'last-viewed' :
+                $threads = ForumThreadView::where('forum_thread_views.user_id', '=', Auth::user()->id)
+                    ->orderBy('forum_thread_views.view_timestamp', 'DESC')
+                    ->leftJoin(
+                        'forum_threads',
+                        'forum_thread_views.forum_thread_id',
+                        '=',
+                        'forum_threads.forum_thread_id')
+                    ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
+                    ->leftJoin('forum_categories',
+                        'forum_threads.category_id',
+                        '=',
+                        'forum_categories.forum_category_id')
+                    ->get();
                 break;
             default :
                 // get latest threads
@@ -170,6 +191,16 @@ class ForumController extends BaseController
                     ->get();
                 break;
             case 'popular' :
+                $threads = ForumThread::where('views', '!=', '0')
+                    ->where('category_id', '=', $category->forum_category_id)
+                    ->orderBy('views', 'DESC')
+                    ->orderBy('timestamp', 'DESC')
+                    ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
+                    ->leftJoin('forum_categories',
+                        'forum_threads.category_id',
+                        '=',
+                        'forum_categories.forum_category_id')
+                    ->get();
                 break;
             case 'unanswered' :
                 // get unanswered threads
@@ -209,6 +240,20 @@ class ForumController extends BaseController
                     ->get();
                 break;
             case 'last-viewed' :
+                $threads = ForumThreadView::where('forum_thread_views.user_id', '=', Auth::user()->id)
+                    ->where('forum_threads.category_id', '=', $category->forum_category_id)
+                    ->orderBy('forum_thread_views.view_timestamp', 'DESC')
+                    ->leftJoin(
+                        'forum_threads',
+                        'forum_thread_views.forum_thread_id',
+                        '=',
+                        'forum_threads.forum_thread_id')
+                    ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
+                    ->leftJoin('forum_categories',
+                        'forum_threads.category_id',
+                        '=',
+                        'forum_categories.forum_category_id')
+                    ->get();
                 break;
             default :
                 // get latest threads
@@ -244,6 +289,40 @@ class ForumController extends BaseController
         if(empty($thread)) {
             // redirect to page not found
             return Redirect::to('page-not-found');
+        }
+
+        // check if the user already viewed this thread
+        $visit = ForumThreadView::where('user_id', '=', Auth::user()->id)
+            ->where('forum_thread_id', '=', $thread->forum_thread_id)
+            ->first();
+
+        // if empty, the user viewed this page for the first time
+        if(empty($visit)) {
+            $visitor = new ForumThreadView;
+            $visitor->user_id = Auth::user()->id;
+            $visitor->forum_thread_id = $thread->forum_thread_id;
+            $visitor->view_timestamp = time();
+            $visitor->last_viewed = date('Y-m-d');
+            $visitor->save();
+
+            // increment the number of views of the thread
+            $thread->views += 1;
+            $thread->save();
+        }
+
+        // user already viewed this thread
+        if(!empty($visit)) {
+            // check if the last viewed date is the same from the
+            // date today
+            if(date('Y-m-d') != $visit->last_viewed) {
+                $visit->view_timestamp = time();
+                $visit->last_viewed = date('Y-m-d');
+                $visit->save();
+
+                // increment the number of views of the thread
+                $thread->views += 1;
+                $thread->save();
+            }
         }
 
         // check also if the thread is being followed
