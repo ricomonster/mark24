@@ -254,5 +254,78 @@
         });
 
         e.preventDefault();
-    })
+    });
+
+    // group lock function
+    $(document).on('click', '.lock-group', function(e) {
+        var $this = $(this);
+
+        $('.message-holder').show().find('span').text('Saving...');
+
+        $.ajax({
+            type : 'post',
+            url : '/ajax/group/lock-group',
+            data : { group_id : $this.data('group-id') },
+            dataType : 'json',
+            async : false
+        }).done(function(response) {
+            if(!response.error) {
+                $this.removeClass('lock-group').addClass('unlock-group')
+                    .html('<i class="group-code-icon fa fa-lock"></i>');
+                // change group code to LOCKED
+                $('.group-code').val('LOCKED');
+                $('.message-holder').hide();
+            }
+        })
+
+        e.preventDefault();
+    });
+
+    // group unlock function
+    $(document).on('click', '.unlock-group', function(e) {
+        var $this = $(this);
+        $('.message-holder').show().find('span').text('Saving...');
+
+        $.ajax({
+            type : 'post',
+            url : '/ajax/group/unlock-group',
+            data : { group_id : $this.data('group-id') },
+            dataType : 'json',
+            async : false
+        }).done(function(response) {
+            if(!response.error) {
+                // change icon
+                $this.removeClass('unlock-group').addClass('lock-group')
+                    .html('<i class="group-code-icon fa fa-unlock"></i>');
+
+                // change group code to LOCKED
+                $('.group-code').val(response.group_code);
+                $('.message-holder').hide();
+            }
+        })
+
+        e.preventDefault();
+    });
+
+    // resets the group code
+    $(document).on('click', '.reset-group-code', function(e) {
+        var $this = $(this);
+        $('.message-holder').show().find('span').text('Saving...');
+
+        $.ajax({
+            type : 'post',
+            url : '/ajax/group/reset-group-code',
+            data : { group_id : $this.data('group-id') },
+            dataType : 'json',
+            async : false
+        }).done(function(response) {
+            if(!response.error) {
+                // change group code to LOCKED
+                $('.group-code').val(response.group_code);
+                $('.message-holder').hide();
+            }
+        })
+
+        e.preventDefault();
+    });
 })(jQuery)

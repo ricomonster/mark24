@@ -22,8 +22,8 @@ Settings
             <h3>User Photo</h3>
             <div class="current-avatar-wrapper pull-left">
                 <img src="/assets/images/loader_medium.gif" width="140" class="image-loader-gif">
-                <img src="/assets/images/default_avatar.png" width="140" class="current-user-avatar">
-                <span class="current-avatar-subtext subtext">Your Current Photo</span>
+                {{ Helper::avatar(140, "large", "current-user-avatar") }}
+                <span class="current-avatar-subtext subtext" style="display: block;">Your Current Photo</span>
             </div>
             <div class="choose-avatar-wrapper pull-left">
                 {{ Form::open(array('url' => 'ajax/users/upload-photo', 'files'=>true, 'class'=>'avatar-uploader-form')) }}
@@ -127,7 +127,7 @@ Settings
                 }
             } else {
                 $this.removeAttr('disabled');
-                
+
                 $('.personal-information-form .form-group').removeClass('has-error')
                     .find('.help-block').hide();
             }

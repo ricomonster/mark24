@@ -8,8 +8,9 @@
 
 .group-details-holder .group-code-holder { padding: 19px 19px 10px 19px; }
 .group-details-holder .group-code-holder .group-code-title { margin-bottom: 10px; }
-.group-details-holder .group-code-holder .group-code-icon { font-size: 18px; }
-.group-details-holder .group-code-holder select { display: inline-block; margin-left: 10px; width: 140px; }
+.group-details-holder .group-code-holder .group-code-icon { font-size: 18px; padding-top: 6px; }
+.group-details-holder .group-code-holder .group-code-control { margin-left: 10px; width: 140px; }
+/*.group-details-holder .group-code-holder select { display: inline-block; margin-left: 10px; width: 140px; }*/
 
 .group-details-holder .group-controls { margin-top: 10px; }
 .group-details-holder .group-controls .group-control-icon { font-size: 18px; margin-right: 10px; }

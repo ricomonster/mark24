@@ -60,11 +60,7 @@
                     <ul class="nav navbar-nav pull-right">
                         <li class="nav-profile-avatar">
                             <a href="/profile/{{ Auth::user()->username }}">
-                                @if(Auth::user()->avatar == 'default_avatar.png')
-                                <img src="/assets/images/anon.png" width="35">
-                                @else
-                                <img src="/assets/avatars/{{ Auth::user()->hashed_id }}/{{ Auth::user()->avatar_small }}" width="35">
-                                @endif
+                                {{ Helper::avatar(35, "small") }}
                             </a>
                         </li>
                         <li class="dropdown">

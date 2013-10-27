@@ -182,12 +182,7 @@ data-time-limit="{{ $quiz->time_limit }}">
                     <div class="assigned-wrapper">
                         <strong>Assigned By</strong>
                         <div class="assigned-details">
-                            @if(empty($assigned->avatar))
-                            <img src="/assets/images/anon.png" width="50" class="pull-left">
-                            @else
-                            <img src="/assets/avatars/{{ $assigned->hashed_id }}/{{ $assigned->avatar_small }}"
-                            width="50" class="pull-left">
-                            @endif
+                            {{ Helper::avatar(50, "small", "pull-left", $assigned->id) }}
                             <div class="pull-left">
                                 <p>{{ $assigned->name }}</p>
                                 <p>Teacher</p>

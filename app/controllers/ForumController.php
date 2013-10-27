@@ -14,6 +14,7 @@ class ForumController extends BaseController
                 // get latest threads
                 $threads = ForumThread::orderBy('last_reply_timestamp', 'DESC')
                     ->orderBy('timestamp', 'DESC')
+                    ->orderBy('sticky_post', 'DESC')
                     ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
                     ->leftJoin('forum_categories',
                         'forum_threads.category_id',
@@ -137,6 +138,8 @@ class ForumController extends BaseController
 
         // no errors
         if(!$validator->fails()) {
+            $stickyPost = Input::get('sticky-post');
+
             $seoUrl = Helper::seoFriendlyUrl(Input::get('thread-title'));
             // save thread
             $newThread              = new ForumThread;
@@ -145,6 +148,7 @@ class ForumController extends BaseController
             $newThread->title       = Input::get('thread-title');
             $newThread->description = Input::get('thread-description');
             $newThread->seo_url     = $seoUrl;
+            $newThread->sticky_post = (empty($stickyPost)) ? 'FALSE' : 'TRUE';
             $newThread->timestamp   = time();
             $newThread->save();
 
@@ -184,6 +188,8 @@ class ForumController extends BaseController
                 // get latest threads
                 $threads = ForumThread::orderBy('forum_thread_id', 'DESC')
                     ->where('category_id', '=', $category->forum_category_id)
+                    ->orderBy('timestamp', 'DESC')
+                    ->orderBy('sticky_post', 'DESC')
                     ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
                     ->leftJoin('forum_categories',
                         'forum_threads.category_id',
@@ -390,7 +396,22 @@ class ForumController extends BaseController
         $userPostCount->forum_posts += 1;
         $userPostCount->save();
 
+        // check the number of replies of the thread
+        $page = ForumThreadReply::where('forum_thread_id', '=', $threadId)
+            ->get()
+            ->count();
+        $lastPage = ceil($page / 10);
+
+        // set up the redirect
+        if($lastPage <= 1) {
+            $redirectUrl = 'the-forum/thread/'.$thread->seo_url.'/'.$thread->forum_thread_id;
+        }
+
+        if($lastPage > 1) {
+            $redirectUrl = 'the-forum/thread/'.$thread->seo_url.'/'.$thread->forum_thread_id.'?page='.$lastPage;
+        }
+
         // redirect to the page
-        return Redirect::to('the-forum/thread/'.$thread->seo_url.'/'.$thread->forum_thread_id);
+        return Redirect::to($redirectUrl);
     }
 }

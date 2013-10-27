@@ -92,6 +92,12 @@ aria-labelledby="the_modal_label" aria-hidden="true"></div>
                     placeholder="Write your first post here">{{ Input::old('thread-description') }}</textarea>
                 </div>
 
+                @if(Auth::user()->account_type == 1)
+                <div class="checkbox">
+                    <label><input name="sticky-post" type="checkbox" value="TRUE"> Sticky post?</label>
+                </div>
+                @endif
+
                 <button type="submit" class="btn btn-default">Post Thread</button>
             {{ Form::close() }}
         </div>

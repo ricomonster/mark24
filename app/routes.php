@@ -21,9 +21,11 @@ Route::get('/', function()
 });
 
 Route::get('test', function() {
-    $test = 'Get fucking lost.';
-
-    $url = Helper::seoFriendlyUrl($test);
+    print_r(Auth::user());
+    echo '<br/>';
+    echo '<br/>';
+    echo '<br/>';
+    print_r(User::find(1));
 });
 
 // AJAX Routes
@@ -51,6 +53,11 @@ Route::post('ajax/comment-creator/add-comment', 'AjaxCommentCreator@postCreateCo
 // AJAX Forum Routes
 Route::post('ajax/the-forum/follow-thread', 'AjaxForumController@followThread');
 Route::post('ajax/the-forum/unfollow-thread', 'AjaxForumController@unfollowThread');
+
+// AJAX Group Routes
+Route::post('ajax/group/lock-group', 'AjaxGroupController@lockGroup');
+Route::post('ajax/group/unlock-group', 'AjaxGroupController@changeGroupCode');
+Route::post('ajax/group/reset-group-code', 'AjaxGroupController@changeGroupCode');
 
 // AJAX QuizCreator Routes
 Route::post('ajax/quiz-creator/create-new-quiz', 'AjaxQuizCreatorController@postCreateQuiz');

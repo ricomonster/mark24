@@ -121,15 +121,13 @@ aria-labelledby="the_modal_label" aria-hidden="true"></div>
                 @foreach($threads as $thread)
                 <?php $timestamp = Helper::timestamp($thread->timestamp); ?>
                 <li class="thread-holder">
-                    @if($thread->avatar == 'default_avatar.png')
-                    <img src="/assets/images/default_avatar.png" width="70" class="img-rounded pull-left">
-                    @else
-                    <img src="/assets/avatars/{{ $thread->hashed_id }}/{{ $thread->avatar_normal }}"
-                    width="70" class="img-rounded pull-left">
-                    @endif
+                    {{ Helper::avatar(70, "normal", "img-rounded pull-left", $thread->id) }}
                     <div class="thread-details-holder pull-left">
                         <div class="thread-title">
                             <a href="/the-forum/thread/{{ $thread->seo_url }}/{{ $thread->forum_thread_id }}">
+                                    @if((empty($sort) || $sort == 'latest') && $thread->sticky_post == 'TRUE')
+                                    <span class="sticky-post text-muted">[Sticky]</span>
+                                    @endif
                                     {{ $thread->title }}
                             </a>
                         </div>

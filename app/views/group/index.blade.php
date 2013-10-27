@@ -48,18 +48,28 @@
             <div class="group-code-holder">
                 <div class="group-code-title">Group Code</div>
                 @if($groupDetails->group_code == 'LOCKED')
-                <a href="#"><i class="group-code-icon fa fa-lock"></i></a>
+                <a href="#" class="pull-left unlock-group" data-group-id="{{ $groupDetails->group_id }}">
+                    <i class="group-code-icon fa fa-lock"></i>
+                </a>
                 @else
-                <a href="#"><i class="group-code-icon fa fa-unlock-o"></i></a>
+                <a href="#" class="pull-left lock-group" data-group-id="{{ $groupDetails->group_id }}">
+                    <i class="group-code-icon fa fa-unlock"></i>
+                </a>
                 @endif
-                <select class="form-control">
-                    @if($groupDetails->group_code == 'LOCKED')
-                    <option value="">LOCKED</option>
-                    @else
-                    <option value="">{{ $groupDetails->group_code }}</option>
-                    @endif
-                    <option value="">Reset</option>
-                </select>
+                <div class="group-code-control input-group pull-left">
+                    <input type="text" class="group-code form-control" readonly
+                    value="<?php echo ($groupDetails->group_code == 'LOCKED') ? 'LOCKED' : $groupDetails->group_code; ?>">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a href="#" class="reset-group-code"
+                                data-group-id="{{ $groupDetails->group_id }}">Reset</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
             </div>
             @endif
 
@@ -91,7 +101,7 @@
 
         <div class="user-groups-holder">
             <div class="section-title-holder">
-                <span>Groups</span>
+                <span>Other Groups</span>
                 <div class="dropdown pull-right">
                     <a data-toggle="dropdown" href="#" id="group_options">
                         <i class="fa fa-plus-circle"></i>

@@ -201,4 +201,48 @@ class Helper
             'takers'    => $takers,
             'count'     => ($count == 1) ? $count.' question' : $count.' questions');
     }
+
+    public static function avatar($width, $type, $class = null, $user = null)
+    {
+        // check first there's a set user
+        if(is_null($user)) {
+            // we will use the current user
+            $details = Auth::user();
+        }
+
+        if(!is_null($user)) {
+            // fetch the data of the user
+            $details = User::find($user);
+        }
+
+        // set up the img tag
+        if($details->avatar == 'default_avatar.png') {
+            $tag =
+                '<img src="/assets/defaults/avatar/'.$details->avatar_normal.'"
+                class="'.$class.'" width="'.$width.'">';
+        }
+
+        if($details->avatar != 'default_avatar.png') {
+            switch($type) {
+                case 'small' :
+                    $avatar = $details->avatar_small;
+                    break;
+                case 'normal' :
+                    $avatar = $details->avatar_normal;
+                    break;
+                case 'large' :
+                    $avatar = $details->avatar_large;
+                    break;
+                default :
+                    $avatar = $details->avatar_normal;
+                    break;
+            }
+
+            $tag =
+                '<img src="/assets/avatars/'.$details->hashed_id.'/'.$avatar.'"
+                class="'.$class.'" width="'.$width.'">';
+        }
+
+        return $tag;
+    }
 }

@@ -8,9 +8,6 @@
 <link href="/assets/css/site/group.style.css" rel="stylesheet">
 <link href="/assets/css/plugins/postcreator.style.css" rel="stylesheet">
 <link href="/assets/css/plugins/poststream.style.css" rel="stylesheet">
-<style type="text/css">
-
-</style>
 @stop
 
 @section('content')
@@ -48,18 +45,28 @@
             <div class="group-code-holder">
                 <div class="group-code-title">Group Code</div>
                 @if($groupDetails->group_code == 'LOCKED')
-                <a href="#"><i class="group-code-icon fa fa-lock"></i></a>
+                <a href="#" class="unlock-group pull-left" data-group-id="{{ $groupDetails->group_id }}">
+                    <i class="group-code-icon fa fa-lock"></i>
+                </a>
                 @else
-                <a href="#"><i class="group-code-icon fa fa-unlock"></i></a>
+                <a href="#" class="lock-group pull-left" data-group-id="{{ $groupDetails->group_id }}">
+                    <i class="group-code-icon fa fa-unlock"></i>
+                </a>
                 @endif
-                <select class="form-control">
-                    @if($groupDetails->group_code == 'LOCKED')
-                    <option value="">LOCKED</option>
-                    @else
-                    <option value="">{{ $groupDetails->group_code }}</option>
-                    @endif
-                    <option value="">Reset</option>
-                </select>
+                <div class="group-code-control input-group pull-left">
+                    <input type="text" class="group-code form-control" readonly
+                    value="<?php echo ($groupDetails->group_code == 'LOCKED') ? 'LOCKED' : $groupDetails->group_code; ?>">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a href="#" class="reset-group-code"
+                                data-group-id="{{ $groupDetails->group_id }}">Reset</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
             </div>
             @endif
 
@@ -93,7 +100,7 @@
 
         <div class="user-groups-holder">
             <div class="section-title-holder">
-                <span>Groups</span>
+                <span>Other Groups</span>
                 <div class="dropdown pull-right">
                     <a data-toggle="dropdown" href="#" id="group_options">
                         <i class="fa fa-plus-circle"></i>
@@ -128,12 +135,7 @@
                 <!-- Group Owner Details -->
                 <li class="member-details-holder owner-details-holder">
                     <a href="/profile/{{ $ownerDetails->username }}">
-                        @if($ownerDetails->avatar == 'default_avatar.png')
-                        <img src="/assets/images/anon.png" width="80" class="pull-left">
-                        @else
-                        <img src="/assets/avatars/{{ $ownerDetails->hashed_id }}/{{ $ownerDetails->avatar_normal }}"
-                        width="80" class="pull-left">
-                        @endif
+                        {{ Helper::avatar(80, "normal", "pull-left", $ownerDetails->id) }}
                     </a>
                     <div class="member-content-holder pull-right">
                         <div class="member-name-text">
@@ -150,12 +152,7 @@
                 @if($member->group_member_id != $ownerDetails->id)
                 <li class="member-details-holder">
                     <a href="/profile/{{ $member->username }}">
-                        @if($member->avatar == 'default_avatar.png')
-                        <img src="/assets/images/{{ $member->avatar }}" width="80" class="pull-left">
-                        @else
-                        <img src="/assets/avatars/{{ $member->hashed_id }}/{{ $member->avatar_normal }}"
-                        width="80" class="pull-left">
-                        @endif
+                        {{ Helper::avatar(80, "normal", "pull-left", $member->id) }}
                     </a>
                     <div class="member-content-holder pull-right">
                         <div class="dropdown pull-right">

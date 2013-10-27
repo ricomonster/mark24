@@ -189,12 +189,7 @@ aria-labelledby="the_modal_label" aria-hidden="true"></div>
                 <li class="thread-holder">
                     <?php $timestamp = Helper::timestamp($thread->timestamp); ?>
                     <div class="author-details pull-left">
-                        @if($thread->avatar == 'default_avatar.png')
-                        <img src="/assets/images/default_avatar.png" width="70" class="img-rounded">
-                        @else
-                        <img src="/assets/avatars/{{ $thread->hashed_id }}/{{ $thread->avatar_normal }}"
-                        width="70" class="img-rounded">
-                        @endif
+                        {{ Helper::avatar(70, "normal", "img-rounded", $thread->id) }}
                         <a href="/profile/{{ $thread->username }}">{{ $thread->username }}</a>
                         <span class="user-type text-muted">
                             @if($thread->account_type == 1)
@@ -220,14 +215,9 @@ aria-labelledby="the_modal_label" aria-hidden="true"></div>
                 @if(!$replies->isEmpty())
                 @foreach($replies as $reply)
                 <?php $timestamp = Helper::timestamp($reply->reply_timestamp); ?>
-                <li class="thread-reply-holder">
+                <li id="thread_{{ $reply->forum_thread_reply_id }}" class="thread-reply-holder">
                     <div class="author-details pull-left">
-                        @if($reply->avatar == 'default_avatar.png')
-                        <img src="/assets/images/default_avatar.png" width="70" class="img-rounded">
-                        @else
-                        <img src="/assets/avatars/{{ $reply->hashed_id }}/{{ $reply->avatar_normal }}"
-                        width="70" class="img-rounded">
-                        @endif
+                        {{ Helper::avatar(70, "normal", "img-rounded", $reply->id) }}
                         <a href="/profile/{{ $reply->username }}">{{ $reply->username }}</a>
                         <span class="user-type text-muted">
                             @if($reply->account_type == 1)
@@ -256,12 +246,7 @@ aria-labelledby="the_modal_label" aria-hidden="true"></div>
 
                 <li class="reply-to-thread-holder">
                     <div class="author-details pull-left">
-                        @if(Auth::user()->avatar == 'default_avatar.png')
-                        <img src="/assets/images/default_avatar.png" width="70" class="img-rounded">
-                        @else
-                        <img src="/assets/avatars/{{ Auth::user()->hashed_id }}/{{ Auth::user()->avatar_normal }}"
-                        width="70" class="img-rounded">
-                        @endif
+                        {{ Helper::avatar(70, "normal", "img-rounded") }}
                         <a href="/profile/{{ Auth::user()->username }}">{{ Auth::user()->username }}</a>
                         <span class="user-type text-muted">
                             @if(Auth::user()->account_type == 1)

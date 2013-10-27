@@ -14,12 +14,7 @@
         <?php $postTimestamp = Helper::timestamp($post->post_timestamp); ?>
         <li class="post-holder">
             <a href="/profile/{{ $post->username }}" class="writer-profile">
-                @if(empty($post->avatar))
-                <img src="/assets/images/anon.png" width="50" class="img-rounded pull-left">
-                @else
-                <img src="/assets/avatars/{{ $post->hashed_id }}/{{ $post->avatar_small }}"
-                width="50" class="img-rounded pull-left">
-                @endif
+                {{ Helper::avatar(50, "small", "img-rounded pull-left", $post->id) }}
             </a>
             <div class="post-content pull-left">
 
@@ -142,12 +137,7 @@
                     @foreach($comments as $comment)
                     <li data-comment-id="{{ $comment->commment_id }}">
                         <a href="/profile/{{ $comment->username }}">
-                            @if(empty($comment->avatar))
-                            <img src="/assets/images/anon.png" width="35" class="img-rounded pull-left">
-                            @else
-                            <img src="/assets/avatars/{{ $comment->hashed_id }}/{{ $comment->avatar_small }}"
-                            width="35" class="img-rounded pull-left">
-                            @endif
+                            {{ Helper::avatar(35, "small", "img-rounded pull-left", $comment->id) }}
                         </a>
                         <div class="comment-content-holder pull-left">
                             <div class="commenter-details">

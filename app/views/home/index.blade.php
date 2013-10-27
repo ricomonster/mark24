@@ -19,12 +19,7 @@ Home
     <div class="col-md-3">
         <!-- Left Sidebar -->
         <div class="user-details-holder well">
-            @if(Auth::user()->avatar == 'default_avatar.png')
-            <img src="/assets/images/anon.png" width="50" class="pull-left">
-            @else
-            <img src="/assets/avatars/{{ Auth::user()->hashed_id }}/{{ Auth::user()->avatar_normal }}"
-            width="50" class="pull-left">
-            @endif
+            {{ Helper::avatar(50, "normal", "pull-left") }}
 
             <div class="user-details-content pull-left">
                 @if(Auth::user()->account_type == 1)
