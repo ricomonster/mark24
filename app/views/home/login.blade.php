@@ -17,7 +17,8 @@
             body { padding-top: 0; }
             .header .text-muted { position: relative; }
             .main-content { padding-top: 20px; }
-            .left-panel,
+            .left-panel { color: #fff; margin: auto !important; width: 400px; }
+            .left-panel h1 { font-size: 56px; }
             .right-panel { width: 350px; margin: auto !important; }
             .left-panel p { font-size: 20px; }
 
@@ -68,7 +69,9 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="left-panel">
-                        <h1>Welcome to eLinet</h1>
+                        <h1>
+                            Learn better, together.
+                        </h1>
                         <p>
                             eLinet helps connect all learners with the people
                             and resources needed to reach their full potential
