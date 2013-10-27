@@ -36,7 +36,7 @@
                         </li>
                         @endif
                         @if(Auth::user()->account_type == 2)
-                        <li><a href="#" id="leave-group">Leave Group</a></li>
+                        <li><a href="#" id="leave_group" data-group-id="{{ $groupDetails->group_id }}">Withdraw</a></li>
                         @endif
                     </ul>
                 </div>

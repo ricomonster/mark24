@@ -21,11 +21,7 @@ Route::get('/', function()
 });
 
 Route::get('test', function() {
-    print_r(Auth::user());
-    echo '<br/>';
-    echo '<br/>';
-    echo '<br/>';
-    print_r(User::find(1));
+
 });
 
 // AJAX Routes
@@ -40,12 +36,16 @@ Route::get('ajax/modal/show_join_group', 'AjaxModalController@showJoinGroup');
 Route::get('ajax/modal/show-add-forum-category', 'AjaxModalController@showAddCategory');
 Route::get('ajax/modal/show-settings-group', 'AjaxModalController@showGroupSettings');
 Route::get('ajax/modal/confirm-delete-group', 'AjaxModalController@confirmGroupDelete');
+Route::get('ajax/modal/show-withdraw-group', 'AjaxModalController@confirmWithdrawGroup');
+Route::get('ajax/modal/show-change-password', 'AjaxModalController@showChangePassword');
 
 Route::post('ajax/modal/create_group', 'AjaxModalController@createGroup');
 Route::post('ajax/modal/join_group', 'AjaxModalController@joinGroup');
 Route::post('ajax/modal/submit-new-category', 'AjaxModalController@addCategory');
 Route::post('ajax/modal/submit-group-update', 'AjaxModalController@updateGroup');
 Route::post('ajax/modal/delete-group', 'AjaxModalController@deleteGroup');
+Route::post('ajax/modal/withdraw-group', 'AjaxModalController@withdrawGroup');
+Route::post('ajax/modal/reset-password', 'AjaxModalController@resetPassword');
 
 // AJAX CommentCreator Routes
 Route::post('ajax/comment-creator/add-comment', 'AjaxCommentCreator@postCreateComment');

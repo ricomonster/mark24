@@ -6,9 +6,18 @@ body {
     padding: 70px 0;
 }
 
-.navigation-items .navbar-nav li a { line-height: 30px; padding: 10px 15px; }
+.navigation-items .navbar-nav li a {
+    border-right: 1px solid #fff;
+    line-height: 30px;
+    padding: 10px 15px;
+}
+
+.navigation-items .navbar-nav li:first-child a {
+    border-left: 1px solid #fff;
+}
+
 .navigation-items .navbar-nav li .menu-items { font-size: 26px; }
-.nav-profile-avatar a { padding: 8px 12px 0 !important; }
+.nav-profile-avatar a { padding: 8px 12px 8px !important; }
 .navigation-items .navbar-nav .dropdown .dropdown-menu li a { padding: 3px 20px; }
 
 /* override Bootstrap Components */
@@ -29,8 +38,9 @@ input, select, textarea { border-radius: 0 !important; }
 .modal-header .close { color: #ffffff; }
 
 .modal-body .alert { display: none; padding: 5px 10px; !important; }
+.modal-body form { margin: 0; }
 
-.modal-footer { background-color: #f3f5f7; }
+.modal-footer { background-color: #f3f5f7; margin-top: 0; }
 
 /*.create-group-modal { margin: auto; width: 500px; }*/
 .create-group-modal #group_size { width: 200px; }

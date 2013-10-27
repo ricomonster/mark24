@@ -270,11 +270,19 @@
             async : false
         }).done(function(response) {
             if(!response.error) {
+                $('.message-holder').hide();
+
                 $this.removeClass('lock-group').addClass('unlock-group')
                     .html('<i class="group-code-icon fa fa-lock"></i>');
                 // change group code to LOCKED
                 $('.group-code').val('LOCKED');
                 $('.message-holder').hide();
+
+                $('.message-holder').show().find('span').text('The group code has been unlocked');
+
+                setInterval(function() {
+                    $('.message-holder').hide();
+                }, 3000)
             }
         })
 
@@ -294,13 +302,19 @@
             async : false
         }).done(function(response) {
             if(!response.error) {
+                $('.message-holder').hide();
                 // change icon
                 $this.removeClass('unlock-group').addClass('lock-group')
                     .html('<i class="group-code-icon fa fa-unlock"></i>');
 
                 // change group code to LOCKED
                 $('.group-code').val(response.group_code);
-                $('.message-holder').hide();
+
+                $('.message-holder').show().find('span').text('The group code has been locked');
+
+                setInterval(function() {
+                    $('.message-holder').hide();
+                }, 3000);
             }
         })
 
@@ -320,9 +334,49 @@
             async : false
         }).done(function(response) {
             if(!response.error) {
-                // change group code to LOCKED
+                $('.message-holder').hide();
+
                 $('.group-code').val(response.group_code);
                 $('.message-holder').hide();
+
+                $('.message-holder').show().find('span').text('The group code has been reset');
+
+                setInterval(function() {
+                    $('.message-holder').hide();
+                }, 3000)
+            }
+        })
+
+        e.preventDefault();
+    });
+
+    // student leaving group
+    $(document).on('click', '#leave_group', function(e) {
+        var $this = $(this);
+
+        // show the modal
+        $('#the_modal').modal('show');
+        $.get('/ajax/modal/show-withdraw-group', { group_id : $this.data('group-id') }, function(response) {
+            $('#the_modal').html(response);
+        });
+
+        e.preventDefault();
+    });
+
+    $(document).on('click', '#trigger_withdraw_group', function() {
+        var $this = $(this);
+        $('.message-holder').show().find('span').text('Saving...');
+
+        $.ajax({
+            type : 'post',
+            url : '/ajax/group/withdraw-group',
+            data : { group_id : $this.data('group-id') },
+            dataType : 'json',
+            async : false
+        }).done(function(response) {
+            if(!response.error) {
+                // redirect to home
+                window.location.href = response.lz;
             }
         })
 

@@ -149,6 +149,46 @@ class AjaxModalController extends BaseController {
             'lz' => Request::root().'/home'));
     }
 
+    public function confirmWithdrawGroup()
+    {
+        $groupId = Input::get('group_id');
+        $group = Group::find($groupId);
+
+        return View::make('ajax.modal.confirmleavegroup')
+            ->with('group', $group);
+    }
+
+    public function withdrawGroup()
+    {
+        $groupId = Input::get('group_id');
+
+        // delete first the posts for the group
+
+        // remove from the group
+    }
+
+    public function showChangePassword()
+    {
+        $userId = Input::get('user_id');
+        $user = User::find($userId);
+
+        return View::make('ajax.modal.changepassword')
+            ->with('user', $user);
+    }
+
+    public function resetPassword()
+    {
+        $userId = Input::get('user-id');
+        $password = Input::get('reset-password');
+
+        // look for the user data
+        $user = User::find($userId);
+        $user->password = Hash::make($password);
+        $user->save();
+
+        return Response::json(array('error' => false));
+    }
+
     // End of Group Module Functions
 
     // Forum Functions

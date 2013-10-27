@@ -135,6 +135,7 @@
             <?php echo ($comments->isEmpty()) ? 'style="display: none;"' : null; ?>>
                 <ul class="comment-stream">
                     @foreach($comments as $comment)
+                    <?php $commentTimestamp = Helper::timestamp($comment->comment_timestamp); ?>
                     <li data-comment-id="{{ $comment->commment_id }}">
                         <a href="/profile/{{ $comment->username }}">
                             {{ Helper::avatar(35, "small", "img-rounded pull-left", $comment->id) }}
@@ -146,7 +147,7 @@
                                 @else
                                 <a href="/profile/{{ $comment->username }}">{{ $comment->name }}</a>
                                 @endif
-                                <span class="subtext"> said 1 hour ago:</span>
+                                <span class="subtext"> said {{ $commentTimestamp }}:</span>
                             </div>
                             <p class="comment-text">
                                 <?php echo nl2br(htmlentities(($comment->comment))); ?>

@@ -1,4 +1,5 @@
 <?php $recipients = PostRecipient::getRecipients($post->post_id); ?>
+<?php $postTimestamp = Helper::timestamp($post->post_timestamp); ?>
 <li class="post-holder">
     <a href="/profile/{{ $post->username }}" class="writer-profile">
         @if(empty($post->avatar))
@@ -118,7 +119,7 @@
         <ul class="post-etcs-holder">
             <li><a href="#"><i class="fa fa-thumbs-up"></i> Like it</a></li>
             <li><a href="#"><i class="fa fa-comment"></i> Reply</a></li>
-            <li><a href="#"><i class="fa fa-clock-o"></i> </a></li>
+            <li><a href="#"><i class="fa fa-clock-o"></i> {{ $postTimestamp }}</a></li>
         </ul>
     </div>
     <?php $comments = Helper::getComments($post->post_id); ?>

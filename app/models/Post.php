@@ -13,6 +13,10 @@ class Post extends Eloquent {
                     $query->whereIn('post_recipients.recipient_id', Group::getMyGroupsId())
                         ->where('post_recipients.recipient_type', '=', 'group');
                 })
+                ->orWhere(function($query) {
+                    $query->where('post_recipients.recipient_id', '=', Auth::user()->id)
+                        ->where('post_recipients.recipient_type', '=', 'user');
+                })
                 ->join('posts', 'post_recipients.post_id', '=', 'posts.post_id')
                 ->join('users', 'posts.user_id', '=', 'users.id')
                 ->groupBy('posts.post_id')

@@ -19,6 +19,10 @@ var TheQuizSheet = {
             .on('click', this.config.previousButton.selector, this.changePreviousQuestion)
             .on('click', this.config.submitButton.selector, this.submitQuiz)
             .on('blur', this.config.shortAnswerText.selector, this.shortAnswer);
+
+        window.onbeforeunload = function() {
+            return 'Are you sure you want to navigate away from this page?';
+        };
     },
 
     // checks if the current user already took the quiz
@@ -87,6 +91,9 @@ var TheQuizSheet = {
 
             // load the questions
             self.loadQuestions();
+
+            // start quiz
+            self.quizTimer();
         })
 
         e.preventDefault();

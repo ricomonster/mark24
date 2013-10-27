@@ -33,7 +33,7 @@
                         </li>
                         @endif
                         @if(Auth::user()->account_type == 2)
-                        <li><a href="#" id="leave-group">Leave Group</a></li>
+                        <li><a href="#" id="leave_group" data-group-id="{{ $groupDetails->group_id }}">Withdraw</a></li>
                         @endif
                     </ul>
                 </div>
@@ -155,13 +155,16 @@
                         {{ Helper::avatar(80, "normal", "pull-left", $member->id) }}
                     </a>
                     <div class="member-content-holder pull-right">
+                        @if(Auth::user()->account_type == 1)
                         <div class="dropdown pull-right">
                             <a data-toggle="dropdown" href="#">More <i class="fa fa-chevron-down"></i></a>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                <li><a href="#">Change Password</a></li>
+                                <li><a href="#" class="show-change-password"
+                                data-user-id="{{ $member->group_member_id }}">Change Password</a></li>
                                 <li><a href="#">Remove from Group</a></li>
                             </ul>
                         </div>
+                        @endif
 
                         <div class="member-name-text">
                             <a href="/profile/{{ $member->username }}">{{ $member->name }}</a>
@@ -184,4 +187,61 @@
 
 @section('js')
 <script src="/assets/js/plugins/groups.js"></script>
+@if(Auth::user()->account_type == 1)
+<script>
+(function($) {
+    // gets the change password
+    $(document).on('click', '.show-change-password', function(e) {
+        $.get(
+            '/ajax/modal/show-change-password',
+            { user_id : $(this).data('user-id') },
+            function(response) {
+                $('#the_modal').modal('show')
+                $('#the_modal').html(response);
+        });
+
+        e.preventDefault();
+    });
+
+    $(document).on('submit', '.change-password-modal', function(e) {
+        e.preventDefault();
+    })
+
+    $(document).on('click', '#trigger_reset_password', function(e) {
+        $('.message-holder').show().find('span').text('Saving...');
+
+        if($('#reset-password').val() == '' || $('#reset-password').val().length < 6) {
+            $('#reset-password').parent().addClass('has-error');
+            $('#reset-password').siblings('.alert').addClass('alert-danger')
+                .html('Must be 6+ chars').show();
+
+            $('.message-holder').hide();
+        } else {
+            $('#reset-password').parent().removeClass('has-error');
+            $('#reset-password').siblings('.alert').hide();
+
+            $.ajax({
+                type : 'post',
+                url : '/ajax/modal/reset-password',
+                data : $('.change-password-modal').serialize(),
+                dataType : 'json',
+                async : false
+            }).done(function(response) {
+                if(!response.error) {
+                    $('#the_modal').modal('hide');
+
+                    $('.message-holder').show().find('span').text('Password has been reset...');
+
+                    setInterval(function() {
+                        $('.message-holder').hide();
+                    }, 3000)
+                }
+            })
+        }
+
+        e.preventDefault();
+    })
+})(jQuery);
+</script>
+@endif
 @stop
