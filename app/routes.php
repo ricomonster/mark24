@@ -116,6 +116,8 @@ Route::get('quiz-sheet/{quizId}', 'QuizSheetController@index');
 Route::get('settings', 'SettingsController@getIndex');
 Route::get('settings/password', 'SettingsController@getPasswordPage');
 
+Route::post('ajax/settings/change-password', 'SettingsController@changePassword');
+
 // User Routes
 Route::get('signout', 'UsersController@getSignout');
 

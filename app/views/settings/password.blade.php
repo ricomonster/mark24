@@ -15,6 +15,7 @@ Settings - Password
 @stop
 
 @section('content')
+<div class="message-holder"><span></span></div>
 <div class="row">
     <div class="settings-nav-wrapper col-md-3">
         <ul class="nav nav-stacked nav-pills">
@@ -26,7 +27,7 @@ Settings - Password
     <div class="col-md-9">
         <div class="change-password-wrapper well">
             <div class="page-header"><h3>Password</h3></div>
-            {{ Form::open(array('url'=>'ajax/users/change-password')) }}
+            {{ Form::open(array('url'=>'ajax/users/change-password', 'id' => 'change_password_form')) }}
                 <div class="form-group">
                     <label class="current-password">Current Password</label>
                     <div class="alert"></div>
@@ -69,62 +70,77 @@ Settings - Password
         var newPassword         = $('#new_password');
         var confirmNewPassword  = $('#confirm_new_password');
 
-        error = 0;
+        $('.message-holder').show().find('span').text('Saving...');
 
-        // check if current password is empty or not
-        if(currentPassword.val() == '' || currentPassword.val().length == 0) {
-            // show error message
-            currentPassword.parent().addClass('has-error')
-                .find('.alert').addClass('alert-danger')
-                .text('What is your current password?').show();
+        $.ajax({
+            type        : 'post',
+            url         : '/ajax/settings/change-password',
+            data        : $('#change_password_form').serialize(),
+            dataType    : 'json',
+            async       : false
+        }).done(function(response) {
+            // there are errors
+            if(response.error) {
+                // show the error messages
+                if(response.messages.current_password) {
+                    currentPassword.parent().addClass('has-error');
+                    currentPassword.siblings('.alert').show()
+                        .addClass('alert-danger').text(response.messages.current_password);
+                }
 
-            return false;
-        }
+                if(!response.messages.current_password) {
+                    currentPassword.parent().removeClass('has-error');
+                    currentPassword.siblings('.alert').hide();
+                }
 
-        // current password field is not empty
-        if(currentPassword.val() != '' || currentPassword.val().length != 0) {
-            currentPassword.parent().removeClass('has-error')
-                .find('.alert').hide();
-
-            // validate new password and confirm new password
-            // validae first the new password
-            if(newPassword.val() == '' || newPassword.val().length == 0) {
-                // show error message
-                newPassword.parent().addClass('has-error')
-                    .find('.alert').addClass('alert-danger')
-                    .text('What is your new password?').show();
-
-                return false;
-            }
-
-            // if new password has no problems / errors
-            if(newPassword.val() != '' || newPassword.val().length != 0) {
-                newPassword.parent().removeClass('has-error')
-                    .find('.alert').hide();
-
-                // validate confirm new password
-                if(newPassword.val() != confirmNewPassword.val()) {
+                if(response.messages.new_password) {
                     newPassword.parent().addClass('has-error');
-
-                    confirmNewPassword.parent().addClass('has-error')
-                        .find('.alert').addClass('alert-danger')
-                        .text('Both passwords are not the same.').show();
-
-                    return false;
+                    newPassword.siblings('.alert').show()
+                        .addClass('alert-danger').text(response.messages.new_password);
                 }
 
-                if(newPassword.val() == confirmNewPassword.val()) {
+                if(!response.messages.new_password) {
                     newPassword.parent().removeClass('has-error');
-
-                    confirmNewPassword.parent().removeClass('has-error')
-                        .find('.alert').hide();
+                    newPassword.siblings('.alert').hide();
                 }
+
+                if(response.messages.confirm_password) {
+                    confirmNewPassword.parent().addClass('has-error');
+                    confirmNewPassword.siblings('.alert').show()
+                        .addClass('alert-danger').text(response.messages.confirm_password);
+                }
+
+                if(!response.messages.confirm_password) {
+                    confirmNewPassword.parent().removeClass('has-error');
+                    confirmNewPassword.siblings('.alert').hide();
+                }
+
+                $('.message-holder').show().find('span').text('There are errors. Please fix it.');
+                setInterval(function() {
+                    $('.message-holder').fadeOut();
+                }, 3000);
             }
-        }
 
-        // validate the current password if
-        // it's equal what's in the database
+            // no errors
+            if(!response.error) {
+                // hide the error
+                currentPassword.parent().removeClass('has-error');
+                currentPassword.siblings('.alert').hide();
 
+                newPassword.parent().removeClass('has-error');
+                newPassword.siblings('.alert').hide();
+
+                confirmNewPassword.parent().removeClass('has-error');
+                confirmNewPassword.siblings('.alert').hide();
+
+                $('#change_password_form')[0].reset();
+                $('.message-holder').show().find('span').text('Password successfully changed.');
+
+                setInterval(function() {
+                    $('.message-holder').fadeOut();
+                }, 3000);
+            }
+        });
 
         e.preventDefault();
     });

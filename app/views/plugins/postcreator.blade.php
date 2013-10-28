@@ -42,7 +42,10 @@
 
                     <div class="postcreator-form-controls">
                         <ul class="postcreator-controls pull-left">
-                            <li><input type="file" name="note-file" id="note_file"></li>
+                            <li>
+                                <input type="file" name="note-file[]" id="note_file"
+                                multiple="true">
+                            </li>
                         </ul>
 
                         <div class="postcreator-buttons pull-right">

@@ -75,11 +75,13 @@ Home
 @stop
 
 @section('js')
+<script type="text/javascript" src="/assets/js/plugins/jquery.form.min.js"></script>
 <script src="/assets/js/plugins/chosen.js"></script>
 <script src="/assets/js/plugins/expanding.js"></script>
+<script src="/assets/js/plugins/bootstrap-datepicker.js"></script>
+
 <script src="/assets/js/plugins/postcreator.js"></script>
 <script src="/assets/js/plugins/groups.js"></script>
-<script src="/assets/js/plugins/bootstrap-datepicker.js"></script>
 <script src="/assets/js/sitefunc/comment.creator.js"></script>
 @if(isset($quiz))
 <script>
