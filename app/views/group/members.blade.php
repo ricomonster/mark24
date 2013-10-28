@@ -88,7 +88,7 @@
                 </li>
                 @if(Auth::user()->account_type == 1)
                 <li>
-                    <a href="/groups/chat">
+                    <a href="/groups/{{ $groupDetails->group_id }}/chat">
                         <i class="group-control-icon fa fa-comments"></i> Start Group Chat
                     </a>
                 </li>

@@ -107,11 +107,8 @@ Settings
 <script>
 (function($) {
     $('#avatar_file').on('change', function() {
-<<<<<<< HEAD
 
         $('.message-holder').show().find('span').text('Saving...');
-=======
->>>>>>> 949bee8a5ef532de5ec61f81001fc81ad0ed5599
         // change the image to a rotating gif
         $('.image-loader-gif').show();
         $('.current-user-avatar').hide();
@@ -127,14 +124,10 @@ Settings
                     $('.image-loader-gif').hide();
                     $('.current-user-avatar').attr('src', response.userAvatar)
                         .show();
-<<<<<<< HEAD
                     $('.header-avatar').attr('src', response.userAvatar);
                 }
 
                 $('.message-holder').hide();
-=======
-                }
->>>>>>> 949bee8a5ef532de5ec61f81001fc81ad0ed5599
             }
         }).submit();
     });
@@ -172,11 +165,8 @@ Settings
     $('.predefined-avatar').on('click', function(e) {
         var $this = $(this);
 
-<<<<<<< HEAD
         $('.message-holder').show().find('span').text('Saving...');
 
-=======
->>>>>>> 949bee8a5ef532de5ec61f81001fc81ad0ed5599
         $('.image-loader-gif').show();
         $('.current-user-avatar').hide();
 
@@ -196,7 +186,6 @@ Settings
             } else {
                 $('.image-loader-gif').hide();
                 $('.current-user-avatar').attr('src', response.avatar).show();
-<<<<<<< HEAD
                 $('.header-avatar').attr('src', response.avatar);
             }
 
@@ -204,10 +193,6 @@ Settings
         });
 
         e.preventDefault();
-=======
-            }
-        })
->>>>>>> 949bee8a5ef532de5ec61f81001fc81ad0ed5599
     })
 })(jQuery);
 </script>

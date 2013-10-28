@@ -22,7 +22,9 @@
                     <a data-toggle="dropdown" href="#"><i class="fa fa-gear"></i></a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         <li><a href="#">Delete Post</a></li>
+                        @if($post->post_type != 'quiz')
                         <li><a href="#">Edit Post</a></li>
+                        @endif
                         <li><a href="#">Link to this Post</a></li>
                     </ul>
                 </div>
@@ -71,10 +73,10 @@
                 </div>
 
                 <div class="post-content-container">
-                    <div class="{{ $post->post_type }}">
+                    <div class="post {{ $post->post_type }}">
                     <?php
                     switch($post->post_type) {
-                        case 'note' :
+                        case 'note'
                             echo nl2br(htmlentities(($post->note_content)));
                             break;
                         case 'alert' :
