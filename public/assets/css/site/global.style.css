@@ -7,17 +7,18 @@ body {
 }
 
 .navigation-items .navbar-nav li a {
-    border-right: 1px solid #fff;
-    line-height: 30px;
-    padding: 10px 15px;
+    border-right: 1px solid #ffffff;
+    line-height: 22px;
+    padding: 12px 15px;
 }
 
 .navigation-items .navbar-nav li:first-child a {
-    border-left: 1px solid #fff;
+    border-left: 1px solid #ffffff;
 }
 
-.navigation-items .navbar-nav li .menu-items { font-size: 26px; }
-.nav-profile-avatar a { padding: 8px 12px 8px !important; }
+.navigation-items .navbar-nav li .menu-items { font-size: 24px; }
+.nav-profile-avatar a { padding: 9px 12px !important; }
+.nav-profile-avatar a img { margin: 0 5px 0; }
 .navigation-items .navbar-nav .dropdown .dropdown-menu li a { padding: 3px 20px; }
 
 /* override Bootstrap Components */

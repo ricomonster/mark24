@@ -117,6 +117,7 @@ Route::get('settings', 'SettingsController@getIndex');
 Route::get('settings/password', 'SettingsController@getPasswordPage');
 
 Route::post('ajax/settings/change-password', 'SettingsController@changePassword');
+Route::post('ajax/settings/predefined-avatar', 'SettingsController@predefinedAvatar');
 
 // User Routes
 Route::get('signout', 'UsersController@getSignout');

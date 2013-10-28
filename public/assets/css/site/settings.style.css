@@ -15,6 +15,14 @@
 
 .user-avatar-wrapper .choose-avatar-wrapper .avatar-uploader-form { margin-bottom: 10px; }
 
-.user-avatar-wrapper .choose-avatar-wrapper .predefined-avatar-wrapper { margin-top: 10px; }
+.user-avatar-wrapper .choose-avatar-wrapper .predefined-avatar-wrapper {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+}
+
+.user-avatar-wrapper .choose-avatar-wrapper .predefined-avatar-wrapper li { display: inline-block; }
+.user-avatar-wrapper .choose-avatar-wrapper .predefined-avatar-wrapper li a { padding-right: 5px; }
+.user-avatar-wrapper .choose-avatar-wrapper .predefined-avatar-wrapper li a img { width: 80px; }
 
 .image-loader-gif { display: none; }

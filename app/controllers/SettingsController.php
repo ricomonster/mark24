@@ -33,6 +33,44 @@ class SettingsController extends BaseController {
         }
     }
 
+    public function predefinedAvatar()
+    {
+        $avatar = Input::get('avatar');
+
+        switch ($avatar) {
+            case '1':
+                $avatar = 'default_avatar.png';
+                break;
+            case '2':
+                $avatar = 'default_avatar_2.png';
+                break;
+            case '3':
+                $avatar = 'default_avatar_3.png';
+                break;
+            case '4':
+                $avatar = 'default_avatar_4.png';
+                break;
+            default:
+                $avatar = 'default_avatar.png';
+                break;
+        }
+
+        // update
+        $user = User::find(Auth::user()->id);
+        $user->avatar = 'default_avatar.png';
+        $user->avatar_small = $avatar;
+        $user->avatar_normal = $avatar;
+        $user->avatar_large = $avatar;
+        $user->save();
+
+        // prep the image url
+        $url = Request::root().'/assets/defaults/avatar/'.$avatar;
+
+        return Response::json(array(
+            'error'     => false,
+            'avatar'    => $url));
+    }
+
     protected function validateChangePassword()
     {
         $this->errors = array();

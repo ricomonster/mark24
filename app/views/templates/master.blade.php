@@ -58,14 +58,15 @@
                     </ul>
 
                     <ul class="nav navbar-nav pull-right">
-                        <li class="nav-profile-avatar">
-                            <a href="/profile/{{ Auth::user()->username }}">
-                                {{ Helper::avatar(35, "small") }}
+                        <li>
+                            <a href="#" class="menu-items" data-toggle="tooltip" title="Notifications">
+                                <i class="fa fa-bell-o"></i>
                             </a>
                         </li>
-                        <li class="dropdown">
+                        <li class="dropdown nav-profile-avatar">
                             <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
-                                Me <b class="caret"></b>
+                                {{ Helper::avatar(30, "small") }}
+                                Me <i class="fa fa-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
                                 <li role="presentation">

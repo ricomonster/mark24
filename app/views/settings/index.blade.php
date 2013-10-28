@@ -30,11 +30,30 @@ Settings
                     <input type="file" name="avatar-file" id="avatar_file" accept="image/*">
                 {{ Form::close() }}
 
-                <span class="subtext">Or select one of the shits.</span>
+                <span class="text-muted">Or select one of these.</span>
 
-                <div class="predefined-avatar-wrapper">
-                    Predefined shits here.
-                </div>
+                <ul class="predefined-avatar-wrapper">
+                    <li>
+                        <a href="#" class="predefined-avatar" data-avatar="1">
+                            <img src="/assets/defaults/avatar/default_avatar.png">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="predefined-avatar" data-avatar="2">
+                            <img src="/assets/defaults/avatar/default_avatar_2.png">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="predefined-avatar" data-avatar="3">
+                            <img src="/assets/defaults/avatar/default_avatar_3.png">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="predefined-avatar" data-avatar="4">
+                            <img src="/assets/defaults/avatar/default_avatar_4.png">
+                        </a>
+                    </li>
+                </ul>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -134,6 +153,33 @@ Settings
         })
 
         e.preventDefault();
+    });
+
+    // predefined avatar
+    $('.predefined-avatar').on('click', function(e) {
+        var $this = $(this);
+
+        $('.image-loader-gif').show();
+        $('.current-user-avatar').hide();
+
+        $.ajax({
+            type : 'post',
+            url : '/ajax/settings/predefined-avatar',
+            data : { avatar : $this.data('avatar') },
+            dataType : 'json',
+            async : false
+        }).done(function(response) {
+            // hide loading image
+            // replace the current user avatar
+            // replace also the ones in the header
+            if(response.error) {
+                $('.image-loader-gif').hide();
+                $('.current-user-avatar').show();
+            } else {
+                $('.image-loader-gif').hide();
+                $('.current-user-avatar').attr('src', response.avatar).show();
+            }
+        })
     })
 })(jQuery);
 </script>
