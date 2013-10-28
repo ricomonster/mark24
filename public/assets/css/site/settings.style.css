@@ -1,0 +1,28 @@
+.settings-nav-wrapper .nav li { margin: 0; }
+.settings-nav-wrapper .nav li.active a { background-color: #f3f5f7; color: #2a6496; }
+.settings-nav-wrapper .nav li a:hover { background-color: #f3f5f7; }
+.settings-nav-wrapper .nav li a {
+    background-color: #ffffff;
+    border: 1px solid #dfe4e8 !important;
+    border-top: 0 !important;
+    border-radius: 0;
+}
+
+.user-avatar-wrapper { border-bottom: 0; margin-bottom: 0; }
+.user-avatar-wrapper .current-avatar-wrapper { margin-right: 60px; }
+.user-avatar-wrapper .current-avatar-wrapper img { margin-bottom: 10px; }
+.user-avatar-wrapper .current-avatar-wrapper .current-avatar-subtext { text-align: center; }
+
+.user-avatar-wrapper .choose-avatar-wrapper .avatar-uploader-form { margin-bottom: 10px; }
+
+.user-avatar-wrapper .choose-avatar-wrapper .predefined-avatar-wrapper {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+}
+
+.user-avatar-wrapper .choose-avatar-wrapper .predefined-avatar-wrapper li { display: inline-block; }
+.user-avatar-wrapper .choose-avatar-wrapper .predefined-avatar-wrapper li a { padding-right: 5px; }
+.user-avatar-wrapper .choose-avatar-wrapper .predefined-avatar-wrapper li a img { width: 80px; }
+
+.image-loader-gif { display: none; }

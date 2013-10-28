@@ -1,0 +1,35 @@
+/* Post Creator */
+.post-creator-holder .nav-tabs { background-color: #f3f5f7; border: 1px solid #dfe4e8; border-bottom: 0;  }
+.post-creator-holder .nav-tabs li a {
+    border: 1px solid #dfe4e8 !important;
+    border-bottom: 0 !important;
+    border-left: 0 !important;
+    border-radius: 0;
+    border-top: 0 !important;
+    margin: 0;
+}
+
+.post-creator-holder .nav-tabs li:first-child a { border-left: 0 !important; }
+.post-creator-holder .nav-tabs li.active a { font-weight: bold; }
+
+.post-creator-holder .tab-content .tab-pane { min-height: 90px; }
+.post-creator-holder .tab-content .tab-pane form { margin: 0; }
+.post-creator-holder .tab-content .tab-pane form .alert { display: none; padding: 10px; }
+.post-creator-holder .tab-content .tab-pane form .has-error-recipients { border-color: #b94a48; }
+
+.postcreator-hidden { display: none; }
+.post-recipients { width: 100%; }
+
+.quiz-details { background-color: #f3f5f6; padding: 8px; }
+.quiz-details .quiz-title { display: block; }
+
+.quiz-due-date { margin-top: 15px; }
+.quiz-due-date #quiz_due_date { width: 110px; }
+
+/* plugin */
+.chosen-choices { min-height: 32px !important; }
+.chosen-choices .search-field input { height: 32px !important; }
+.chosen-choices .search-choice { padding: 6px 8px !important; }
+
+/*.postcreator-textarea { height: 32px !important; }*/
+.postcreator-form-controls .postcreator-controls { list-style: none; margin: 0; padding: 0 }

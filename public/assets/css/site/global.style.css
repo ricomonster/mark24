@@ -1,0 +1,79 @@
+body {
+    background-color: #e9ecef;
+    background-attachment:fixed;
+    background-image:url('/assets/images/maze.png');
+    background-repeat:repeat;
+    padding: 70px 0;
+}
+
+.navigation-items .navbar-nav li a {
+    border-right: 1px solid #ffffff;
+    line-height: 22px;
+    padding: 12px 15px;
+}
+
+.navigation-items .navbar-nav li:first-child a {
+    border-left: 1px solid #ffffff;
+}
+
+.navigation-items .navbar-nav li .menu-items { font-size: 24px; }
+.nav-profile-avatar a { padding: 9px 12px !important; }
+.nav-profile-avatar a img { margin: 0 5px 0; }
+.navigation-items .navbar-nav .dropdown .dropdown-menu li a { padding: 3px 20px; }
+
+/* override Bootstrap Components */
+.well {
+    background-color: #ffffff;
+    border-radius: 0;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+
+input, select, textarea { border-radius: 0 !important; }
+/* Modal */
+.modal-small-size { width: 300px; }
+.modal-medium-size { width: 500px; }
+
+.modal-header { color: #ffffff; background-color: #265fa4; }
+.modal-header .close { color: #ffffff; }
+
+.modal-body .alert { display: none; padding: 5px 10px; !important; }
+.modal-body form { margin: 0; }
+
+.modal-footer { background-color: #f3f5f7; margin-top: 0; }
+
+/*.create-group-modal { margin: auto; width: 500px; }*/
+.create-group-modal #group_size { width: 200px; }
+.create-group-modal #group_description { height: 100px; resize: none; }
+
+.footer { font-size: 13px; padding: 20px 0; }
+.footer ul { list-style: none; margin: 0; padding: 0; }
+.footer ul li { display: inline-block; padding: 0 5px; }
+.footer ul li:first-child { padding-left: 0; }
+
+/* CUSTOM SHITS */
+/*
+subtext should be a span
+*/
+.message-holder {
+    display: none;
+    left: 0;
+    padding-top: 5px;
+    position: fixed;
+    text-align: center;
+    top: 55px;
+    z-index: 10000;
+    width: 100%;
+}
+
+.message-holder span {
+    background: #fdfcc4;
+    border: 1px solid #eae99e;
+    border-radius: 0 0 2px 2px;
+    box-shadow: 0 1px 2px 0 rgba(213,219,225,.6);
+    padding: 8px 25px;
+    position: static;
+    text-align: center;
+}
+/*.subtext { display: block; }*/
