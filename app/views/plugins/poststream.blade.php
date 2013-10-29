@@ -12,7 +12,7 @@
         @foreach($posts as $post)
         <?php $recipients = PostRecipient::getRecipients($post->post_id); ?>
         <?php $postTimestamp = Helper::timestamp($post->post_timestamp); ?>
-        <li class="post-holder">
+        <li class="post-holder" data-post-id="{{ $post->post_id }}">
             <a href="/profile/{{ $post->username }}" class="writer-profile">
                 {{ Helper::avatar(50, "small", "img-rounded pull-left", $post->id) }}
             </a>
@@ -21,11 +21,14 @@
                 <div class="dropdown dropdown-post-options pull-right">
                     <a data-toggle="dropdown" href="#"><i class="fa fa-gear"></i></a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                        <li><a href="#">Delete Post</a></li>
+                        <li><a href="#" class="delete-post"
+                        data-post-id="{{ $post->post_id }}">Delete Post</a></li>
                         @if($post->post_type != 'quiz')
-                        <li><a href="#">Edit Post</a></li>
+                        <li><a href="#" class="edit-post"
+                        data-post-id="{{ $post->post_id }}">Edit Post</a></li>
                         @endif
-                        <li><a href="#">Link to this Post</a></li>
+                        <li><a href="#" class="link-post"
+                        data-post-id="{{ $post->post_id }}">Link to this Post</a></li>
                     </ul>
                 </div>
 
@@ -76,11 +79,13 @@
                     <div class="post {{ $post->post_type }}">
                     <?php
                     switch($post->post_type) {
-                        case 'note'
+                        case 'note' :
                             echo nl2br(htmlentities(($post->note_content)));
+                            $content = $post->note_content;
                             break;
                         case 'alert' :
                             echo nl2br(htmlentities(($post->alert_content)));
+                            $content = $post->alert_content;
                             break;
                         case 'quiz' :
                             $quizDetails = Helper::getQuizDetails($post->quiz_id);
@@ -122,6 +127,20 @@
                     }
                     ?>
                     </div>
+                    @if($post->post_type != 'quiz')
+                    {{ Form::open(array('url' => '/ajax/post_creator/update-post', 'class' => 'edit-post-form', 'data-post-id' => $post->post_id)) }}
+                        <div class="form-group">
+                            <textarea name="message-post" class="form-control message-post"
+                            data-post-id="{{ $post->post_id }}">{{ $content }}</textarea>
+                        </div>
+                        <input type="hidden" name='post-id' value="{{ $post->post_id }}">
+
+                        <button class="btn btn-primary save-edit-post"
+                        data-post-id="{{ $post->post_id }}">Save</button>
+                        <button class="btn btn-default cancel-edit-post"
+                        data-post-id="{{ $post->post_id }}">Cancel</button>
+                    {{ Form::close() }}
+                    @endif
                 </div>
             </div>
             <div class="clearfix"></div>

@@ -42,6 +42,8 @@
 .post-stream .post-holder .post-content .dropdown-post-options { margin-right: 10px; }
 .post-stream .post-holder .post-content .dropdown-post-options a { color: #383d48; }
 
+.post-content .post-content-container .edit-post-form { display: none; }
+
 .post-etcs { background-color: #f3f5f6; border-top: 1px solid #e0e3e7; padding: 10px 90px 10px; }
 .post-etcs ul li { display: inline-block; margin-right: 10px; }
 .post-etcs ul li a { color: #869399; font-size: 13px; }

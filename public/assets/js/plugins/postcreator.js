@@ -102,6 +102,71 @@
         e.preventDefault();
     });
 
+    // shows the update post form
+    $(document).on('click', '.edit-post', function(e) {
+        var $this = $(this);
+        var postId = $this.data('post-id');
+        var postHolder = $('.post-holder[data-post-id="'+postId+'"]');
+
+        // hide first the post
+        postHolder.find('.post-content').find('.post-content-container')
+            .find('.post').hide();
+        // show the form
+        $('.edit-post-form[data-post-id="'+postId+'"]').show();
+
+        e.preventDefault();
+    });
+
+    // cancel the editing of the post
+    $(document).on('click', '.cancel-edit-post', function(e) {
+        var $this = $(this);
+        var postId = $this.data('post-id');
+        var postHolder = $('.post-holder[data-post-id="'+postId+'"]');
+
+        // hide first the post
+        postHolder.find('.post-content').find('.post-content-container')
+            .find('.post').show();
+        // show the form
+        $('.edit-post-form[data-post-id="'+postId+'"]').hide();
+
+        e.preventDefault();
+    });
+
+    // update!
+    $(document).on('click', '.save-edit-post', function(e) {
+        var $this = $(this);
+        var postId = $this.data('post-id');
+        var postHolder = $('.post-holder[data-post-id="'+postId+'"]');
+
+        $('.message-holder').show().find('span').text('Updating...');
+
+        $.ajax({
+            type        : 'post',
+            url         : $('.edit-post-form[data-post-id="'+postId+'"]').attr('action'),
+            data        : $('.edit-post-form[data-post-id="'+postId+'"]').serialize(),
+            dataType    : 'json',
+            async       : false
+        }).done(function(response) {
+            if(response.error) {
+                // there's an error
+            }
+
+            if(!response.error) {
+                // no error
+                var message = $('.edit-post-form[data-post-id="'+postId+'"]').find('.message-post')
+                // hide form
+                $('.edit-post-form[data-post-id="'+postId+'"]').hide();
+                // show post content with the new message
+                postHolder.find('.post-content').find('.post-content-container')
+                    .find('.post').text(message.val()).show();
+
+                $('.message-holder').hide();
+            }
+        })
+
+        e.preventDefault();
+    });
+
     // functions
     function validateNote() {
         var noteContent     = $('#note_content');

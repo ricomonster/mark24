@@ -116,4 +116,27 @@ class AjaxPostCreatorController extends BaseController {
                     ->first());
         }
     }
+
+    public function updatePost()
+    {
+        if(Request::ajax()) {
+            $postId = Input::get('post-id');
+            $messagePost = Input::get('message-post');
+
+            // check first what type of post is the post
+            $post = Post::find($postId);
+            switch ($post->post_type) {
+                case 'note':
+                    $post->note_content = $messagePost;
+                    break;
+                case 'alert':
+                    $post->alert_content = $messagePost;
+                    break;
+            }
+
+            $post->save();
+
+            return Response::json(array('error' => false));
+        }
+    }
 }

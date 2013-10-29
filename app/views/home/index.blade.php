@@ -81,8 +81,9 @@ Home
 <script src="/assets/js/plugins/bootstrap-datepicker.js"></script>
 
 <script src="/assets/js/plugins/postcreator.js"></script>
-<script src="/assets/js/plugins/groups.js"></script>
 <script src="/assets/js/sitefunc/comment.creator.js"></script>
+<script src="/assets/js/sitefunc/poststream.js"></script>
+<script src="/assets/js/plugins/groups.js"></script>
 @if(isset($quiz))
 <script>
 (function($) {

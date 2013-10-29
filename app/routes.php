@@ -86,6 +86,7 @@ Route::post('ajax/the-quiz-sheet/submit-quiz', 'AjaxTheQuizSheetController@submi
 Route::post('ajax/post_creator/create_note', 'AjaxPostCreatorController@createNote');
 Route::post('ajax/post_creator/create_alert', 'AjaxPostCreatorController@createAlert');
 Route::post('ajax/post_creator/create_quiz', 'AjaxPostCreatorController@postCreateQuiz');
+Route::post('ajax/post_creator/update-post', 'AjaxPostCreatorController@updatePost');
 
 // Forum Routes
 Route::get('the-forum', 'ForumController@index');
