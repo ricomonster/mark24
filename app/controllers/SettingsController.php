@@ -88,7 +88,7 @@ class SettingsController extends BaseController {
         // if it's not empty, check if the password is the same
         // to the current one
         if(!empty($currentPassword)) {
-            if(!Auth::validate(['username'=>Auth::user()->username, 'password'=>$currentPassword])) {
+            if(!Auth::validate(array('username'=>Auth::user()->username, 'password'=>$currentPassword))) {
                 $this->errors['current_password'] = 'This is not your current password';
             }
         }

@@ -40,6 +40,7 @@ input, select, textarea { border-radius: 0 !important; }
 
 .modal-body .alert { display: none; padding: 5px 10px; !important; }
 .modal-body form { margin: 0; }
+.delete-post-modal-message { text-align: center; }
 
 .modal-footer { background-color: #f3f5f7; margin-top: 0; }
 

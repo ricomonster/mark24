@@ -38,6 +38,7 @@ Route::get('ajax/modal/show-settings-group', 'AjaxModalController@showGroupSetti
 Route::get('ajax/modal/confirm-delete-group', 'AjaxModalController@confirmGroupDelete');
 Route::get('ajax/modal/show-withdraw-group', 'AjaxModalController@confirmWithdrawGroup');
 Route::get('ajax/modal/show-change-password', 'AjaxModalController@showChangePassword');
+Route::get('ajax/modal/confirm-delete-post', 'AjaxModalController@confirmDeletePost');
 
 Route::post('ajax/modal/create_group', 'AjaxModalController@createGroup');
 Route::post('ajax/modal/join_group', 'AjaxModalController@joinGroup');
@@ -46,6 +47,7 @@ Route::post('ajax/modal/submit-group-update', 'AjaxModalController@updateGroup')
 Route::post('ajax/modal/delete-group', 'AjaxModalController@deleteGroup');
 Route::post('ajax/modal/withdraw-group', 'AjaxModalController@withdrawGroup');
 Route::post('ajax/modal/reset-password', 'AjaxModalController@resetPassword');
+Route::post('ajax/modal/delete-post', 'AjaxModalController@deletePost');
 
 // AJAX CommentCreator Routes
 Route::post('ajax/comment-creator/add-comment', 'AjaxCommentCreator@postCreateComment');

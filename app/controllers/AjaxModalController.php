@@ -191,6 +191,30 @@ class AjaxModalController extends BaseController {
 
     // End of Group Module Functions
 
+    // Poststream Functions
+    public function confirmDeletePost()
+    {
+        $postId = Input::get('post_id');
+        // get details
+        $post = Post::find($postId);
+
+        return View::make('ajax.modal.confirmdeletepost')
+            ->with('post', $post);
+    }
+
+    public function deletePost()
+    {
+        $postId = Input::get('post_id');
+        // delete the post from the recipients
+        PostRecipient::where('post_id', '=', $postId)->delete();
+        // delete the post
+        $post = Post::find($postId)->delete();
+
+        return Response::json(array('error' => false));
+    }
+
+    // End of Poststream functions
+
     // Forum Functions
     public function showAddCategory()
     {
