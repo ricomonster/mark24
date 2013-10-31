@@ -10,7 +10,8 @@ var Poststream = {
     {
         $(document)
             .on('click', this.config.deletePost.selector, this.confirmDeletePost)
-            .on('click', this.config.triggerDeletePost.selector, this.deletePost);
+            .on('click', this.config.triggerDeletePost.selector, this.deletePost)
+            .on('click', this.config.linkPost.selector, this.linkThePost);
     },
 
     // show confirmation on deleting a post
@@ -71,6 +72,25 @@ var Poststream = {
                 }, 400);
             }
         });
+    },
+
+    // shows the link of the post
+    linkThePost : function(e)
+    {
+        var self = Poststream;
+        var $this = $(this);
+
+        self.config.theModal.modal('show');
+
+        $.ajax({
+            url : '/ajax/modal/link-post',
+            data : { post_id : $this.data('post-id') },
+            async : false
+        }).done(function(response) {
+            self.config.theModal.html(response);
+        });
+
+        e.preventDefault();
     }
 }
 
@@ -79,5 +99,6 @@ Poststream.init({
     theModal : $('#the_modal'),
 
     deletePost : $('.delete-post'),
+    linkPost : $('.link-post'),
     triggerDeletePost : $('#trigger_delete_post')
 });

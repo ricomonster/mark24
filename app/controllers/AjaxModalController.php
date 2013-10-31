@@ -213,6 +213,15 @@ class AjaxModalController extends BaseController {
         return Response::json(array('error' => false));
     }
 
+    public function showLinkToPost()
+    {
+        $postId = Input::get('post_id');
+        $post = Post::find($postId);
+
+        return View::make('ajax.modal.linkpost')
+            ->with('post', $post);
+    }
+
     // End of Poststream functions
 
     // Forum Functions

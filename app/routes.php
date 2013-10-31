@@ -39,6 +39,7 @@ Route::get('ajax/modal/confirm-delete-group', 'AjaxModalController@confirmGroupD
 Route::get('ajax/modal/show-withdraw-group', 'AjaxModalController@confirmWithdrawGroup');
 Route::get('ajax/modal/show-change-password', 'AjaxModalController@showChangePassword');
 Route::get('ajax/modal/confirm-delete-post', 'AjaxModalController@confirmDeletePost');
+Route::get('ajax/modal/link-post', 'AjaxModalController@showLinkToPost');
 
 Route::post('ajax/modal/create_group', 'AjaxModalController@createGroup');
 Route::post('ajax/modal/join_group', 'AjaxModalController@joinGroup');
@@ -89,6 +90,10 @@ Route::post('ajax/post_creator/create_note', 'AjaxPostCreatorController@createNo
 Route::post('ajax/post_creator/create_alert', 'AjaxPostCreatorController@createAlert');
 Route::post('ajax/post_creator/create_quiz', 'AjaxPostCreatorController@postCreateQuiz');
 Route::post('ajax/post_creator/update-post', 'AjaxPostCreatorController@updatePost');
+
+// Control Routes
+Route::get('control', 'ControlController@index');
+Route::get('control/dashboard', 'ControlController@dashboard');
 
 // Forum Routes
 Route::get('the-forum', 'ForumController@index');

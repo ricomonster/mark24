@@ -14,29 +14,29 @@ Home
 
 @section('content')
 
-<div class="message-holder"><span></span></div>
-<div class="row">
-    <div class="col-md-3">
+<section class="message-holder"><span></span></section>
+<section class="row">
+    <section class="col-md-3">
         <!-- Left Sidebar -->
-        <div class="user-details-holder well">
+        <section class="user-details-holder well">
             {{ Helper::avatar(50, "normal", "pull-left") }}
 
-            <div class="user-details-content pull-left">
+            <section class="user-details-content pull-left">
                 @if(Auth::user()->account_type == 1)
                 <a href="#">Hi, {{ Auth::user()->salutation.' '.Auth::user()->lastname }}</a>
-                <div class="user-type">Teacher</div>
+                <section class="user-type">Teacher</section>
                 @else
                 <a href="#">Hi, {{ Auth::user()->name }}</a>
-                <div class="user-type">Student</div>
+                <section class="user-type">Student</section>
                 @endif
-            </div>
-            <div class="clearfix"></div>
-        </div>
+            </section>
+            <section class="clearfix"></section>
+        </section>
 
-        <div class="user-groups-holder">
-            <div class="section-title-holder">
+        <section class="user-groups-holder">
+            <section class="section-title-holder">
                 <span>Groups</span>
-                <div class="dropdown pull-right">
+                <section class="dropdown pull-right">
                     <a data-toggle="dropdown" href="#" id="group_options">
                         <i class="fa fa-plus-circle"></i>
                     </a>
@@ -46,8 +46,8 @@ Home
                         @endif
                         <li><a href="#" id="show_join_group">Join</a></li>
                     </ul>
-                </div>
-            </div>
+                </section>
+            </section>
             <ul class="nav nav-pills nav-stacked">
                 @if(!empty($groups))
                 @foreach($groups as $group)
@@ -57,20 +57,20 @@ Home
                 <li>No Groups Found</li>
                 @endif
             </ul>
-        </div>
+        </section>
 
-    </div>
-    <div class="col-md-9">
+    </section>
+    <section class="col-md-9">
 
-        <div class="modal fade" id="the_modal" tabindex="-1" role="dialog"
-        aria-labelledby="the_modal_label" aria-hidden="true"></div>
+        <section class="modal fade" id="the_modal" tabindex="-1" role="dialog"
+        aria-labelledby="the_modal_label" aria-hidden="true"></section>
 
         <!-- Main Content -->
         @include('plugins.postcreator')
 
         @include('plugins.poststream')
-    </div>
-</div>
+    </section>
+</section>
 
 @stop
 

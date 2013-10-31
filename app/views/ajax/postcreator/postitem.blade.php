@@ -2,12 +2,7 @@
 <?php $postTimestamp = Helper::timestamp($post->post_timestamp); ?>
 <li class="post-holder" data-post-id="{{ $post->post_id }}">
     <a href="/profile/{{ $post->username }}" class="writer-profile">
-        @if(empty($post->avatar))
-        <img src="/assets/images/anon.png" width="50" class="img-rounded pull-left">
-        @else
-        <img src="/assets/avatars/{{ $post->hashed_id }}/{{ $post->avatar_small }}"
-        width="50" class="img-rounded pull-left">
-        @endif
+        {{ Helper::avatar(50, "small", "img-rounded pull-left", $post->id) }}
     </a>
     <div class="post-content pull-left">
 
