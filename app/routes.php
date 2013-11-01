@@ -90,6 +90,7 @@ Route::post('ajax/post_creator/create_note', 'AjaxPostCreatorController@createNo
 Route::post('ajax/post_creator/create_alert', 'AjaxPostCreatorController@createAlert');
 Route::post('ajax/post_creator/create_quiz', 'AjaxPostCreatorController@postCreateQuiz');
 Route::post('ajax/post_creator/update-post', 'AjaxPostCreatorController@updatePost');
+Route::post('ajax/post_creator/upload-file', 'AjaxPostCreatorController@uploadPost');
 
 // Control Routes
 Route::get('control', 'ControlController@index');

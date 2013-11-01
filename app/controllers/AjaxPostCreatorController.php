@@ -139,4 +139,15 @@ class AjaxPostCreatorController extends BaseController {
             return Response::json(array('error' => false));
         }
     }
+
+    public function uploadPost()
+    {
+        $files = Input::file('files');
+
+        foreach($files as $key => $file) {
+            $test[$key] = $file->getClientOriginalName();
+        }
+
+        return Response::json(array('result' => $test));
+    }
 }

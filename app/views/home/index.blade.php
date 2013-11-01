@@ -25,7 +25,8 @@ Home
                 @if(Auth::user()->account_type == 1)
                 <a href="#">Hi, {{ Auth::user()->salutation.' '.Auth::user()->lastname }}</a>
                 <section class="user-type">Teacher</section>
-                @else
+                @endif
+                @if(Auth::user()->account_type == 2)
                 <a href="#">Hi, {{ Auth::user()->name }}</a>
                 <section class="user-type">Student</section>
                 @endif
@@ -84,6 +85,11 @@ Home
 <script src="/assets/js/sitefunc/comment.creator.js"></script>
 <script src="/assets/js/sitefunc/poststream.js"></script>
 <script src="/assets/js/plugins/groups.js"></script>
+<!-- File Upload -->
+<script src="/assets/js/plugins/jquery.ui.widget.js"></script>
+<script src="/assets/js/plugins/jquery.iframe-transport.js"></script>
+<script src="/assets/js/plugins/jquery.fileupload.js"></script>
+
 @if(isset($quiz))
 <script>
 (function($) {
@@ -103,4 +109,29 @@ Home
 })(jQuery);
 </script>
 @endif
+<script>
+/*jslint unparam: true */
+/*global window, $ */
+$(function () {
+    'use strict';
+
+    $('.fileupload').fileupload({
+        url: '/ajax/post_creator/upload-file',
+        dataType: 'json',
+        done: function (e, data) {
+            $('.progress').slideUp();
+            $('.files').show();
+            $.each(data.result, function (index, file) {
+                $('<p/>').text(file.name).appendTo('#files');
+            });
+        },
+        progressall: function (e, data) {
+            $('.progress').show();
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('.progress .progress-bar').css('width', progress + '%');
+        }
+    }).prop('disabled', !$.support.fileInput)
+        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+});
+</script>
 @stop
