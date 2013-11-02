@@ -40,19 +40,19 @@
                         </select>
                     </div>
 
-                    <div class="postcreator-form-controls">
-                        <ul class="postcreator-controls pull-left">
-                            <li>
-                                <input class="fileupload" type="file" name="files[]"
-                                multiple>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
-
+                    <div class="attached-files">
                         <div class="progress">
                             <div class="progress-bar progress-bar-success"></div>
                         </div>
                         <div class="files"></div>
+                    </div>
+
+                    <div class="postcreator-form-controls">
+                        <ul class="postcreator-controls pull-left">
+                            <li>
+                                <input class="fileupload" type="file" name="files" multiple>
+                            </li>
+                        </ul>
 
                         <div class="postcreator-buttons pull-right">
                             <a href="">Cancel</a>

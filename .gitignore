@@ -1,6 +1,7 @@
 /bootstrap/compiled.php
 /vendor
 /public/assets/avatars
+/public/assets/thelibrary
 composer.phar
 composer.lock
 .DS_Store

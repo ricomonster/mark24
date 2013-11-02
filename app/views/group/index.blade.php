@@ -138,9 +138,54 @@
 @stop
 
 @section('js')
+<script src="/assets/js/plugins/jquery.form.min.js"></script>
 <script src="/assets/js/plugins/chosen.js"></script>
 <script src="/assets/js/plugins/expanding.js"></script>
+<script src="/assets/js/plugins/bootstrap-datepicker.js"></script>
+
 <script src="/assets/js/plugins/postcreator.js"></script>
-<script src="/assets/js/plugins/groups.js"></script>
 <script src="/assets/js/sitefunc/comment.creator.js"></script>
+<script src="/assets/js/sitefunc/poststream.js"></script>
+<script src="/assets/js/plugins/groups.js"></script>
+
+@if(Auth::user()->account_type == 1)
+<!-- File Upload -->
+<script src="/assets/js/plugins/jquery.ui.widget.js"></script>
+<script src="/assets/js/plugins/jquery.iframe-transport.js"></script>
+<script src="/assets/js/plugins/jquery.fileupload.js"></script>
+<script>
+$(function () {
+    'use strict';
+
+    $('.fileupload').fileupload({
+        url: '/ajax/post_creator/upload-file',
+        dataType: 'json',
+        done : function (e, data) {
+            $('.progress').hide();
+
+            if(data.result.error) {
+                // show error messages
+            }
+
+            if(!data.result.error) {
+                var file = data.result.attached;
+                $('.files').append(
+                    '<p data-file-id="'+file.file_library_id+'">'+
+                    '<a href="#" class="remove-file">&times;</a> '+
+                    file.file_name+
+                    '<input type="hidden" name="attached-files[]"'+
+                    'value="'+file.file_library_id+'"></p>').fadeIn();
+            }
+        },
+
+        progressall: function (e, data) {
+            $('.progress').show();
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('.progress .progress-bar').css('width', progress + '%');
+        }
+    }).prop('disabled', !$.support.fileInput)
+        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+});
+</script>
+@endif
 @stop

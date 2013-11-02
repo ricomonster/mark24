@@ -85,11 +85,6 @@ Home
 <script src="/assets/js/sitefunc/comment.creator.js"></script>
 <script src="/assets/js/sitefunc/poststream.js"></script>
 <script src="/assets/js/plugins/groups.js"></script>
-<!-- File Upload -->
-<script src="/assets/js/plugins/jquery.ui.widget.js"></script>
-<script src="/assets/js/plugins/jquery.iframe-transport.js"></script>
-<script src="/assets/js/plugins/jquery.fileupload.js"></script>
-
 @if(isset($quiz))
 <script>
 (function($) {
@@ -109,22 +104,36 @@ Home
 })(jQuery);
 </script>
 @endif
+@if(Auth::user()->account_type == 1)
+<!-- File Upload -->
+<script src="/assets/js/plugins/jquery.ui.widget.js"></script>
+<script src="/assets/js/plugins/jquery.iframe-transport.js"></script>
+<script src="/assets/js/plugins/jquery.fileupload.js"></script>
 <script>
-/*jslint unparam: true */
-/*global window, $ */
 $(function () {
     'use strict';
 
     $('.fileupload').fileupload({
         url: '/ajax/post_creator/upload-file',
         dataType: 'json',
-        done: function (e, data) {
-            $('.progress').slideUp();
-            $('.files').show();
-            $.each(data.result, function (index, file) {
-                $('<p/>').text(file.name).appendTo('#files');
-            });
+        done : function (e, data) {
+            $('.progress').hide();
+
+            if(data.result.error) {
+                // show error messages
+            }
+
+            if(!data.result.error) {
+                var file = data.result.attached;
+                $('.files').append(
+                    '<p data-file-id="'+file.file_library_id+'">'+
+                    '<a href="#" class="remove-file">&times;</a> '+
+                    file.file_name+
+                    '<input type="hidden" name="attached-files[]"'+
+                    'value="'+file.file_library_id+'"></p>').fadeIn();
+            }
         },
+
         progressall: function (e, data) {
             $('.progress').show();
             var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -134,4 +143,5 @@ $(function () {
         .parent().addClass($.support.fileInput ? undefined : 'disabled');
 });
 </script>
+@endif
 @stop

@@ -32,8 +32,8 @@
 .chosen-choices .search-choice { padding: 6px 8px !important; }
 
 /* file upload */
-.postcreator-form-controls .progress { display: none; margin-top: 10px; }
-.postcreator-form-controls .files { display: none; margin-top: 10px; }
+.attached-files .progress { display: none; margin-top: 10px; }
+.attached-files .files { display: none; margin-top: 10px; }
 
 /*.postcreator-textarea { height: 32px !important; }*/
 .postcreator-form-controls .postcreator-controls { list-style: none; margin: 0; padding: 0 }
