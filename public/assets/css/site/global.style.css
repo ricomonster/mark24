@@ -38,7 +38,7 @@ input, select, textarea { border-radius: 0 !important; }
 .modal-header { color: #ffffff; background-color: #265fa4; }
 .modal-header .close { color: #ffffff; }
 
-.modal-body .alert { display: none; padding: 5px 10px; !important; }
+.modal-body .alert { display: none; padding: 5px 10px !important; }
 .modal-body form { margin: 0; }
 .delete-post-modal-message { text-align: center; }
 

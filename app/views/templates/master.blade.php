@@ -55,6 +55,12 @@
                                 <i class="fa fa-trello"></i>
                             </a>
                         </li>
+                        <li>
+                            <a href="/the-library" data-toggle="tooltip" title="The Library"
+                            class="menu-items">
+                                <i class="fa fa-archive"></i>
+                            </a>
+                        </li>
                     </ul>
 
                     <ul class="nav navbar-nav pull-right">

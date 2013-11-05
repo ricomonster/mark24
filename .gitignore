@@ -2,6 +2,7 @@
 /vendor
 /public/assets/avatars
 /public/assets/thelibrary
+.idea
 composer.phar
 composer.lock
 .DS_Store

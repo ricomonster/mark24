@@ -49,5 +49,25 @@ class GroupsController extends BaseController {
             ->with('ownerDetails', $owner)
             ->with('members', $groupMembers);
     }
+    
+    public function chat($groupId)
+    {
+         // check first if groupId is valid
+        $group = Group::find($groupId);
+        if(!is_numeric($groupId) || empty($group)) {
+            App::abort('404');
+        }
 
+        // get current user groups
+        $groups = Group::getMyGroups();
+
+        // get number of group members
+        $groupMembers = GroupMember::getGroupMembers($groupId)
+            ->count();
+        
+        return View::make('group.chat')
+            ->with('groupDetails', $group)
+            ->with('groups', $groups)
+            ->with('memberCount', $groupMembers);
+    }
 }

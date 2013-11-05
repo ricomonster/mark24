@@ -108,6 +108,7 @@ Route::post('the-forum/create-thread-reply', 'ForumController@submitReplyThread'
 // Group Routes
 Route::get('groups/{groupId}', 'GroupsController@showIndex');
 Route::get('groups/{groupId}/members', 'GroupsController@showMembers');
+Route::get('groups/{groupId}/chat', 'GroupsController@chat');
 
 // Home Routes
 Route::get('home', 'HomeController@showHome');
