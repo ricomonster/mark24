@@ -9,9 +9,16 @@ var Poststream = {
     bindEvents : function()
     {
         $(document)
+            .ready(this.initialState)
             .on('click', this.config.deletePost.selector, this.confirmDeletePost)
             .on('click', this.config.triggerDeletePost.selector, this.deletePost)
             .on('click', this.config.linkPost.selector, this.linkThePost);
+    },
+    
+    initialState : function()
+    {
+        var self = CommentCreator;
+        self.config.commentBox.expandingTextarea();
     },
 
     // show confirmation on deleting a post
@@ -92,7 +99,7 @@ var Poststream = {
 
         e.preventDefault();
     }
-}
+};
 
 Poststream.init({
     messageHolder : $('.message-holder'),

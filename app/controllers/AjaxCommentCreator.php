@@ -8,7 +8,7 @@ class AjaxCommentCreator extends BaseController
         $comment    = Input::get('comment');
 
         // save the comment
-        $newComment                     = new Comment;
+        $newComment                      = new Comment;
         $newComment->user_id            = Auth::user()->id;
         $newComment->post_id            = $postId;
         $newComment->comment            = $comment;

@@ -92,5 +92,11 @@ class UsersController extends BaseController {
         Auth::logout();
         return Redirect::to('/');
     }
+    
+    public function test()
+    {
+        $test       = 'asdf';
+        $testing    = 'asdf';
+    }
 
 }

@@ -61,7 +61,6 @@
     height: 32px;
     overflow: hidden;
     resize: none;
-    width: 470px;
 }
 .comment-form-holder .comment-form .submit-comment {
     /*display: none;*/
