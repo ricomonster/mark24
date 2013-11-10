@@ -21,11 +21,13 @@
                 <div class="dropdown dropdown-post-options pull-right">
                     <a data-toggle="dropdown" href="#"><i class="fa fa-gear"></i></a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        @if(Auth::user()->id === $post->id)
                         <li><a href="#" class="delete-post"
                         data-post-id="{{ $post->post_id }}">Delete Post</a></li>
                         @if($post->post_type != 'quiz')
                         <li><a href="#" class="edit-post"
                         data-post-id="{{ $post->post_id }}">Edit Post</a></li>
+                        @endif
                         @endif
                         <li><a href="#" class="link-post"
                         data-post-id="{{ $post->post_id }}">Link to this Post</a></li>
@@ -97,7 +99,8 @@
                             <a href="/quiz-manager/{{ $post->quiz_id }}" class="btn btn-default">
                                 Turned In ({{ $turnedIn['takers'] }})
                             </a>
-                            <span class="due-date">Due {{ date('M d, Y', strtotime($post->quiz_due_date)) }}</span>
+                            <span class="due-date">
+                                Due {{ date('M d, Y', strtotime($post->quiz_due_date)) }}</span>
                             @endif
 
                             @if(Auth::user()->account_type == 2)
@@ -128,7 +131,11 @@
                     ?>
                     </div>
                     @if($post->post_type != 'quiz')
-                    {{ Form::open(array('url' => '/ajax/post_creator/update-post', 'class' => 'edit-post-form', 'data-post-id' => $post->post_id)) }}
+                    {{ Form::open(array(
+                        'url' => '/ajax/post_creator/update-post',
+                        'class' => 'edit-post-form',
+                        'data-post-id' => $post->post_id))
+                    }}
                         <div class="form-group">
                             <textarea name="message-post" class="form-control message-post"
                             data-post-id="{{ $post->post_id }}">{{ $content }}</textarea>
@@ -147,7 +154,11 @@
             <div class="post-etcs">
                 <ul class="post-etcs-holder">
                     <li><a href="#"><i class="fa fa-thumbs-up"></i> Like it</a></li>
-                    <li><a href="#"><i class="fa fa-comment"></i> Reply</a></li>
+                    <li>
+                        <a href="#" class="show-comment-form" data-post-id="{{ $post->post_id }}">
+                            <i class="fa fa-comment"></i> Reply
+                        </a>
+                    </li>
                     <li><a href="#"><i class="fa fa-clock-o"></i> {{ $postTimestamp }}</a></li>
                 </ul>
             </div>

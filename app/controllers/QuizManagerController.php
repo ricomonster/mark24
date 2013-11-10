@@ -6,10 +6,13 @@ class QuizManagerController extends BaseController
     {
         $quiz = Quiz::find($id);
         // get recipients of the quiz
-        $recipients = PostRecipient::where('post_id', '=', $quiz->quiz_id)
-            ->get();
+        $takers = QuizTaker::getQuizRecipients($id);
+        // get the questions
+        $questions = QuestionList::getQuizQuestions($id);
 
         return View::make('quizmanager.index')
-            ->with('quiz', $quiz);
+            ->with('quiz', $quiz)
+            ->with('takers', $takers)
+            ->with('questions', $questions);
     }
 }

@@ -7,10 +7,22 @@ var CommentCreator = {
 
     bindEvents : function() {
         $(document)
+            .on('click', this.config.showCommentForm.selector, this.showForm)
             .on('keyup', this.config.commentBox.selector, this.initializeComment)
             .on('keydown', this.config.commentBox.selector, this.checkKeydown)
             .on('click', this.config.submitCommentButton.selector, this.submitComment)
             .on('submit', this.config.commentForm.selector, this.submitFormComment);
+    },
+    
+    showForm : function(e)
+    {
+        var self = CommentCreator;
+        var $this = $(this);
+        
+        $('.comment-form-holder[data-post-id="'+$this.data('post-id')+'"]')
+            .show();
+        
+        e.preventDefault();
     },
 
     initializeComment : function() {
@@ -27,12 +39,12 @@ var CommentCreator = {
             submitButton.attr('disabled', 'disabled');
         }
     },
-    
+
     checkKeydown : function(e)
     {
         var self = CommentCreator;
         var $this = $(this);
-        
+
         if (e.keyCode === 13 && !e.shiftKey) {
             e.preventDefault();
             // submit comment
@@ -47,7 +59,7 @@ var CommentCreator = {
         var postId = $this.data('post-id');
         var commentBox = $('.post-comment[data-post-id="'+postId+'"]');
         var commentStreamHolder = $('.post-comment-holder[data-post-id="'+postId+'"]');
-        
+
         $.ajax({
             type : 'post',
             url : '/ajax/comment-creator/add-comment',
@@ -72,5 +84,6 @@ var CommentCreator = {
 CommentCreator.init({
     commentBox : $('.post-comment'),
     submitCommentButton : $('.submit-comment'),
-    commentForm : $('.comment-form')
-})
+    commentForm : $('.comment-form'),
+    showCommentForm : $('.show-comment-form')
+});

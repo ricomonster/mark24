@@ -10,7 +10,7 @@ class QuestionList extends Eloquent {
      * @return array
      * @author
      **/
-    public static function getQuizQuestions($quizId)
+    public static function getQuizQuestions($quizId, $quizTakerId = null)
     {
         $questions = null;
 
@@ -27,16 +27,15 @@ class QuestionList extends Eloquent {
                 case 'MULTIPLE_CHOICE' :
                     // get choices
                     $response = MultipleChoice::where('question_id', '=', $question['question_id'])
-                        ->get()->toArray();
+                        ->get()
+                        ->toArray();
                     break;
                 case 'TRUE_FALSE' :
                     $response = TrueFalse::where('question_id', '=', $question['question_id'])
-                        ->first()->toArray();
+                        ->first()
+                        ->toArray();
                     break;
                 case 'SHORT_ANSWER' :
-                    $response = null;
-                    break;
-                default :
                     $response = null;
                     break;
             }
@@ -44,8 +43,24 @@ class QuestionList extends Eloquent {
             $questions['list'][$key] = $list;
             $questions['list'][$key]['question'] = $question;
             $questions['list'][$key]['question']['response'] = $response;
+            
+            // check if quizTakerId is not null
+            if(!is_null($quizTakerId)) {
+                // get the response of the user
+                $questions['list'][$key]['question']['answer_details'] = 
+                    QuestionList::quizTakerAnswer($quizTakerId,$question['question_id']);
+            }
         }
 
         return $questions;
+    }
+    
+    public static function quizTakerAnswer($quizTakerId, $questionId)
+    {
+        $answer = QuizAnswer::where('quiz_taker_id', '=', $quizTakerId)
+            ->where('question_id', '=', $questionId)
+            ->first();
+        
+        return (empty($answer)) ? null : $answer->toArray();
     }
 }

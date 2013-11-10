@@ -29,6 +29,12 @@ class UsersController extends BaseController {
         // credentials are present. validate if credentials exists
         // or match to any records in database
         if(Auth::attempt($credentials)) {
+            // there's a chance that the super user admin will
+            // login here
+            if(Auth::user()->account_type == 0) {
+                return Redirect::to('control/dashboard');
+            }
+            
             return Redirect::to('home');
         }
 

@@ -14,6 +14,9 @@ class AjaxCommentCreator extends BaseController
         $newComment->comment            = $comment;
         $newComment->comment_timestamp  = time();
         $newComment->save();
+        
+        // create notification
+        
 
         // get the details of the comment
         $comment = Comment::where('comment_id', '=', $newComment->comment_id)

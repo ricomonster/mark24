@@ -76,6 +76,9 @@ Route::get('ajax/quiz-creator/get-question', 'AjaxQuizCreatorController@getQuest
 Route::get('ajax/quiz-creator/get-questions', 'AjaxQuizCreatorController@getQuestions');
 Route::get('ajax/quiz-creator/get-question-lists', 'AjaxQuizCreatorController@getQuestionLists');
 
+// AJAX QuizManager Routes
+Route::get('ajax/quiz-manager/show-taker-details', 'AjaxQuizManagerController@takerDetails');
+
 // AJAX QuizSheet Routes
 Route::get('ajax/the-quiz-sheet/check-quiz-taker', 'AjaxTheQuizSheetController@checkQuizTaker');
 Route::get('ajax/the-quiz-sheet/get-questions', 'AjaxTheQuizSheetController@getQuestions');
@@ -94,7 +97,9 @@ Route::post('ajax/post_creator/upload-file', 'AjaxPostCreatorController@uploadPo
 
 // Control Routes
 Route::get('control', 'ControlController@index');
-Route::get('control/dashboard', 'ControlController@dashboard');
+Route::get('control/dashboard', array(
+    'before' => 'super-admin',
+    'uses' => 'ControlController@dashboard'));
 
 // Forum Routes
 Route::get('the-forum', 'ForumController@index');

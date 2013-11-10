@@ -2,5 +2,26 @@
 
 class AjaxQuizManagerController extends BaseController
 {
-
+    public function takerDetails()
+    {
+        $questions = null;
+        
+        $quizId = Input::get('quiz_id');
+        $takerId = Input::get('taker_id');
+        
+        $takerDetails = QuizTaker::where('user_id', '=', $takerId)
+            ->where('quiz_id', '=', $quizId)
+            ->first();
+        
+        $userDetails = User::find($takerId);
+       
+        if(!empty($takerDetails)) {
+            // get the questions
+            $questions = QuestionList::getQuizQuestions($quizId, $takerDetails->quiz_taker_id);
+        }
+        
+        return View::make('ajax.quizmanager.takerdetails')
+            ->with('takerDetails', $userDetails)
+            ->with('questions', $questions);
+    }
 }
