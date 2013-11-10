@@ -118,6 +118,9 @@ Route::get('groups/{groupId}/chat', 'GroupsController@chat');
 // Home Routes
 Route::get('home', 'HomeController@showHome');
 
+// Post Routes
+Route::get('post/{postId}', 'PostController@showPost');
+
 // Profile Routes
 Route::get('profile/{user}', 'ProfileController@showIndex');
 

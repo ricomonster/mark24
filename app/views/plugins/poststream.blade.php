@@ -100,7 +100,8 @@
                                 Turned In ({{ $turnedIn['takers'] }})
                             </a>
                             <span class="due-date">
-                                Due {{ date('M d, Y', strtotime($post->quiz_due_date)) }}</span>
+                                Due {{ date('M d, Y', strtotime($post->quiz_due_date)) }}
+                            </span>
                             @endif
 
                             @if(Auth::user()->account_type == 2)

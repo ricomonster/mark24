@@ -187,8 +187,8 @@ class Helper
     {
         $takers = QuizTaker::where('quiz_id', '=', $quizId)
             ->where(function($query) {
-                $query->where('status', '=', 'PASSED')
-                    ->where('status', '=', 'GRADED');
+                $query->orWhere('status', '=', 'PASSED')
+                    ->orWhere('status', '=', 'GRADED');
             })
             ->get()
             ->count();
