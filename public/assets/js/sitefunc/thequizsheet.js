@@ -301,7 +301,7 @@ var TheQuizSheet = {
     },
 
     // submits the quiz
-    submitQuiz : function()
+    submitQuiz : function(e)
     {
         var self = TheQuizSheet;
 
@@ -312,7 +312,8 @@ var TheQuizSheet = {
             url : '/ajax/the-quiz-sheet/submit-quiz',
             data : {
                 quiz_id         : self.config.theQuizSheet.data('quiz-id'),
-                quiz_taker_id   : self.config.quizTakerId
+                quiz_taker_id   : self.config.quizTakerId,
+                time_remaining  : self.config.activeTimer
             },
             dataType : 'json',
             async : false
@@ -320,6 +321,8 @@ var TheQuizSheet = {
             // redirect page
             window.location.href = response.lz;
         })
+        
+        e.preventDefault();
     },
 
     // loads the questions
@@ -369,6 +372,7 @@ var TheQuizSheet = {
             }
 
             timeRemaining = counter;
+            self.config.activeTimer = counter;
         }, 1000);
 
         // saves the time remaining every x seconds
@@ -393,6 +397,7 @@ var TheQuizSheet = {
 TheQuizSheet.init({
     quizTakerId : 0,
     quizTimeLimit : 0,
+    activeTimer : 0,
 
     startQuiz : $('.start-quiz'),
     questionItem : $('.question-item'),

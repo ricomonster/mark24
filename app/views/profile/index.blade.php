@@ -33,12 +33,7 @@ Profile
 
 <div class="profile-header well">
     <div class="profile-avatar pull-left">
-        @if($user->avatar == 'default_avatar.png')
-        <img src="/assets/images/default_avatar.png" width="140" class="img-rounded">
-        @endif
-        @if($user->avatar != 'default_avatar.png')
-        <img src="/assets/avatars/{{ $user->hashed_id }}/{{ $user->avatar_large }}" width="140" class="img-rounded">
-        @endif
+        {{ Helper::avatar(140, "large", "img-rounded", $user->id) }}
     </div>
     <div class="profile-user-details pull-left">
         <h3 class="profile-user-fullname">

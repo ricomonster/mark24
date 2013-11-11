@@ -1,10 +1,11 @@
 <?php
 
-class HomeController extends BaseController {
-
-	public function __construct() {
-		$this->beforeFilter('auth');
-	}
+class HomeController extends BaseController
+{
+    public function __construct()
+    {
+        $this->beforeFilter('auth');
+    }
 
 	public function showHome() {
 		$groups 		= Group::getMyGroups();

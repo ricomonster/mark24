@@ -46,6 +46,8 @@ Quiz Manager
 }
 
 .question-item-holder .tab-pane { padding: 15px 20px; }
+.question-item-holder .tab-pane .question-status { font-size: 13px; }
+.question-item-holder .tab-pane .question-text { margin-top: 10px; }
 
 .question-responses {
     border-top: 1px solid #e3e3e3;
@@ -90,7 +92,7 @@ Quiz Manager
 }
 
 .question-responses .multiple-choice-response-holder .wrong-choice .option-holder {
-    background-color: red;
+    background-color: #d93f44;
 }
 
 .question-responses .multiple-choice-response-holder .wrong-choice .option-holder .choice-letter {
@@ -148,10 +150,14 @@ Quiz Manager
                         <?php $groupCount = count($takers); ?>
                         @foreach($takers as $key => $taker)
                         @if($groupCount - 1 === $key)
-                        <a href="#">{{ $taker['group_name'] }}</a>
+                        <a href="/groups/{{ $taker['group_id'] }}">
+                            {{ $taker['group_name'] }}
+                        </a>
                         @endif
                         @if($groupCount - 1 !== $key)
-                        <a href="#">{{ $taker['group_name'] }}</a>,
+                        <a href="/groups/{{ $taker['group_id'] }}">
+                            {{ $taker['group_name'] }},
+                        </a>
                         @endif
                         @endforeach
                     </div>

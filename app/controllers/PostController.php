@@ -2,6 +2,10 @@
 
 class PostController extends BaseController
 {   
+    public function __construct() {
+        $this->beforeFilter('auth');
+    }
+    
     /**
      * This will show the post
      * 

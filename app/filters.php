@@ -60,9 +60,25 @@ Route::filter('guest', function()
 	if (Auth::check()) return Redirect::to('/');
 });
 
+Route::filter('logged-in', function() {
+    if (Auth::check()) return Redirect::to('home');
+});
+
 Route::filter('super-admin', function()
 {
-    if (Auth::guest() || Auth::user()->account_type !== 0) {
+    if (Auth::guest() || Auth::user()->account_type != 0) {
+        return Redirect::to('/');
+    }
+});
+
+Route::filter('are-you-a-teacher', function() {
+    if (Auth::guest() || Auth::user()->account_type != 1) {
+        return Redirect::to('/');
+    }
+});
+
+Route::filter('are-you-a-student', function() {
+    if (Auth::guest() || Auth::user()->account_type != 2) {
         return Redirect::to('/');
     }
 });

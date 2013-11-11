@@ -11,14 +11,14 @@
 |
 */
 
-Route::get('/', function()
+Route::get('/', array('before' => 'logged-in', function()
 {
     $loginError = Session::get('loginError');
     $loginError = (isset($loginError)) ? $loginError : null;
 
 	return View::make('home.login')
         ->with('loginError', $loginError);
-});
+}));
 
 Route::get('test', function() {
 

@@ -30,4 +30,9 @@ class GroupMember extends Eloquent {
                             GROUP BY t1.group_member_id',
                             array(Auth::user()->id, Auth::user()->id));
     }
+    
+    public static function getRecipientGroupMembers()
+    {
+        
+    }
 }

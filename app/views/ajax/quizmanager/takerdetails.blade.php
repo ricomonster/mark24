@@ -1,8 +1,8 @@
 <div class="manager-header">
-    {{ Helper::avatar(42, "small", "img-rounded pull-left", $takerDetails->id) }}
-
+    {{ Helper::avatar(42, "small", "img-rounded pull-left", $userDetails->id) }}
+    
     <div class="taker-details pull-left">
-        <h4>{{ $takerDetails->name }}</h4>
+        <h4>{{ $userDetails->name }}</h4>
         <div class="quiz-taken-details text-muted">
             <span>Time Taken: 1:00:00:00</span>
             <span>|</span>
@@ -13,6 +13,15 @@
             <span>|</span>
             <a href="#">Delete</a>
         </div>
+    </div>
+    
+    <div class="taker-stats pull-right">
+        <h2>
+            {{ (empty($questions)) ? '0' : $takerDetails->score; }}
+            /
+            {{ $quiz->total_score }}
+        </h2>
+        <span class="text-muted">Total Points</span>
     </div>
     <div class="clearfix"></div>
 </div>
@@ -31,8 +40,30 @@
 </ul>
 <div class="tab-content question-item-holder">
     @foreach($questions['list'] as $key => $question)
+    <?php $response = $question['question']['response']; ?>
+    <?php $answer = $question['question']['answer_details']; ?>
     <div class="tab-pane <?php echo ($key == 0) ? 'active' : null; ?>"
     id="{{ $key + 1 }}">
+        @if(empty($answer))
+        <div class="question-status pull-left label label-warning">
+            Question not answered
+        </div>
+        @endif
+        @if(!empty($answer) && $answer['is_correct'] === 'TRUE')
+        <div class="question-status pull-left label label-success">
+            Answer is correct
+        </div>
+        @endif
+        @if(!empty($answer) && $answer['is_correct'] === 'FALSE')
+        <div class="question-status pull-left label label-danger">
+            Answer is not correct
+        </div>
+        @endif
+        @if(!empty($answer) && empty($answer['is_correct']))
+        <div class="question-status pull-left label label-info">
+            Answer is not yet graded
+        </div>
+        @endif
         <div class="question-point pull-right">
             Question Total:
             <?php
@@ -48,9 +79,6 @@
         </div>
 
         <div class="question-responses">
-            <?php $response = $question['question']['response']; ?>
-            <?php $answer = $question['question']['answer_details']; ?>
-            
             @if($question['question']['question_type'] == 'MULTIPLE_CHOICE')
             <ul class="multiple-choice-response-holder">
                 <?php $alpha = 'A'; ?>
@@ -129,7 +157,7 @@
             @endif
             @if($question['question']['question_type'] == 'SHORT_ANSWER')
             <div class="response-short-answer">
-
+                <?php echo nl2br(htmlentities(($answer['short_answer_text']))); ?>
             </div>
             @endif
         </div>

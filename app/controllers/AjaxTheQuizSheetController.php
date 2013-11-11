@@ -89,7 +89,7 @@ class AjaxTheQuizSheetController extends BaseController
                         $toAnswer->points = $question->question_point;
                         break;
                     case 'FALSE' :
-                        $toAnswer->is_correct = 'TRUE';
+                        $toAnswer->is_correct = 'FALSE';
                         $toAnswer->points = 0;
                         break;
                     default:
@@ -193,6 +193,7 @@ class AjaxTheQuizSheetController extends BaseController
 
         $quizId         = Input::get('quiz_id');
         $quizTakerId    = Input::get('quiz_taker_id');
+        $timeRemaining  = Input::get('time_remaining');
 
         // get the answers
         $answers = QuizAnswer::where('quiz_taker_id', '=', $quizTakerId)
@@ -213,6 +214,7 @@ class AjaxTheQuizSheetController extends BaseController
         $taker->status = 'PASSED';
         $taker->score = $totalPoints;
         $taker->no_items_correct = $itemsCorrect;
+        $taker->time_remaining = $timeRemaining;
         $taker->save();
 
         // return redirect url

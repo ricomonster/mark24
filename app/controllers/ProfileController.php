@@ -2,7 +2,10 @@
 
 class ProfileController extends BaseController
 {
-
+    public function __construct() {
+        $this->beforeFilter('auth');
+    }
+    
     public function showIndex($user)
     {
         // check if the user var is an int
