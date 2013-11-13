@@ -109,11 +109,10 @@ class Notification extends Eloquent
                 // get the teachers of the group
                 $members = GroupMember::where('group_id', '=', $referralId)
                     ->leftJoin('users', 'group_members.group_member_id', '=', 'users.id')
+                    ->where('users.account_type', '=', 1)
                     ->get();
                 // extract the members
-                if($members as $member) {
-                    if($member->account_type == 2) continue;
-                    if($member->id != Auth::user()->id) continue;
+                foreach($members as $member) {
                     // check if the notification already exists
                     $exists = Notification::where('notification_type', '=', 'join_group')
                         ->where('notification_reference_id', '=', $referenceId)
@@ -127,7 +126,7 @@ class Notification extends Eloquent
                         $notification->recipient_id = $member->group_member_id;
                         $notification->notification_type = 'join_group';
                         $notification->notification_reference_id = $referenceId;
-                        $notification->referral_id = $referralId
+                        $notification->referral_id = $referralId;
                         $notification->notification_timestamp = $time;
                         $notification->save();
                     }
@@ -194,13 +193,86 @@ class Notification extends Eloquent
         return;
     }
 
-    public function getNotifications()
+    public static function getNotifications()
     {
         $messages = array();
 
         $notifications = Notification::where('recipient_id', '=', Auth::user()->id)
-            ->orderBy('notification_timestamp', 'DESC')
+            ->orderBy('notification_timestamp', 'ASC')
             ->get();
         // extract the notifications
+        foreach($notifications as $key => $notification) {
+            switch($notification->notification_type) {
+                case 'comment' :
+                    // get the post
+                    $post = Post::find($notification->notification_reference_id);
+                    // get the commenters
+                    $commenters = Comment::where('post_id', '=', $post->post_id)
+                        ->leftJoin('users', 'comments.user_id', '=', 'users.id')
+                        ->groupBy('comments.user_id')
+                        ->orderBy('comments.comment_timestamp', 'ASC')
+                        ->get();
+                    $commenterCount = $commenters->count();
+                    // extract the commenters
+                    foreach($commenters as $key2 => $commenter) {
+                        // check if there is only one commenter
+                        if($commenterCount == 1) {
+                            $user = $commenter;
+                            // prep the message
+                            $message = $user->salutation.$user->name
+                                .' commented on %s post.';
+                        }
+
+                        // commenters are more than one
+                        // get the last one who commented except the current user
+                        if($commenterCount != 1 || $commenterCount == $key2 - 1) {
+                            $user = $commenter;
+                            // prep the message
+                            $commenters = $user->salutation.$user->name.' and '
+                                .($commenterCount - 1);
+                        }
+                    }
+
+                    // set up the message
+                    $messages[$key]['message'] = sprintf(
+                        '%s commented on %s post',
+                        $commenters,
+                        (($post->user_id == Auth::user()->id) ? 'your' : 'on'));
+                    // set up the url of the notification
+                    $messages[$key]['link'] = '/post/'.$post->post_id;
+                    break;
+                case 'direct_message' :
+                    break;
+                case 'forum_reply' :
+                    break;
+                case 'join_group' :
+                    // get the user
+                    $user = User::find($notification->notification_reference_id);
+                    // get the group
+                    $group = Group::find($notification->referral_id);
+                    $messages[$key]['message'] = $user->salutation.$user->name
+                        .' joined '.$group->group_name.'.';
+                    $messages[$key]['link'] = null;
+                    break;
+                case 'leave_group' :
+                    break;
+                case 'post' :
+                    // get the post
+                    $post = Post::find($notification->notification_reference_id);
+                    $user = User::find($post->user_id);
+
+                    $messages[$key]['message'] = $user->salutation.$user->name
+                        .' posted something on your group.';
+                    // set up the url of the notification
+                    $messages[$key]['link'] = '/post/'.$post->post_id;
+                    break;
+                case 'quiz_graded' :
+                    break;
+                case 'quiz_submitted' :
+                    break;
+            }
+        }
+
+        return $messages;
     }
 }
