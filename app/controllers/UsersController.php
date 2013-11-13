@@ -34,7 +34,7 @@ class UsersController extends BaseController {
             if(Auth::user()->account_type == 0) {
                 return Redirect::to('control/dashboard');
             }
-            
+
             return Redirect::to('home');
         }
 
@@ -88,6 +88,11 @@ class UsersController extends BaseController {
         $addMember->group_id        = $group->group_id;
         $addMember->save();
 
+        // setup notification that the user joined the group
+        Notification::createNotification(array(
+            'reference_id' => $studentUser->id,
+            'referral_id' => $group->group_id), 'join_group');
+
         // set the Auth to login the user
         Auth::loginUsingId($studentUser->id);
 
@@ -98,7 +103,7 @@ class UsersController extends BaseController {
         Auth::logout();
         return Redirect::to('/');
     }
-    
+
     public function test()
     {
         $test       = 'asdf';

@@ -49,6 +49,9 @@ class AjaxPostCreatorController extends BaseController {
                 }
             }
 
+            // setup the notification
+            Notification::createNotification($newNote->post_id, 'post');
+
             // return the HTML to show the newest post
             // to be loaded on the page
             return View::make('ajax.postcreator.postitem')
@@ -83,6 +86,9 @@ class AjaxPostCreatorController extends BaseController {
                 $addRecipient->recipient_type = $exploded[1];
                 $addRecipient->save();
             }
+
+            // setup the notification
+            Notification::createNotification($newAlert->post_id, 'post');
 
             // return the HTML to show the newest post
             // to be loaded on the page
@@ -121,6 +127,9 @@ class AjaxPostCreatorController extends BaseController {
                 $addRecipient->recipient_type = $exploded[1];
                 $addRecipient->save();
             }
+
+            // setup the notification
+            Notification::createNotification($newQuiz->post_id, 'post');
 
             // return the HTML to show the newest post
             // to be loaded on the page
