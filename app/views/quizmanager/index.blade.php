@@ -55,27 +55,27 @@ Quiz Manager
     padding-top: 10px;
 }
 
-.question-responses .multiple-choice-response-holder {
+.multiple-choice-response-holder {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-.question-responses .multiple-choice-response-holder .option-wrapper .option-holder {
+.multiple-choice-response-holder .option-wrapper .option-holder {
     background-color: #ccc;
     height: 60px;
     padding: 1px 1px 3px;
     margin-bottom: 10px;
 }
 
-.question-responses .multiple-choice-response-holder .option-wrapper .option-holder .choice-letter {
+.multiple-choice-response-holder .option-wrapper .option-holder .choice-letter {
     display: inline-block;
     font-weight: bold;
     text-align: center;
     width: 25px;
 }
 
-.question-responses .multiple-choice-response-holder .option-wrapper .option-holder .choice-text {
+.multiple-choice-response-holder .option-wrapper .option-holder .choice-text {
     background-color: #ffffff;
     display: inline-block;
     height: 57px;
@@ -83,21 +83,25 @@ Quiz Manager
     width: 94.3%;
 }
 
-.question-responses .multiple-choice-response-holder .choice-answer .option-holder {
+.multiple-choice-response-holder .choice-answer .option-holder {
     background-color: #439724;
 }
 
-.question-responses .multiple-choice-response-holder .choice-answer .option-holder .choice-letter {
+.multiple-choice-response-holder .choice-answer .option-holder .choice-letter {
     color: #ffffff;
 }
 
-.question-responses .multiple-choice-response-holder .wrong-choice .option-holder {
+.multiple-choice-response-holder .wrong-choice .option-holder {
     background-color: #d93f44;
 }
 
-.question-responses .multiple-choice-response-holder .wrong-choice .option-holder .choice-letter {
+.multiple-choice-response-holder .wrong-choice .option-holder .choice-letter {
     color: #ffffff;
 }
+
+.answer-ungraded { margin-top: 20px; }
+.answer-ungraded .partial-credit-wrapper { display: inline-block; margin-left: 20px; }
+.answer-ungraded .partial-credit-wrapper .partial-credit { display: inline-block; width: 50px; }
 </style>
 @stop
 @section('content')

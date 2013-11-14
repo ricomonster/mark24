@@ -3,16 +3,21 @@
 
     <div class="taker-details pull-left">
         <h4>{{ $userDetails->name }}</h4>
+        @if(empty($questions))
+        <div class="not-turned-in-message">Not turned in</div>
+        @endif
+        @if(!empty($questions))
         <div class="quiz-taken-details text-muted">
-            <span>Time Taken: 1:00:00:00</span>
+            <span>Time Taken: {{ $timeTaken }}</span>
             <span>|</span>
-            <span>Turned in Oct 15, 2013 3:06 PM</span>
+            <span>Turned in {{ date('M d, Y h:i A') }}</span>
         </div>
         <div class="taken-controls">
             <span>Graded</span>
             <span>|</span>
             <a href="#">Delete</a>
         </div>
+        @endif
     </div>
 
     <div class="taker-stats pull-right">
@@ -26,7 +31,7 @@
     <div class="clearfix"></div>
 </div>
 @if(empty($questions))
-<div class="user-no-answer-wrapper">User hasn't answered this shit.</div>
+<div class="user-no-answer-wrapper">{{ $userDetails->name }} has not submitted this quiz yet.</div>
 @endif
 @if(!empty($questions))
 <ul class="nav nav-tabs quiz-item-pagination">
@@ -165,6 +170,17 @@
         <div class="answer-ungraded">
             <button class="btn btn-default answer-is-correct">Correct</button>
             <button class="btn btn-default answer-is-incorrect">Incorrect</button>
+
+            <div class="partial-credit-wrapper">
+                <span class="text-muted">Partial Credit</span>
+                <input type="text" name="partial-credit"
+                class="partial-credit form-control">
+
+                <span class="text-muted">/</span>
+                <span class="total-question-point text-muted">
+                    {{ $question['question']['question_point'] }}
+                </span>
+            </div>
         </div>
         @endif
     </div>
