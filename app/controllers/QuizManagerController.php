@@ -5,12 +5,12 @@ class QuizManagerController extends BaseController
     public function __construct() {
         $this->beforeFilter('are-you-a-teacher');
     }
-    
+
     public function index($id)
     {
         $quiz = Quiz::find($id);
         // get recipients of the quiz
-        $takers = QuizTaker::getQuizRecipients($id);
+        $takers = QuizTaker::getQuizRecipients($id, 'all');
         // get the questions
         $questions = QuestionList::getQuizQuestions($id);
 

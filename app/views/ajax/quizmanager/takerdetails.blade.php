@@ -1,6 +1,6 @@
 <div class="manager-header">
     {{ Helper::avatar(42, "small", "img-rounded pull-left", $userDetails->id) }}
-    
+
     <div class="taker-details pull-left">
         <h4>{{ $userDetails->name }}</h4>
         <div class="quiz-taken-details text-muted">
@@ -14,7 +14,7 @@
             <a href="#">Delete</a>
         </div>
     </div>
-    
+
     <div class="taker-stats pull-right">
         <h2>
             {{ (empty($questions)) ? '0' : $takerDetails->score; }}
@@ -99,7 +99,7 @@
                     </div>
                 </li>
                 @endif
-                
+
                 @if(!empty($answer) && $answer['is_correct'] === 'FALSE')
                 <li class="clearfix option-wrapper
                 <?php
@@ -130,7 +130,7 @@
                 'btn-success' : 'btn-default '; ?>">
                     TRUE
                 </button>
-                
+
                 <button class="btn true-false-answer
                 <?php echo ($response['answer'] === 'FALSE') ?
                 'btn-success' : 'btn-default '; ?>">
@@ -144,14 +144,14 @@
                 @else
                 <button class="btn true-false-answer btn-success">TRUE</button>
                 @endif
-                
+
                 @if($answer['true_false_answer'] === 'FALSE')
                 <button class="btn true-false-answer btn-danger">FALSE</button>
                 @else
                 <button class="btn true-false-answer btn-success">FALSE</button>
                 @endif
                 @endif
-                
+
                 @endif
             </div>
             @endif
@@ -161,6 +161,12 @@
             </div>
             @endif
         </div>
+        @if(!empty($answer) && empty($answer['is_correct']))
+        <div class="answer-ungraded">
+            <button class="btn btn-default answer-is-correct">Correct</button>
+            <button class="btn btn-default answer-is-incorrect">Incorrect</button>
+        </div>
+        @endif
     </div>
     @endforeach
 </div>

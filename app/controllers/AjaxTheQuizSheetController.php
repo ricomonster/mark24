@@ -209,9 +209,16 @@ class AjaxTheQuizSheetController extends BaseController
             $totalPoints += $answer->points;
         }
 
+        // check if there are unchecked questions
+        $unchecked = QuizAnswer::where('quiz_taker_id', '=', $quizTakerId)
+            ->whereNull('is_correct', '=', '')
+            ->first();
+
+        $status = (empty($unchecked)) ? 'PASSED' : 'UNGRADED';
+
         // save data
         $taker = QuizTaker::find($quizTakerId);
-        $taker->status = 'PASSED';
+        $taker->status = $status;
         $taker->score = $totalPoints;
         $taker->no_items_correct = $itemsCorrect;
         $taker->time_remaining = $timeRemaining;

@@ -111,7 +111,7 @@ Quiz Manager
                 </div>
                 <div class="show-type-holder">
                     <span>Showing:</span>
-                    <select class="show-type form-control">
+                    <select class="show-type form-control" data-quiz-id="{{ $quiz->quiz_id }}">
                         <option value="all" selected>All</option>
                         <option value="ungraded">Ungraded</option>
                         <option value="graded">Graded</option>
@@ -119,9 +119,10 @@ Quiz Manager
                     </select>
                 </div>
                 <div class="student-lists">
-                    <ul class="nav nav-pills nav-stacked">
+                    <ul class="list-holder nav nav-pills nav-stacked">
                         @foreach($takers as $taker)
                         <li class="group-name"><a href="#">{{ $taker['group_name'] }}</a></li>
+                        @if(isset($taker['members']))
                         @foreach($taker['members'] as $member)
                         <li>
                             <a href="#" class="show-taker-details"
@@ -130,6 +131,7 @@ Quiz Manager
                             </a>
                         </li>
                         @endforeach
+                        @endif
                         @endforeach
                     </ul>
                 </div>

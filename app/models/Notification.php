@@ -20,9 +20,14 @@ class Notification extends Eloquent
                 // get the recipients of the post
                 $recipients = PostRecipient::where('post_id', '=', $post->post_id)
                     ->get();
+                // check if there's already an existing notification
+                $exists = Notification::where('notification_type', '=', 'comment')
+                    ->where('notification_reference_id', '=', $post->post_id)
+                    ->where('recipient_id', '=', Auth::user()->id)
+                    ->first();
 
                 // check if the owner of the post is the current user
-                if(Auth::user()->id != $post->user_id) {
+                if(Auth::user()->id != $post->user_id && empty($exists)) {
                     // create the notification
                     $notification = new Notification;
                     $notification->recipient_id = $post->user_id;
@@ -30,6 +35,13 @@ class Notification extends Eloquent
                     $notification->notification_reference_id = $post->post_id;
                     $notification->notification_timestamp = $time;
                     $notification->save();
+                }
+
+                if(!empty($exists)) {
+                    // update the notification
+                    $exists->seen = 'false';
+                    $exists->notification_timestamp = $time;
+                    $exists->save();
                 }
 
                 // extract the userid of the commenters
@@ -99,6 +111,36 @@ class Notification extends Eloquent
             case 'direct_message' :
                 break;
             case 'forum_reply' :
+                // get the forum thread
+                $thread = ForumThread::find($notificationReferenceId);
+                // get the commenters of the thread
+                $replies = ForumThreadReply::where('forum_thread_id', '=', $thread->forum_thread_id)->get();
+                // check if there's already an existing notification
+                $exists = Notification::where('notification_type', '=', 'forum_reply')
+                    ->where('notification_reference_id', '=', $thread->forum_thread_id)
+                    ->where('recipient_id', '=', $thread->user_id)
+                    ->first();
+                // check if the owner of the post is the current user
+                if(Auth::user()->id != $thread->user_id && empty($exists)) {
+                    // create the notification to notify the thread owner
+                    // that somebody replied to the created the user created
+                    $notification = new Notification;
+                    $notification->recipient_id = $thread->user_id;
+                    $notification->notification_type = 'comment';
+                    $notification->notification_reference_id = $thread->forum_thread_id;
+                    $notification->notification_timestamp = $time;
+                    $notification->save();
+                }
+
+                if(!empty($exists)) {
+                    // update the notification
+                    $exists->seen = 'false';
+                    $exists->notification_timestamp = $time;
+                    $exists->save();
+                }
+
+                // get the users who replied to the thread
+
                 break;
             case 'join_group' :
                 if(!is_array($notificationReferenceId)) continue;
