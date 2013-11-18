@@ -49,7 +49,7 @@ class GroupsController extends BaseController {
             ->with('ownerDetails', $owner)
             ->with('members', $groupMembers);
     }
-    
+
     public function chat($groupId)
     {
          // check first if groupId is valid
@@ -62,12 +62,11 @@ class GroupsController extends BaseController {
         $groups = Group::getMyGroups();
 
         // get number of group members
-        $groupMembers = GroupMember::getGroupMembers($groupId)
-            ->count();
-        
+        $groupMembers = GroupMember::getGroupMembers($groupId);
+
         return View::make('group.chat')
             ->with('groupDetails', $group)
             ->with('groups', $groups)
-            ->with('memberCount', $groupMembers);
+            ->with('members', $groupMembers);
     }
 }

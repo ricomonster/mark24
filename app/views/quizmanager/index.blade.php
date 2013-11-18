@@ -111,7 +111,9 @@ Quiz Manager
             <div class="well manager-sidebar">
                 <div class="quiz-title-holder">
                     <a href="#" class="show-default quiz-title">{{ $quiz->title }}</a>
-                    <span class="text-muted">Due Oct 20, 2013</span>
+                    <span class="text-muted">
+                        Due {{ date('M d, Y', strtotime($post->quiz_due_date)) }}
+                    </span>
                 </div>
                 <div class="show-type-holder">
                     <span>Showing:</span>

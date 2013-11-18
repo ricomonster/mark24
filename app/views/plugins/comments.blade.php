@@ -15,7 +15,8 @@
                     @else
                     <a href="/profile/{{ $comment->username }}">{{ $comment->name }}</a>
                     @endif
-                    <span class="subtext"> said {{ $commentTimestamp }}:</span>
+                    <span class="text-muted">&bull;</span>
+                    <span class="subtext">{{ $commentTimestamp }}</span>
                 </div>
                 <p class="comment-text">
                     <?php echo nl2br(htmlentities(($comment->comment))); ?>

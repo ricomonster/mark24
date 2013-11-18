@@ -10,7 +10,8 @@ class GroupMember extends Eloquent {
     public static function getGroupMembers($groupId) {
         $members = GroupMember::where('group_id', '=', $groupId)
             ->join('users', 'group_members.group_member_id', '=', 'users.id')
-            ->orderBy('users.USERname', 'ASC')
+            ->orderBy('users.account_type', 'ASC')
+            ->orderBy('users.username', 'ASC')
             ->get();
 
         return $members;
@@ -30,9 +31,9 @@ class GroupMember extends Eloquent {
                             GROUP BY t1.group_member_id',
                             array(Auth::user()->id, Auth::user()->id));
     }
-    
+
     public static function getRecipientGroupMembers()
     {
-        
+
     }
 }
