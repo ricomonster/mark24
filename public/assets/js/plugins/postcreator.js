@@ -102,6 +102,21 @@
         e.preventDefault();
     });
 
+    $('#show_quiz_list').on('click', function(e) {
+        // show modal
+        $('#the_modal').modal('show');
+        // ajax call
+        $.ajax({
+            type : 'get',
+            url : '/ajax/modal/get-quiz-list',
+        }).done(function(response) {
+            // load the template to the modal
+            $('#the_modal').html(response);
+        });
+
+        e.preventDefault();
+    });
+
     // shows the update post form
     $(document).on('click', '.edit-post', function(e) {
         var $this = $(this);

@@ -175,7 +175,7 @@
             <?php echo (isset($quiz)) ? 'style="display: none;"' : null; ?>>
                 <a href="/quiz-creator" class="btn btn-primary">Create a Quiz</a>
                 <span class="postcreator-or">or</span>
-                <a href="#">Load a previously created Quiz</a>
+                <a href="#" id="show_quiz_list">Load a previously created Quiz</a>
             </div>
         </div>
     </div>

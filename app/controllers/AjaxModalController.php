@@ -281,6 +281,17 @@ class AjaxModalController extends BaseController {
 
     // End of Forum Functions
 
+    public function showQuizList()
+    {
+        // get list of quiz that are ready
+        $list = Quiz::where('user_id', '=', Auth::user()->id)
+            ->where('status', '=', 'READY')
+            ->get();
+
+        return View::make('ajax.modal.quizlist')
+            ->with('quizzes', $list);
+    }
+
     /* Protected Methods
     -------------------------------*/
     protected function _validateGroupCreation() {

@@ -18,7 +18,7 @@
 @section('content')
 
 <div class="message-holder"><span></span></div>
-<div class="row group-chat-wrapper">
+<div class="row group-chat-wrapper" data-group-id="{{ $groupDetails->group_id }}">
     <div class="col-md-3">
         <div class="well">
             <ul class="nav nav-pills nav-stacked student-lists">
@@ -44,7 +44,7 @@
                 </div>
 
                 {{ Form::open(array('url'=>'ajax/groups/send-message', 'class'=>'group-chat-messenger')) }}
-                    <textarea name="message" class="form-control"></textarea>
+                    <textarea name="message" class="form-control message-box"></textarea>
                 {{ Form::close() }}
             </div>
         </div>
@@ -60,6 +60,7 @@
 @section('js')
 <script src="/assets/js/plugins/bootstrap-datepicker.js"></script>
 <script src="/assets/js/plugins/groups.js"></script>
+<script src="/assets/js/sitefunc/chat.js"></script>
 @stop
 
 

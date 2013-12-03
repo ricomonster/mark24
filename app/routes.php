@@ -40,6 +40,7 @@ Route::get('ajax/modal/show-withdraw-group', 'AjaxModalController@confirmWithdra
 Route::get('ajax/modal/show-change-password', 'AjaxModalController@showChangePassword');
 Route::get('ajax/modal/confirm-delete-post', 'AjaxModalController@confirmDeletePost');
 Route::get('ajax/modal/link-post', 'AjaxModalController@showLinkToPost');
+Route::get('ajax/modal/get-quiz-list', 'AjaxModalController@showQuizList');
 
 Route::post('ajax/modal/create_group', 'AjaxModalController@createGroup');
 Route::post('ajax/modal/join_group', 'AjaxModalController@joinGroup');
@@ -49,6 +50,9 @@ Route::post('ajax/modal/delete-group', 'AjaxModalController@deleteGroup');
 Route::post('ajax/modal/withdraw-group', 'AjaxModalController@withdrawGroup');
 Route::post('ajax/modal/reset-password', 'AjaxModalController@resetPassword');
 Route::post('ajax/modal/delete-post', 'AjaxModalController@deletePost');
+
+// AJAX Chat Routes
+Route::get('ajax/chat/check-chat-details', 'AjaxChatController@chatDetails');
 
 // AJAX CommentCreator Routes
 Route::post('ajax/comment-creator/add-comment', 'AjaxCommentCreator@postCreateComment');
