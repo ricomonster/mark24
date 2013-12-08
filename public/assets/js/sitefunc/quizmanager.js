@@ -213,8 +213,6 @@ var QuizManager = {
                self.config.quizManagerProper.empty().append(response).show();
            }
        });
-
-       e.preventDefault();
     }
 };
 
