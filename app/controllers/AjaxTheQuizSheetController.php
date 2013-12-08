@@ -214,7 +214,7 @@ class AjaxTheQuizSheetController extends BaseController
             ->whereNull('is_correct', '=', '')
             ->first();
 
-        $status = (empty($unchecked)) ? 'PASSED' : 'UNGRADED';
+        $status = (empty($unchecked)) ? 'GRADED' : 'UNGRADED';
 
         // save data
         $taker = QuizTaker::find($quizTakerId);

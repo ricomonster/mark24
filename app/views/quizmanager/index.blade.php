@@ -105,7 +105,8 @@ Quiz Manager
 </style>
 @stop
 @section('content')
- <div class="quiz-manager" data-quiz-id="{{ $quiz->quiz_id }}">
+<div class="message-holder"><span></span></div>
+<div class="quiz-manager" data-quiz-id="{{ $quiz->quiz_id }}">
     <div class="row">
         <div class="col-md-3">
             <div class="well manager-sidebar">

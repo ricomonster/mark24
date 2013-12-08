@@ -134,7 +134,6 @@
     <div class="post-etcs">
         <ul class="post-etcs-holder">
             <li><a href="#"><i class="fa fa-thumbs-up"></i> Like it</a></li>
-<<<<<<< HEAD
             <li>
                 <a href="#" class="show-comment-form" data-post-id="{{ $post->post_id }}">
                     <i class="fa fa-comment"></i> Reply
@@ -144,52 +143,4 @@
         </ul>
     </div>
     @include('plugins.comments')
-=======
-            <li><a href="#"><i class="fa fa-comment"></i> Reply</a></li>
-            <li><a href="#"><i class="fa fa-clock-o"></i> {{ $postTimestamp }}</a></li>
-        </ul>
-    </div>
-    <?php $comments = Helper::getComments($post->post_id); ?>
-    <div class="post-comment-holder" data-post-id="{{ $post->post_id }}"
-    <?php echo ($comments->isEmpty()) ? 'style="display: none;"' : null; ?>>
-        <ul class="comment-stream">
-            @foreach($comments as $comment)
-            <li data-comment-id="{{ $comment->commment_id }}">
-                <a href="/profile/{{ $comment->username }}">
-                    @if(empty($comment->avatar))
-                    <img src="/assets/images/anon.png" width="35" class="img-rounded pull-left">
-                    @else
-                    <img src="/assets/avatars/{{ $comment->hashed_id }}/{{ $comment->avatar_small }}"
-                    width="35" class="img-rounded pull-left">
-                    @endif
-                </a>
-                <div class="comment-content-holder pull-left">
-                    <div class="commenter-details">
-                        @if($comment->id == Auth::user()->id)
-                        <a href="/profile/{{ $comment->username }}">Me</a>
-                        @else
-                        <a href="/profile/{{ $comment->username }}">{{ $comment->name }}</a>
-                        @endif
-                        <span class="subtext"> said 1 hour ago:</span>
-                    </div>
-                    <p class="comment-text">
-                        <?php echo nl2br(htmlentities(($comment->comment))); ?>
-                    </p>
-                </div>
-                <div class="clearfix"></div>
-            </li>
-            @endforeach
-        </ul>
-        <div class="clearfix"></div>
-    </div>
-
-    <div class="comment-form-holder">
-        <form class="comment-form" data-post-id="{{ $post->post_id }}">
-            <textarea name="post-comment" class="post-comment form-control"
-            data-post-id="{{ $post->post_id }}"></textarea>
-            <button class="btn btn-primary submit-comment" disabled
-            data-post-id="{{ $post->post_id }}">Send</button>
-        </form>
-    </div>
->>>>>>> d1eb0392519a1c651c127c00d50b3434037fb381
 </li>

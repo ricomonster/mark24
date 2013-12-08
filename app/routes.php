@@ -84,6 +84,8 @@ Route::get('ajax/quiz-creator/get-question-lists', 'AjaxQuizCreatorController@ge
 Route::get('ajax/quiz-manager/show-taker-details', 'AjaxQuizManagerController@takerDetails');
 Route::get('ajax/quiz-manager/taker-lists', 'AjaxQuizManagerController@takerLists');
 
+Route::post('ajax/quiz-manager/set-ungraded', 'AjaxQuizManagerController@updateUngraded');
+
 // AJAX QuizSheet Routes
 Route::get('ajax/the-quiz-sheet/check-quiz-taker', 'AjaxTheQuizSheetController@checkQuizTaker');
 Route::get('ajax/the-quiz-sheet/get-questions', 'AjaxTheQuizSheetController@getQuestions');

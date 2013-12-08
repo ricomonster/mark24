@@ -45,4 +45,73 @@ class AjaxQuizManagerController extends BaseController
         return View::make('ajax.quizmanager.takerlists')
             ->with('takers', $takers);
     }
+
+    public function updateUngraded()
+    {
+        $answerId = Input::get('answer_id');
+        $point = Input::get('point');
+
+        $state = Input::get('state');
+        $totalPoint = Input::get('total_point');
+
+        $answer = QuizAnswer::find($answerId);
+        if(isset($point)) {
+            // update the answer status
+            if($point == 0) { $answer->is_correct = 'FALSE'; }
+            if($point != 0) { $answer->is_correct = 'TRUE'; }
+
+            $answer->points = $point;
+            $answer->save();
+        }
+
+        if(isset($state)) {
+            switch ($state) {
+                case 'incorrect' :
+                    $answer->is_correct = 'FALSE';
+                    $answer->points = 0;
+                    break;
+                case 'correct' :
+                    $answer->is_correct = 'TRUE';
+                    $answer->points = $totalPoint;
+                    break;
+            }
+
+            $answer->save();
+        }
+
+        // get the answers
+        $answers = QuizAnswer::where('quiz_taker_id', '=', $answer->quiz_taker_id)
+            ->get();
+
+        $totalPoints = 0;
+        $itemsCorrect = 0;
+        foreach($answers as $answer) {
+            // check the correct answers
+            if($answer->is_correct == 'TRUE') {
+                $itemsCorrect++;
+            }
+
+            // compute total score
+            $totalPoints += $answer->points;
+        }
+
+        // check if there are unchecked questions
+        $unchecked = QuizAnswer::where('quiz_taker_id', '=', $answer->quiz_taker_id)
+            ->whereNull('is_correct', '=', '')
+            ->first();
+
+        // set the status of the taker
+        $status = (empty($unchecked)) ? 'GRADED' : 'UNGRADED';
+
+        // save data
+        $taker = QuizTaker::find($answer->quiz_taker_id);
+        $taker->status = $status;
+        $taker->score = $totalPoints;
+        $taker->no_items_correct = $itemsCorrect;
+        $taker->save();
+        
+        return Response::json(array(
+            'error' => false,
+            'total_score' => $totalPoints));
+    }
 }

@@ -21,8 +21,8 @@
     </div>
 
     <div class="taker-stats pull-right">
-        <h2>
-            {{ (empty($questions)) ? '0' : $takerDetails->score; }}
+        <h2 class="total-point-holder">
+            <span class="user-points">{{ (empty($questions)) ? '0' : $takerDetails->score; }}</span>
             /
             {{ $quiz->total_score }}
         </h2>
@@ -48,7 +48,7 @@
     <?php $response = $question['question']['response']; ?>
     <?php $answer = $question['question']['answer_details']; ?>
     <div class="tab-pane <?php echo ($key == 0) ? 'active' : null; ?>"
-    id="{{ $key + 1 }}">
+    id="{{ $key + 1 }}" data-question-id="{{ $question['question']['question_id'] }}">
         @if(empty($answer))
         <div class="question-status pull-left label label-warning">
             Question not answered
@@ -127,9 +127,9 @@
                 @endforeach
             </ul>
             @endif
-            @if($question['question']['question_type'] == 'TRUE_FALSE' || $answer['is_correct'] === 'TRUE')
+            @if($question['question']['question_type'] == 'TRUE_FALSE')
             <div class="response-true-false">
-                @if(empty($answer))
+                @if(empty($answer) || $answer['is_correct'] === 'TRUE')
                 <button class="btn true-false-answer
                 <?php echo ($response['answer'] === 'TRUE') ?
                 'btn-success' : 'btn-default '; ?>">
@@ -168,13 +168,23 @@
         </div>
         @if(!empty($answer) && empty($answer['is_correct']))
         <div class="answer-ungraded">
-            <button class="btn btn-default answer-is-correct">Correct</button>
-            <button class="btn btn-default answer-is-incorrect">Incorrect</button>
+            <button class="btn btn-default answer-is-correct set-answer-state"
+            data-total-point="{{ $question['question']['question_point'] }}"
+            data-answer="correct" data-question-id="{{ $question['question']['question_id'] }}"
+            data-answer-id="{{ $answer['quiz_answer_id'] }}">Correct</button>
+
+            <button class="btn btn-default answer-is-incorrect set-answer-state"
+            data-total-point="{{ $question['question']['question_point'] }}"
+            data-answer="incorrect" data-question-id="{{ $question['question']['question_id'] }}"
+            data-answer-id="{{ $answer['quiz_answer_id'] }}">Incorrect</button>
 
             <div class="partial-credit-wrapper">
                 <span class="text-muted">Partial Credit</span>
                 <input type="text" name="partial-credit"
-                class="partial-credit form-control">
+                class="partial-credit form-control"
+                data-total-point="{{ $question['question']['question_point'] }}"
+                data-answer-id="{{ $answer['quiz_answer_id'] }}"
+                data-question-id="{{ $question['question']['question_id'] }}">
 
                 <span class="text-muted">/</span>
                 <span class="total-question-point text-muted">
