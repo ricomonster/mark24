@@ -134,6 +134,17 @@
     <div class="post-etcs">
         <ul class="post-etcs-holder">
             <li><a href="#"><i class="fa fa-thumbs-up"></i> Like it</a></li>
+<<<<<<< HEAD
+            <li>
+                <a href="#" class="show-comment-form" data-post-id="{{ $post->post_id }}">
+                    <i class="fa fa-comment"></i> Reply
+                </a>
+            </li>
+            <li><a href="#"><i class="fa fa-clock-o"></i> {{ $postTimestamp }}</a></li>
+        </ul>
+    </div>
+    @include('plugins.comments')
+=======
             <li><a href="#"><i class="fa fa-comment"></i> Reply</a></li>
             <li><a href="#"><i class="fa fa-clock-o"></i> {{ $postTimestamp }}</a></li>
         </ul>
@@ -180,4 +191,5 @@
             data-post-id="{{ $post->post_id }}">Send</button>
         </form>
     </div>
+>>>>>>> d1eb0392519a1c651c127c00d50b3434037fb381
 </li>

@@ -9,6 +9,19 @@
         e.preventDefault();
     });
 
+<<<<<<< HEAD
+    // some modal functions
+    $(document).on('click', '#trigger_join_group', function(e) {
+        joinGroup();
+        e.preventDefault();
+    }).on('submit', '.join-group-modal', function(e) {
+        joinGroup();
+        e.preventDefault();
+    }).on('click', 'button#trigger_create_group', function(e) {
+        createGroup(); e.preventDefault();
+    }).on('submit', '.create-group-modal', function(e) {
+        createGroup(); e.preventDefault();
+=======
     $(document).on('click', 'button#trigger_join_group', function(e) {
         var thisButton = $(this);
 
@@ -44,6 +57,7 @@
         });
 
         e.preventDefault();
+>>>>>>> d1eb0392519a1c651c127c00d50b3434037fb381
     });
 
     // Create Group Modal
@@ -54,6 +68,9 @@
         });
 
         e.preventDefault();
+<<<<<<< HEAD
+    });    
+=======
     });
 
     $(document).on('click', 'button#trigger_create_group', function(e) {
@@ -123,6 +140,7 @@
 
         e.preventDefault();
     });
+>>>>>>> d1eb0392519a1c651c127c00d50b3434037fb381
 
     // show group settings
     $('#show_settings_modal').on('click', function(e) {
@@ -382,4 +400,108 @@
 
         e.preventDefault();
     });
+<<<<<<< HEAD
+
+    function createGroup() {
+        var thisButton = $('button#trigger_create_group');
+
+        $('.message-holder').show().find('span').text('Saving...');
+        // reset status
+        $('.create-group-modal .form-group').removeClass('has-error');
+        $('.create-group-modal .alert').hide();
+
+        thisButton.attr('disabled');
+
+        $.ajax({
+            type        : 'post',
+            url         : '/ajax/modal/create_group',
+            data        : $('.create-group-modal').serialize(),
+            dataType    : 'json',
+            async       : false
+
+        }).done(function(response) {
+            // check if there's an error
+            if(response.error) {
+                // set up the error message to show on the modal
+                if(response.messages.groupName) {
+                    // with error
+                    $('#group_name').parent().addClass('has-error');
+                    $('#group_name').siblings('.alert').addClass('alert-danger')
+                        .html(response.messages.groupName).show();
+                } else {
+                    // clean up error state
+                    $('#group_name').parent().removeClass('has-error');
+                    $('#group_name').siblings('.alert').removeClass('alert-danger')
+                        .empty().hide();
+                }
+
+                if(response.messages.groupSize) {
+                    // with error
+                    $('#group_size').parent().addClass('has-error');
+                    $('#group_size').siblings('.alert').addClass('alert-danger')
+                        .html(response.messages.groupSize).show();
+                } else {
+                    // clean up error state
+                    $('#group_size').parent().removeClass('has-error');
+                    $('#group_size').siblings('.alert').removeClass('alert-danger')
+                        .empty().hide();
+                }
+
+                if(response.messages.groupDescription) {
+                    // with error
+                    $('#group_description').parent().addClass('has-error');
+                    $('#group_description').siblings('.alert').addClass('alert-danger')
+                        .html(response.messages.groupDescription).show();
+                } else {
+                    // clean up error state
+                    $('#group_description').parent().removeClass('has-error');
+                    $('#group_description').siblings('.alert').removeClass('alert-danger')
+                        .empty().hide();
+                }
+
+                thisButton.removeAttr('disabled');
+                $('.message-holder').hide();
+            } else {
+                // no error get LZ link so page will redirect
+                window.location.href = response.lz_link;
+            }
+        });
+    }
+
+    function joinGroup() {
+        var thisButton = $('#trigger_join_group');
+
+        $('.message-holder').show().find('span').text('Saving...');
+
+        thisButton.attr('disabled');
+        $('.join-group-modal .form-group').removeClass('has-error');
+        $('.join-group-modal .alert').hide();
+
+        $.ajax({
+            type        : 'post',
+            url         : '/ajax/modal/join_group',
+            data        : $('.join-group-modal').serialize(),
+            dataType    : 'json',
+            async       : false
+        }).done(function(response) {
+            if(response.error) {
+                // show error message
+                $('#group_code').parent().addClass('has-error');
+                $('#group_code').siblings('.alert').addClass('alert-danger')
+                    .html(response.message).show();
+
+                thisButton.removeAttr('disabled');
+
+                $('.message-holder').hide();
+
+                return false;
+            }
+
+            // no error get LZ link so page will redirect
+            window.location.href = response.lz_link;
+            return false;
+        });
+    }
+=======
+>>>>>>> d1eb0392519a1c651c127c00d50b3434037fb381
 })(jQuery)
