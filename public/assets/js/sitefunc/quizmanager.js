@@ -14,7 +14,8 @@ var QuizManager = {
             .on('click', this.config.takerDetails.selector, this.showTakerDetails)
             .on('change', this.config.showType.selector, this.getTakerLists)
             .on('blur', this.config.partialScore.selector, this.setPartialScore)
-            .on('click', this.config.setAnswerState.selector, this.setAnswer);
+            .on('click', this.config.setAnswerState.selector, this.setAnswer)
+            .on('click', this.config.highscorerDetails.selector, this.showTopnotcherDetails);
    },
 
    crawlForQuizId : function()
@@ -186,6 +187,34 @@ var QuizManager = {
         })
 
         e.preventDefault();
+    },
+
+    showTopnotcherDetails : function() {
+        var self = QuizManager;
+       var $this = $(this);
+
+       $.ajax({
+           url : '/ajax/quiz-manager/show-taker-details',
+           data : {
+               quiz_id : self.config.quizId,
+               taker_id : $this.data('user-id')
+           },
+           async : false
+       }).done(function(response) {
+           if(response.error) {
+
+           }
+
+           if(!response.error) {
+               // hide the default wrapper
+               self.config.defaultSection.hide();
+
+               // append the response
+               self.config.quizManagerProper.empty().append(response).show();
+           }
+       });
+
+       e.preventDefault();
     }
 };
 
@@ -203,5 +232,6 @@ QuizManager.init({
     messageHolder : $('.message-holder'),
 
     partialScore : $('.partial-credit'),
-    setAnswerState : $('.set-answer-state')
+    setAnswerState : $('.set-answer-state'),
+    highscorerDetails : $('.highscorer-details')
 });

@@ -45,6 +45,38 @@ Quiz Manager
     text-align: center;
 }
 
+.quiz-manager .main-panel .quiz-manager-default .student-high-scores {
+    padding: 10px;
+}
+
+.student-high-scores .highscores-holder {
+    float: left;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.student-high-scores .highscores-holder li {
+    cursor: pointer;
+    float: left;
+    width: 200px;
+    margin: 0;
+}
+
+.student-high-scores .highscores-holder li .taker-name {
+    color: #3784d3;
+    font-weight: bold;
+    margin: 0;
+    padding: 0 0 0 85px;
+}
+
+.student-high-scores .highscores-holder li .taker-score {
+    color: #839096;
+    font-size: 30px;
+    margin: 0;
+    padding: 0 0 0 85px;
+}
+
 .question-item-holder .tab-pane { padding: 15px 20px; }
 .question-item-holder .tab-pane .question-status { font-size: 13px; }
 .question-item-holder .tab-pane .question-text { margin-top: 10px; }
@@ -170,7 +202,24 @@ Quiz Manager
                         @endif
                         @endforeach
                     </div>
-                    <div class="student-high-scores"></div>
+                    <div class="student-high-scores">
+                        <h4>High scores</h4>
+                        @if(!$topnotchers->isEmpty())
+                        <ul class="highscores-holder">
+                            @foreach($topnotchers as $topnotcher)
+                            <li class="highscorer-details" data-user-id="{{ $topnotcher->id }}">
+                                {{ Helper::avatar(80, "normal", "pull-left img-rounded") }}
+                                <p class="taker-name">{{ $topnotcher->name }}</p>
+                                <p class="taker-score">
+                                    {{ $topnotcher->score }}/{{ $quiz->total_score }}
+                                </p>
+                                <div class="clearfix"></div>
+                            </li>
+                            @endforeach
+                        </ul>
+                        <div class="clearfix"></div>
+                        @endif
+                    </div>
                     <div class="question-breakdown"></div>
                 </div>
 

@@ -18,10 +18,17 @@ class QuizManagerController extends BaseController
             ->where('quiz_id', '=', $quiz->quiz_id)
             ->first();
 
+        // get the users with high scores
+        $topnotchers = QuizTaker::where('quiz_id', '=', $quiz->quiz_id)
+            ->leftJoin('users', 'quiz_takers.user_id', '=', 'users.id')
+            ->orderBy('score', 'DESC')
+            ->get();
+
         return View::make('quizmanager.index')
             ->with('post', $post)
             ->with('quiz', $quiz)
             ->with('takers', $takers)
-            ->with('questions', $questions);
+            ->with('questions', $questions)
+            ->with('topnotchers', $topnotchers);
     }
 }
