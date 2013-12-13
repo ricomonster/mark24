@@ -117,7 +117,10 @@ class Helper
     public static function checkQuizTaken($quizId)
     {
         $check = QuizTaker::where('quiz_id', '=', $quizId)
-            ->where('status', '=', 'PASSED')
+            ->where(function($query) {
+                $query->orWhere('status', '=', 'UNGRADED')
+                    ->orWhere('status', '=', 'GRADED');
+            })
             ->where('user_id', '=', Auth::user()->id)
             ->first();
 

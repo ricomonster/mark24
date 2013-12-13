@@ -9,6 +9,7 @@ var Chat = {
     {
         $(document)
             .ready(this.checkChatDetails)
+            .ready(this.fetchMessages)
             .on('keydown', this.config.messageBox.selector, this.checkKeydown)
     },
 
@@ -28,6 +29,15 @@ var Chat = {
         });
     },
 
+    fetchMessages : function()
+    {
+        var self = Chat;
+
+        setInterval(function() {
+            console.log('fetch data');
+        }, 8000);
+    },
+
     checkKeydown : function(e)
     {
         var self = Chat;
@@ -43,7 +53,11 @@ var Chat = {
 
     submitChat : function(element)
     {
-        console.log(element.val());
+        if(element.val() !== '' || element.val().length !== 0) {
+            console.log(element.val());
+        }
+
+        console.log('boom');
     }
 };
 

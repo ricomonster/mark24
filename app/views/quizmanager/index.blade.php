@@ -50,17 +50,23 @@ Quiz Manager
 }
 
 .student-high-scores .highscores-holder {
-    float: left;
+    /*float: left;*/
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
 .student-high-scores .highscores-holder li {
-    cursor: pointer;
     float: left;
-    width: 200px;
-    margin: 0;
+    width: 204px;
+    margin: 0 15px 25px 0;
+    cursor: pointer;
+}
+
+.student-high-scores .highscores-holder li img {
+    float: left;
+    margin-right: 10px;
+    width: 80px;
 }
 
 .student-high-scores .highscores-holder li .taker-name {
@@ -71,10 +77,7 @@ Quiz Manager
 }
 
 .student-high-scores .highscores-holder li .taker-score {
-    color: #839096;
-    font-size: 30px;
-    margin: 0;
-    padding: 0 0 0 85px;
+    font-size: 21px;
 }
 
 .question-item-holder .tab-pane { padding: 15px 20px; }
@@ -205,19 +208,19 @@ Quiz Manager
                     <div class="student-high-scores">
                         <h4>High scores</h4>
                         @if(!$topnotchers->isEmpty())
-                        <ul class="highscores-holder">
+                        <ul class="highscores-holder clearfix">
                             @foreach($topnotchers as $topnotcher)
                             <li class="highscorer-details" data-user-id="{{ $topnotcher->id }}">
-                                {{ Helper::avatar(80, "normal", "pull-left img-rounded") }}
+                                {{ Helper::avatar(80, "normal", "img-rounded", $topnotcher->id) }}
                                 <p class="taker-name">{{ $topnotcher->name }}</p>
-                                <p class="taker-score">
+                                <p class="taker-score text-muted">
                                     {{ $topnotcher->score }}/{{ $quiz->total_score }}
                                 </p>
-                                <div class="clearfix"></div>
+                                <!-- <div class="clearfix"></div> -->
                             </li>
                             @endforeach
                         </ul>
-                        <div class="clearfix"></div>
+
                         @endif
                     </div>
                     <div class="question-breakdown"></div>
