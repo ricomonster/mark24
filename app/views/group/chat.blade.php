@@ -11,6 +11,22 @@
 <style type="text/css">
 .group-chat-wrapper .well { padding: 0; }
 .group-chat-wrapper .group-chat-details { border-bottom: 1px solid #dfe4e8; padding: 10px 20px; }
+.group-chat-proper .group-chat-stream-holder .chat-stream {
+    height: 400px;
+    list-style: none;
+    margin: 0;
+    overflow: scroll;
+    overflow-x: hidden;
+    padding: 10px 20px 0;
+}
+
+.group-chat-proper .group-chat-stream-holder .chat-stream .chat-content {
+    margin-bottom: 10px;
+}
+
+.chat-stream .chat-content .chat-details { margin-left: 60px; }
+.chat-stream .chat-content .chat-details .chat-user-details a { font-weight: bold; }
+
 .group-chat-proper .group-chat-messenger { margin-top: 10px; padding: 5px 10px 10px; }
 </style>
 @stop
@@ -24,7 +40,7 @@
             <ul class="nav nav-pills nav-stacked student-lists">
                 @foreach($members as $member)
                 @if(Auth::user()->id != $member->id)
-                <li><a href="">{{ $member->name }}</a></li>
+                <li><a href="#">{{ $member->name }}</a></li>
                 @endif
                 @endforeach
             </ul>
@@ -38,9 +54,7 @@
             </div>
             <div class="group-chat-proper">
                 <div class="group-chat-stream-holder">
-                    <ul class="nav nav-pills">
-
-                    </ul>
+                    <ul class="chat-stream"></ul>
                 </div>
 
                 {{ Form::open(array('url'=>'ajax/groups/send-message', 'class'=>'group-chat-messenger')) }}

@@ -53,6 +53,9 @@ Route::post('ajax/modal/delete-post', 'AjaxModalController@deletePost');
 
 // AJAX Chat Routes
 Route::get('ajax/chat/check-chat-details', 'AjaxChatController@chatDetails');
+Route::get('ajax/chat/fetch-messages', 'AjaxChatController@getMessages');
+
+Route::post('ajax/chat/send-message', 'AjaxChatController@sendMessage');
 
 // AJAX CommentCreator Routes
 Route::post('ajax/comment-creator/add-comment', 'AjaxCommentCreator@postCreateComment');
