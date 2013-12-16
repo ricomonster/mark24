@@ -102,6 +102,15 @@
         e.preventDefault();
     });
 
+    // file upload
+    $(document).on('change', '.fileupload', function() {
+        var element = $(this);
+        var files = element[0].files;
+        for (var i = 0; i < files.length; i++) {
+            // $("#upload_prev").append(files[i].name);
+        }
+    });
+
     $('#show_quiz_list').on('click', function(e) {
         // show modal
         $('#the_modal').modal('show');

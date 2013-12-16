@@ -88,8 +88,10 @@ var Chat = {
             }
         }).done(function(response) {
             // load to the template
-            self.config.chatStream.append(response);
-            self.scroller();
+            if(response) {
+                self.config.chatStream.append(response);
+                self.scroller();
+            }
         })
     },
 

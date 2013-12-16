@@ -156,9 +156,13 @@
                 </div>
             </div>
             <div class="clearfix"></div>
+            <div class="user-post-likes"></div>
             <div class="post-etcs">
                 <ul class="post-etcs-holder">
-                    <li><a href="#"><i class="fa fa-thumbs-up"></i> Like it</a></li>
+                    <li>
+                        <a href="#" class="like-post"
+                        data-post-id="{{ $post->post_id }}"><i class="fa fa-thumbs-up"></i> Like it</a>
+                    </li>
                     <li>
                         <a href="#" class="show-comment-form" data-post-id="{{ $post->post_id }}">
                             <i class="fa fa-comment"></i> Reply

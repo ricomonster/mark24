@@ -69,6 +69,9 @@ Route::post('ajax/group/lock-group', 'AjaxGroupController@lockGroup');
 Route::post('ajax/group/unlock-group', 'AjaxGroupController@changeGroupCode');
 Route::post('ajax/group/reset-group-code', 'AjaxGroupController@changeGroupCode');
 
+// AJAX Like Routes
+Route::post('ajax/like/like-post', 'AjaxLikeController@likePost');
+
 // AJAX QuizCreator Routes
 Route::post('ajax/quiz-creator/create-new-quiz', 'AjaxQuizCreatorController@postCreateQuiz');
 Route::post('ajax/quiz-creator/update-quiz', 'AjaxQuizCreatorController@postUpdateQuiz');

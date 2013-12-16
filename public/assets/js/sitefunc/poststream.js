@@ -12,9 +12,10 @@ var Poststream = {
             .ready(this.initialState)
             .on('click', this.config.deletePost.selector, this.confirmDeletePost)
             .on('click', this.config.triggerDeletePost.selector, this.deletePost)
-            .on('click', this.config.linkPost.selector, this.linkThePost);
+            .on('click', this.config.linkPost.selector, this.linkThePost)
+            .on('click', this.config.likePost.selector, this.likeThePost);
     },
-    
+
     initialState : function()
     {
         var self = CommentCreator;
@@ -98,6 +99,36 @@ var Poststream = {
         });
 
         e.preventDefault();
+    },
+
+    // like the post
+    likeThePost : function(e)
+    {
+        var self = Poststream;
+        var $this = $(this);
+        var postId = $this.attr('data-post-id');
+
+        $.ajax({
+            type : 'post',
+            url : '/ajax/like/like-post',
+            data : {
+                post_id : postId
+            },
+            dataType : 'json'
+        }).done(function(response) {
+            if(!response.error) {
+                if(response.like_count == '1') {
+                    $('.post-holder[data-post-id="'+postId+'"]').find('.user-post-likes')
+                        .show().text('You like this.');
+                }
+
+                if(response.like_count != '1') {
+
+                }
+            }
+        });
+
+        e.preventDefault();
     }
 };
 
@@ -107,5 +138,6 @@ Poststream.init({
 
     deletePost : $('.delete-post'),
     linkPost : $('.link-post'),
+    likePost : $('.like-post'),
     triggerDeletePost : $('#trigger_delete_post')
 });
