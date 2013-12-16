@@ -36,15 +36,7 @@
 <div class="message-holder"><span></span></div>
 <div class="row group-chat-wrapper" data-group-id="{{ $groupDetails->group_id }}">
     <div class="col-md-3">
-        <div class="well">
-            <ul class="nav nav-pills nav-stacked student-lists">
-                @foreach($members as $member)
-                @if(Auth::user()->id != $member->id)
-                <li><a href="#">{{ $member->name }}</a></li>
-                @endif
-                @endforeach
-            </ul>
-        </div>
+        <div class="well"></div>
     </div>
 
     <div class="col-md-6">
@@ -65,7 +57,15 @@
     </div>
 
     <div class="col-md-3">
-        <div class="well"></div>
+        <div class="well">
+            <ul class="nav nav-pills nav-stacked student-lists">
+                @foreach($members as $member)
+                @if(Auth::user()->id != $member->id)
+                <li><a href="#">{{ $member->name }}</a></li>
+                @endif
+                @endforeach
+            </ul>
+        </div>
     </div>
 </div>
 

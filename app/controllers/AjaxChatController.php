@@ -6,8 +6,10 @@ class AjaxChatController extends BaseController
     {
         $currentDate = date('Y-m-d');
         $groupId = Input::get('group_id');
+
         // check if there's an existing conversation for this day
         $conversation = Conversation::where('group_id', '=', $groupId)
+            ->orderBy('conversation_id', 'DESC')
             ->first();
 
         if(empty($conversation)) {

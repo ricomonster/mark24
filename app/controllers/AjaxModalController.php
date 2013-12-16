@@ -303,6 +303,14 @@ class AjaxModalController extends BaseController {
 
         if(empty($groupName)) {
             $this->_errors['groupName'] = 'You must enter a name for the group';
+        } else if(!empty($groupName)) {
+            // check if group already exists
+            $exists = Group::where('group_name', '=', $groupName)
+                ->where('owner_id', '=', Auth::user()->id)
+                ->first();
+            if(!empty($exists)) {
+                $this->_errors['groupName'] = 'Group name already exists.';
+            }
         }
 
         if(empty($groupSize)) {

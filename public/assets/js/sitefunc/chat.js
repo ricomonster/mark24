@@ -67,7 +67,7 @@ var Chat = {
                 dataType : 'json'
             }).done(function(response) {
                 // trigger fetch message
-                element.val('').blur();
+                element.val('');
                 self.getMessages(response.last_conversation_id);
             });
         }
