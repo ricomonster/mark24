@@ -13,7 +13,7 @@
         <?php $postTimestamp = Helper::timestamp($post->post_timestamp); ?>
         <li class="post-holder" data-post-id="{{ $post->post_id }}">
             <a href="/profile/{{ $post->user->username }}" class="writer-profile">
-                {{ Helper::avatar(50, "small", "img-rounded pull-left", $post->id) }}
+                {{ Helper::avatar(50, "small", "img-rounded pull-left", $post->user->id) }}
             </a>
             <div class="post-content pull-left">
 

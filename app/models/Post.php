@@ -47,11 +47,6 @@ class Post extends Eloquent {
                 $details->$key->comments = $comments;
             }
 
-            // echo '<pre>';
-            // print_r($details);
-            // echo '</pre>';
-            // exit;
-
             return (empty($details)) ? null : $details;
         }
 
@@ -67,6 +62,34 @@ class Post extends Eloquent {
             ->orderBy('posts.post_id', 'DESC')
             ->get();
 
-        return (strlen($groupPosts) > 2) ? $groupPosts : false;
+        if(!empty($groupPosts)) {
+            $details = new StdClass();
+            foreach($groupPosts as $key => $post) {
+                $details->$key = $post;
+                $details->$key->recipients = PostRecipient::getRecipients($post->post_id);
+                $details->$key->user = User::find($post['user_id']);
+                // create object for the likes
+                $likes = new StdClass();
+                $likes->count = Like::where('post_id', '=', $post['post_id'])
+                    ->get()->count();
+                $likes->likers = Like::where('post_id', '=', $post['post_id'])
+                    ->leftJoin('users', 'likes.user_id', '=', 'users.id')
+                    ->get();
+                // create object for the comments
+                $comments = new StdClass();
+                $comments = Comment::where('post_id', '=', $post['post_id'])
+                    ->join('users', 'comments.user_id', '=', 'users.id')
+                    ->orderBy('comments.comment_id', 'ASC')
+                    ->get();
+
+                // assign the objects
+                $details->$key->likes = $likes;
+                $details->$key->comments = $comments;
+            }
+
+            return (empty($details)) ? null : $details;
+        }
+
+        return false;
     }
 }
