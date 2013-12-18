@@ -10,10 +10,9 @@
     <ul class="post-stream">
         @if(!empty($posts))
         @foreach($posts as $post)
-        <?php $recipients = PostRecipient::getRecipients($post->post_id); ?>
         <?php $postTimestamp = Helper::timestamp($post->post_timestamp); ?>
         <li class="post-holder" data-post-id="{{ $post->post_id }}">
-            <a href="/profile/{{ $post->username }}" class="writer-profile">
+            <a href="/profile/{{ $post->user->username }}" class="writer-profile">
                 {{ Helper::avatar(50, "small", "img-rounded pull-left", $post->id) }}
             </a>
             <div class="post-content pull-left">
@@ -21,7 +20,7 @@
                 <div class="dropdown dropdown-post-options pull-right">
                     <a data-toggle="dropdown" href="#"><i class="fa fa-gear"></i></a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                        @if(Auth::user()->id === $post->id)
+                        @if(Auth::user()->id === $post->user->id)
                         <li><a href="#" class="delete-post"
                         data-post-id="{{ $post->post_id }}">Delete Post</a></li>
                         @if($post->post_type != 'quiz')
@@ -35,23 +34,23 @@
                 </div>
 
                 <div class="post-content-header">
-                    <a href="/profile/{{ $post->username }}" class="post-sender-name">
-                        @if($post->id == Auth::user()->id)
+                    <a href="/profile/{{ $post->user->username }}" class="post-sender-name">
+                        @if($post->user->id == Auth::user()->id)
                         Me
                         @else
                         @if($post->account_type == '1')
-                        {{ $post->salutation.' '.$post->name }}
+                        {{ $post->user->salutation.' '.$post->user->name }}
                         @else
-                        {{ $post->name }}
+                        {{ $post->user->name }}
                         @endif
                         @endif
                     </a>
                     <span class="sender-to-receiver">to</span>
-                    <?php $groupCount = (!empty($recipients['groups'])) ? count($recipients['groups']) : null; ?>
-                    <?php $userCount = (!empty($recipients['users'])) ? count($recipients['users']) : null; ?>
+                    <?php $groupCount = (!empty($post->recipients->groups)) ? count($post->recipients->groups) : null; ?>
+                    <?php $userCount = (!empty($post->recipients->users)) ? count($post->recipients->users) : null; ?>
 
-                    @if(!empty($recipients['groups']))
-                    @foreach($recipients['groups'] as $key => $groupRecipient)
+                    @if(!empty($post->recipients->groups))
+                    @foreach($post->recipients->groups as $key => $groupRecipient)
                     @if($key != $groupCount -1 || $userCount != 0)
                     <a href="#" class="post-receiver-name">{{ $groupRecipient->group_name }}</a><span class="post-receiver-comma">,</span>
                     @else
@@ -60,8 +59,8 @@
                     @endforeach
                     @endif
 
-                    @if(!empty($recipients['users']))
-                    @foreach($recipients['users'] as $key => $userRecipient)
+                    @if(!empty($post->recipients->users))
+                    @foreach($post->recipients->users as $key => $userRecipient)
                     @if($key != $userCount -1)
                     <a href="#" class="post-receiver-name">
                         <?php if($userRecipient->account_type == 1) { echo $userRecipient->salutation.'. '; } ?>

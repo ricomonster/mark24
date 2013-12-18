@@ -1,4 +1,4 @@
-<?php $comments = Helper::getComments($post->post_id); ?>
+<?php $comments = $post->comments; ?>
 <div class="post-comment-holder" data-post-id="{{ $post->post_id }}"
 <?php echo ($comments->isEmpty()) ? 'style="display: none;"' : null; ?>>
     <ul class="comment-stream">
