@@ -38,6 +38,30 @@
     padding: 10px;
 }
 
+.post-stream .post-holder .post-content .files-attached {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.files-attached .file-holder {
+    border-radius: 3px;
+    border: 1px solid #dfe4e8;
+    margin: 10px 0 0 0;
+    padding: 10px;
+}
+
+.files-attached .file-holder .file-thumbnail img { border: 1px solid #dfe4e8; max-height: 60px; }
+.files-attached .file-holder .file-details { margin-left: 10px; }
+.files-attached .file-holder .file-details .file-type { color: #839096; display: block; font-size: 13px; }
+.files-attached .file-holder .file-details .file-attached-controls a {
+    color: #839096;
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+.files-attached .file-holder .file-details .file-attached-controls a:hover{ text-decoration: none; }
+
 .post-stream .no-post-found { font-size: 16px; padding: 50px 20px; }
 .post-stream .post-holder .post-content .dropdown-post-options { margin-right: 10px; }
 .post-stream .post-holder .post-content .dropdown-post-options a { color: #383d48; }

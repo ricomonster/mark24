@@ -55,9 +55,7 @@ class AjaxPostCreatorController extends BaseController {
             // return the HTML to show the newest post
             // to be loaded on the page
             return View::make('ajax.postcreator.postitem')
-                ->with('post', Post::where('post_id', '=', $newNote->post_id)
-                    ->join('users', 'posts.user_id', '=', 'users.id')
-                    ->first());
+                ->with('post', Post::getPost($newNote->post_id));
         }
     }
 
@@ -178,17 +176,25 @@ class AjaxPostCreatorController extends BaseController {
 
         // check if file is uploaded
         if(Input::hasFile('files')) {
+            $newFilename = Auth::user()->id.'_'.$fileName;
+            // create thumbnail
+            if(substr($mime,0, 5) === "image") {
+                $thumbnailDropPoint = public_path().'/assets/defaults/icons/'.sha1(Auth::user()->id)
+                $fileThumbnail = 'thumbnail_'.$newFilename;
+                Helper::thumbnailMaker($dropPoint, $newFilename, $fileThumbnail, 150);
+            }
+
             // save the file!
             $newFile = new FileLibrary;
             $newFile->user_id = Auth::user()->id;
             $newFile->file_name = $fileName;
-            $newFile->file_storage_name = Auth::user()->id.'_'.$fileName;
+            $newFile->file_storage_name = $newFilename;
             $newFile->file_extension = $fileExtension;
             $newFile->mime_type = $mime;
-            $newFile->file_path = sha1(Auth::user()->id).'/'.Auth::user()->id.'_'.$fileName;
+            $newFile->file_path = sha1(Auth::user()->id).'/'.$newFilename;
+            $newFile->file_thumbnail = (isset($fileThumbnail)) ?
+                sha1(Auth::user()->id).'/'.$fileThumbnail : 'txt.png';
             $newFile->save();
-
-            // create thumbnail
 
             $details = FileLibrary::find($newFile->file_library_id);
 

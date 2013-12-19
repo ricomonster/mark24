@@ -114,6 +114,9 @@ Route::get('control/dashboard', array(
     'before' => 'super-admin',
     'uses' => 'ControlController@dashboard'));
 
+// File Routes
+Route::get('file/{fileId}', 'FileController@downloadFile');
+
 // Forum Routes
 Route::get('the-forum', 'ForumController@index');
 Route::get('the-forum/add-thread', 'ForumController@showAddThread');

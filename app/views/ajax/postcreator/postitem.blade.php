@@ -21,23 +21,23 @@
         </div>
 
         <div class="post-content-header">
-            <a href="/profile/{{ $post->username }}" class="post-sender-name">
-                @if($post->id == Auth::user()->id)
+            <a href="/profile/{{ $post->user->username }}" class="post-sender-name">
+                @if($post->user->id == Auth::user()->id)
                 Me
                 @else
-                @if($post->account_type == '1')
-                {{ $post->salutation.' '.$post->name }}
+                @if($post->user->account_type == '1')
+                {{ $post->user->salutation.' '.$post->user->name }}
                 @else
-                {{ $post->name }}
+                {{ $post->user->name }}
                 @endif
                 @endif
             </a>
             <span class="sender-to-receiver">to</span>
-            <?php $groupCount = (!empty($recipients->groups)) ? count($recipients->groups) : null; ?>
-            <?php $userCount = (!empty($recipients->users)) ? count($recipients->users) : null; ?>
+            <?php $groupCount = (!empty($post->recipients->groups)) ? count($post->recipients->groups) : null; ?>
+            <?php $userCount = (!empty($post->recipients->users)) ? count($post->recipients->users) : null; ?>
 
-            @if(!empty($recipients['groups']))
-            @foreach($recipients['groups'] as $key => $groupRecipient)
+            @if(!empty($post->recipients->groups))
+            @foreach($post->recipients->groups as $key => $groupRecipient)
             @if($key != $groupCount -1 || $userCount != 0)
             <a href="#" class="post-receiver-name">{{ $groupRecipient->group_name }}</a><span class="post-receiver-comma">,</span>
             @else
@@ -46,8 +46,8 @@
             @endforeach
             @endif
 
-            @if(!empty($recipients['users']))
-            @foreach($recipients['users'] as $key => $userRecipient)
+            @if(!empty($post->recipients->users))
+            @foreach($post->recipients->users as $key => $userRecipient)
             @if($key != $userCount -1)
             <a href="#" class="post-receiver-name">
                 <?php if($userRecipient->account_type == 1) { echo $userRecipient->salutation.'. '; } ?>
@@ -129,6 +129,34 @@
             {{ Form::close() }}
             @endif
         </div>
+
+        @if(!empty($post->files))
+        <ul class="files-attached">
+            @foreach($post->files as $file)
+            <li class="file-holder clearfix">
+                <div class="file-thumbnail pull-left">
+                    <a href="/file/{{ $file->file_library_id }}">
+                        <img src="/assets/defaults/icons/{{ $file->file_thumbnail }}">
+                    </a>
+                </div>
+                <div class="file-details pull-left">
+                    <a href="/file/{{ $file->file_library_id }}">{{ $file->file_name }}</a>
+                    <span class="file-type">
+                        {{ strtoupper($file->file_extension) }} File
+                    </span>
+                    <div class="file-attached-controls">
+                        <a href="#" title="Add to The Library">
+                            <i class="fa fa-archive"></i>
+                        </a>
+                        <a href="/file/{{ $file->file_library_id }}" title="Download File">
+                            <i class="fa fa-download"></i>
+                        </a>
+                    </div>
+                </div>
+            </li>
+            @endforeach
+        </ul>
+        @endif
     </div>
     <div class="clearfix"></div>
     <div class="post-etcs">

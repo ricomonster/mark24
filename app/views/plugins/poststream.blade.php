@@ -153,6 +153,34 @@
                     {{ Form::close() }}
                     @endif
                 </div>
+
+                @if(!empty($post->files))
+                <ul class="files-attached">
+                    @foreach($post->files as $file)
+                    <li class="file-holder clearfix">
+                        <div class="file-thumbnail pull-left">
+                            <a href="/file/{{ $file->file_library_id }}">
+                                <img src="/assets/defaults/icons/{{ $file->file_thumbnail }}">
+                            </a>
+                        </div>
+                        <div class="file-details pull-left">
+                            <a href="/file/{{ $file->file_library_id }}">{{ $file->file_name }}</a>
+                            <span class="file-type">
+                                {{ strtoupper($file->file_extension) }} File
+                            </span>
+                            <div class="file-attached-controls">
+                                <a href="#" title="Add to The Library">
+                                    <i class="fa fa-archive"></i>
+                                </a>
+                                <a href="/file/{{ $file->file_library_id }}" title="Download File">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    @endforeach
+                </ul>
+                @endif
             </div>
             <div class="clearfix"></div>
             <div class="user-post-likes"></div>

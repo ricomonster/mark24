@@ -18,9 +18,9 @@
             .header .text-muted { position: relative; }
             .main-content { padding-top: 20px; }
             .left-panel { color: #fff; margin: auto !important; width: 400px; }
-            .left-panel h1 { font-size: 56px; }
+            .left-panel h1 { font-size: 60px; text-shadow: 0 0 10px #000; }
             .right-panel { width: 350px; margin: auto !important; }
-            .left-panel p { font-size: 20px; }
+            .left-panel p { font-size: 22px; text-shadow: 0 0 10px #000; }
 
             /* Right Panel */
             .right-panel {
@@ -59,19 +59,17 @@
     </head>
 
     <body>
-        <img src="/assets/images/test-splash.gif" class="bg">
+        <img src="/assets/images/splash-image.jpg" class="bg">
         <!-- Header -->
         <div class="header container">
-            <h1 class="text-muted">eLinet</h1>
+            <h1 class="text-muted"><img src="/assets/images/logo.png"></h1>
         </div>
 
         <div class="main-content container">
             <div class="row">
                 <div class="col-md-6">
                     <div class="left-panel">
-                        <h1>
-                            Learn better, together.
-                        </h1>
+                        <h1>Learn better, together.</h1>
                         <p>
                             eLinet helps connect all learners with the people
                             and resources needed to reach their full potential

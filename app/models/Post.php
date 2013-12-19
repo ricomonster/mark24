@@ -4,9 +4,46 @@ class Post extends Eloquent {
     protected $table        = 'posts';
     protected $primaryKey   = 'post_id';
 
+    public static function getPost($postId)
+    {
+        $post = Post::find($postId);
+
+        $details = new StdClass();
+        $details = $post;
+        // get recipients
+        $details->recipients = PostRecipient::getRecipients($post->post_id);
+        // get user
+        $details->user = User::find($post->user_id);
+        // get likes
+        $likes = new StdClass();
+        $likes->count = Like::where('post_id', '=', $post->post_id)
+            ->get()->count();
+        $likes->likers = Like::where('post_id', '=', $post->post_id)
+            ->leftJoin('users', 'likes.user_id', '=', 'users.id')
+            ->get();
+        // create object for the comments
+        $comments = new StdClass();
+        $comments = Comment::where('post_id', '=', $post->post_id)
+            ->join('users', 'comments.user_id', '=', 'users.id')
+            ->orderBy('comments.comment_id', 'ASC')
+            ->get();
+        // create if there are files attached
+        if($post->post_attached_files == 'true') {
+            $details->files = FileAttached::where('post_id', '=', $post->post_id)
+                ->leftJoin('file_library', 'file_attached.file_id', '=', 'file_library.file_library_id')
+                ->get();
+        }
+
+        // assign the objects
+        $details->likes = $likes;
+        $details->comments = $comments;
+
+
+        return $details;
+    }
+
     public static function getAllPosts() {
         // get first posts for the current user
-        $details = null;
         $groupIds = Group::getMyGroupsId();
         if(!empty($groupIds)) {
             $posts = PostRecipient::orWhere('posts.user_id', '=', Auth::user()->id)
@@ -27,20 +64,26 @@ class Post extends Eloquent {
             foreach($posts as $key => $post) {
                 $details->$key = $post;
                 $details->$key->recipients = PostRecipient::getRecipients($post->post_id);
-                $details->$key->user = User::find($post['user_id']);
+                $details->$key->user = User::find($post->user_id);
                 // create object for the likes
                 $likes = new StdClass();
-                $likes->count = Like::where('post_id', '=', $post['post_id'])
+                $likes->count = Like::where('post_id', '=', $post->post_id)
                     ->get()->count();
-                $likes->likers = Like::where('post_id', '=', $post['post_id'])
+                $likes->likers = Like::where('post_id', '=', $post->post_id)
                     ->leftJoin('users', 'likes.user_id', '=', 'users.id')
                     ->get();
                 // create object for the comments
                 $comments = new StdClass();
-                $comments = Comment::where('post_id', '=', $post['post_id'])
+                $comments = Comment::where('post_id', '=', $post->post_id)
                     ->join('users', 'comments.user_id', '=', 'users.id')
                     ->orderBy('comments.comment_id', 'ASC')
                     ->get();
+                // create if there are files attached
+                if($post->post_attached_files == 'true') {
+                    $details->$key->files = FileAttached::where('post_id', '=', $post->post_id)
+                        ->leftJoin('file_library', 'file_attached.file_id', '=', 'file_library.file_library_id')
+                        ->get();
+                }
 
                 // assign the objects
                 $details->$key->likes = $likes;
@@ -57,7 +100,7 @@ class Post extends Eloquent {
         $groupPosts = PostRecipient::where('post_recipients.recipient_id', '=', $groupId)
             ->where('post_recipients.recipient_type', '=', 'group')
             ->join('posts', 'post_recipients.post_id', '=', 'posts.post_id')
-            ->join('users', 'posts.user_id', '=', 'users.id')
+            // ->join('users', 'posts.user_id', '=', 'users.id')
             ->groupBy('posts.post_id')
             ->orderBy('posts.post_id', 'DESC')
             ->get();
@@ -67,20 +110,26 @@ class Post extends Eloquent {
             foreach($groupPosts as $key => $post) {
                 $details->$key = $post;
                 $details->$key->recipients = PostRecipient::getRecipients($post->post_id);
-                $details->$key->user = User::find($post['user_id']);
+                $details->$key->user = User::find($post->user_id);
                 // create object for the likes
                 $likes = new StdClass();
-                $likes->count = Like::where('post_id', '=', $post['post_id'])
+                $likes->count = Like::where('post_id', '=', $post->post_id)
                     ->get()->count();
-                $likes->likers = Like::where('post_id', '=', $post['post_id'])
+                $likes->likers = Like::where('post_id', '=', $post->post_id)
                     ->leftJoin('users', 'likes.user_id', '=', 'users.id')
                     ->get();
                 // create object for the comments
                 $comments = new StdClass();
-                $comments = Comment::where('post_id', '=', $post['post_id'])
+                $comments = Comment::where('post_id', '=', $post->post_id)
                     ->join('users', 'comments.user_id', '=', 'users.id')
                     ->orderBy('comments.comment_id', 'ASC')
                     ->get();
+                // create if there are files attached
+                if($post->post_attached_files == 'true') {
+                    $details->$key->files = FileAttached::where('post_id', '=', $post->post_id)
+                        ->leftJoin('file_library', 'file_attached.file_id', '=', 'file_library.file_library_id')
+                        ->get();
+                }
 
                 // assign the objects
                 $details->$key->likes = $likes;
