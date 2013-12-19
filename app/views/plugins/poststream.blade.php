@@ -160,7 +160,12 @@
                     <li class="file-holder clearfix">
                         <div class="file-thumbnail pull-left">
                             <a href="/file/{{ $file->file_library_id }}">
+                                @if(substr($file->mime_type, 0, 5) === 'image')
+                                <img src="/assets/thelibrary/{{ $file->file_thumbnail }}">
+                                @endif
+                                @if(substr($file->mime_type, 0, 5) !== 'image')
                                 <img src="/assets/defaults/icons/{{ $file->file_thumbnail }}">
+                                @endif
                             </a>
                         </div>
                         <div class="file-details pull-left">

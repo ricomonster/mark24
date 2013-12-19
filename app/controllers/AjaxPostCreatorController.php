@@ -179,7 +179,6 @@ class AjaxPostCreatorController extends BaseController {
             $newFilename = Auth::user()->id.'_'.$fileName;
             // create thumbnail
             if(substr($mime,0, 5) === "image") {
-                $thumbnailDropPoint = public_path().'/assets/defaults/icons/'.sha1(Auth::user()->id)
                 $fileThumbnail = 'thumbnail_'.$newFilename;
                 Helper::thumbnailMaker($dropPoint, $newFilename, $fileThumbnail, 150);
             }
