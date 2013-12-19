@@ -136,7 +136,12 @@
             <li class="file-holder clearfix">
                 <div class="file-thumbnail pull-left">
                     <a href="/file/{{ $file->file_library_id }}">
+                        @if(substr($file->mime_type, 0, 5) === 'image')
+                        <img src="/assets/thelibrary/{{ $file->file_thumbnail }}">
+                        @endif
+                        @if(substr($file->mime_type, 0, 5) !== 'image')
                         <img src="/assets/defaults/icons/{{ $file->file_thumbnail }}">
+                        @endif
                     </a>
                 </div>
                 <div class="file-details pull-left">
@@ -145,10 +150,11 @@
                         {{ strtoupper($file->file_extension) }} File
                     </span>
                     <div class="file-attached-controls">
-                        <a href="#" title="Add to The Library">
+                        <a href="#" data-toggle="tooltip" title="Add to The Library">
                             <i class="fa fa-archive"></i>
                         </a>
-                        <a href="/file/{{ $file->file_library_id }}" title="Download File">
+                        <a href="/file/{{ $file->file_library_id }}" data-toggle="tooltip"
+                        title="Download File">
                             <i class="fa fa-download"></i>
                         </a>
                     </div>
