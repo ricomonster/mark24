@@ -33,8 +33,8 @@
                 @endif
             </a>
             <span class="sender-to-receiver">to</span>
-            <?php $groupCount = (!empty($recipients['groups'])) ? count($recipients['groups']) : null; ?>
-            <?php $userCount = (!empty($recipients['users'])) ? count($recipients['users']) : null; ?>
+            <?php $groupCount = (!empty($recipients->groups)) ? count($recipients->groups) : null; ?>
+            <?php $userCount = (!empty($recipients->users)) ? count($recipients->users) : null; ?>
 
             @if(!empty($recipients['groups']))
             @foreach($recipients['groups'] as $key => $groupRecipient)

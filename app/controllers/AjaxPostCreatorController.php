@@ -14,7 +14,7 @@ class AjaxPostCreatorController extends BaseController {
         if(Request::ajax()) {
             $note           = Input::get('note-content');
             $recipients     = Input::get('note-recipients');
-            $attachedFiles  = Input::get('attached-files');
+            $attachedFiles  = Input::get('attached-file-id');
 
             // save the note into the database
             $newNote                        = new Post;
@@ -166,37 +166,42 @@ class AjaxPostCreatorController extends BaseController {
     public function uploadPost()
     {
         // prep some data
-        // $dropPoint = public_path().'/assets/thelibrary/'.Auth::user()->hashed_id;
+        $dropPoint = public_path().'/assets/thelibrary/'.sha1(Auth::user()->id);
 
-        // $file = Input::file('files');
+        $file = Input::file('files');
 
-        // $fileName       = $file->getClientOriginalName();
-        // $fileExtension  = $file->getClientOriginalExtension();
-        // $mime           = $file->getMimeType();
-        // // upload file
-        // $file->move($dropPoint, $fileName);
+        $fileName       = $file->getClientOriginalName();
+        $fileExtension  = $file->getClientOriginalExtension();
+        $mime           = $file->getMimeType();
+        // upload file
+        $file->move($dropPoint, Auth::user()->id.'_'.$fileName);
 
-        // // check if file is uploaded
-        // if(Input::hasFile('files')) {
-        //     // save the file!
-        //     $newFile = new FileLibrary;
-        //     $newFile->user_id = Auth::user()->id;
-        //     $newFile->file_name = $fileName;
-        //     $newFile->file_extension = $fileExtension;
-        //     $newFile->mime_type = $mime;
-        //     $newFile->save();
+        // check if file is uploaded
+        if(Input::hasFile('files')) {
+            // save the file!
+            $newFile = new FileLibrary;
+            $newFile->user_id = Auth::user()->id;
+            $newFile->file_name = $fileName;
+            $newFile->file_storage_name = Auth::user()->id.'_'.$fileName;
+            $newFile->file_extension = $fileExtension;
+            $newFile->mime_type = $mime;
+            $newFile->file_path = sha1(Auth::user()->id).'/'.Auth::user()->id.'_'.$fileName;
+            $newFile->save();
 
-        //     $details = FileLibrary::find($newFile->file_library_id);
+            // create thumbnail
 
-        //     return Response::json(array('error' => false, 'file' => $details->toArray()));
-        // }
+            $details = FileLibrary::find($newFile->file_library_id);
 
-        // // file not uploaded
-        // if(!Input::hasFile('files')) {
-        //     return Response::json(array(
-        //         'error'     => true,
-        //         'message'   => "File '".$file->getClientOriginalName()."' could not be uploaded. Please try again later"));
-        // }
+            return Response::json(array('error' => false, 'file' => $details->toArray()));
+        }
+
+        // file not uploaded
+        if(!Input::hasFile('files')) {
+            return Response::json(array(
+                'error'     => true,
+                'file_name' => $file->getClientOriginalName(),
+                'message'   => "File '".$file->getClientOriginalName()."' could not be uploaded. Please try again later"));
+        }
         $details = FileLibrary::find(5);
 
         return Response::json(array('error' => false, 'attached' => $details->toArray()));

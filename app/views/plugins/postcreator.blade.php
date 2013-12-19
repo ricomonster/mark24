@@ -41,10 +41,10 @@
                     </div>
 
                     <div class="attached-files">
-                        <!-- <div class="progress">
+                        <div class="progress">
                             <div class="progress-bar progress-bar-success"></div>
                         </div>
-                        <div class="files"></div> -->
+                        <ul class="files"></ul>
                     </div>
 
                     <div class="postcreator-form-controls">
