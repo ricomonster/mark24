@@ -122,7 +122,6 @@
         var $this = $(this);
         var postId = $this.data('post-id');
         var postHolder = $('.post-holder[data-post-id="'+postId+'"]');
-
         // hide first the post
         postHolder.find('.post-content').find('.post-content-container')
             .find('.post').hide();

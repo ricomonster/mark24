@@ -21,7 +21,7 @@ Route::get('/', array('before' => 'logged-in', function()
 }));
 
 Route::get('test', function() {
-
+    echo Helper::drawCalendar(1, 2014);
 });
 
 // AJAX Routes
@@ -134,11 +134,17 @@ Route::get('groups/{groupId}/chat', 'GroupsController@chat');
 // Home Routes
 Route::get('home', 'HomeController@showHome');
 
+// Library Routes
+Route::get('the-library', 'LibraryController@index');
+
 // Notification Routes
 Route::get('notifications', 'NotificationController@index');
 
 // Post Routes
 Route::get('post/{postId}', 'PostController@showPost');
+
+// Planner Routes
+Route::get('planner', 'PlannerController@index');
 
 // Profile Routes
 Route::get('profile/{user}', 'ProfileController@showIndex');

@@ -172,25 +172,24 @@ class AjaxPostCreatorController extends BaseController {
         $fileExtension  = $file->getClientOriginalExtension();
         $mime           = $file->getMimeType();
         // upload file
-        $file->move($dropPoint, Auth::user()->id.'_'.$fileName);
+        $file->move($dropPoint, $fileName);
 
         // check if file is uploaded
         if(Input::hasFile('files')) {
-            $newFilename = Auth::user()->id.'_'.$fileName;
             // create thumbnail
             if(substr($mime,0, 5) === "image") {
-                $fileThumbnail = 'thumbnail_'.$newFilename;
-                Helper::thumbnailMaker($dropPoint, $newFilename, $fileThumbnail, 150);
+                $fileThumbnail = 'thumbnail_'.$fileName;
+                Helper::thumbnailMaker($dropPoint, $fileName, $fileThumbnail, 150);
             }
 
             // save the file!
             $newFile = new FileLibrary;
             $newFile->user_id = Auth::user()->id;
             $newFile->file_name = $fileName;
-            $newFile->file_storage_name = $newFilename;
+            $newFile->file_storage_name = $fileName;
             $newFile->file_extension = $fileExtension;
             $newFile->mime_type = $mime;
-            $newFile->file_path = sha1(Auth::user()->id).'/'.$newFilename;
+            $newFile->file_path = sha1(Auth::user()->id).'/'.$fileName;
             $newFile->file_thumbnail = (isset($fileThumbnail)) ?
                 sha1(Auth::user()->id).'/'.$fileThumbnail : 'txt.png';
             $newFile->save();

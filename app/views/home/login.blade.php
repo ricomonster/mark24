@@ -42,7 +42,7 @@
             .student-signup-form .section-title { font-size: 18px; }
             .student-signup-form form { padding-top: 20px; }
             /* Footer */
-            .footer { font-size: 11px; margin-top: 30px; padding: 20px 0; position: relative; text-align: center; }
+            .footer { font-size: 13px; margin-top: 30px; padding: 20px 0; position: relative; text-align: center; }
             /* Background Image */
             .bg {
                min-height: 100%;
@@ -59,7 +59,7 @@
     </head>
 
     <body>
-        <img src="/assets/images/splash-image.jpg" class="bg">
+        <img src="/assets/images/splash_image.jpg" class="bg">
         <!-- Header -->
         <div class="header container">
             <h1 class="text-muted"><img src="/assets/images/logo.png"></h1>
@@ -186,7 +186,20 @@
         </div>
 
         <div class="footer">
-            eLinet &copy; {{ date('Y') }}
+            <ul>
+                <li>
+                    <strong>eLinet - eLearning Networking &copy; {{ date('Y') }}</strong>
+                </li>
+                <li>About</li>
+                <li>Blog</li>
+                <li>Platform</li>
+                <li>Press</li>
+                <li>Help</li>
+                <li>Jobs</li>
+                <li>Terms</li>
+                <li>Privacy</li>
+                <li>Mobile</li>
+            </ul>
         </div>
 
         <script src="/assets/js/jquery.min.js"></script>
