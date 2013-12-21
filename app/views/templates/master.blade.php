@@ -43,16 +43,16 @@
                                 <i class="fa fa-home"></i>
                             </a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="/planner" data-toggle="tooltip" title="Planner"
                             class="menu-items">
                                 <i class="fa fa-list-alt"></i>
                             </a>
-                        </li>
+                        </li> -->
                         <li>
                             <a href="/the-forum" data-toggle="tooltip" title="The Forum"
                             class="menu-items">
-                                <i class="fa fa-trello"></i>
+                                <i class="fa fa-comments-o"></i>
                             </a>
                         </li>
                         <li>

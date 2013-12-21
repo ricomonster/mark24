@@ -27,13 +27,13 @@ The Library
     <div class="row">
         <div class="col-md-3">
             <ul class="library-items nav nav-pills nav-stacked">
-                <li class="active"><a href="/the-library">
+                <li><a href="/the-library">
                     <i class="fa fa-table"></i>Library Items
                 </a></li>
-                <li><a href="the-library/folders">
+                <li><a href="/the-library/folders">
                     <i class="fa fa-folder-o"></i>Folders
                 </a></li>
-                <li><a href="/the-library/attached">
+                <li class="active"><a href="/the-library/attached">
                     <i class="fa fa-link"></i>Attached to Posts
                 </a></li>
             </ul>
@@ -41,9 +41,17 @@ The Library
         <div class="col-md-9">
             <div class="well library-items-wrapper">
                 <div class="page-header">
-                    <h3>Library Items</h3>
+                    <h3>Attached to Posts</h3>
                 </div>
-                <div class="library-items-content"></div>
+                <div class="library-items-content">
+                    <ul class="file-stream">
+                        @foreach($files as $file)
+                        <li class="file-holder">
+
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

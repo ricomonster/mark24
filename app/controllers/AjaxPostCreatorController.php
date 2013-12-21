@@ -44,6 +44,7 @@ class AjaxPostCreatorController extends BaseController {
                 for($f = 0; $f < count($attachedFiles); $f++) {
                     $attach = new FileAttached;
                     $attach->post_id = $newNote->post_id;
+                    $attach->user_id = Auth::user()->id;
                     $attach->file_id = $attachedFiles[$f];
                     $attach->save();
                 }

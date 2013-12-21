@@ -136,6 +136,8 @@ Route::get('home', 'HomeController@showHome');
 
 // Library Routes
 Route::get('the-library', 'LibraryController@index');
+Route::get('the-library/folders', 'LibraryController@folders');
+Route::get('the-library/attached', 'LibraryController@attachedFiles');
 
 // Notification Routes
 Route::get('notifications', 'NotificationController@index');

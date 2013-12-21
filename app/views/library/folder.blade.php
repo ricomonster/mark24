@@ -27,10 +27,10 @@ The Library
     <div class="row">
         <div class="col-md-3">
             <ul class="library-items nav nav-pills nav-stacked">
-                <li class="active"><a href="/the-library">
+                <li><a href="/the-library">
                     <i class="fa fa-table"></i>Library Items
                 </a></li>
-                <li><a href="the-library/folders">
+                <li class="active"><a href="the-library/folders">
                     <i class="fa fa-folder-o"></i>Folders
                 </a></li>
                 <li><a href="/the-library/attached">
@@ -41,7 +41,7 @@ The Library
         <div class="col-md-9">
             <div class="well library-items-wrapper">
                 <div class="page-header">
-                    <h3>Library Items</h3>
+                    <h3>Folders</h3>
                 </div>
                 <div class="library-items-content"></div>
             </div>
