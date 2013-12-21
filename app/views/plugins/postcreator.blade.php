@@ -119,7 +119,68 @@
         </div>
 
         <div class="tab-pane well" id="assignment">
-            Assignment
+            {{ Form::open(array('url' => 'ajax/post_creator/create_assignment')) }}
+                <div class="assignment-details form-group">
+                    <input type="text" name="assignment-title" id="assignment_title"
+                    class="form-control assignment-title pull-left"
+                    placeholder="Assignment title">
+                    <a href="#" class="load-assignment btn btn-default pull-left">Load Assignment</a>
+                    <div class="input-group">
+                        <input type="text" name="due-date" class="form-control assignment-due-date pull-left"
+                        placeholder="due date">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="postcreator-hidden">
+                    <div class="form-group">
+                        <input type="text" name="assignment-description" class="form-control"
+                        placeholder="Describe the assignment">
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox"> Lock this assignment after its due date</label>
+                    </div>
+                    <div class="form-group">
+                        <select name="assignment-recipients[]" class="post-recipients"
+                        id="assignment_recipients" multiple="true" data-placeholder="Send to...">
+                            @if(!empty($groups))
+                            @foreach($groups as $group)
+                            @if(isset($groupDetails))
+                            <option value="{{ $group->group_id }}-group"
+                            <?php echo ($groupDetails->group_id == $group->group_id) ? 'selected' : null; ?>>{{ $group->group_name }}</option>
+                            @else
+                            <option value="{{ $group->group_id }}-group">{{ $group->group_name }}</option>
+                            @endif
+                            @endforeach
+                            @endif
+                            @if(!empty($groupMembers))
+                            @foreach($groupMembers as $groupMember)
+                            <option value="{{ $groupMember->id }}-user">{{ $groupMember->name }}</option>
+                            @endforeach
+                            @endif
+                        </select>
+                    </div>
+                    <div class="postcreator-form-controls">
+                        <ul class="postcreator-controls pull-left">
+                            <li>
+                                <input class="fileupload" type="file" name="files" multiple>
+                            </li>
+                        </ul>
+
+                        <div class="postcreator-buttons pull-right">
+                            <a href="">Cancel</a>
+                            <span class="postcreator-send-or">or</span>
+                            <button type="submit" id="submit_assignment" class="btn btn-primary">
+                                Send
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            {{ Form::close() }}
         </div>
 
         <div class="tab-pane well <?php echo (isset($quiz)) ? 'active' : null; ?>" id="quiz">

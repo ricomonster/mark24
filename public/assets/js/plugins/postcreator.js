@@ -74,6 +74,12 @@
         e.preventDefault();
     });
 
+    // assignment shits
+    $('#assignment_title, .assignment-due-date').on('focus', function() {
+        $('#assignment .postcreator-hidden').show();
+        $('#assignment .post-recipients').chosen();
+    });
+
     // submits a quiz
     $('#submit_quiz').on('click', function(e) {
         validateQuiz();

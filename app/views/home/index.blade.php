@@ -129,6 +129,17 @@ $(function () {
         }
     }).prop('disabled', !$.support.fileInput)
         .parent().addClass($.support.fileInput ? undefined : 'disabled');
+
+    var nowTemp = new Date();
+    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+    var checkin = $('.assignment-due-date').datepicker({
+        onRender: function(date) {
+            return date.valueOf() < now.valueOf() ? 'disabled' : '';
+        },
+        format : 'yyyy-mm-dd'
+    }).on('changeDate', function(ev) {
+        checkin.hide();
+    }).data('datepicker');
 });
 </script>
 @endif
