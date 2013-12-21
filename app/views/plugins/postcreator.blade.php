@@ -9,16 +9,15 @@
     @endif
     <div class="tab-content">
         <div class="tab-pane well <?php echo (isset($quiz)) ? null : 'active'; ?>" id="note">
+            <div class="note-errors alert alert-danger" style="display:none;"></div>
             {{ Form::open(array('url'=>'ajax/post_creator/create_note')) }}
                 <div class="form-group">
-                    <div class="alert"></div>
                     <textarea name="note-content" id="note_content" class="postcreator-textarea form-control"
                     placeholder="Type your note here..."></textarea>
                 </div>
 
                 <div class="postcreator-hidden">
                     <div class="form-group">
-                        <div class="alert"></div>
                         <select name="note-recipients[]" class="post-recipients"
                         id="note_recipients" data-placeholder="Send to..."
                         <?php echo (Auth::user()->account_type == 1) ? 'multiple="true"' : null; ?>>
@@ -69,16 +68,15 @@
         </div>
 
         <div class="tab-pane well" id="alert">
+            <div class="alert-errors alert alert-danger" style="display:none;"></div>
             {{ Form::open(array('url'=>'ajax/post_creator/create_alert')) }}
                 <div class="form-group">
-                    <div class="alert"></div>
                     <textarea name="alert-content" id="alert_content" class="postcreator-textarea form-control"
                     placeholder="Type your alert (140 character max)..." maxlength="140"></textarea>
                 </div>
 
                 <div class="postcreator-hidden">
                     <div class="form-group">
-                        <div class="alert"></div>
                         <select name="alert-recipients[]" class="post-recipients"
                         id="alert_recipients" multiple="true" data-placeholder="Send to...">
                             @if(!empty($groups))
@@ -129,7 +127,7 @@
                         <input type="text" name="due-date" class="form-control assignment-due-date pull-left"
                         placeholder="due date">
                         <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
+                            <i class="fa fa-calendar"></i>
                         </span>
                     </div>
                     <div class="clearfix"></div>

@@ -139,6 +139,13 @@ class AjaxPostCreatorController extends BaseController {
         }
     }
 
+    public function postCreateAssignment()
+    {
+        if(Request::ajax()) {
+
+        }
+    }
+
     public function updatePost()
     {
         if(Request::ajax()) {

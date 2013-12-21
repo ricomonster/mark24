@@ -20,6 +20,7 @@ body {
 .nav-profile-avatar a { padding: 9px 12px !important; }
 .nav-profile-avatar a img { margin: 0 5px 0; }
 .navigation-items .navbar-nav .dropdown .dropdown-menu li a { padding: 3px 20px; }
+.navigation-items .navbar-form .input-group { width: 400px; }
 
 /* override Bootstrap Components */
 .well {

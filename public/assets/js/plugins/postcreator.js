@@ -16,6 +16,7 @@
 
     $('#submit_note').on('click', function(e) {
         // validate first
+        $('.note-errors').empty().hide();
         validateNote();
 
         if(error == 0) {
@@ -49,6 +50,7 @@
     });
 
     $('#submit_alert').on('click', function(e) {
+        $('.alert-errors').empty().hide();
         validateAlert();
 
         if(error == 0) {
@@ -199,41 +201,37 @@
     function validateNote() {
         var noteContent     = $('#note_content');
         var noteRecipients  = $('#note_recipients');
+        var noteErrors      = $('.note-errors');
 
         // set error counter to zero to reset
         error = 0;
-
         // validate note fields
         if(noteContent.val() == '' || noteContent.length == 0) {
             noteContent.parent()
                 .parent().addClass('has-error');
-            noteContent.parent().parent().
-                find('.alert').addClass('alert-danger').show().text('Your message is empty!');
+            noteErrors.show();
+            $('</p>').text('Your message is empty!').appendTo('.note-errors');
             error++;
         } else {
-            noteContent.parent()
-                .parent().removeClass('has-error');
-            noteContent.parent().parent().
-                find('.alert').removeClass('alert-danger').hide().text('');
+            noteContent.parent().parent().removeClass('has-error');
         }
 
         if(noteRecipients.val() == null || noteRecipients.length == 0) {
             noteRecipients.parent().find('.chosen-container .chosen-choices')
                 .addClass('has-error-recipients');
-            noteRecipients.parent().find('.alert')
-                .addClass('alert-danger').show().text('Select recipients for your message');
+            noteErrors.show();
+            $('</p>').text('Select recipients for your message').appendTo('.note-errors');
             error++;
         } else {
             noteRecipients.parent().find('.chosen-container .chosen-choices')
                 .removeClass('has-error-recipients');
-            noteRecipients.parent().find('.alert')
-                .removeClass('alert-danger').hide().text('');
         }
     }
 
     function validateAlert() {
         var alertContent     = $('#alert_content');
         var alertRecipients  = $('#alert_recipients');
+        var alertErrors      = $('.alert-errors');
 
         // set error counter to zero to reset
         error = 0;
@@ -242,27 +240,22 @@
         if(alertContent.val() == '' || alertContent.length == 0) {
             alertContent.parent()
                 .parent().addClass('has-error');
-            alertContent.parent().parent().
-                find('.alert').addClass('alert-danger').show().text('Your message is empty!');
+            alertErrors.show();
+            $('</p>').text('Your message is empty!').appendTo('.alert-errors');
             error++;
         } else {
-            alertContent.parent()
-                .parent().removeClass('has-error');
-            alertContent.parent().parent().
-                find('.alert').removeClass('alert-danger').hide().text('');
+            alertContent.parent().parent().removeClass('has-error');
         }
 
         if(alertRecipients.val() == null || alertRecipients.length == 0) {
             alertRecipients.parent().find('.chosen-container .chosen-choices')
                 .addClass('has-error-recipients');
-            alertRecipients.parent().find('.alert')
-                .addClass('alert-danger').show().text('Select recipients for your message');
+            alertErrors.show();
+            $('</p>').text('Select recipients for your message').appendTo('.alert-errors');
             error++;
         } else {
             alertRecipients.parent().find('.chosen-container .chosen-choices')
                 .removeClass('has-error-recipients');
-            alertRecipients.parent().find('.alert')
-                .removeClass('alert-danger').hide().text('');
         }
     }
 

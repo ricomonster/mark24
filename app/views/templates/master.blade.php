@@ -62,7 +62,16 @@
                             </a>
                         </li>
                     </ul>
-
+                    <form class="navbar-form navbar-left" role="search">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
                     <ul class="nav navbar-nav pull-right">
                         <li>
                             <a href="#" class="menu-items" data-toggle="tooltip" title="Notifications">
