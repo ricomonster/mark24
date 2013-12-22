@@ -60,16 +60,18 @@
                 data    : $('#alert form').serialize(),
                 async   : false
             }).done(function(response) {
-                // assuming no errors occured
-                // reset to former state
-                $('#alert .postcreator-hidden').hide();
-                // let's reset the form elements
-                $('#alert_content').val('');
-                $('#alert_recipients').val('').trigger('chosen:updated');
-                // show the newest to stream
-                $('.post-stream-holder .post-stream').prepend(response)
-                    .find('li:first').hide().slideDown(800);
-                $('.post-stream-holder .post-stream').find('.no-post-found').hide();
+                if(response) {
+                    // assuming no errors occured
+                    // reset to former state
+                    $('#alert .postcreator-hidden').hide();
+                    // let's reset the form elements
+                    $('#alert_content').val('');
+                    $('#alert_recipients').val('').trigger('chosen:updated');
+                    // show the newest to stream
+                    $('.post-stream-holder .post-stream').prepend(response)
+                        .find('li:first').hide().slideDown(800);
+                    $('.post-stream-holder .post-stream').find('.no-post-found').hide();
+                }
             })
         }
 
@@ -80,6 +82,40 @@
     $('#assignment_title, .assignment-due-date').on('focus', function() {
         $('#assignment .postcreator-hidden').show();
         $('#assignment .post-recipients').chosen();
+    });
+
+    $('#submit_assignment').on('click', function(e) {
+        // validate first
+        $('.assignment-errors').empty().hide();
+        validateAssignment();
+
+        if(error == 0) {
+            $.ajax({
+                type    : 'post',
+                url     : $('#assignment form').attr('action'),
+                data    : $('#assignment form').serialize(),
+                async   : false
+
+            }).done(function(response) {
+                if(response) {
+                    // assuming no errors occured
+                    // reset to former state
+                    $('#assignment .postcreator-hidden').hide();
+                    // let's reset the form elements
+                    $('#assignment_title').val('');
+                    $('#assignment_due_date').val('');
+                    $('#assignment_description').val('');
+                    $('#assignment_lock').attr('checked', false);
+                    $('#assignment_recipients').val('').trigger('chosen:updated');
+                    // show the newest to stream
+                    $('.post-stream-holder .post-stream').prepend(response)
+                        .find('li:first').hide().slideDown(800);
+                    $('.post-stream-holder .post-stream').find('.no-post-found').hide();
+                }
+            });
+        }
+
+        e.preventDefault();
     });
 
     // submits a quiz
@@ -291,6 +327,53 @@
                 .removeClass('has-error-recipients');
             quizRecipients.parent().find('.alert')
                 .removeClass('alert-danger').hide().text('');
+        }
+    }
+
+    function validateAssignment() {
+        var assignmentErrors = $('.assignment-errors');
+        var assignmentTitle = $('#assignment_title');
+        var assignmentDueDate = $('#assignment_due_date');
+        var assignmentDescription = $('#assignment_description');
+        var assignmentRecipients = $('#assignment_recipients');
+
+        error = 0;
+        if(assignmentTitle.val() == '' || assignmentTitle.val().length == 0) {
+            assignmentTitle.parent().addClass('has-error');
+            assignmentErrors.show();
+            $('</p>').text('You must type an assignment title').appendTo('.assignment-errors');
+            error++;
+        } else {
+            assignmentTitle.parent().removeClass('has-error');
+        }
+
+        if(assignmentDueDate.val() == '' || assignmentDueDate.val().length == 0) {
+            assignmentDueDate.parent().addClass('has-error');
+            assignmentErrors.show();
+            $('</p>').text('You must set a due date').appendTo('.assignment-errors');
+            error++;
+        } else {
+            assignmentDueDate.parent().removeClass('has-error');
+        }
+
+        if(assignmentDescription.val() == '' || assignmentDescription.val().length == 0) {
+            assignmentDescription.parent().addClass('has-error');
+            assignmentErrors.show();
+            $('</p>').text('You must type a description').appendTo('.assignment-errors');
+            error++;
+        } else {
+            assignmentDescription.parent().removeClass('has-error');
+        }
+
+        if(assignmentRecipients.val() == null || assignmentRecipients.length == 0) {
+            assignmentRecipients.parent().find('.chosen-container .chosen-choices')
+                .addClass('has-error-recipients');
+            assignmentErrors.show();
+            $('</p>').text('Select recipients for your message').appendTo('.assignment-errors');
+            error++;
+        } else {
+            assignmentRecipients.parent().find('.chosen-container .chosen-choices')
+                .removeClass('has-error-recipients');
         }
     }
 

@@ -21,6 +21,12 @@ class Post extends Eloquent {
         $likes->likers = Like::where('post_id', '=', $post->post_id)
             ->leftJoin('users', 'likes.user_id', '=', 'users.id')
             ->get();
+        // check if the post is an assignment
+        if($post->post_type == 'assignment') {
+            $assignment = Assignment::find($post->assignment_id);
+            $details->assignment = $assignment;
+        }
+
         // create object for the comments
         $comments = new StdClass();
         $comments = Comment::where('post_id', '=', $post->post_id)
@@ -37,7 +43,6 @@ class Post extends Eloquent {
         // assign the objects
         $details->likes = $likes;
         $details->comments = $comments;
-
 
         return $details;
     }
@@ -72,6 +77,12 @@ class Post extends Eloquent {
                 $likes->likers = Like::where('post_id', '=', $post->post_id)
                     ->leftJoin('users', 'likes.user_id', '=', 'users.id')
                     ->get();
+                // check if the post is an assignment
+                if($post->post_type == 'assignment') {
+                    $assignment = Assignment::find($post->assignment_id);
+                    $details->$key->assignment = $assignment;
+                }
+
                 // create object for the comments
                 $comments = new StdClass();
                 $comments = Comment::where('post_id', '=', $post->post_id)
@@ -118,6 +129,12 @@ class Post extends Eloquent {
                 $likes->likers = Like::where('post_id', '=', $post->post_id)
                     ->leftJoin('users', 'likes.user_id', '=', 'users.id')
                     ->get();
+                // check if the post is an assignment
+                if($post->post_type == 'assignment') {
+                    $assignment = Assignment::find($post->assignment_id);
+                    $details->$key->assignment = $assignment;
+                }
+
                 // create object for the comments
                 $comments = new StdClass();
                 $comments = Comment::where('post_id', '=', $post->post_id)

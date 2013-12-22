@@ -142,7 +142,51 @@ class AjaxPostCreatorController extends BaseController {
     public function postCreateAssignment()
     {
         if(Request::ajax()) {
+            $assignmentTitle = Input::get('assignment-title');
+            $dueDate = Input::get('due-date');
+            $assignmentDescription = Input::get('assignment-description');
+            $assignmentLock = Input::get('assignment-lock');
+            $recipients = Input::get('assignment-recipients');
 
+            // insert assignment
+            $assignment = new Assignment;
+            $assignment->user_id = Auth::user()->id;
+            $assignment->title = $assignmentTitle;
+            $assignment->description = $assignmentDescription;
+            $assignment->assignment_lock = (isset($assignmentLock)) ? $assignmentLock : 0;
+            $assignment->save();
+
+            // insert to posts
+            $newAssignment = new Post;
+            $newAssignment->user_id = Auth::user()->id;
+            $newAssignment->post_type = 'assignment';
+            $newAssignment->assignment_id = $assignment->assignment_id;
+            $newAssignment->assignment_due_date = $dueDate;
+            $newAssignment->post_timestamp = time();
+            $newAssignment->save();
+
+            // get the recipients.
+            // will use for loop because it is stored in an array
+            for($x = 0; $x < count($recipients); $x++) {
+                // exploded the value to get the id and recipient type
+                $exploded = explode('-', $recipients[$x]);
+                // save to database
+                $addRecipient = new PostRecipient;
+                $addRecipient->post_id = $newAssignment->post_id;
+                $addRecipient->recipient_id = $exploded[0];
+                $addRecipient->recipient_type = $exploded[1];
+                $addRecipient->save();
+            }
+
+            // setup the notification
+            Notification::createNotification($newAssignment->post_id, 'post');
+
+            // return the HTML to show the newest post
+            // to be loaded on the page
+            return View::make('ajax.postcreator.postitem')
+                ->with('post', Post::where('post_id', '=', $newAssignment->post_id)
+                    ->join('users', 'posts.user_id', '=', 'users.id')
+                    ->first());
         }
     }
 

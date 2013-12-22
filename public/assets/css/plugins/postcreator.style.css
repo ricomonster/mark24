@@ -26,6 +26,8 @@
 .quiz-due-date { margin-top: 15px; }
 .quiz-due-date #quiz_due_date { width: 110px; }
 
+.assignment-details { margin-bottom: 15px; }
+.assignment-details .form-group { margin: 0; }
 .assignment-details .assignment-title { float: left; margin-right: 10px; width: 360px; }
 .assignment-details .load-assignment { float: left; margin-right: 10px; }
 .assignment-details .input-group { float:left; width: 140px; }

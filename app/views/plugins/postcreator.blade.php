@@ -117,15 +117,18 @@
         </div>
 
         <div class="tab-pane well" id="assignment">
+            <div class="assignment-errors alert alert-danger" style="display:none;"></div>
             {{ Form::open(array('url' => 'ajax/post_creator/create_assignment')) }}
-                <div class="assignment-details form-group">
-                    <input type="text" name="assignment-title" id="assignment_title"
-                    class="form-control assignment-title pull-left"
-                    placeholder="Assignment title">
+                <div class="assignment-details">
+                    <div class="form-group">
+                        <input type="text" name="assignment-title" id="assignment_title"
+                        class="form-control assignment-title pull-left"
+                        placeholder="Assignment title">
+                    </div>
                     <a href="#" class="load-assignment btn btn-default pull-left">Load Assignment</a>
                     <div class="input-group">
                         <input type="text" name="due-date" class="form-control assignment-due-date pull-left"
-                        placeholder="due date">
+                        placeholder="due date" id="assignment_due_date">
                         <span class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                         </span>
@@ -136,10 +139,13 @@
                 <div class="postcreator-hidden">
                     <div class="form-group">
                         <input type="text" name="assignment-description" class="form-control"
-                        placeholder="Describe the assignment">
+                        placeholder="Describe the assignment" id="assignment_description">
                     </div>
                     <div class="checkbox">
-                        <label><input type="checkbox"> Lock this assignment after its due date</label>
+                        <label>
+                            <input type="checkbox" name="assignment-lock" class="assignment-lock"
+                            value="1" id="assignment_lock"> Lock this assignment after its due date
+                        </label>
                     </div>
                     <div class="form-group">
                         <select name="assignment-recipients[]" class="post-recipients"

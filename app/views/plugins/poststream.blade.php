@@ -92,6 +92,21 @@
                     <?php
                             $content = $post->alert_content;
                             break;
+                        case 'assignment' :
+                    ?>
+                            <strong>{{{ $post->assignment->title }}}</strong>
+                            <div class="assignment-details">
+                                <a href="#" class="btn btn-default">Turned In (0)</a>
+                                <span class="due-date">
+                                    Due {{ date('M d, Y', strtotime($post->assignment_due_date)) }}
+                                </span>
+                            </div>
+                            <div class="assignment-description">
+                                {{{ $post->assignment->description }}}
+                            </div>
+                    <?php
+                            $content = null;
+                            break;
                         case 'quiz' :
                             $quizDetails = Helper::getQuizDetails($post->quiz_id);
                     ?>
@@ -134,7 +149,7 @@
                     }
                     ?>
                     </div>
-                    @if($post->post_type != 'quiz')
+                    @if($post->post_type != 'quiz' && $post->post_type != 'assignment')
                     {{ Form::open(array(
                         'url' => '/ajax/post_creator/update-post',
                         'class' => 'edit-post-form',
