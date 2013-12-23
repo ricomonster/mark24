@@ -109,6 +109,10 @@ Route::post('ajax/post_creator/create_assignment', 'AjaxPostCreatorController@po
 Route::post('ajax/post_creator/update-post', 'AjaxPostCreatorController@updatePost');
 Route::post('ajax/post_creator/upload-file', 'AjaxPostCreatorController@uploadPost');
 
+// Assignment Sheet Routes
+Route::get('assignment-sheet/{assignmentId}', 'AssignmentSheetController@index')
+    ->where('assignmentId', '[0-9]+');
+
 // Control Routes
 Route::get('control', 'ControlController@index');
 Route::get('control/dashboard', array(
@@ -128,9 +132,9 @@ Route::post('the-forum/submit-new-thread', 'ForumController@submitThread');
 Route::post('the-forum/create-thread-reply', 'ForumController@submitReplyThread');
 
 // Group Routes
-Route::get('groups/{groupId}', 'GroupsController@showIndex');
-Route::get('groups/{groupId}/members', 'GroupsController@showMembers');
-Route::get('groups/{groupId}/chat', 'GroupsController@chat');
+Route::get('groups/{groupId}', 'GroupsController@showIndex')->where('groupId', '[0-9]+');
+Route::get('groups/{groupId}/members', 'GroupsController@showMembers')->where('groupId', '[0-9]+');
+Route::get('groups/{groupId}/chat', 'GroupsController@chat')->where('groupId', '[0-9]+');
 
 // Home Routes
 Route::get('home', 'HomeController@showHome');
