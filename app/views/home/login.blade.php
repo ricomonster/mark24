@@ -16,7 +16,7 @@
         <style>
             body { padding-top: 0; }
             .header .text-muted { position: relative; }
-            .main-content { padding-top: 20px; }
+            .main-content { min-height: 450px; padding-top: 20px; }
             .left-panel { color: #fff; margin: auto !important; width: 400px; }
             .left-panel h1 { font-size: 60px; text-shadow: 0 0 10px #000; }
             .right-panel { width: 350px; margin: auto !important; }
@@ -41,6 +41,7 @@
             .student-signup-form { display: none; }
             .student-signup-form .section-title { font-size: 18px; }
             .student-signup-form form { padding-top: 20px; }
+            .student-signup-form form .form-group .alert { margin-bottom: 5px; padding: 8px 10px; }
             /* Footer */
             .footer { font-size: 13px; margin-top: 30px; padding: 20px 0; position: relative; text-align: center; }
             /* Background Image */
@@ -149,30 +150,31 @@
 
                         <div class="student-signup-form">
                             <div class="section-title">Student Sign Up</div>
-                            {{ Form::open(array('url'=>'users/validate_student_signup', 'autocomplete' => 'off')) }}
+                            {{ Form::open(array('url'=>'users/validate_student_signup', 'autocomplete' => 'off', 'id' => 'student_signup_form')) }}
                                 <div class="form-group">
                                     <input type="text" name="student-group-code" id="student_group_code"
-                                    class="form-control" placeholder="Group Code">
+                                    class="form-control student-group-code" placeholder="Group Code">
                                 </div>
                                 <div class="form-group">
                                     <input type="text" name="student-username" id="student_username"
-                                    class="form-control" placeholder="Username">
+                                    class="form-control student-username" placeholder="Username">
                                 </div>
                                 <div class="form-group">
                                     <input type="password" name="student-password" id="student_password"
-                                    class="form-control" placeholder="Password">
+                                    class="form-control student-password" placeholder="Password">
                                 </div>
                                 <div class="form-group">
                                     <input type="email" name="student-email" id="student_email"
-                                    class="form-control" placeholder="Email">
+                                    class="form-control student-email" placeholder="Email">
                                 </div>
                                 <div class="form-group">
                                     <input type="text" name="student-firstname" id="student_firstname"
-                                    class="form-control" placeholder="First Name">
+                                    class="form-control student-firstname" placeholder="First Name">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="student-lastname"
-                                    id="student_lastname" placeholder="Last Name">
+                                    <input type="text" class="form-control student-lastname"
+                                    name="student-lastname" id="student_lastname"
+                                    placeholder="Last Name">
                                 </div>
                                 <div class="form-buttons">
                                     <button type="submit" class="btn btn-primary" id="student_signup_button">Sign up</button>
@@ -204,6 +206,7 @@
 
         <script src="/assets/js/jquery.min.js"></script>
         <script src="/assets/js/bootstrap.min.js"></script>
+        <script src="/assets/js/sitefunc/registration.js"></script>
         <script>
             (function($) {
                 var signinForm  = $('.signin-form');

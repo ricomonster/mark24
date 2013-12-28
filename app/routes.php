@@ -109,6 +109,7 @@ Route::post('ajax/post_creator/upload-file', 'AjaxPostCreatorController@uploadPo
 
 // AJAX User Routes
 Route::post('ajax/users/upload-photo', 'AjaxUsersController@postUploadPhoto');
+Route::post('ajax/users/validate-student', 'AjaxUsersController@validateStudentDetails');
 
 Route::put('ajax/users/update-personal-info', 'AjaxUsersController@putUserInfo');
 

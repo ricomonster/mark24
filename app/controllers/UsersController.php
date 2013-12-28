@@ -64,41 +64,6 @@ class UsersController extends BaseController {
 
     }
 
-    public function createStudent() {
-        $groupCode = Input::get('student-group-code');
-        // validate first the form
-        $group = Group::where('group_code', '=', $groupCode)->first();
-
-        $password = Input::get('student-password');
-
-        $studentUser = new User;
-        $studentUser->account_type  = 2;
-        $studentUser->name          = ucwords(Input::get('student-firstname')).' '.ucwords(Input::get('student-lastname'));
-        $studentUser->firstname     = ucwords(Input::get('student-firstname'));
-        $studentUser->lastname      = ucwords(Input::get('student-lastname'));
-        $studentUser->username      = Input::get('student-username');
-        $studentUser->email         = Input::get('student-email');
-        $studentUser->password      = Hash::make($password);
-        // save to database
-        $studentUser->save();
-
-        // add student to group as a member
-        $addMember                  = new GroupMember;
-        $addMember->group_member_id = $studentUser->id;
-        $addMember->group_id        = $group->group_id;
-        $addMember->save();
-
-        // setup notification that the user joined the group
-        Notification::createNotification(array(
-            'reference_id' => $studentUser->id,
-            'referral_id' => $group->group_id), 'join_group');
-
-        // set the Auth to login the user
-        Auth::loginUsingId($studentUser->id);
-
-        return Redirect::to('home');
-    }
-
     public function getSignout() {
         Auth::logout();
         return Redirect::to('/');

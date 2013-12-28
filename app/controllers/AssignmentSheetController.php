@@ -4,7 +4,7 @@ class AssignmentSheetController extends BaseController
 {
     public function __construct()
     {
-        $this->beforeFilter('auth');
+        $this->beforeFilter('are-you-a-student');
     }
 
     public function index($assignmentId)

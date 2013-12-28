@@ -11,6 +11,10 @@ Assignment Sheet
 .assignment-details-wrapper .assignment-details .assignment-sheet-icon { color: #8c94a7; float: left; font-size: 24px; }
 .assignment-details-wrapper .assignment-details .content-details { float: left; margin-left: 10px; }
 .assignment-details-wrapper .assignment-details .content-details p { font-size: 16px; margin: 0; padding: 0; }
+.assignment-details-wrapper .assignment-details .content-details .due-date {
+    color: #839096;
+    font-size: 13px;
+}
 .assignment-details-wrapper .assignment-status { padding: 15px; }
 
 .assignment-sheet-wrapper .assignment-header { padding: 0; }
@@ -40,7 +44,9 @@ Assignment Sheet
                     <i class="fa fa-clipboard assignment-sheet-icon"></i>
                     <div class="content-details">
                         <p>{{ $assignment->title }}</p>
-                        <a href="#">Due {{ date('M d, Y', strtotime($post->assignment_due_date)) }}</a>
+                        <span class="due-date">
+                            Due {{ date('M d, Y', strtotime($post->assignment_due_date)) }}
+                        </span>
                     </div>
                     <div class="clearfix"></div>
                 </div>

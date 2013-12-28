@@ -4,6 +4,8 @@ class AjaxUsersController extends BaseController {
 
     const ALLOWED_SIZE = 25000000;
 
+    protected $_errors = null;
+
     public function postUploadPhoto() {
         $imageExtensions    = array(
             'jpg',  'jpe',  'jpeg',
@@ -14,7 +16,7 @@ class AjaxUsersController extends BaseController {
 
         $avatar = Input::file('avatar-file');
         $avatarExtensionName = $avatar->getClientOriginalExtension();
-        
+
         // validate image
         if(!in_array($avatarExtensionName, $imageExtensions)) {
             $return['error']    = true;
@@ -104,6 +106,118 @@ class AjaxUsersController extends BaseController {
             $return['error'] = false;
 
             return Response::json($return);
+        }
+    }
+
+    public function validateStudentDetails()
+    {
+        $this->_errors = array();
+
+        $groupCode  = Input::get('student-group-code');
+        $username   = Input::get('student-username');
+        $password   = Input::get('student-password');
+        $email      = Input::get('student-email');
+        $firstname  = Input::get('student-firstname');
+        $lastname   = Input::get('student-lastname');
+
+        // validate group code
+        if(!trim($groupCode)) {
+            $this->_errors['student-group-code'] = 'Group code is required';
+        } else if(trim($groupCode)) {
+            // check if a group exists
+            $groupExist = Group::where('group_code', '=', $groupCode)
+                ->first();
+            if(empty($groupExist)) {
+                $this->_errors['student-group-code'] = 'Group doesn\'t exists';
+            }
+        }
+
+        // validate username
+        if(!trim($username)) {
+            $this->_errors['student-username'] = 'Required';
+        } else if(trim($username)) {
+            // check if username exists
+            $usernameExists = User::where('username', '=', $username)->first();
+            if(!empty($usernameExists)) {
+                $this->_errors['student-username'] = 'Username already exists';
+            }
+        }
+
+        // validate password
+        if(!trim($password)) {
+            $this->_errors['student-password'] = 'Required';
+        } else if(trim($password)) {
+            // check the password length
+            if(strlen($password) < 6) {
+                $this->_errors['student-password'] = 'Password should be 6+ characters';
+            }
+        }
+
+        // validate email
+        if(!trim($email)) {
+            $this->_errors['student-email'] = 'Required';
+        } else if(trim($email)) {
+            // check if the email format is valid
+            // check if email already exists
+            $emailExists = User::where('email', '=', $email)->first();
+            if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $this->_errors['student-email'] = 'Format invalid';
+            } else if(!empty($emailExists)) {
+                $this->_errors['student-email'] = 'Email already exists';
+            }
+        }
+
+        // validate first name
+        if(!trim($firstname)) {
+            $this->_errors['student-firstname'] = 'Required';
+        }
+
+        // validate last name
+        if(!trim($lastname)) {
+            $this->_errors['student-lastname'] = 'Required';
+        }
+
+        if(empty($this->_errors)) {
+            $groupCode = Input::get('student-group-code');
+            // validate first the form
+            $group = Group::where('group_code', '=', $groupCode)->first();
+
+            $password = Input::get('student-password');
+
+            $studentUser = new User;
+            $studentUser->account_type  = 2;
+            $studentUser->name          = ucwords(Input::get('student-firstname')).' '.ucwords(Input::get('student-lastname'));
+            $studentUser->firstname     = ucwords(Input::get('student-firstname'));
+            $studentUser->lastname      = ucwords(Input::get('student-lastname'));
+            $studentUser->username      = Input::get('student-username');
+            $studentUser->email         = Input::get('student-email');
+            $studentUser->password      = Hash::make($password);
+            // save to database
+            $studentUser->save();
+
+            // add student to group as a member
+            $addMember                  = new GroupMember;
+            $addMember->group_member_id = $studentUser->id;
+            $addMember->group_id        = $group->group_id;
+            $addMember->save();
+
+            // setup notification that the user joined the group
+            Notification::createNotification(array(
+                'reference_id' => $studentUser->id,
+                'referral_id' => $group->group_id), 'join_group');
+
+            // set the Auth to login the user
+            Auth::loginUsingId($studentUser->id);
+
+            return Response::json(array(
+                'error' => false,
+                'lz'    => Request::root().'/home'));
+        }
+
+        if(!empty($this->_errors)) {
+            return Response::json(array(
+                'error'     => true,
+                'messages'  => $this->_errors));
         }
     }
 }
