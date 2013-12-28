@@ -25,31 +25,8 @@ Route::get('test', function() {
 });
 
 // AJAX Routes
-// AJAX User Routes
-Route::post('ajax/users/upload-photo', 'AjaxUsersController@postUploadPhoto');
-
-Route::put('ajax/users/update-personal-info', 'AjaxUsersController@putUserInfo');
-
-// AJAX Modal Routes
-Route::get('ajax/modal/show_create_group', 'AjaxModalController@showCreateGroup');
-Route::get('ajax/modal/show_join_group', 'AjaxModalController@showJoinGroup');
-Route::get('ajax/modal/show-add-forum-category', 'AjaxModalController@showAddCategory');
-Route::get('ajax/modal/show-settings-group', 'AjaxModalController@showGroupSettings');
-Route::get('ajax/modal/confirm-delete-group', 'AjaxModalController@confirmGroupDelete');
-Route::get('ajax/modal/show-withdraw-group', 'AjaxModalController@confirmWithdrawGroup');
-Route::get('ajax/modal/show-change-password', 'AjaxModalController@showChangePassword');
-Route::get('ajax/modal/confirm-delete-post', 'AjaxModalController@confirmDeletePost');
-Route::get('ajax/modal/link-post', 'AjaxModalController@showLinkToPost');
-Route::get('ajax/modal/get-quiz-list', 'AjaxModalController@showQuizList');
-
-Route::post('ajax/modal/create_group', 'AjaxModalController@createGroup');
-Route::post('ajax/modal/join_group', 'AjaxModalController@joinGroup');
-Route::post('ajax/modal/submit-new-category', 'AjaxModalController@addCategory');
-Route::post('ajax/modal/submit-group-update', 'AjaxModalController@updateGroup');
-Route::post('ajax/modal/delete-group', 'AjaxModalController@deleteGroup');
-Route::post('ajax/modal/withdraw-group', 'AjaxModalController@withdrawGroup');
-Route::post('ajax/modal/reset-password', 'AjaxModalController@resetPassword');
-Route::post('ajax/modal/delete-post', 'AjaxModalController@deletePost');
+// AJAX Assignment Sheet Routes
+Route::post('ajax/assignment-sheet/create-response', 'AjaxAssignmentSheetController@createResponse');
 
 // AJAX Chat Routes
 Route::get('ajax/chat/check-chat-details', 'AjaxChatController@chatDetails');
@@ -71,6 +48,27 @@ Route::post('ajax/group/reset-group-code', 'AjaxGroupController@changeGroupCode'
 
 // AJAX Like Routes
 Route::post('ajax/like/like-post', 'AjaxLikeController@likePost');
+
+// AJAX Modal Routes
+Route::get('ajax/modal/show_create_group', 'AjaxModalController@showCreateGroup');
+Route::get('ajax/modal/show_join_group', 'AjaxModalController@showJoinGroup');
+Route::get('ajax/modal/show-add-forum-category', 'AjaxModalController@showAddCategory');
+Route::get('ajax/modal/show-settings-group', 'AjaxModalController@showGroupSettings');
+Route::get('ajax/modal/confirm-delete-group', 'AjaxModalController@confirmGroupDelete');
+Route::get('ajax/modal/show-withdraw-group', 'AjaxModalController@confirmWithdrawGroup');
+Route::get('ajax/modal/show-change-password', 'AjaxModalController@showChangePassword');
+Route::get('ajax/modal/confirm-delete-post', 'AjaxModalController@confirmDeletePost');
+Route::get('ajax/modal/link-post', 'AjaxModalController@showLinkToPost');
+Route::get('ajax/modal/get-quiz-list', 'AjaxModalController@showQuizList');
+
+Route::post('ajax/modal/create_group', 'AjaxModalController@createGroup');
+Route::post('ajax/modal/join_group', 'AjaxModalController@joinGroup');
+Route::post('ajax/modal/submit-new-category', 'AjaxModalController@addCategory');
+Route::post('ajax/modal/submit-group-update', 'AjaxModalController@updateGroup');
+Route::post('ajax/modal/delete-group', 'AjaxModalController@deleteGroup');
+Route::post('ajax/modal/withdraw-group', 'AjaxModalController@withdrawGroup');
+Route::post('ajax/modal/reset-password', 'AjaxModalController@resetPassword');
+Route::post('ajax/modal/delete-post', 'AjaxModalController@deletePost');
 
 // AJAX QuizCreator Routes
 Route::post('ajax/quiz-creator/create-new-quiz', 'AjaxQuizCreatorController@postCreateQuiz');
@@ -108,6 +106,11 @@ Route::post('ajax/post_creator/create_quiz', 'AjaxPostCreatorController@postCrea
 Route::post('ajax/post_creator/create_assignment', 'AjaxPostCreatorController@postCreateAssignment');
 Route::post('ajax/post_creator/update-post', 'AjaxPostCreatorController@updatePost');
 Route::post('ajax/post_creator/upload-file', 'AjaxPostCreatorController@uploadPost');
+
+// AJAX User Routes
+Route::post('ajax/users/upload-photo', 'AjaxUsersController@postUploadPhoto');
+
+Route::put('ajax/users/update-personal-info', 'AjaxUsersController@putUserInfo');
 
 // Assignment Sheet Routes
 Route::get('assignment-sheet/{assignmentId}', 'AssignmentSheetController@index')
