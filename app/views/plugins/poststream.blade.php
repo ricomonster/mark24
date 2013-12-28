@@ -96,10 +96,10 @@
                     ?>
                             <strong>{{{ $post->assignment->title }}}</strong>
                             <div class="assignment-details">
-                                @if(Auth::user()->id == 1)
+                                @if(Auth::user()->account_type == 1)
                                 <a href="#" class="btn btn-default">Turned In (0)</a>
                                 @endif
-                                @if(Auth::user()->id == 2)
+                                @if(Auth::user()->account_type == 2)
                                 <a href="/assignment-sheet/{{ $post->assignment->assignment_id }}"
                                 class="btn btn-default">Turn In</a>
                                 @endif
