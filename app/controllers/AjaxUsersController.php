@@ -186,11 +186,11 @@ class AjaxUsersController extends BaseController {
 
             $studentUser = new User;
             $studentUser->account_type  = 2;
-            $studentUser->name          = ucwords(Input::get('student-firstname')).' '.ucwords(Input::get('student-lastname'));
-            $studentUser->firstname     = ucwords(Input::get('student-firstname'));
-            $studentUser->lastname      = ucwords(Input::get('student-lastname'));
-            $studentUser->username      = Input::get('student-username');
-            $studentUser->email         = Input::get('student-email');
+            $studentUser->name          = ucwords($firstname).' '.ucwords(Input::get($lastname));
+            $studentUser->firstname     = ucwords($firstname);
+            $studentUser->lastname      = ucwords($lastname);
+            $studentUser->username      = $username;
+            $studentUser->email         = $email;
             $studentUser->password      = Hash::make($password);
             // save to database
             $studentUser->save();
@@ -214,10 +214,95 @@ class AjaxUsersController extends BaseController {
                 'lz'    => Request::root().'/home'));
         }
 
-        if(!empty($this->_errors)) {
-            return Response::json(array(
-                'error'     => true,
-                'messages'  => $this->_errors));
+        return Response::json(array(
+            'error'     => true,
+            'messages'  => $this->_errors));
+    }
+
+    public function validateTeacherDetails()
+    {
+        $this->_errors = array();
+
+        $salutation = Input::get('teacher-title');
+        $firstname = Input::get('teacher-firstname');
+        $lastname = Input::get('teacher-lastname');
+        $username = Input::get('teacher-username');
+        $email = Input::get('teacher-email');
+        $password = Input::get('teacher-password');
+
+        // validate details
+        // validate salutation
+        if(!trim($salutation)) {
+            $this->_errors['teacher-title'] = 'Required';
         }
+
+        // validate username
+        if(!trim($username)) {
+            $this->_errors['teacher-username'] = 'Required';
+        } else if(trim($username)) {
+            // check if username exists
+            $usernameExists = User::where('username', '=', $username)->first();
+            if(!empty($usernameExists)) {
+                $this->_errors['teacher-username'] = 'Username already exists';
+            }
+        }
+
+        // validate password
+        if(!trim($password)) {
+            $this->_errors['teacher-password'] = 'Required';
+        } else if(trim($password)) {
+            // check the password length
+            if(strlen($password) < 6) {
+                $this->_errors['teacher-password'] = 'Password should be 6+ characters';
+            }
+        }
+
+        // validate email
+        if(!trim($email)) {
+            $this->_errors['teacher-email'] = 'Required';
+        } else if(trim($email)) {
+            // check if the email format is valid
+            // check if email already exists
+            $emailExists = User::where('email', '=', $email)->first();
+            if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $this->_errors['teacher-email'] = 'Format invalid';
+            } else if(!empty($emailExists)) {
+                $this->_errors['teacher-email'] = 'Email already exists';
+            }
+        }
+
+        // validate first name
+        if(!trim($firstname)) {
+            $this->_errors['teacher-firstname'] = 'Required';
+        }
+
+        // validate last name
+        if(!trim($lastname)) {
+            $this->_errors['teacher-lastname'] = 'Required';
+        }
+
+        if(empty($this->_errors)) {
+            $teacherUser                = new User;
+            $teacherUser->account_type  = 1;
+            $teacherUser->name          = ucwords(Input::get('teacher-firstname')).' '.ucwords(Input::get('teacher-lastname'));
+            $teacherUser->salutation    = Input::get('teacher-title');
+            $teacherUser->firstname     = ucwords(Input::get('teacher-firstname'));
+            $teacherUser->lastname      = ucwords(Input::get('teacher-lastname'));
+            $teacherUser->username      = Input::get('teacher-username');
+            $teacherUser->email         = Input::get('teacher-email');
+            $teacherUser->password      = Hash::make($password);
+            // save to database
+            $teacherUser->save();
+            // set the Auth to login the user
+            Auth::loginUsingId($teacherUser->id);
+
+            return Response::json(array(
+                'error' => false,
+                'lz'    => Request::root().'/home'));
+        }
+
+        return Response::json(array(
+            'error'     => true,
+            'messages'  => $this->_errors));
     }
 }

@@ -43,27 +43,6 @@ class UsersController extends BaseController {
         return Redirect::to('/');
     }
 
-    public function createTeacher() {
-        $password = Input::get('teacher-password');
-
-        $teacherUser                = new User;
-        $teacherUser->account_type  = 1;
-        $teacherUser->name          = ucwords(Input::get('teacher-firstname')).' '.ucwords(Input::get('teacher-lastname'));
-        $teacherUser->salutation    = Input::get('teacher-title');
-        $teacherUser->firstname     = ucwords(Input::get('teacher-firstname'));
-        $teacherUser->lastname      = ucwords(Input::get('teacher-lastname'));
-        $teacherUser->username      = Input::get('teacher-username');
-        $teacherUser->email         = Input::get('teacher-email');
-        $teacherUser->password      = Hash::make($password);
-        // save to database
-        $teacherUser->save();
-        // set the Auth to login the user
-        Auth::loginUsingId($teacherUser->id);
-
-        return Redirect::to('home');
-
-    }
-
     public function getSignout() {
         Auth::logout();
         return Redirect::to('/');

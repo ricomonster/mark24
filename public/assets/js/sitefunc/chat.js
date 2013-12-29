@@ -8,7 +8,7 @@ var Chat = {
     bindEvents : function()
     {
         $(document)
-            .ready(this.checkChatDetails)
+            // .ready(this.checkChatDetails)
             .on('keydown', this.config.messageBox.selector, this.checkKeydown)
     },
 

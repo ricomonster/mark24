@@ -32,11 +32,13 @@
             /* Signin */
             .signin-form .section-title { font-size: 18px; }
             .signin-form form { padding-top: 20px; }
+            .signin-form form .alert { margin-bottom: 5px; padding: 8px 10px; }
             .signin-form .signup-options { padding-top: 20px; text-align: center; }
             /* Teacher Signup */
             .teacher-signup-form { display: none; }
             .teacher-signup-form .section-title { font-size: 18px; }
             .teacher-signup-form form { padding-top: 20px; }
+            .teacher-signup-form form .form-group .alert { margin-bottom: 5px; padding: 8px 10px; }
             /* Student Signup */
             .student-signup-form { display: none; }
             .student-signup-form .section-title { font-size: 18px; }
@@ -111,9 +113,10 @@
 
                         <div class="teacher-signup-form">
                             <div class="section-title">Teacher Sign Up</div>
-                            {{ Form::open(array('url'=>'users/validate_teacher_signup', 'autocomplete' => 'off')) }}
+                            {{ Form::open(array('autocomplete' => 'off', 'id' => 'teacher_signup_form')) }}
                                 <div class="form-group">
-                                    <select name="teacher-title" id="teacher_title" class="form-control">
+                                    <select name="teacher-title" id="teacher_title"
+                                    class="form-control teacher-title">
                                         <option value="">Select Title:</option>
                                         <option value="Mr.">Mr.</option>
                                         <option value="Mrs.">Mrs.</option>
@@ -123,23 +126,24 @@
                                 </div>
                                 <div class="form-group">
                                     <input type="text" name="teacher-firstname" id="teacher_firstname"
-                                    class="form-control" placeholder="First Name">
+                                    class="form-control teacher-firstname" placeholder="First Name">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="teacher-lastname"
-                                    id="teacher_lastname" placeholder="Last Name">
+                                    <input type="text" class="form-control teacher-lastname"
+                                    name="teacher-lastname" id="teacher_lastname"
+                                    placeholder="Last Name">
                                 </div>
                                 <div class="form-group">
                                     <input type="text" name="teacher-username" id="teacher_username"
-                                    class="form-control" placeholder="Username">
+                                    class="form-control teacher-username" placeholder="Username">
                                 </div>
                                 <div class="form-group">
                                     <input type="email" name="teacher-email" id="teacher_email"
-                                    class="form-control" placeholder="Email">
+                                    class="form-control teacher-email" placeholder="Email">
                                 </div>
                                 <div class="form-group">
                                     <input type="password" name="teacher-password" id="teacher_password"
-                                    class="form-control" placeholder="Password">
+                                    class="form-control teacher-password" placeholder="Password">
                                 </div>
                                 <div class="form-buttons">
                                     <button type="submit" class="btn btn-primary" id="teacher_signup_button">Sign up</button>
@@ -150,7 +154,7 @@
 
                         <div class="student-signup-form">
                             <div class="section-title">Student Sign Up</div>
-                            {{ Form::open(array('url'=>'users/validate_student_signup', 'autocomplete' => 'off', 'id' => 'student_signup_form')) }}
+                            {{ Form::open(array('autocomplete' => 'off', 'id' => 'student_signup_form')) }}
                                 <div class="form-group">
                                     <input type="text" name="student-group-code" id="student_group_code"
                                     class="form-control student-group-code" placeholder="Group Code">
