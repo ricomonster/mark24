@@ -25,6 +25,10 @@ Route::get('test', function() {
 });
 
 // AJAX Routes
+// AJAX Assignment Manager Routes
+Route::get('ajax/assignment-manager/get-takers', 'AjaxAssignmentManagerController@getTakers');
+Route::get('ajax/assignment-manager/get-taker', 'AjaxAssignmentManagerController@getTakerDetails');
+
 // AJAX Assignment Sheet Routes
 Route::post('ajax/assignment-sheet/create-response', 'AjaxAssignmentSheetController@createResponse');
 
@@ -113,6 +117,10 @@ Route::post('ajax/users/validate-student', 'AjaxUsersController@validateStudentD
 Route::post('ajax/users/validate-teacher', 'AjaxUsersController@validateTeacherDetails');
 
 Route::put('ajax/users/update-personal-info', 'AjaxUsersController@putUserInfo');
+
+// Assignment Manager Routes
+Route::get('assignment-manager/{assignmentId}', 'AssignmentManagerController@index')
+    ->where('assignmentId', '[0-9]+');
 
 // Assignment Sheet Routes
 Route::get('assignment-sheet/{assignmentId}', 'AssignmentSheetController@index')

@@ -97,15 +97,30 @@
                             <strong>{{{ $post->assignment->title }}}</strong>
                             <div class="assignment-details">
                                 @if(Auth::user()->account_type == 1)
-                                <a href="#" class="btn btn-default">Turned In (0)</a>
-                                @endif
-                                @if(Auth::user()->account_type == 2)
-                                <a href="/assignment-sheet/{{ $post->assignment->assignment_id }}"
-                                class="btn btn-default">Turn In</a>
-                                @endif
+                                <a href="/assignment-manager/{{ $post->assignment->assignment_id }}"
+                                class="btn btn-default">
+                                    Turned In ({{ $post->assignments_submitted }})
+                                </a>
                                 <span class="due-date">
                                     Due {{ date('M d, Y', strtotime($post->assignment_due_date)) }}
                                 </span>
+                                @endif
+                                @if(Auth::user()->account_type == 2)
+                                @if(isset($post->assignment_submitted))
+                                <a href="/assignment-sheet/{{ $post->assignment->assignment_id }}"
+                                class="btn btn-default">Turned In</a>
+                                <span class="due-date">
+                                    {{ ucfirst(strtolower($post->assignment_submitted->status)) }}
+                                </span>
+                                @endif
+                                @if(!isset($post->assignment_submitted))
+                                <a href="/assignment-sheet/{{ $post->assignment->assignment_id }}"
+                                class="btn btn-default">Turn In</a>
+                                <span class="due-date">
+                                    Due {{ date('M d, Y', strtotime($post->assignment_due_date)) }}
+                                </span>
+                                @endif
+                                @endif
                             </div>
                             <div class="assignment-description">
                                 {{{ $post->assignment->description }}}

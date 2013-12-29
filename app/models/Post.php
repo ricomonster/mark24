@@ -25,6 +25,26 @@ class Post extends Eloquent {
         if($post->post_type == 'assignment') {
             $assignment = Assignment::find($post->assignment_id);
             $details->assignment = $assignment;
+            // if the user is a instructor
+            // get the number of users who submitted the quiz
+            if(Auth::user()->account_type == 1) {
+                $submittedAssignments = AssignmentResponse::where(
+                    'assignment_id', '=', $post->assignment_id)
+                    ->get()
+                    ->count();
+                $details->assignments_submitted = $submittedAssignments;
+            }
+
+            // if the user is a student
+            // check if the student user already submitted the assignment
+            if(Auth::user()->account_type == 2) {
+                $assignmentSubmitted = AssignmentResponse::where('user_id', '=', Auth::user()->id)
+                    ->where('assignment_id', '=', $post->assignment_id)
+                    ->first();
+                if(!empty($assignmentSubmitted)) {
+                    $details->assignment_submitted = $assignmentSubmitted;
+                }
+            }
         }
 
         // create object for the comments
@@ -81,6 +101,26 @@ class Post extends Eloquent {
                 if($post->post_type == 'assignment') {
                     $assignment = Assignment::find($post->assignment_id);
                     $details->$key->assignment = $assignment;
+                    // if the user is a instructor
+                    // get the number of users who submitted the quiz
+                    if(Auth::user()->account_type == 1) {
+                        $submittedAssignments = AssignmentResponse::where(
+                            'assignment_id', '=', $post->assignment_id)
+                            ->get()
+                            ->count();
+                        $details->$key->assignments_submitted = $submittedAssignments;
+                    }
+
+                    // if the user is a student
+                    // check if the student user already submitted the assignment
+                    if(Auth::user()->account_type == 2) {
+                        $assignmentSubmitted = AssignmentResponse::where('user_id', '=', Auth::user()->id)
+                            ->where('assignment_id', '=', $post->assignment_id)
+                            ->first();
+                        if(!empty($assignmentSubmitted)) {
+                            $details->$key->assignment_submitted = $assignmentSubmitted;
+                        }
+                    }
                 }
 
                 // create object for the comments
@@ -133,6 +173,26 @@ class Post extends Eloquent {
                 if($post->post_type == 'assignment') {
                     $assignment = Assignment::find($post->assignment_id);
                     $details->$key->assignment = $assignment;
+                    // if the user is a instructor
+                    // get the number of users who submitted the quiz
+                    if(Auth::user()->account_type == 1) {
+                        $submittedAssignments = AssignmentResponse::where(
+                            'assignment_id', '=', $post->assignment_id)
+                            ->get()
+                            ->count();
+                        $details->$key->assignments_submitted = $submittedAssignments;
+                    }
+
+                    // if the user is a student
+                    // check if the student user already submitted the assignment
+                    if(Auth::user()->account_type == 2) {
+                        $assignmentSubmitted = AssignmentResponse::where('user_id', '=', Auth::user()->id)
+                            ->where('assignment_id', '=', $post->assignment_id)
+                            ->first();
+                        if(!empty($assignmentSubmitted)) {
+                            $details->$key->assignment_submitted = $assignmentSubmitted;
+                        }
+                    }
                 }
 
                 // create object for the comments
