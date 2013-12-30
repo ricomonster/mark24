@@ -8,6 +8,18 @@
 <link href="/assets/css/site/group.style.css" rel="stylesheet">
 <style type="text/css">
 .group-chat-wrapper .well { padding: 0; }
+.group-chat-wrapper .group-details-holder .group-controls .dropdown .fa-gear { font-size: 18px; }
+.group-chat-wrapper .group-details-holder .group-controls .dropdown .dropdown-menu li a {
+    background-color: #ffffff;
+    border: 0 !important;
+}
+
+.group-chat-wrapper .group-details-holder .group-controls .dropdown .dropdown-menu li a:hover {
+    background-color: #428bca;
+    color: #ffffff;
+    text-decoration: none;
+}
+
 .group-chat-wrapper .group-chat-details { border-bottom: 1px solid #dfe4e8; padding: 10px 20px; }
 .group-chat-proper .group-chat-stream-holder .chat-stream {
     height: 400px;
@@ -26,12 +38,17 @@
 .chat-stream .chat-content .chat-details .chat-user-details a { font-weight: bold; }
 
 .group-chat-proper .group-chat-messenger { margin-top: 10px; padding: 5px 10px 10px; }
+.group-chat-wrapper .student-lists .user-online { color: #65a830; }
+.group-chat-wrapper .section-title-holder { background-color: #757f93; color: #ffffff; padding: 12px; }
 </style>
 @stop
 
 @section('content')
 
 <div class="message-holder"><span></span></div>
+<div class="modal fade" id="the_modal" tabindex="-1" role="dialog"
+aria-labelledby="the_modal_label" aria-hidden="true"></div>
+
 <div class="row group-chat-wrapper" data-group-id="{{ $groupDetails->group_id }}"
 data-conversation-id="{{ $conversation->conversation_id }}">
     <div class="col-md-3">
@@ -85,11 +102,18 @@ data-conversation-id="{{ $conversation->conversation_id }}">
                     </a>
                 </li>
                 @if(Auth::user()->account_type == 1)
-                <li class="active">
-                    <a href="#" class="show-start-chat"
-                    data-group-id="{{ $groupDetails->group_id }}">
+                <li class="active dropdown">
+                    <a data-toggle="dropdown" href="#">
                         <i class="group-control-icon fa fa-comments"></i> Group Chat
+                        <i class="fa fa-gear pull-right"></i>
                     </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <li>
+                            <a href="#" class="stop-group-chat">
+                                Stop Group Chat
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 @endif
                 @if(Auth::user()->account_type == 2)
@@ -124,10 +148,16 @@ data-conversation-id="{{ $conversation->conversation_id }}">
 
     <div class="col-md-3">
         <div class="well">
+            <div class="section-title-holder">
+                <span>Group members</span>
+            </div>
             <ul class="nav nav-pills nav-stacked student-lists">
                 @foreach($members as $member)
                 @if(Auth::user()->id != $member->id)
-                <li><a href="#">{{ $member->name }}</a></li>
+                <li><a href="#">
+                    {{ $member->name }}
+                    {{ Helper::checkUserOnline($member->online_timestamp) }}
+                </a></li>
                 @endif
                 @endforeach
             </ul>

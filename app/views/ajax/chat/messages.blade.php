@@ -4,7 +4,9 @@
     {{ Helper::avatar(50, "small", "img-rounded pull-left", $chat->id) }}
     <div class="chat-details">
         <div class="chat-user-details">
-            <span class="pull-right">timestamps</span>
+            <span class="pull-right text-muted">
+                {{ Helper::chatTimestamp($chat->chat_timestamp) }}
+            </span>
             @if($chat->id == Auth::user()->id)
             <a href="#">Me</a>
             @endif

@@ -20,7 +20,8 @@ class HomeController extends BaseController
 			->with('groups', $groups)
 			->with('groupMembers', $groupMembers)
 			->with('posts', $posts)
-			->with('quiz', $quiz);
+			->with('quiz', $quiz)
+            ->with('groupChats', Group::ongoingGroupChats());
 	}
 
 }

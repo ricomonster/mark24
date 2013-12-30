@@ -181,15 +181,6 @@ class AjaxModalController extends BaseController {
             ->with('group', $group);
     }
 
-    public function showChangePassword()
-    {
-        $userId = Input::get('user_id');
-        $user = User::find($userId);
-
-        return View::make('ajax.modal.changepassword')
-            ->with('user', $user);
-    }
-
     public function startGroupChat()
     {
         $groupId = Input::get('group_id');
@@ -201,6 +192,27 @@ class AjaxModalController extends BaseController {
         return Response::json(array(
             'error' => false,
             'lz' => Request::root().'/groups/'.$groupId.'/chat'));
+    }
+
+    public function confirmStopGroupChat()
+    {
+        $conversationId = Input::get('conversation_id');
+        // get conversation details
+        $conversation = Conversation::where('conversation_id', '=', $conversationId)
+            ->leftJoin('groups', 'conversations.group_id', '=', 'groups.group_id')
+            ->first();
+
+        return View::make('ajax.modal.confirmstopgroupchat')
+            ->with('conversation', $conversation);
+    }
+
+    public function showChangePassword()
+    {
+        $userId = Input::get('user_id');
+        $user = User::find($userId);
+
+        return View::make('ajax.modal.changepassword')
+            ->with('user', $user);
     }
 
     public function resetPassword()

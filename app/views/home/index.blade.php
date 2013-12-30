@@ -69,6 +69,24 @@ Home
         <!-- Main Content -->
         @include('plugins.postcreator')
 
+        <?php $properties = array_filter(get_object_vars($groupChats)); ?>
+        @if(!empty($properties))
+        <div class="group-chat-notification alert alert-info">
+            <strong>Hey, there's an ongoing group chat! It seems you need to join.</strong>
+            <ul class="group-chats">
+                @foreach($groupChats as $groupChat)
+                <li>
+                    <a href="/groups/{{ $groupChat->group_id }}">{{ $groupChat->group_name }}</a>
+                    <a href="/groups/{{ $groupChat->group_id }}/chat/{{ $groupChat->conversation->conversation_id }}"
+                    class="btn btn-info">
+                        Join group chat!
+                    </a>
+                </li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
         @include('plugins.poststream')
     </section>
 </section>

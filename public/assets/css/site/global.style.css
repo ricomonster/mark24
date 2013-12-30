@@ -79,3 +79,7 @@ subtext should be a span
     text-align: center;
 }
 /*.subtext { display: block; }*/
+
+.group-chat-notification ul { list-style: none; margin: 0; padding: 0; }
+.group-chat-notification ul li a { margin: 10px 0; }
+.group-chat-notification ul li a:last-child { margin-left: 10px; }

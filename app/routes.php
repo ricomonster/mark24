@@ -37,8 +37,11 @@ Route::post('ajax/assignment-sheet/create-response', 'AjaxAssignmentSheetControl
 // AJAX Chat Routes
 Route::get('ajax/chat/check-chat-details', 'AjaxChatController@chatDetails');
 Route::get('ajax/chat/fetch-messages', 'AjaxChatController@getMessages');
+Route::get('ajax/chat/check-online-users', 'AjaxChatController@checkUsersOnline');
+Route::get('ajax/chat/check-status', 'AjaxChatController@checkConversationStatus');
 
 Route::post('ajax/chat/send-message', 'AjaxChatController@sendMessage');
+Route::post('ajax/chat/stop-group-chat', 'AjaxChatController@stopGroupChat');
 
 // AJAX CommentCreator Routes
 Route::post('ajax/comment-creator/add-comment', 'AjaxCommentCreator@postCreateComment');
@@ -67,6 +70,7 @@ Route::get('ajax/modal/confirm-delete-post', 'AjaxModalController@confirmDeleteP
 Route::get('ajax/modal/link-post', 'AjaxModalController@showLinkToPost');
 Route::get('ajax/modal/get-quiz-list', 'AjaxModalController@showQuizList');
 Route::get('ajax/modal/show-confirm-chat', 'AjaxModalController@showStartGroupChat');
+Route::get('ajax/modal/confirm-stop-chat', 'AjaxModalController@confirmStopGroupChat');
 
 Route::post('ajax/modal/create_group', 'AjaxModalController@createGroup');
 Route::post('ajax/modal/join_group', 'AjaxModalController@joinGroup');

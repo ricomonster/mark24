@@ -89,9 +89,25 @@
                 </li>
                 @if(Auth::user()->account_type == 1)
                 <li>
+                    @if(empty($ongoingGroupChat))
                     <a href="#" class="show-start-chat"
                     data-group-id="{{ $groupDetails->group_id }}">
                         <i class="group-control-icon fa fa-comments"></i> Start Group Chat
+                    </a>
+                    @endif
+                    @if(!empty($ongoingGroupChat))
+                    <a href="/groups/{{ $groupDetails->group_id }}/chat/{{ $ongoingGroupChat->conversation_id }}">
+                        <i class="group-control-icon fa fa-comments"></i> Join Group Chat
+                        <i class="fa fa-exclamation-circle ongoing-chat pull-right"></i>
+                    </a>
+                    @endif
+                </li>
+                @endif
+                @if(Auth::user()->account_type == 2 && !empty($ongoingGroupChat))
+                <li>
+                    <a href="/groups/{{ $groupDetails->group_id }}/chat/{{ $ongoingGroupChat->conversation_id }}">
+                        <i class="group-control-icon fa fa-comments"></i> Join Group Chat
+                        <i class="fa fa-exclamation-circle ongoing-chat pull-right"></i>
                     </a>
                 </li>
                 @endif
@@ -131,6 +147,24 @@
         aria-labelledby="the_modal_label" aria-hidden="true"></div>
 
         @include('plugins.postcreator')
+
+        <?php $properties = array_filter(get_object_vars($groupChats)); ?>
+        @if(!empty($properties))
+        <div class="group-chat-notification alert alert-info">
+            <strong>Hey, there's an ongoing group chat! It seems you need to join.</strong>
+            <ul class="group-chats">
+                @foreach($groupChats as $groupChat)
+                <li>
+                    <a href="/groups/{{ $groupChat->group_id }}">{{ $groupChat->group_name }}</a>
+                    <a href="/groups/{{ $groupChat->group_id }}/chat/{{ $groupChat->conversation->conversation_id }}"
+                    class="btn btn-info">
+                        Join group chat!
+                    </a>
+                </li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
 
         @include('plugins.poststream')
     </div>

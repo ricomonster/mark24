@@ -248,6 +248,32 @@ class Helper
         return $tag;
     }
 
+    public static function checkUserOnline($timestamp)
+    {
+        $currentTime = time();
+        // check if the user if the last online activity is 7 minutes ago
+        if($currentTime - $timestamp < 420){
+            return '<i class="fa fa-circle user-online pull-right"></i>';
+        }
+    }
+
+    public static function chatTimestamp($timestamp)
+    {
+        $timenow = time();
+        $diff = $timenow - $timestamp;
+
+        switch(1){
+            case ($diff < 86400):
+                $string = date('h:i a', $timestamp);
+                break;
+            case ($diff >  86400 ) :
+                $string = date('M d', $timestamp);
+                break;
+        }
+
+        return $string;
+    }
+
     public static function drawCalendar($month,$year){
         /* draw table */
         $calendar = '<table cellpadding="0" cellspacing="0" class="calendar">';

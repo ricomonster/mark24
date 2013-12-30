@@ -21,6 +21,8 @@
     border-radius: 0;
 }
 
+.group-details-holder .group-controls li a .ongoing-chat { color: #65a830; font-size: 18px; }
+
 .group-details-holder .group-controls li.active a { background-color: #f3f5f7; color: #2a6496; }
 
 .group-details-holder .group-description-holder { color: #777; padding: 10px; word-wrap: break-word; }

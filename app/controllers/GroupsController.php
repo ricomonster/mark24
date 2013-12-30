@@ -22,11 +22,18 @@ class GroupsController extends BaseController {
         $groupMembers = GroupMember::getGroupMembers($groupId)
             ->count();
 
+        // check if there's an ongoing group chat
+        $ongoing = Conversation::where('group_id', '=', $group->group_id)
+            ->where('status', '=', 'OPEN')
+            ->first();
+
         return View::make('group.index')
             ->with('groupDetails', $group)
             ->with('groups', $groups)
             ->with('posts', $groupPosts)
-            ->with('memberCount', $groupMembers);
+            ->with('memberCount', $groupMembers)
+            ->with('ongoingGroupChat', $ongoing)
+            ->with('groupChats', Group::ongoingGroupChats());
     }
 
     public function showMembers($groupId) {
@@ -42,11 +49,16 @@ class GroupsController extends BaseController {
         $groups = Group::getMyGroups();
         // get group members
         $groupMembers = GroupMember::getGroupMembers($groupId);
+        // check if there's an ongoing group chat
+        $ongoing = Conversation::where('group_id', '=', $group->group_id)
+            ->where('status', '=', 'OPEN')
+            ->first();
 
         return View::make('group.members')
             ->with('groupDetails', $group)
             ->with('groups', $groups)
             ->with('ownerDetails', $owner)
+            ->with('ongoingGroupChat', $ongoing)
             ->with('members', $groupMembers);
     }
 
@@ -61,6 +73,7 @@ class GroupsController extends BaseController {
         // check if there's an existing converation
         $conversation = Conversation::where('conversation_id', '=', $conversationId)
             ->where('group_id', '=', $groupId)
+            ->where('status', '=', 'OPEN')
             ->first();
         if(empty($conversation)) {
             // show 404 error

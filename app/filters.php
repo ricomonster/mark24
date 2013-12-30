@@ -13,7 +13,12 @@
 
 App::before(function($request)
 {
-	//
+	if (!Auth::guest()) {
+        // updates the user timestamp to check if the user is online/active
+        $user = User::find(Auth::user()->id);
+        $user->online_timestamp = time();
+        $user->save();
+    }
 });
 
 

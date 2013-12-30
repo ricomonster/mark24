@@ -88,9 +88,25 @@
                 </li>
                 @if(Auth::user()->account_type == 1)
                 <li>
+                    @if(empty($ongoingGroupChat))
                     <a href="#" class="show-start-chat"
                     data-group-id="{{ $groupDetails->group_id }}">
                         <i class="group-control-icon fa fa-comments"></i> Start Group Chat
+                    </a>
+                    @endif
+                    @if(!empty($ongoingGroupChat))
+                    <a href="/groups/{{ $groupDetails->group_id }}/chat/{{ $ongoingGroupChat->conversation_id }}">
+                        <i class="group-control-icon fa fa-comments"></i> Join Group Chat
+                        <i class="fa fa-exclamation-circle ongoing-chat pull-right"></i>
+                    </a>
+                    @endif
+                </li>
+                @endif
+                @if(Auth::user()->account_type == 2 && !empty($ongoingGroupChat))
+                <li>
+                    <a href="/groups/{{ $groupDetails->group_id }}/chat/{{ $ongoingGroupChat->conversation_id }}">
+                        <i class="group-control-icon fa fa-comments"></i> Join Group Chat
+                        <i class="fa fa-exclamation-circle ongoing-chat pull-right"></i>
                     </a>
                 </li>
                 @endif
