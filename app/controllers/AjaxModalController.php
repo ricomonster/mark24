@@ -172,6 +172,15 @@ class AjaxModalController extends BaseController {
         // remove from the group
     }
 
+    public function showStartGroupChat()
+    {
+        $groupId = Input::get('group_id');
+        $group = Group::find($groupId);
+
+        return View::make('ajax.modal.confirmgroupchat')
+            ->with('group', $group);
+    }
+
     public function showChangePassword()
     {
         $userId = Input::get('user_id');
@@ -179,6 +188,19 @@ class AjaxModalController extends BaseController {
 
         return View::make('ajax.modal.changepassword')
             ->with('user', $user);
+    }
+
+    public function startGroupChat()
+    {
+        $groupId = Input::get('group_id');
+        // create group chat!
+        $conversation = new Conversation;
+        $conversation->group_id = $groupId;
+        $conversation->save();
+
+        return Response::json(array(
+            'error' => false,
+            'lz' => Request::root().'/groups/'.$groupId.'/chat'));
     }
 
     public function resetPassword()

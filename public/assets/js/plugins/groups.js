@@ -11,8 +11,7 @@
 
     // some modal functions
     $(document).on('click', '#trigger_join_group', function(e) {
-        joinGroup();
-        e.preventDefault();
+        joinGroup(); e.preventDefault();
     }).on('submit', '.join-group-modal', function(e) {
         joinGroup();
         e.preventDefault();
@@ -224,6 +223,39 @@
 
         e.preventDefault();
     });
+
+    // show confirmation of starting a group chat
+    $(document).on('click', '.show-start-chat', function() {
+        var $this = $(this);
+
+        // show the modal
+        $('#the_modal').modal('show');
+        $.get('/ajax/modal/show-confirm-chat', { group_id : $this.data('group-id') }, function(response) {
+            $('#the_modal').html(response);
+        });
+
+        e.preventDefault();
+    });
+
+    // start a group chat
+    $(document).on('click', '#start_group_chat', function(e) {
+        var element = $(this);
+        $('.message-holder').show().find('span').text('Loading...');
+
+        $.ajax({
+            type : 'post',
+            url : '/ajax/modal/start-group-chat',
+            data : { group_id : element.attr('data-group-id') },
+            dataType : 'json'
+        }).done(function(response) {
+            if(!response.error) {
+                // redirect to group chat page
+                window.location.href = response.lz;
+            }
+        })
+
+        e.preventDefault();
+    })
 
     function createGroup() {
         var thisButton = $('button#trigger_create_group');

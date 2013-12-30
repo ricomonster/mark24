@@ -8,7 +8,7 @@ var Chat = {
     bindEvents : function()
     {
         $(document)
-            // .ready(this.checkChatDetails)
+            .ready(this.checkChatDetails)
             .on('keydown', this.config.messageBox.selector, this.checkKeydown)
     },
 
@@ -16,27 +16,26 @@ var Chat = {
     {
         var self = Chat;
         var $this = $(this);
+        var groupId = self.config.groupChatWrapper.attr('data-group-id');
+        var conversationId = self.config.groupChatWrapper.attr('data-conversation-id');
 
         self.config.messageHolder.show().find('span').text('Loading... Fetching data...');
         $.ajax({
-            type : 'get',
             url : '/ajax/chat/check-chat-details',
             data : {
-                group_id : self.config.groupChatWrapper.data('group-id')
+                conversation_id : conversationId,
+                group_id : groupId
             },
+            dataType : 'json'
         }).done(function(response) {
-            self.config.conversationId = response.conversation_id;
-            self.config.messageHolder.show().find('span').text('Initializing chat...');
-
-            if(response.conversation) {
-                // load the messages if there are
-                // trigger the message fetcher
+            if(response.chats) {
+                self.config.messageHolder.show().find('span').text('Initializing...');
                 self.getMessages();
             }
 
             self.fetchMessages();
             self.config.messageHolder.hide();
-        });
+        })
     },
 
     checkKeydown : function(e)
@@ -55,13 +54,14 @@ var Chat = {
     submitChat : function(element)
     {
         var self = Chat;
+        var conversationId = self.config.groupChatWrapper.attr('data-conversation-id');
 
         if(element.val() !== '' || element.val().length !== 0) {
             $.ajax({
                 type : 'post',
                 url : '/ajax/chat/send-message',
                 data : {
-                    conversation_id : self.config.conversationId,
+                    conversation_id : conversationId,
                     message : element.val()
                 },
                 dataType : 'json'
@@ -76,14 +76,13 @@ var Chat = {
     getMessages : function(newConversationId)
     {
         var self = Chat;
+        var conversationId = self.config.groupChatWrapper.attr('data-conversation-id');
         var lastId = $('.chat-content').last().attr('data-chat-id');
-
-        console.log(lastId);
 
         $.ajax({
             url : '/ajax/chat/fetch-messages',
             data : {
-                conversation_id : self.config.conversationId,
+                conversation_id : conversationId,
                 last_id : lastId
             }
         }).done(function(response) {
@@ -98,8 +97,9 @@ var Chat = {
     fetchMessages : function()
     {
         var self = Chat;
+        var conversationId = self.config.groupChatWrapper.attr('data-conversation-id');
 
-        if(self.config.conversationId != 0) {
+        if(conversationId != 0) {
             setInterval(function() {
                 self.getMessages();
             }, 8000);
@@ -121,8 +121,6 @@ var Chat = {
 };
 
 Chat.init({
-    conversationId : 0,
-
     messageHolder : $('.message-holder'),
     groupChatWrapper : $('.group-chat-wrapper'),
     chatStream : $('.chat-stream'),

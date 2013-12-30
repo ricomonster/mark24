@@ -89,7 +89,8 @@
                 </li>
                 @if(Auth::user()->account_type == 1)
                 <li>
-                    <a href="/groups/{{ $groupDetails->group_id }}/chat">
+                    <a href="#" class="show-start-chat"
+                    data-group-id="{{ $groupDetails->group_id }}">
                         <i class="group-control-icon fa fa-comments"></i> Start Group Chat
                     </a>
                 </li>

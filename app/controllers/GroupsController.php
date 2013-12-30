@@ -50,12 +50,21 @@ class GroupsController extends BaseController {
             ->with('members', $groupMembers);
     }
 
-    public function chat($groupId)
+    public function chat($groupId, $conversationId)
     {
          // check first if groupId is valid
         $group = Group::find($groupId);
         if(!is_numeric($groupId) || empty($group)) {
             App::abort('404');
+        }
+
+        // check if there's an existing converation
+        $conversation = Conversation::where('conversation_id', '=', $conversationId)
+            ->where('group_id', '=', $groupId)
+            ->first();
+        if(empty($conversation)) {
+            // show 404 error
+            return Redirect::to('pagenotfound');
         }
 
         // get current user groups
@@ -67,6 +76,7 @@ class GroupsController extends BaseController {
         return View::make('group.chat')
             ->with('groupDetails', $group)
             ->with('groups', $groups)
-            ->with('members', $groupMembers);
+            ->with('members', $groupMembers)
+            ->with('conversation', $conversation);
     }
 }

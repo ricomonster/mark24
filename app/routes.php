@@ -66,6 +66,7 @@ Route::get('ajax/modal/show-change-password', 'AjaxModalController@showChangePas
 Route::get('ajax/modal/confirm-delete-post', 'AjaxModalController@confirmDeletePost');
 Route::get('ajax/modal/link-post', 'AjaxModalController@showLinkToPost');
 Route::get('ajax/modal/get-quiz-list', 'AjaxModalController@showQuizList');
+Route::get('ajax/modal/show-confirm-chat', 'AjaxModalController@showStartGroupChat');
 
 Route::post('ajax/modal/create_group', 'AjaxModalController@createGroup');
 Route::post('ajax/modal/join_group', 'AjaxModalController@joinGroup');
@@ -75,6 +76,7 @@ Route::post('ajax/modal/delete-group', 'AjaxModalController@deleteGroup');
 Route::post('ajax/modal/withdraw-group', 'AjaxModalController@withdrawGroup');
 Route::post('ajax/modal/reset-password', 'AjaxModalController@resetPassword');
 Route::post('ajax/modal/delete-post', 'AjaxModalController@deletePost');
+Route::post('ajax/modal/start-group-chat', 'AjaxModalController@startGroupChat');
 
 // AJAX QuizCreator Routes
 Route::post('ajax/quiz-creator/create-new-quiz', 'AjaxQuizCreatorController@postCreateQuiz');
@@ -149,7 +151,8 @@ Route::post('the-forum/create-thread-reply', 'ForumController@submitReplyThread'
 // Group Routes
 Route::get('groups/{groupId}', 'GroupsController@showIndex')->where('groupId', '[0-9]+');
 Route::get('groups/{groupId}/members', 'GroupsController@showMembers')->where('groupId', '[0-9]+');
-Route::get('groups/{groupId}/chat', 'GroupsController@chat')->where('groupId', '[0-9]+');
+Route::get('groups/{groupId}/chat/{conversationId}', 'GroupsController@chat')
+    ->where('groupId', '[0-9]+');
 
 // Home Routes
 Route::get('home', 'HomeController@showHome');

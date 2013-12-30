@@ -4,40 +4,18 @@ class AjaxChatController extends BaseController
 {
     public function chatDetails()
     {
-        $currentDate = date('Y-m-d');
         $groupId = Input::get('group_id');
+        $conversationId = Input::get('conversation_id');
 
-        // check if there's an existing conversation for this day
-        $conversation = Conversation::where('group_id', '=', $groupId)
-            ->orderBy('conversation_id', 'DESC')
-            ->first();
+        // get messages if there are
+        $chats = ChatConversation::where('conversation_id', '=', $conversationId)
+            ->get();
 
-        if(empty($conversation)) {
-            // create conversation
-            $newConversation = new Conversation;
-            $newConversation->group_id = $groupId;
-            $newConversation->save();
-
-            return Response::json(array(
-                'conversation' => false,
-                'conversation_id' => $newConversation->conversation_id));
-        } else if(date('Y-m-d', strtotime($conversation->created_at)) == $currentDate) {
-            // there's an existing conversation
-            // fetch conversations
-            return Response::json(array(
-                'conversation' => true,
-                'conversation_id' => $conversation->conversation_id));
-        } else if(date('Y-m-d', strtotime($conversation->created_at)) != $currentDate) {
-            // no existing conversation for the current date
-            // create conversation
-            $newConversation = new Conversation;
-            $newConversation->group_id = $groupId;
-            $newConversation->save();
-
-            return Response::json(array(
-                'conversation' => false,
-                'conversation_id' => $newConversation->conversation_id));
+        if(empty($chats)) {
+            return Response::json(array('chats' => false));
         }
+
+        return Response::json(array('chats' => true));
     }
 
     public function getMessages()
