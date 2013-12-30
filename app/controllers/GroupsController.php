@@ -77,7 +77,7 @@ class GroupsController extends BaseController {
             ->first();
         if(empty($conversation)) {
             // show 404 error
-            return Redirect::to('pagenotfound');
+            return View::make('templates.fourohfour');
         }
 
         // get current user groups

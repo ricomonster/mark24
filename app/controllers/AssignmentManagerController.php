@@ -16,7 +16,7 @@ class AssignmentManagerController extends BaseController
             ->first();
 
         if(empty($assignment)) {
-            return Redirect::to('/pagenotfound');
+            return View::make('templates.fourohfour');
         }
 
         // get recipients of the assignment

@@ -14,7 +14,7 @@ class AssignmentSheetController extends BaseController
             ->first();
 
         // check if assignment exists
-        if(empty($assignment)) return Redirect::to('/pagenotfound');
+        if(empty($assignment)) return View::make('templates.fourohfour');
         // assignment details from the post
         $assignmentPost = Post::where('post_type', '=', 'assignment')
             ->where('assignment_id', '=', $assignment->assignment_id)

@@ -5,7 +5,7 @@ class ForumController extends BaseController
     public function __construct() {
         $this->beforeFilter('auth');
     }
-    
+
     public function index()
     {
         $sort = Input::get('sort');
@@ -182,7 +182,7 @@ class ForumController extends BaseController
         // if the category is empty
         if(empty($category)) {
             // redirect to page not found or show
-            return Redirect::to('page-not-found');
+            return View::make('templates.fourohfour');
         }
 
         $categories = ForumCategory::all();
@@ -300,7 +300,7 @@ class ForumController extends BaseController
         // check if the thread exists
         if(empty($thread)) {
             // redirect to page not found
-            return Redirect::to('page-not-found');
+            return View::make('templates.fourohfour');
         }
 
         // check if the user already viewed this thread
