@@ -71,20 +71,26 @@ Route::filter('logged-in', function() {
 
 Route::filter('super-admin', function()
 {
-    if (Auth::guest() || Auth::user()->account_type != 0) {
+    if (Auth::guest()) {
         return Redirect::to('/');
+    } else if(!Auth::guest() && Auth::user()->account_type != 0) {
+        return View::make('templates.fourohfour');
     }
 });
 
 Route::filter('are-you-a-teacher', function() {
-    if (Auth::guest() || Auth::user()->account_type != 1) {
+    if (Auth::guest()) {
         return Redirect::to('/');
+    } else if(!Auth::guest() && Auth::user()->account_type != 1) {
+        return View::make('templates.fourohfour');
     }
 });
 
 Route::filter('are-you-a-student', function() {
-    if (Auth::guest() || Auth::user()->account_type != 2) {
+    if (Auth::guest()) {
         return Redirect::to('/');
+    } else if(!Auth::guest() && Auth::user()->account_type != 2) {
+        return View::make('templates.fourohfour');
     }
 });
 
