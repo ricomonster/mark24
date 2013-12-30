@@ -2,6 +2,10 @@
 
 class AssignmentManagerController extends BaseController
 {
+    public function __construct() {
+        $this->beforeFilter('are-you-a-teacher');
+    }
+
     public function index($assignmentId)
     {
         // check if assignment exists

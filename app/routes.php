@@ -29,6 +29,8 @@ Route::get('test', function() {
 Route::get('ajax/assignment-manager/get-takers', 'AjaxAssignmentManagerController@getTakers');
 Route::get('ajax/assignment-manager/get-taker', 'AjaxAssignmentManagerController@getTakerDetails');
 
+Route::post('ajax/assignment-manager/set-score', 'AjaxAssignmentManagerController@setTakerScore');
+
 // AJAX Assignment Sheet Routes
 Route::post('ajax/assignment-sheet/create-response', 'AjaxAssignmentSheetController@createResponse');
 

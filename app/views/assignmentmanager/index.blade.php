@@ -45,11 +45,12 @@ Assignment Sheet
 .assignment-submission-wrapper .manager-header { border-bottom: 1px solid #dfe4e8; padding: 15px; }
 .assignment-submission-wrapper .manager-header .taker-details { margin-left: 10px; }
 .assignment-submission-wrapper .manager-header .taker-details h4 { margin: 0 0 5px; }
-.assignment-submission-wrapper .manager-header .taker-details .not-turned-in-message { color: #839096; }
+.assignment-submission-wrapper .manager-header .taker-details .response-status { color: #839096; }
 .assignment-submission-wrapper .manager-header .taker-score { font-size: 16px; }
-.assignment-submission-wrapper .manager-header .taker-score .no-score-set { display: none; }
-.assignment-submission-wrapper .manager-header .taker-score .no-score-set form { margin: 0; }
-.assignment-submission-wrapper .manager-header .taker-score .no-score-set form input {
+.assignment-submission-wrapper .manager-header .taker-score .no-score-set { }
+.assignment-submission-wrapper .manager-header .taker-score form { margin: 0; }
+.assignment-submission-wrapper .manager-header .taker-score form .form-group,
+.assignment-submission-wrapper .manager-header .taker-score form input {
     display: inline-block;
     margin: 0;
     width: 50px;
@@ -59,7 +60,7 @@ Assignment Sheet
 
 .assignment-submission-wrapper .manager-header .taker-score .no-score-set form button { margin-left: 10px; }
 
-.assignment-submission-wrapper .no-submission { padding: 80px 0; text-align: center; display: none; }
+.assignment-submission-wrapper .no-submission { padding: 80px 0; text-align: center; }
 .assignment-submission-wrapper .assignment-response { padding: 30px 15px; }
 </style>
 @stop
@@ -97,7 +98,8 @@ Assignment Sheet
                         @foreach($taker->members as $member)
                         <li>
                             <a href="#" class="show-taker-details"
-                            data-user-id="{{ $member->id }}">
+                            data-user-id="{{ $member->id }}"
+                            data-assignment-id="{{ $assignment->assignment_id }}">
                                 {{ $member->firstname.' '.$member->lastname }}
                             </a>
                         </li>
