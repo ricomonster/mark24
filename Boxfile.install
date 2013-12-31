@@ -3,3 +3,5 @@ db1:
 web1:
   before_deploy:
     - "php artisan migrate:install"
+    - "php artisan db:seed --class=UserTableSeeder"
+    - "php artisan db:seed --class=ForumCategoryTableSeeder"

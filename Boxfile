@@ -7,6 +7,7 @@ web1:
     - mcrypt
     - pdo_mysql
     - zip
+    - gd
   shared_writable_dirs:
     - app/storage/cache
     - app/storage/logs
