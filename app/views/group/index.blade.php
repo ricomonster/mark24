@@ -15,8 +15,6 @@
 @stop
 
 @section('content')
-
-<div class="message-holder"><span></span></div>
 <div class="row">
     <div class="col-md-3">
         <!-- Left Sidebar -->
@@ -143,9 +141,6 @@
 
     <div class="col-md-9">
         <!-- Main Content -->
-        <div class="modal fade" id="the_modal" tabindex="-1" role="dialog"
-        aria-labelledby="the_modal_label" aria-hidden="true"></div>
-
         @include('plugins.postcreator')
 
         <?php $properties = array_filter(get_object_vars($groupChats)); ?>

@@ -11,9 +11,6 @@
 @stop
 
 @section('content')
-
-<div class="message-holder"><span></span></div>
-
 <div class="row">
     <div class="col-md-3">
         <!-- Left Sidebar -->
@@ -142,9 +139,6 @@
 
     <div class="col-md-9">
         <!-- Main Content -->
-        <div class="modal fade" id="the_modal" tabindex="-1" role="dialog"
-        aria-labelledby="the_modal_label" aria-hidden="true"></div>
-
         <div class="member-stream-holder well">
             <div class="stream-title"><h3>Members</h3></div>
 

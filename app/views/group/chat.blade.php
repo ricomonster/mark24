@@ -44,11 +44,6 @@
 @stop
 
 @section('content')
-
-<div class="message-holder"><span></span></div>
-<div class="modal fade" id="the_modal" tabindex="-1" role="dialog"
-aria-labelledby="the_modal_label" aria-hidden="true"></div>
-
 <div class="row group-chat-wrapper" data-group-id="{{ $groupDetails->group_id }}"
 data-conversation-id="{{ $conversation->conversation_id }}">
     <div class="col-md-3">

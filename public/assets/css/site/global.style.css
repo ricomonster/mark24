@@ -43,6 +43,9 @@ input, select, textarea { border-radius: 0 !important; }
 .modal-body form { margin: 0; }
 .delete-post-modal-message { text-align: center; }
 
+.modal-body.report-problem-modal .things-to-write { margin: 0; padding: 0 15px; }
+.modal-body.report-problem-modal form { margin-top: 10px; }
+
 .modal-footer { background-color: #f3f5f7; margin-top: 0; }
 
 /*.create-group-modal { margin: auto; width: 500px; }*/

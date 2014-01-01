@@ -15,7 +15,6 @@ Settings - Password
 @stop
 
 @section('content')
-<div class="message-holder"><span></span></div>
 <div class="row">
     <div class="settings-nav-wrapper col-md-3">
         <ul class="nav nav-stacked nav-pills">

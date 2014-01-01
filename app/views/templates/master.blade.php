@@ -88,7 +88,8 @@
                                     <a role="menuitem" tabindex="-1" href="/profile/{{ Auth::user()->username }}">Profile</a>
                                 </li>
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="/settings">Settings</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Report a Problem</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#"
+                                class="show-report-problem">Report a Problem</a></li>
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="/signout">Logout</a></li>
                             </ul>
                         </li>
@@ -98,6 +99,9 @@
         </div>
 
         <div class="container">
+            <div class="message-holder"><span></span></div>
+            <div class="modal fade" id="the_modal" tabindex="-1" role="dialog"
+            aria-labelledby="the_modal_label" aria-hidden="true"></div>
             @yield('content')
 
             <div class="footer">
@@ -123,6 +127,61 @@
             $(document).ready(function() {
                 $('[data-toggle="tooltip"]').tooltip({'placement': 'bottom'});
             })
+        </script>
+        <script>
+            (function($) {
+                $(document).on('click', '.show-report-problem', function(e) {
+                    var modal = $('#the_modal');
+                    modal.modal('show');
+                    $.ajax({
+                        url : '/ajax/modal/get-report-form'
+                    }).done(function(response) {
+                        if(response) {
+                            modal.html(response);
+                        }
+                    })
+                });
+
+                $(document).on('click', '#submit_problem', function(e) {
+                    var location = window.location;
+                    var messageHolder = $('.message-holder');
+                    var modal = $('#the_modal');
+                    var form = $('.report-problem-form');
+                    var problem = $('textarea[name="problem"]');
+
+                    // check first if the textarea has content
+                    if(problem.val() == '' || problem.val().length == 0) {
+                        problem.parent().addClass('has-error');
+                    } else if(problem.val() != '' || problem.val().length != 0) {
+                        problem.parent().removeClass('has-error');
+                        messageHolder.show().find('span').text('Sending report...');
+                        $.ajax({
+                            type : 'post',
+                            url : '/ajax/modal/submit-problem',
+                            data : {
+                                problem : problem.val(),
+                                location : location.pathname
+                            },
+                            dataType : 'json'
+                        }).done(function(response) {
+                            if(response.error) {
+                                messageHolder.show().find('span')
+                                    .text('There is a problem with your request. Please try again later');
+                            }
+
+                            if(!response.error) {
+                                messageHolder.show().find('span')
+                                    .text('Thank for your input. We will check on it and do some actions.');
+                                modal.modal('hide');
+                            }
+
+                            setTimeout(function() { messageHolder.fadeOut() }, 5000);
+                        })
+                    }
+
+                    e.preventDefault();
+                });
+            })(jQuery);
         </script>
     </body>
 </html>

@@ -6,7 +6,7 @@ class AjaxModalController extends BaseController {
 
     // Group Module Functions
     public function showCreateGroup() {
-        return View::make('ajax.modal.creategroup');
+        return View::make('ajax.modal.group.creategroup');
     }
 
     public function createGroup() {
@@ -46,7 +46,7 @@ class AjaxModalController extends BaseController {
     }
 
     public function showJoinGroup() {
-        return View::make('ajax.modal.joingroup');
+        return View::make('ajax.modal.group.joingroup');
     }
 
     public function joinGroup() {
@@ -98,7 +98,7 @@ class AjaxModalController extends BaseController {
 
         $group = Group::find($groupId);
 
-        return View::make('ajax.modal.groupsettings')
+        return View::make('ajax.modal.group.groupsettings')
             ->with('group', $group);
     }
 
@@ -130,7 +130,7 @@ class AjaxModalController extends BaseController {
         // get group details
         $group = Group::find($groupId);
 
-        return View::make('ajax.modal.confirmdeletegroup')
+        return View::make('ajax.modal.group.confirmdeletegroup')
             ->with('group', $group);
     }
 
@@ -159,7 +159,7 @@ class AjaxModalController extends BaseController {
         $groupId = Input::get('group_id');
         $group = Group::find($groupId);
 
-        return View::make('ajax.modal.confirmleavegroup')
+        return View::make('ajax.modal.group.confirmleavegroup')
             ->with('group', $group);
     }
 
@@ -177,7 +177,7 @@ class AjaxModalController extends BaseController {
         $groupId = Input::get('group_id');
         $group = Group::find($groupId);
 
-        return View::make('ajax.modal.confirmgroupchat')
+        return View::make('ajax.modal.group.confirmgroupchat')
             ->with('group', $group);
     }
 
@@ -202,7 +202,7 @@ class AjaxModalController extends BaseController {
             ->leftJoin('groups', 'conversations.group_id', '=', 'groups.group_id')
             ->first();
 
-        return View::make('ajax.modal.confirmstopgroupchat')
+        return View::make('ajax.modal.group.confirmstopgroupchat')
             ->with('conversation', $conversation);
     }
 
@@ -211,7 +211,7 @@ class AjaxModalController extends BaseController {
         $userId = Input::get('user_id');
         $user = User::find($userId);
 
-        return View::make('ajax.modal.changepassword')
+        return View::make('ajax.modal.group.changepassword')
             ->with('user', $user);
     }
 
@@ -237,7 +237,7 @@ class AjaxModalController extends BaseController {
         // get details
         $post = Post::find($postId);
 
-        return View::make('ajax.modal.confirmdeletepost')
+        return View::make('ajax.modal.poststream.confirmdeletepost')
             ->with('post', $post);
     }
 
@@ -257,7 +257,7 @@ class AjaxModalController extends BaseController {
         $postId = Input::get('post_id');
         $post = Post::find($postId);
 
-        return View::make('ajax.modal.linkpost')
+        return View::make('ajax.modal.poststream.linkpost')
             ->with('post', $post);
     }
 
@@ -266,7 +266,7 @@ class AjaxModalController extends BaseController {
     // Forum Functions
     public function showAddCategory()
     {
-        return View::make('ajax.modal.addforumcategory');
+        return View::make('ajax.modal.forum.addforumcategory');
     }
 
     public function addCategory()
@@ -322,8 +322,31 @@ class AjaxModalController extends BaseController {
             ->where('status', '=', 'READY')
             ->get();
 
-        return View::make('ajax.modal.quizlist')
+        return View::make('ajax.modal.postcreator.quizlist')
             ->with('quizzes', $list);
+    }
+
+    public function showReportProblemForm()
+    {
+        return View::make('ajax.modal.global.reportproblem');
+    }
+
+    public function submitProblem()
+    {
+        $details = Input::get('problem');
+        $location = Input::get('location');
+        $device = Helper::device();
+
+        $report = new Report;
+        $report->user_id = Auth::user()->id;
+        $report->details = $details;
+        $report->location = $location;
+        $report->os = $device['platform'];
+        $report->browser = $device['name'].' '.$device['version'];
+        $report->ip = $device['ip'];
+        $report->save();
+
+        return Response::json(array('error' => false));
     }
 
     /* Protected Methods

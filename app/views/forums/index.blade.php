@@ -55,12 +55,6 @@ The Forum
 @stop
 
 @section('content')
-
-<div class="message-holder"><span></span></div>
-
-<div class="modal fade" id="the_modal" tabindex="-1" role="dialog"
-aria-labelledby="the_modal_label" aria-hidden="true"></div>
-
 <div class="row the-forum">
     <div class="col-md-3">
         <a href="/the-forum/add-thread" class="btn btn-info btn-large btn-block post-thread-link">

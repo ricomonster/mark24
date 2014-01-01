@@ -35,7 +35,6 @@ Assignment Sheet
 @stop
 
 @section('content')
-<div class="message-holder"><span></span></div>
 <div class="assignment-sheet-wrapper">
     <div class="row">
         <div class="col-md-3">

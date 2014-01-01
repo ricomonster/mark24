@@ -71,6 +71,7 @@ Route::get('ajax/modal/link-post', 'AjaxModalController@showLinkToPost');
 Route::get('ajax/modal/get-quiz-list', 'AjaxModalController@showQuizList');
 Route::get('ajax/modal/show-confirm-chat', 'AjaxModalController@showStartGroupChat');
 Route::get('ajax/modal/confirm-stop-chat', 'AjaxModalController@confirmStopGroupChat');
+Route::get('ajax/modal/get-report-form', 'AjaxModalController@showReportProblemForm');
 
 Route::post('ajax/modal/create_group', 'AjaxModalController@createGroup');
 Route::post('ajax/modal/join_group', 'AjaxModalController@joinGroup');
@@ -81,6 +82,7 @@ Route::post('ajax/modal/withdraw-group', 'AjaxModalController@withdrawGroup');
 Route::post('ajax/modal/reset-password', 'AjaxModalController@resetPassword');
 Route::post('ajax/modal/delete-post', 'AjaxModalController@deletePost');
 Route::post('ajax/modal/start-group-chat', 'AjaxModalController@startGroupChat');
+Route::post('ajax/modal/submit-problem', 'AjaxModalController@submitProblem');
 
 // AJAX QuizCreator Routes
 Route::post('ajax/quiz-creator/create-new-quiz', 'AjaxQuizCreatorController@postCreateQuiz');

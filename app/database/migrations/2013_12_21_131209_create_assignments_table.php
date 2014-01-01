@@ -31,7 +31,7 @@ class CreateAssignmentsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::down('assignments');
+		Schema::drop('assignments');
 	}
 
 }

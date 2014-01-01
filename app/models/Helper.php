@@ -274,6 +274,89 @@ class Helper
         return $string;
     }
 
+    public static function device()
+    {
+        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        $browserName = 'Unknown';
+        $platform = 'Unknown';
+        $version= "";
+
+        //First get the platform?
+        if (preg_match('/linux/i', $userAgent)) {
+            $platform = 'Linux';
+        } else if (preg_match('/macintosh|mac os x/i', $userAgent)) {
+            $platform = 'Mac OS X';
+        } elseif (preg_match('/windows|win32/i', $userAgent)) {
+            $platform = 'Windows';
+        }
+
+        // Next get the name of the useragent yes seperately and for good reason
+        if(preg_match('/MSIE/i',$userAgent) && !preg_match('/Opera/i',$userAgent)) {
+            $browserName = 'Internet Explorer';
+            $ub = "MSIE";
+        } else if(preg_match('/Firefox/i',$userAgent)) {
+            $browserName = 'Mozilla Firefox';
+            $ub = "Firefox";
+        } else if(preg_match('/Chrome/i',$userAgent)) {
+            $browserName = 'Google Chrome';
+            $ub = "Chrome";
+        } else if(preg_match('/Safari/i',$userAgent)) {
+            $browserName = 'Apple Safari';
+            $ub = "Safari";
+        } else if(preg_match('/Opera/i',$userAgent)) {
+            $browserName = 'Opera';
+            $ub = "Opera";
+        } else if(preg_match('/Netscape/i',$userAgent)) {
+            $browserName = 'Netscape';
+            $ub = "Netscape";
+        }
+
+        // finally get the correct version number
+        $known = array('Version', $ub, 'other');
+        $pattern = '#(?<browser>' . join('|', $known) .
+        ')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
+        if (!preg_match_all($pattern, $userAgent, $matches)) {
+            // we have no matching number just continue
+        }
+
+        // see how many we have
+        $i = count($matches['browser']);
+        if ($i != 1) {
+            //we will have two since we are not using 'other' argument yet
+            //see if version is before or after the name
+            if (strripos($userAgent,"Version") < strripos($userAgent,$ub)) {
+                $version= $matches['version'][0];
+            } else {
+                $version= $matches['version'][1];
+            }
+        } else {
+            $version= $matches['version'][0];
+        }
+
+        // check if we have a number
+        if ($version==null || $version=="") {$version="?";}
+
+        // get user ip
+        //check ip from share internet
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            //to check ip is pass from proxy
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+
+        return array(
+            'userAgent' => $userAgent,
+            'name'      => $browserName,
+            'version'   => $version,
+            'platform'  => $platform,
+            'pattern'   => $pattern,
+            'ip'        => $ip
+        );
+    }
+
     public static function drawCalendar($month,$year){
         /* draw table */
         $calendar = '<table cellpadding="0" cellspacing="0" class="calendar">';

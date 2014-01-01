@@ -62,10 +62,6 @@ Home
 
     </section>
     <section class="col-md-9">
-
-        <section class="modal fade" id="the_modal" tabindex="-1" role="dialog"
-        aria-labelledby="the_modal_label" aria-hidden="true"></section>
-
         <!-- Main Content -->
         @include('plugins.postcreator')
 

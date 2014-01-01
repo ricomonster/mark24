@@ -66,7 +66,6 @@ Assignment Sheet
 @stop
 
 @section('content')
-<div class="message-holder"><span></span></div>
 <div class="assignment-manager-wrapper">
     <div class="row">
         <div class="col-md-3">
