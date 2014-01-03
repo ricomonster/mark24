@@ -8,8 +8,7 @@
     </div>
 
     <ul class="post-stream">
-        <?php $properties = array_filter(get_object_vars($posts)); ?>
-        @if(!empty($properties))
+        @if(!empty($posts))
         @foreach($posts as $post)
         <?php $postTimestamp = Helper::timestamp($post->post_timestamp); ?>
         <li class="post-holder" data-post-id="{{ $post->post_id }}">
