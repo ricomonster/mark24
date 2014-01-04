@@ -17,7 +17,7 @@ class ForumController extends BaseController
             case 'latest' :
                 // get latest threads
                 $threads = ForumThread::orderBy('last_reply_timestamp', 'DESC')
-                    ->orderBy('timestamp', 'DESC')
+                    ->orderBy('thread_timestamp', 'DESC')
                     ->orderBy('sticky_post', 'DESC')
                     ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
                     ->leftJoin('forum_categories',
@@ -29,7 +29,7 @@ class ForumController extends BaseController
             case 'popular' :
                 $threads = ForumThread::where('views', '!=', '0')
                     ->orderBy('views', 'DESC')
-                    ->orderBy('timestamp', 'DESC')
+                    ->orderBy('thread_timestamp', 'DESC')
                     ->orderBy('replies', 'DESC')
                     ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
                     ->leftJoin('forum_categories',
@@ -40,7 +40,7 @@ class ForumController extends BaseController
                 break;
             case 'unanswered' :
                 // get unanswered threads
-                $threads = ForumThread::orderBy('timestamp', 'DESC')
+                $threads = ForumThread::orderBy('thread_timestamp', 'DESC')
                     ->where('replies', '=', 0)
                     ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
                     ->leftJoin('forum_categories',
@@ -58,13 +58,13 @@ class ForumController extends BaseController
                         '=',
                         'forum_categories.forum_category_id')
                     ->orderBy('forum_threads.last_reply_timestamp', 'DESC')
-                    ->orderBy('forum_threads.timestamp', 'DESC')
+                    ->orderBy('forum_threads.thread_timestamp', 'DESC')
                     ->get();
                 break;
             case 'my-topics' :
                 $threads = ForumThread::where('user_id', '=', Auth::user()->id)
                     ->orderBy('last_reply_timestamp', 'DESC')
-                    ->orderBy('timestamp', 'DESC')
+                    ->orderBy('thread_timestamp', 'DESC')
                     ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
                     ->leftJoin('forum_categories',
                         'forum_threads.category_id',

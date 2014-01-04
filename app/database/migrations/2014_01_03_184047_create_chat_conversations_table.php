@@ -34,10 +34,7 @@ class CreateChatConversationsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('chat_conversations', function(Blueprint $table)
-		{
-			//
-		});
+		Schema::drop('chat_conversations');
 	}
 
 }

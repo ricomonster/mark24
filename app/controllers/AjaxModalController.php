@@ -191,7 +191,7 @@ class AjaxModalController extends BaseController {
 
         return Response::json(array(
             'error' => false,
-            'lz' => Request::root().'/groups/'.$groupId.'/chat'));
+            'lz' => Request::root().'/groups/'.$groupId.'/chat/'.$conversation->conversation_id));
     }
 
     public function confirmStopGroupChat()

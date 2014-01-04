@@ -23,11 +23,11 @@ class CreateUsersTable extends Migration {
 			$table->string('username', 30);
 			$table->string('email', 50);
 			$table->string('password', 255);
-			$table->string('hashed_id', 50);
-			$table->string('avatar', 255);
-			$table->string('avatar_small', 255);
-			$table->string('avatar_normal', 255);
-			$table->string('avatar_large', 255);
+			$table->string('hashed_id', 70);
+			$table->string('avatar', 255)->default('default_avatar.png');
+			$table->string('avatar_small', 255)->default('default_avatar.png');
+			$table->string('avatar_normal', 255)->default('default_avatar.png');
+			$table->string('avatar_large', 255)->default('default_avatar.png');
 			$table->integer('forum_posts')->unsigned();
 			$table->bigInteger('online_timestamp')->unsigned();
 			$table->timestamps();

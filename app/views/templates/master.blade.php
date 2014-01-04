@@ -22,6 +22,10 @@
             <script src="../../assets/js/respond.min.js"></script>
         <![endif]-->
         @yield('internalCss')
+        <style>
+            .public-service-message p { font-size: 16px; }
+            .public-service-message small { font-size: 13px; }
+        </style>
     </head>
 
     <body>
@@ -102,6 +106,15 @@
             <div class="message-holder"><span></span></div>
             <div class="modal fade" id="the_modal" tabindex="-1" role="dialog"
             aria-labelledby="the_modal_label" aria-hidden="true"></div>
+
+            <blockquote class="public-service-message alert alert-warning">
+                <p><strong>Welcome to eLinet!</strong></p>
+                <p>Sorry for the incovenience due to the site is still in beta stage.
+                In case you've found some errors or problems kindly
+                <a href="#" class="show-report-problem">report</a> it.</p>
+                <small>eLinet Team</small>
+            </blockquote>
+
             @yield('content')
 
             <div class="footer">
