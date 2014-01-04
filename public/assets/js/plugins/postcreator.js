@@ -16,10 +16,14 @@
 
     $('#submit_note').on('click', function(e) {
         // validate first
+        var wrapperHeight = $('.post-creator-holder').height();
+        var overlay = $('.post-creator-holder .overlay');
+
         $('.note-errors').empty().hide();
         validateNote();
 
         if(error == 0) {
+            overlay.height(wrapperHeight).slideDown();
             $.ajax({
                 type    : 'post',
                 url     : $('#note form').attr('action'),
@@ -29,6 +33,7 @@
             }).done(function(response) {
                 // assuming no errors occured
                 // reset to former state
+                overlay.slideUp();
                 $('#note .postcreator-hidden').hide();
                 // let's reset the form elements
                 $('#note_content').val('');
@@ -50,10 +55,14 @@
     });
 
     $('#submit_alert').on('click', function(e) {
+        var wrapperHeight = $('.post-creator-holder').height();
+        var overlay = $('.post-creator-holder .overlay');
+
         $('.alert-errors').empty().hide();
         validateAlert();
 
         if(error == 0) {
+            overlay.height(wrapperHeight).slideDown();
             $.ajax({
                 type    : 'post',
                 url     : $('#alert form').attr('action'),
@@ -63,6 +72,7 @@
                 if(response) {
                     // assuming no errors occured
                     // reset to former state
+                    overlay.slideUp();
                     $('#alert .postcreator-hidden').hide();
                     // let's reset the form elements
                     $('#alert_content').val('');
@@ -85,11 +95,15 @@
     });
 
     $('#submit_assignment').on('click', function(e) {
+        var wrapperHeight = $('.post-creator-holder').height();
+        var overlay = $('.post-creator-holder .overlay');
+
         // validate first
         $('.assignment-errors').empty().hide();
         validateAssignment();
 
         if(error == 0) {
+            overlay.height(wrapperHeight).slideDown();
             $.ajax({
                 type    : 'post',
                 url     : $('#assignment form').attr('action'),
@@ -100,6 +114,7 @@
                 if(response) {
                     // assuming no errors occured
                     // reset to former state
+                    overlay.slideUp();
                     $('#assignment .postcreator-hidden').hide();
                     // let's reset the form elements
                     $('#assignment_title').val('');
@@ -120,6 +135,9 @@
 
     // submits a quiz
     $('#submit_quiz').on('click', function(e) {
+        var wrapperHeight = $('.post-creator-holder').height();
+        var overlay = $('.post-creator-holder .overlay');
+
         validateQuiz();
 
         if(error == 0) {
@@ -136,6 +154,7 @@
                 $('#quiz').find('.quiz-first-choices').show();
                 // let's reset the form elements
                 $('#quiz_recipients').val('').trigger('chosen:updated');
+                overlay.slideUp();
                 // show the newest to stream
                 $('.post-stream-holder .post-stream').prepend(response)
                     .find('li:first').hide().slideDown(800);

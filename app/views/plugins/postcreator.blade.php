@@ -1,4 +1,5 @@
 <div class="post-creator-holder">
+    <div class="overlay"><p>Sending...</p></div>
     @if(Auth::user()->account_type == 1)
     <ul class="nav nav-tabs" id="post_creator_options">
         <li class="<?php echo (isset($quiz)) ? null : 'active'; ?>"><a href="#note"><i class="fa fa-edit"></i> Note</a></li>

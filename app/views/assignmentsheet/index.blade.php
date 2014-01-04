@@ -9,7 +9,7 @@ Assignment Sheet
 .assignment-sheet-wrapper .assignment-details-wrapper { padding: 0; }
 .assignment-details-wrapper .assignment-details { margin: 0; padding: 15px; }
 .assignment-details-wrapper .assignment-details .assignment-sheet-icon { color: #8c94a7; float: left; font-size: 24px; }
-.assignment-details-wrapper .assignment-details .content-details { float: left; margin-left: 10px; }
+.assignment-details-wrapper .assignment-details .content-details { margin-left: 35px; }
 .assignment-details-wrapper .assignment-details .content-details p { font-size: 16px; margin: 0; padding: 0; }
 .assignment-details-wrapper .assignment-details .content-details .due-date {
     color: #839096;
@@ -20,7 +20,31 @@ Assignment Sheet
 .assignment-sheet-wrapper .assignment-header { padding: 0; }
 .assignment-header .assignment-title { margin: 0; padding: 15px; }
 .assignment-header .assignment-title h3 { margin: 0; padding: 0; }
-.assignment-header .assignment-description { padding: 15px; }
+.assignment-header .assignment-contents { padding: 30px 15px; }
+.assignment-header .files-attached {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.files-attached .file-holder {
+    border-radius: 3px;
+    border: 1px solid #dfe4e8;
+    margin: 10px 0 0 0;
+    padding: 10px;
+}
+
+.files-attached .file-holder .file-thumbnail img { border: 1px solid #dfe4e8; max-height: 60px; }
+.files-attached .file-holder .file-details { margin-left: 10px; word-wrap: break-word; width: 84%; }
+/*.files-attached .file-holder .file-details a {  }*/
+.files-attached .file-holder .file-details .file-type { color: #839096; display: block; font-size: 13px; }
+.files-attached .file-holder .file-details .file-attached-controls a {
+    color: #839096;
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+.files-attached .file-holder .file-details .file-attached-controls a:hover{ text-decoration: none; }
 
 .assignment-sheet-wrapper .assignment-sheet-form-wrapper { padding: 0; }
 .assignment-sheet-form-wrapper .assignment-user-header .user-details-wrapper .user-details { margin-left: 50px; }
@@ -64,7 +88,42 @@ Assignment Sheet
                 <div class="assignment-title page-header">
                     <h3>{{ $assignment->title }}</h3>
                 </div>
-                <div class="assignment-description">{{ $assignment->description }}</div>
+                <div class="assignment-contents">
+                    <div class="assignment-description">{{ $assignment->description }}</div>
+                    @if(!empty($files))
+                    <ul class="files-attached">
+                        @foreach($files as $file)
+                        <li class="file-holder clearfix">
+                            <div class="file-thumbnail pull-left">
+                                <a href="/file/{{ $file->file_library_id }}">
+                                    @if(substr($file->mime_type, 0, 5) === 'image')
+                                    <img src="/assets/thelibrary/{{ $file->file_thumbnail }}">
+                                    @endif
+                                    @if(substr($file->mime_type, 0, 5) !== 'image')
+                                    <img src="/assets/defaults/icons/{{ $file->file_thumbnail }}">
+                                    @endif
+                                </a>
+                            </div>
+                            <div class="file-details pull-left">
+                                <a href="/file/{{ $file->file_library_id }}">{{ $file->file_name }}</a>
+                                <span class="file-type">
+                                    {{ strtoupper($file->file_extension) }} File
+                                </span>
+                                <div class="file-attached-controls">
+                                    <a href="#" data-toggle="tooltip" title="Add to The Library">
+                                        <i class="fa fa-archive"></i>
+                                    </a>
+                                    <a href="/file/{{ $file->file_library_id }}" data-toggle="tooltip"
+                                    title="Download File">
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        @endforeach
+                    </ul>
+                    @endif
+                </div>
             </div>
             <div class="assignment-sheet-form-wrapper well">
                 <div class="assignment-user-header page-header">

@@ -9,7 +9,7 @@ Assignment Sheet
 .assignment-manager-wrapper .assignment-details-wrapper { padding: 0; }
 .assignment-details-wrapper .assignment-details { margin: 0; padding: 15px; }
 .assignment-details-wrapper .assignment-details .assignment-sheet-icon { color: #8c94a7; float: left; font-size: 24px; }
-.assignment-details-wrapper .assignment-details .content-details { float: left; margin-left: 10px; }
+.assignment-details-wrapper .assignment-details .content-details { margin-left: 35px; }
 .assignment-details-wrapper .assignment-details .content-details p { font-size: 16px; margin: 0; padding: 0; }
 .assignment-details-wrapper .assignment-details .content-details .due-date {
     color: #839096;

@@ -10,7 +10,6 @@
     <ul class="post-stream">
         @if(!empty($posts))
         @foreach($posts as $post)
-        <?php $postTimestamp = Helper::timestamp($post->post_timestamp); ?>
         <li class="post-holder" data-post-id="{{ $post->post_id }}">
             <a href="/profile/{{ $post->user->username }}" class="writer-profile">
                 {{ Helper::avatar(50, "small", "img-rounded pull-left", $post->user->id) }}
@@ -237,7 +236,7 @@
                             <i class="fa fa-comment"></i> Reply
                         </a>
                     </li>
-                    <li><a href="#"><i class="fa fa-clock-o"></i> {{ $postTimestamp }}</a></li>
+                    <li><a href="#"><i class="fa fa-clock-o"></i> {{ Helper::timestamp($post->post_timestamp) }}</a></li>
                 </ul>
             </div>
             @include('plugins.comments')
