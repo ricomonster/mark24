@@ -17,19 +17,20 @@
 .library-items-wrapper .library-items-content .list-view {
     list-style: none;
     padding: 15px;
-    padding: 0;
 }
 
 .library-items-wrapper .library-items-content .thumbnail-view li {
     display: inline-block;
-    float: left;
-    margin: 15px 15px 20px 0;
-    width: 151px;
+    margin: 15px 15px 0 0;
+    vertical-align: top;
+    width: 148px;
     word-wrap: break-word;
+    *display: inline;
+    *zoom: 1;
 }
 .library-items-wrapper .library-items-content .thumbnail-view li:hover { cursor: pointer; text-decoration: underline; }
 .library-items-wrapper .library-items-content .thumbnail-view li p { color: #666; text-align: center; }
-.library-items-wrapper .library-items-content .thumbnail-view li .thumbnail { height: 151px; margin-bottom: 10px; width: 151px; }
+.library-items-wrapper .library-items-content .thumbnail-view li .thumbnail { height: 148px; margin-bottom: 10px; width: 148px; }
 .library-items-wrapper .library-items-content .thumbnail-view li .thumbnail img { float: left; }
 .library-items-wrapper .library-items-content .thumbnail-view li .thumbnail img.image { width: 151px; }
 

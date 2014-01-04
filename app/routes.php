@@ -49,6 +49,8 @@ Route::post('ajax/comment-creator/add-comment', 'AjaxCommentCreator@postCreateCo
 // AJAX File Controller
 Route::get('ajax/thelibrary/get-library-view', 'AjaxFileController@getView');
 
+Route::post('ajax/thelibrary/upload-file', 'AjaxFileController@uploadPost');
+
 // AJAX Forum Routes
 Route::post('ajax/the-forum/follow-thread', 'AjaxForumController@followThread');
 Route::post('ajax/the-forum/unfollow-thread', 'AjaxForumController@unfollowThread');
@@ -122,7 +124,6 @@ Route::post('ajax/post_creator/create_alert', 'AjaxPostCreatorController@createA
 Route::post('ajax/post_creator/create_quiz', 'AjaxPostCreatorController@postCreateQuiz');
 Route::post('ajax/post_creator/create_assignment', 'AjaxPostCreatorController@postCreateAssignment');
 Route::post('ajax/post_creator/update-post', 'AjaxPostCreatorController@updatePost');
-Route::post('ajax/post_creator/upload-file', 'AjaxPostCreatorController@uploadPost');
 
 // AJAX User Routes
 Route::post('ajax/users/upload-photo', 'AjaxUsersController@postUploadPhoto');

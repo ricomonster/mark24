@@ -92,9 +92,7 @@ class AjaxPostCreatorController extends BaseController {
             // return the HTML to show the newest post
             // to be loaded on the page
             return View::make('ajax.postcreator.postitem')
-                ->with('post', Post::where('post_id', '=', $newAlert->post_id)
-                    ->join('users', 'posts.user_id', '=', 'users.id')
-                    ->first());
+                ->with('post', Post::getPost($newAlert->post_id));
         }
     }
 
@@ -133,9 +131,7 @@ class AjaxPostCreatorController extends BaseController {
             // return the HTML to show the newest post
             // to be loaded on the page
             return View::make('ajax.postcreator.postitem')
-                ->with('post', Post::where('post_id', '=', $newQuiz->post_id)
-                    ->join('users', 'posts.user_id', '=', 'users.id')
-                    ->first());
+                ->with('post', Post::getPost($newQuiz->post_id));
         }
     }
 
@@ -147,6 +143,7 @@ class AjaxPostCreatorController extends BaseController {
             $assignmentDescription = Input::get('assignment-description');
             $assignmentLock = Input::get('assignment-lock');
             $recipients = Input::get('assignment-recipients');
+            $attachedFiles  = Input::get('attached-file-id');
 
             // insert assignment
             $assignment = new Assignment;
@@ -162,6 +159,7 @@ class AjaxPostCreatorController extends BaseController {
             $newAssignment->post_type = 'assignment';
             $newAssignment->assignment_id = $assignment->assignment_id;
             $newAssignment->assignment_due_date = $dueDate;
+            $newAssignment->post_attached_files = (empty($attachedFiles)) ? 'false' : 'true';
             $newAssignment->post_timestamp = time();
             $newAssignment->save();
 
@@ -178,15 +176,25 @@ class AjaxPostCreatorController extends BaseController {
                 $addRecipient->save();
             }
 
+            // check if there are attached files
+            if(!empty($attachedFiles)) {
+                // loop to get the ids
+                for($f = 0; $f < count($attachedFiles); $f++) {
+                    $attach = new FileAttached;
+                    $attach->post_id = $newAssignment->post_id;
+                    $attach->user_id = Auth::user()->id;
+                    $attach->file_id = $attachedFiles[$f];
+                    $attach->save();
+                }
+            }
+
             // setup the notification
             Notification::createNotification($newAssignment->post_id, 'post');
 
             // return the HTML to show the newest post
             // to be loaded on the page
             return View::make('ajax.postcreator.postitem')
-                ->with('post', Post::where('post_id', '=', $newAssignment->post_id)
-                    ->join('users', 'posts.user_id', '=', 'users.id')
-                    ->first());
+                ->with('post', Post::getPost($newAssignment->post_id));
         }
     }
 
@@ -211,55 +219,5 @@ class AjaxPostCreatorController extends BaseController {
 
             return Response::json(array('error' => false));
         }
-    }
-
-    public function uploadPost()
-    {
-        // prep some data
-        $dropPoint = public_path().'/assets/thelibrary/'.sha1(Auth::user()->id);
-
-        $file = Input::file('files');
-
-        $fileName       = $file->getClientOriginalName();
-        $fileExtension  = $file->getClientOriginalExtension();
-        $mime           = $file->getMimeType();
-        // upload file
-        $file->move($dropPoint, $fileName);
-
-        // check if file is uploaded
-        if(Input::hasFile('files')) {
-            // create thumbnail
-            if(substr($mime,0, 5) === "image") {
-                $fileThumbnail = 'thumbnail_'.$fileName;
-                Helper::thumbnailMaker($dropPoint, $fileName, $fileThumbnail, 150);
-            }
-
-            // save the file!
-            $newFile = new FileLibrary;
-            $newFile->user_id = Auth::user()->id;
-            $newFile->file_name = $fileName;
-            $newFile->file_storage_name = $fileName;
-            $newFile->file_extension = $fileExtension;
-            $newFile->mime_type = $mime;
-            $newFile->file_path = sha1(Auth::user()->id).'/'.$fileName;
-            $newFile->file_thumbnail = (isset($fileThumbnail)) ?
-                sha1(Auth::user()->id).'/'.$fileThumbnail : 'txt.png';
-            $newFile->save();
-
-            $details = FileLibrary::find($newFile->file_library_id);
-
-            return Response::json(array('error' => false, 'file' => $details->toArray()));
-        }
-
-        // file not uploaded
-        if(!Input::hasFile('files')) {
-            return Response::json(array(
-                'error'     => true,
-                'file_name' => $file->getClientOriginalName(),
-                'message'   => "File '".$file->getClientOriginalName()."' could not be uploaded. Please try again later"));
-        }
-        $details = FileLibrary::find(5);
-
-        return Response::json(array('error' => false, 'attached' => $details->toArray()));
     }
 }

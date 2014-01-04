@@ -34,4 +34,54 @@ class AjaxFileController extends BaseController
                 break;
         }
     }
+
+    public function uploadPost()
+    {
+        // prep some data
+        $dropPoint = public_path().'/assets/thelibrary/'.sha1(Auth::user()->id);
+
+        $file = Input::file('files');
+
+        $fileName       = $file->getClientOriginalName();
+        $fileExtension  = $file->getClientOriginalExtension();
+        $mime           = $file->getMimeType();
+        // upload file
+        $file->move($dropPoint, $fileName);
+
+        // check if file is uploaded
+        if(Input::hasFile('files')) {
+            // create thumbnail
+            if(substr($mime,0, 5) === "image") {
+                $fileThumbnail = 'thumbnail_'.$fileName;
+                Helper::thumbnailMaker($dropPoint, $fileName, $fileThumbnail, 150);
+            }
+
+            // save the file!
+            $newFile = new FileLibrary;
+            $newFile->user_id = Auth::user()->id;
+            $newFile->file_name = $fileName;
+            $newFile->file_storage_name = $fileName;
+            $newFile->file_extension = $fileExtension;
+            $newFile->mime_type = $mime;
+            $newFile->file_path = sha1(Auth::user()->id).'/'.$fileName;
+            $newFile->file_thumbnail = (isset($fileThumbnail)) ?
+                sha1(Auth::user()->id).'/'.$fileThumbnail : 'txt.png';
+            $newFile->save();
+
+            $details = FileLibrary::find($newFile->file_library_id);
+
+            return Response::json(array('error' => false, 'file' => $details->toArray()));
+        }
+
+        // file not uploaded
+        if(!Input::hasFile('files')) {
+            return Response::json(array(
+                'error'     => true,
+                'file_name' => $file->getClientOriginalName(),
+                'message'   => "File '".$file->getClientOriginalName()."' could not be uploaded. Please try again later"));
+        }
+        $details = FileLibrary::find(5);
+
+        return Response::json(array('error' => false, 'attached' => $details->toArray()));
+    }
 }

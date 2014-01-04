@@ -39,7 +39,31 @@ Assignment Sheet
 .assignment-manager-default .default-header { border-bottom: 1px solid #dfe4e8; padding: 15px; }
 .assignment-manager-default .default-header .assignment-details h3 { margin: 0; padding: 0; }
 .assignment-manager-default .assignment-recipients { background-color: #f3f5f7; border-bottom: 1px solid #dfe4e8; padding: 15px; }
-.assignment-manager-default .assignment-description { padding: 30px 15px; }
+.assignment-manager-default .assignment-contents { padding: 30px 15px; }
+.assignment-manager-default .files-attached {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.files-attached .file-holder {
+    border-radius: 3px;
+    border: 1px solid #dfe4e8;
+    margin: 10px 0 0 0;
+    padding: 10px;
+}
+
+.files-attached .file-holder .file-thumbnail img { border: 1px solid #dfe4e8; max-height: 60px; }
+.files-attached .file-holder .file-details { margin-left: 10px; word-wrap: break-word; width: 84%; }
+/*.files-attached .file-holder .file-details a {  }*/
+.files-attached .file-holder .file-details .file-type { color: #839096; display: block; font-size: 13px; }
+.files-attached .file-holder .file-details .file-attached-controls a {
+    color: #839096;
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+.files-attached .file-holder .file-details .file-attached-controls a:hover{ text-decoration: none; }
 
 .assignment-manager-wrapper .assignment-submission-wrapper { display: none; padding: 0; }
 .assignment-submission-wrapper .manager-header { border-bottom: 1px solid #dfe4e8; padding: 15px; }
@@ -140,7 +164,42 @@ Assignment Sheet
                     @endif
                     @endforeach
                 </div>
-                <div class="assignment-description">{{ $assignment->description }}</div>
+                <div class="assignment-contents">
+                    <div class="assignment-description">{{ $assignment->description }}</div>
+                    @if(!empty($files))
+                    <ul class="files-attached">
+                        @foreach($files as $file)
+                        <li class="file-holder clearfix">
+                            <div class="file-thumbnail pull-left">
+                                <a href="/file/{{ $file->file_library_id }}">
+                                    @if(substr($file->mime_type, 0, 5) === 'image')
+                                    <img src="/assets/thelibrary/{{ $file->file_thumbnail }}">
+                                    @endif
+                                    @if(substr($file->mime_type, 0, 5) !== 'image')
+                                    <img src="/assets/defaults/icons/{{ $file->file_thumbnail }}">
+                                    @endif
+                                </a>
+                            </div>
+                            <div class="file-details pull-left">
+                                <a href="/file/{{ $file->file_library_id }}">{{ $file->file_name }}</a>
+                                <span class="file-type">
+                                    {{ strtoupper($file->file_extension) }} File
+                                </span>
+                                <div class="file-attached-controls">
+                                    <a href="#" data-toggle="tooltip" title="Add to The Library">
+                                        <i class="fa fa-archive"></i>
+                                    </a>
+                                    <a href="/file/{{ $file->file_library_id }}" data-toggle="tooltip"
+                                    title="Download File">
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        @endforeach
+                    </ul>
+                    @endif
+                </div>
             </div>
             <div class="assignment-submission-wrapper well"></div>
         </div>

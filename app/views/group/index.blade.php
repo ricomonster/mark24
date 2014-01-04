@@ -183,38 +183,20 @@
 <script src="/assets/js/plugins/jquery.ui.widget.js"></script>
 <script src="/assets/js/plugins/jquery.iframe-transport.js"></script>
 <script src="/assets/js/plugins/jquery.fileupload.js"></script>
+<script src="/assets/js/sitefunc/postcreator.uploader.js"></script>
 <script>
+// file upload
 $(function () {
-    'use strict';
-
-    $('.fileupload').fileupload({
-        url: '/ajax/post_creator/upload-file',
-        dataType: 'json',
-        done : function (e, data) {
-            $('.progress').hide();
-
-            if(data.result.error) {
-                // show error messages
-            }
-
-            if(!data.result.error) {
-                var file = data.result.attached;
-                $('.files').append(
-                    '<p data-file-id="'+file.file_library_id+'">'+
-                    '<a href="#" class="remove-file">&times;</a> '+
-                    file.file_name+
-                    '<input type="hidden" name="attached-files[]"'+
-                    'value="'+file.file_library_id+'"></p>').fadeIn();
-            }
+    var nowTemp = new Date();
+    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+    var checkin = $('.assignment-due-date').datepicker({
+        onRender: function(date) {
+            return date.valueOf() < now.valueOf() ? 'disabled' : '';
         },
-
-        progressall: function (e, data) {
-            $('.progress').show();
-            var progress = parseInt(data.loaded / data.total * 100, 10);
-            $('.progress .progress-bar').css('width', progress + '%');
-        }
-    }).prop('disabled', !$.support.fileInput)
-        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+        format : 'yyyy-mm-dd'
+    }).on('changeDate', function(ev) {
+        checkin.hide();
+    }).data('datepicker');
 });
 </script>
 @endif

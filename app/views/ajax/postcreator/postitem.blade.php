@@ -114,8 +114,12 @@
             }
             ?>
             </div>
-            @if($post->post_type != 'quiz')
-            {{ Form::open(array('url' => '/ajax/post_creator/update-post', 'class' => 'edit-post-form', 'data-post-id' => $post->post_id)) }}
+            @if($post->post_type != 'quiz' && $post->post_type != 'assignment')
+            {{ Form::open(array(
+                'url' => '/ajax/post_creator/update-post',
+                'class' => 'edit-post-form',
+                'data-post-id' => $post->post_id))
+            }}
                 <div class="form-group">
                     <textarea name="message-post" class="form-control message-post"
                     data-post-id="{{ $post->post_id }}">{{ $content }}</textarea>

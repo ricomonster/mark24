@@ -30,7 +30,7 @@
 }
 
 .post-stream .post-holder .post-content .post-content-container .quiz .question-count-wrapper {
-    border: 1px solid #ccc;
+    border: 1px solid #dfe4e8;
     border-top: 0;
     border-radius: 3px;
     border-top-right-radius: 0;
@@ -39,7 +39,7 @@
 }
 
 .post-stream .post-holder .post-content .post-content-container .assignment .assignment-details {
-    border: 1px solid #ccc;
+    border: 1px solid #dfe4e8;
     border-radius: 3px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
@@ -52,7 +52,7 @@
 }
 
 .post-stream .post-holder .post-content .post-content-container .assignment .assignment-description {
-    border: 1px solid #ccc;
+    border: 1px solid #dfe4e8;
     border-top: 0;
     border-radius: 3px;
     border-top-right-radius: 0;

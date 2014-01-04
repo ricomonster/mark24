@@ -37,7 +37,7 @@ The Library
                             </ul>
                         </div>
                     </div>
-                    <h3 class="pull-left">Attached to Posts</h3>
+                    <h3 class="pull-left">Library Items</h3>
                     <div class="clearfix"></div>
                 </div>
                 <div class="library-items-content">
@@ -53,8 +53,8 @@ The Library
                                 @endif
                             </div>
                             <p class="file-name">
-                                {{ (strlen($file->file_name) > 53) ?
-                                substr($file->file_name, 0, 50).'...' : $file->file_name; }}
+                                {{ (strlen($file->file_name) > 43) ?
+                                substr($file->file_name, 0, 40).'...' : $file->file_name; }}
                             </p>
                         </li>
                         @endforeach

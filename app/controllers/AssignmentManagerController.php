@@ -8,6 +8,7 @@ class AssignmentManagerController extends BaseController
 
     public function index($assignmentId)
     {
+        $attached = null;
         // check if assignment exists
         $assignment = Assignment::find($assignmentId);
         // get the post
@@ -19,12 +20,21 @@ class AssignmentManagerController extends BaseController
             return View::make('templates.fourohfour');
         }
 
+        // check if the assignment has attached files
+        if($post->post_attached_files == 'true') {
+            // attached files details
+            $attached = FileAttached::where('post_id', '=', $post->post_id)
+                ->leftJoin('file_library', 'file_attached.file_id', '=', 'file_library.file_library_id')
+                ->get();
+        }
+
         // get recipients of the assignment
         $lists = Assignment::getAssignmentRecipients($assignment->assignment_id, 'all');
 
         return View::make('assignmentmanager.index')
             ->with('assignment', $assignment)
             ->with('post', $post)
-            ->with('takers', $lists);
+            ->with('takers', $lists)
+            ->with('files', $attached);
     }
 }
