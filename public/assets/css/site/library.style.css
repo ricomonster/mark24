@@ -1,0 +1,41 @@
+.the-library-wrapper .library-items li { margin: 0; }
+.the-library-wrapper .library-items li a {
+    background-color: #ffffff;
+    border: 1px solid #dfe4e8 !important;
+    border-top: 0 !important;
+    border-radius: 0;
+}
+
+.the-library-wrapper .library-items li.active a { background-color: #f3f5f7; color: #2a6496; }
+.the-library-wrapper .library-items li a i { color: #8890a2; font-size: 18px; margin-right: 10px; }
+.the-library-wrapper .well { padding: 0; }
+.the-library-wrapper .page-header { margin: 0; padding: 20px; }
+.the-library-wrapper .page-header h3 { margin: 0; }
+
+.library-items-wrapper .library-items-content { }
+.library-items-wrapper .library-items-content .thumbnail-view,
+.library-items-wrapper .library-items-content .list-view {
+    list-style: none;
+    padding: 15px;
+    padding: 0;
+}
+
+.library-items-wrapper .library-items-content .thumbnail-view li {
+    display: inline-block;
+    float: left;
+    margin: 15px 15px 20px 0;
+    width: 151px;
+    word-wrap: break-word;
+}
+.library-items-wrapper .library-items-content .thumbnail-view li:hover { cursor: pointer; text-decoration: underline; }
+.library-items-wrapper .library-items-content .thumbnail-view li p { color: #666; text-align: center; }
+.library-items-wrapper .library-items-content .thumbnail-view li .thumbnail { height: 151px; margin-bottom: 10px; width: 151px; }
+.library-items-wrapper .library-items-content .thumbnail-view li .thumbnail img { float: left; }
+.library-items-wrapper .library-items-content .thumbnail-view li .thumbnail img.image { width: 151px; }
+
+.library-items-wrapper .library-items-content .list-view li:first-child { border-top: 0; }
+.library-items-wrapper .library-items-content .list-view li { border-top: 1px solid #dfe4e8; padding: 15px; }
+.library-items-wrapper .library-items-content .list-view li .image-thumbnail img { width: 130px; }
+.library-items-wrapper .library-items-content .list-view li .file-details { margin-left: 140px; }
+.library-items-wrapper .library-items-content .list-view li .file-details p { margin: 0; }
+.library-items-wrapper .library-items-content .list-view li .file-details p .download-link { color: #666; }

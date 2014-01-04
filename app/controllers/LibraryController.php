@@ -9,12 +9,11 @@ class LibraryController extends BaseController
 
     public function index()
     {
-        return View::make('library.index');
-    }
+        $files = FileLibrary::where('user_id', '=', Auth::user()->id)
+            ->get();
 
-    public function folders()
-    {
-        return View::make('library.folder');
+        return View::make('library.index')
+            ->with('files', $files);
     }
 
     public function attachedFiles()

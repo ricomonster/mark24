@@ -46,6 +46,9 @@ Route::post('ajax/chat/stop-group-chat', 'AjaxChatController@stopGroupChat');
 // AJAX CommentCreator Routes
 Route::post('ajax/comment-creator/add-comment', 'AjaxCommentCreator@postCreateComment');
 
+// AJAX File Controller
+Route::get('ajax/thelibrary/get-library-view', 'AjaxFileController@getView');
+
 // AJAX Forum Routes
 Route::post('ajax/the-forum/follow-thread', 'AjaxForumController@followThread');
 Route::post('ajax/the-forum/unfollow-thread', 'AjaxForumController@unfollowThread');
@@ -165,7 +168,6 @@ Route::get('home', 'HomeController@showHome');
 
 // Library Routes
 Route::get('the-library', 'LibraryController@index');
-Route::get('the-library/folders', 'LibraryController@folders');
 Route::get('the-library/attached', 'LibraryController@attachedFiles');
 
 // Notification Routes

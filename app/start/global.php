@@ -1,5 +1,6 @@
 <?php
 
+require_once(app_path().'/errors.php');
 /*
 |--------------------------------------------------------------------------
 | Register The Laravel Class Loader

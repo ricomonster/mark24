@@ -40,6 +40,7 @@
 /* file upload */
 .attached-files .progress { display: none; margin-top: 10px; }
 .attached-files .files { display: none; list-style: none; margin: 10px 0; padding: 0; }
+.attached-files .files li a { margin-right: 5px; padding: 0 3px; }
 
 /*.postcreator-textarea { height: 32px !important; }*/
 .postcreator-form-controls .postcreator-controls { list-style: none; margin: 0; padding: 0 }

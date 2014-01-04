@@ -59,6 +59,7 @@ var Chat = {
         var self = Chat;
         var conversationId = self.config.groupChatWrapper.attr('data-conversation-id');
 
+        clearInterval(self.config.fetchInterval);
         if(element.val() !== '' || element.val().length !== 0) {
             $.ajax({
                 type : 'post',
@@ -72,6 +73,7 @@ var Chat = {
                 // trigger fetch message
                 element.val('');
                 self.getMessages(response.last_conversation_id);
+                self.fetchMessages();
             });
         }
     },

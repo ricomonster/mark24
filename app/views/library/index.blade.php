@@ -4,21 +4,7 @@ The Library
 @stop
 
 @section('internalCss')
-<style>
-.the-library-wrapper .library-items li { margin: 0; }
-.the-library-wrapper .library-items li a {
-    background-color: #ffffff;
-    border: 1px solid #dfe4e8 !important;
-    border-top: 0 !important;
-    border-radius: 0;
-}
-
-.the-library-wrapper .library-items li.active a { background-color: #f3f5f7; color: #2a6496; }
-.the-library-wrapper .library-items li a i { color: #8890a2; font-size: 18px; margin-right: 10px; }
-.the-library-wrapper .well { padding: 0; }
-.the-library-wrapper .page-header { margin: 0; padding: 20px; }
-.the-library-wrapper .page-header h3 { margin: 0; }
-</style>
+<link href="/assets/css/site/library.style.css" rel="stylesheet">
 @stop
 
 @section('content')
@@ -29,9 +15,6 @@ The Library
                 <li class="active"><a href="/the-library">
                     <i class="fa fa-table"></i>Library Items
                 </a></li>
-                <li><a href="the-library/folders">
-                    <i class="fa fa-folder-o"></i>Folders
-                </a></li>
                 <li><a href="/the-library/attached">
                     <i class="fa fa-link"></i>Attached to Posts
                 </a></li>
@@ -40,9 +23,43 @@ The Library
         <div class="col-md-9">
             <div class="well library-items-wrapper">
                 <div class="page-header">
-                    <h3>Library Items</h3>
+                    <div class="pull-right library-controls">
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                View
+                                <i class="fa fa-angle-down"></i>
+                            </a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                <li class="active" role="presentation"><a role="menuitem" tabindex="-1"
+                                href="#" class="library-view" data-view="thumb">Thumb</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1"
+                                href="#" class="library-view" data-view="list">List</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3 class="pull-left">Attached to Posts</h3>
+                    <div class="clearfix"></div>
                 </div>
-                <div class="library-items-content"></div>
+                <div class="library-items-content">
+                    <ul class="file-stream thumbnail-view clearfix">
+                        @foreach($files as $file)
+                        <li class="file-holder">
+                            <div class="thumbnail">
+                                @if($file->file_thumbnail == 'file.png' || $file->file_thumbnail == 'zip.png')
+                                <img src="/assets/defaults/icons/{{ $file->file_thumnail }}">
+                                @endif
+                                @if($file->file_thumbnail != 'file.png' || $file->file_thumbnail != 'zip.png')
+                                <img src="/assets/thelibrary/{{ $file->file_thumbnail }}" class="image">
+                                @endif
+                            </div>
+                            <p class="file-name">
+                                {{ (strlen($file->file_name) > 53) ?
+                                substr($file->file_name, 0, 50).'...' : $file->file_name; }}
+                            </p>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -50,9 +67,5 @@ The Library
 @stop
 
 @section('js')
-<script>
-(function($) {
-
-})(jQuery)
-</script>
+<script src="/assets/js/sitefunc/library.js"></script>
 @stop

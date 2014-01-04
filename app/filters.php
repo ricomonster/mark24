@@ -94,6 +94,14 @@ Route::filter('are-you-a-student', function() {
     }
 });
 
+Route::filter('you-are-super-admin', function() {
+   if (Auth::guest()) {
+        return Redirect::to('/');
+    } else if(!Auth::guest() && Auth::user()->account_type == 0) {
+        return View::make('templates.fourohfour');
+    }
+});
+
 /*
 |--------------------------------------------------------------------------
 | CSRF Protection Filter
