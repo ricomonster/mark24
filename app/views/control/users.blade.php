@@ -1,7 +1,7 @@
 @extends('templates.admin')
 
 @section('title')
-Dashboard
+Dashboard - Users
 @stop
 
 @section('internalCss')
@@ -19,6 +19,7 @@ Dashboard
                 <li><a href="?sort=posts">Posts</a></li>
                 <li><a href="?sort=the-forum">The Forum</a></li>
                 <li><a href="?sort=the-library">The Library</a></li>
+                <li><a href="?sort=reports">Reports</a></li>
             </ul>
         </section>
         <section class="col-md-9">

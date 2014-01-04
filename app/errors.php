@@ -11,5 +11,5 @@
 App::missing(function($exception)
 {
     // create a report about this event (automatically)
-    return Response::view('templates.fourohfour', array(), 404);
+    // return Response::view('templates.fourohfour', array(), 404);
 });

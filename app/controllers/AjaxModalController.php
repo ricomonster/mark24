@@ -344,6 +344,7 @@ class AjaxModalController extends BaseController {
         $report->os = $device['platform'];
         $report->browser = $device['name'].' '.$device['version'];
         $report->ip = $device['ip'];
+        $report->report_timestamp = time();
         $report->save();
 
         return Response::json(array('error' => false));

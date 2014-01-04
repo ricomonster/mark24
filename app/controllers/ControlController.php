@@ -36,6 +36,9 @@ class ControlController extends BaseController
                 case 'the-library':
 
                     break;
+                case 'reports':
+                return $this->reports();
+                    break;
                 default:
                     break;
             }
@@ -70,5 +73,27 @@ class ControlController extends BaseController
 
         return View::make('control.users')
             ->with('users', $users);
+    }
+
+    protected function reports()
+    {
+        $viewReport = Input::get('view');
+        // get reports
+        $reports = Report::orderBy('report_timestamp', 'DESC')
+            ->leftJoin('users', 'reports.user_id', '=', 'users.id')
+            ->get();
+
+        if(isset($viewReport)) {
+            // get report details
+            $report = Report::where('report_id', '=', $viewReport)
+                ->leftJoin('users', 'reports.user_id', '=', 'users.id')
+                ->first();
+
+            return View::make('control.reports.view')
+                ->with('report', $report);
+        }
+
+        return View::make('control.reports')
+            ->with('reports', $reports);
     }
 }

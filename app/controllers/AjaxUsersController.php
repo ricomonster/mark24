@@ -186,7 +186,7 @@ class AjaxUsersController extends BaseController {
 
             $studentUser = new User;
             $studentUser->account_type  = 2;
-            $studentUser->name          = ucwords($firstname).' '.ucwords(Input::get($lastname));
+            $studentUser->name          = ucwords($firstname).' '.ucwords($lastname);
             $studentUser->firstname     = ucwords($firstname);
             $studentUser->lastname      = ucwords($lastname);
             $studentUser->username      = $username;

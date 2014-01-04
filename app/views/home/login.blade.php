@@ -154,15 +154,14 @@
 
                         <div class="student-signup-form">
                             <div class="section-title">Student Sign Up</div>
-                            <div class="alert alert-info">
+                            <!-- <div class="alert alert-info">
                                 Due the site is in alpha stage and for testing purposes,
                                 all students will be joined to a certain group only.
-                            </div>
+                            </div> -->
                             {{ Form::open(array('autocomplete' => 'off', 'id' => 'student_signup_form')) }}
                                 <div class="form-group">
                                     <input type="text" name="student-group-code" id="student_group_code"
-                                    class="form-control student-group-code" placeholder="Group Code"
-                                    value="hdxbvh" readonly>
+                                    class="form-control student-group-code" placeholder="Group Code">
                                 </div>
                                 <div class="form-group">
                                     <input type="text" name="student-username" id="student_username"
