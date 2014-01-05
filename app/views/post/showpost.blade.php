@@ -94,6 +94,13 @@ Hello
 
 .post-content .post-content-container .edit-post-form { display: none; }
 
+.user-post-likes {
+    background-color: #f3f5f6;
+    border-top: 1px solid #e0e3e7;
+    display: none;
+    padding: 10px 20px;
+}
+
 .post-etcs { background-color: #f3f5f6; border-top: 1px solid #e0e3e7; padding: 10px 90px 10px; }
 .post-etcs ul li { display: inline-block; margin-right: 10px; }
 .post-etcs ul li a { color: #869399; font-size: 13px; }
@@ -336,7 +343,12 @@ Hello
             @endif
         </div>
         <div class="clearfix"></div>
-        <div class="user-post-likes"></div>
+        <div class="user-post-likes" @if($post->likes->count != 0) style="display: block;" @endif>
+            <i class="fa fa-thumbs-up"></i>
+            @if($post->likes->count != 0)
+            {{ $post->likes->likers }}
+            @endif
+        </div>
         <div class="post-etcs">
             <ul class="post-etcs-holder">
                 <li>
