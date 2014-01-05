@@ -224,12 +224,17 @@
                 @endif
             </div>
             <div class="clearfix"></div>
-            <div class="user-post-likes"></div>
+            <div class="user-post-likes" @if($post->likes->count != 0) style="display: block;" @endif>
+                <i class="fa fa-thumbs-up"></i>
+                @if($post->likes->count != 0)
+                {{ $post->likes->likers }}
+                @endif
+            </div>
             <div class="post-etcs">
                 <ul class="post-etcs-holder">
                     <li>
-                        <a href="#" class="like-post"
-                        data-post-id="{{ $post->post_id }}"><i class="fa fa-thumbs-up"></i> Like it</a>
+                        <!-- <a href="#" class="like-post"
+                        data-post-id="{{ $post->post_id }}"><i class="fa fa-thumbs-up"></i> Like it</a> -->
                     </li>
                     <li>
                         <a href="#" class="show-comment-form" data-post-id="{{ $post->post_id }}">

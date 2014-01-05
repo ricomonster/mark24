@@ -274,6 +274,64 @@ class Helper
         return $string;
     }
 
+    public static function likes($postId)
+    {
+        $message = null;
+        $counter = 0;
+        // this will setup the like message
+        $likers = Like::where('post_id', '=', $postId)
+            ->leftJoin('users', 'likes.user_id', '=', 'users.id')
+            ->get();
+        // check first if the current user liked the post
+        $userLike = Like::where('post_id', '=', $postId)
+            ->where('user_id', '=', Auth::user()->id)
+            ->first();
+        $likeCount = $likers->count();
+        if(!empty($userLike)) {
+            $message .= '<span class="you"><a href="#">You</a>'.
+                (($likeCount > 3) ? '<span>,</span>' : null).'</span> ';
+        }
+
+        // there be atleast 3 names to be shown
+        // check how many likes
+        if($likeCount >= 3) {
+            foreach($likers as $liker) {
+                if(Auth::user()->id == $liker->user_id) continue;
+                if((empty($userLike) && $counter == 2) || (!empty($userLike) && $counter == 1)) {
+                    $message .= '<span class="liker"><a href="#">'.$liker->name.'</a></span> ';
+                    break;
+                } else {
+                    $message .= '<span class="liker"><a href="#">'.$liker->name.'</a><span>,</span></span> ';
+                }
+
+                $counter++;
+            }
+
+            $otherLikersCount = $likeCount - 3;
+            $message .= (($otherLikersCount == 0) ?
+                null : ' and <a href="#">'.$otherLikersCount.' others</a>').' like this';
+        }
+
+        if($likeCount < 3 && $likeCount != 0) {
+            foreach($likers as $liker) {
+                if(Auth::user()->id == $liker->user_id) continue;
+                if(empty($userLike) && $counter == 0) {
+                    $message .= '<span class="liker"><a href="#">'.$liker->name.'</a></span> ';
+                }
+
+                if((empty($userLike) && $counter == 1) || !empty($userLike)) {
+                    $message .= '<span>and</span> <span class="liker"><a href="#">'.$liker->name.'</a></span>';
+                }
+
+                $counter++;
+            }
+
+            $message .= ' like this';
+        }
+
+        return $message;
+    }
+
     public static function device()
     {
         $userAgent = $_SERVER['HTTP_USER_AGENT'];

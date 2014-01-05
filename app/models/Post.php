@@ -16,11 +16,13 @@ class Post extends Eloquent {
         $details->user = User::find($post->user_id);
         // get likes
         $likes = new StdClass();
-        $likes->count = Like::where('post_id', '=', $post->post_id)
+        $likeCount = Like::where('post_id', '=', $post->post_id)
             ->get()->count();
-        $likes->likers = Like::where('post_id', '=', $post->post_id)
-            ->leftJoin('users', 'likes.user_id', '=', 'users.id')
-            ->get();
+        $likes->count = $likeCount;
+        if($likeCount != 0) {
+            // get the list of likers
+            $likes->likers = Helper::likes($post->post_id);
+        }
         // check if the post is an assignment
         if($post->post_type == 'assignment') {
             $assignment = Assignment::find($post->assignment_id);
@@ -93,11 +95,14 @@ class Post extends Eloquent {
                     $details->$key->user = User::find($post->user_id);
                     // create object for the likes
                     $likes = new StdClass();
-                    $likes->count = Like::where('post_id', '=', $post->post_id)
+                    $likeCount = Like::where('post_id', '=', $post->post_id)
                         ->get()->count();
-                    $likes->likers = Like::where('post_id', '=', $post->post_id)
-                        ->leftJoin('users', 'likes.user_id', '=', 'users.id')
-                        ->get();
+                    $likes->count = $likeCount;
+                    if($likeCount != 0) {
+                        // get the list of likers
+                        $likes->likers = Helper::likes($post->post_id);
+                    }
+
                     // check if the post is an assignment
                     if($post->post_type == 'assignment') {
                         $assignment = Assignment::find($post->assignment_id);
@@ -166,11 +171,13 @@ class Post extends Eloquent {
                 $details->$key->user = User::find($post->user_id);
                 // create object for the likes
                 $likes = new StdClass();
-                $likes->count = Like::where('post_id', '=', $post->post_id)
+                $likeCount = Like::where('post_id', '=', $post->post_id)
                     ->get()->count();
-                $likes->likers = Like::where('post_id', '=', $post->post_id)
-                    ->leftJoin('users', 'likes.user_id', '=', 'users.id')
-                    ->get();
+                $likes->count = $likeCount;
+                if($likeCount != 0) {
+                    // get the list of likers
+                    $likes->likers = Helper::likes($post->post_id);
+                }
                 // check if the post is an assignment
                 if($post->post_type == 'assignment') {
                     $assignment = Assignment::find($post->assignment_id);
