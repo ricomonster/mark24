@@ -14,7 +14,7 @@
             <a href="/profile/{{ $post->user->username }}" class="writer-profile">
                 {{ Helper::avatar(50, "small", "img-rounded pull-left", $post->user->id) }}
             </a>
-            <div class="post-content pull-left">
+            <div class="post-content">
 
                 <div class="dropdown dropdown-post-options pull-right">
                     <a data-toggle="dropdown" href="#"><i class="fa fa-gear"></i></a>
@@ -225,7 +225,6 @@
             </div>
             <div class="clearfix"></div>
             <div class="user-post-likes" @if($post->likes->count != 0) style="display: block;" @endif>
-                <i class="fa fa-thumbs-up"></i>
                 @if($post->likes->count != 0)
                 {{ $post->likes->likers }}
                 @endif
@@ -233,8 +232,14 @@
             <div class="post-etcs">
                 <ul class="post-etcs-holder">
                     <li>
-                        <!-- <a href="#" class="like-post"
-                        data-post-id="{{ $post->post_id }}"><i class="fa fa-thumbs-up"></i> Like it</a> -->
+                        @if(empty($post->likes->user_liked_post))
+                        <a href="#" class="like-post"
+                        data-post-id="{{ $post->post_id }}"><i class="fa fa-thumbs-up"></i> Like it</a>
+                        @endif
+                        @if(!empty($post->likes->user_liked_post))
+                        <a href="#" class="unlike-post"
+                        data-post-id="{{ $post->post_id }}"><i class="fa fa-thumbs-down"></i> Unlike it</a>
+                        @endif
                     </li>
                     <li>
                         <a href="#" class="show-comment-form" data-post-id="{{ $post->post_id }}">

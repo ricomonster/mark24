@@ -13,7 +13,8 @@ var Poststream = {
             .on('click', this.config.deletePost.selector, this.confirmDeletePost)
             .on('click', this.config.triggerDeletePost.selector, this.deletePost)
             .on('click', this.config.linkPost.selector, this.linkThePost)
-            .on('click', this.config.likePost.selector, this.likeThePost);
+            .on('click', this.config.likePost.selector, this.likeThePost)
+            .on('click', this.config.unlikePost.selector, this.unlikeThePost);
     },
 
     initialState : function()
@@ -117,16 +118,49 @@ var Poststream = {
             dataType : 'json'
         }).done(function(response) {
             if(!response.error) {
-                if(response.like_count == '1') {
+                if(response.likers) {
                     $('.post-holder[data-post-id="'+postId+'"]').find('.user-post-likes')
-                        .show().text('You like this.');
-                }
-
-                if(response.like_count != '1') {
-
+                        .show().empty().append(response.likers);
+                    // make the link as unlike
+                    $this.removeClass('like-post').addClass('unlike-post')
+                        .html('<i class="fa fa-thumbs-down"></i> Unlike it');
                 }
             }
         });
+
+        e.preventDefault();
+    },
+
+    // unlike the post
+    unlikeThePost : function(e)
+    {
+        var self = Poststream;
+        var $this = $(this);
+        var postId = $this.attr('data-post-id');
+        $.ajax({
+            type : 'post',
+            url : '/ajax/like/unlike-post',
+            data : {
+                post_id : postId
+            },
+            dataType : 'json'
+        }).done(function(response) {
+            if(!response.error) {
+                if(response.like_count == 0) {
+                    $('.post-holder[data-post-id="'+postId+'"]')
+                        .find('.user-post-likes').hide();
+                }
+
+                if(response.like_count != 0) {
+                    $('.post-holder[data-post-id="'+postId+'"]').find('.user-post-likes')
+                        .show().empty().append(response.likers);
+                }
+
+                // make the link as unlike
+                $this.removeClass('unlike-post').addClass('like-post')
+                    .html('<i class="fa fa-thumbs-up"></i> Like it');
+            }
+        })
 
         e.preventDefault();
     }
@@ -139,5 +173,6 @@ Poststream.init({
     deletePost : $('.delete-post'),
     linkPost : $('.link-post'),
     likePost : $('.like-post'),
+    unlikePost : $('.unlike-post'),
     triggerDeletePost : $('#trigger_delete_post')
 });

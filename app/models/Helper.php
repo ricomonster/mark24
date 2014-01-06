@@ -287,9 +287,10 @@ class Helper
             ->where('user_id', '=', Auth::user()->id)
             ->first();
         $likeCount = $likers->count();
+        $message = '<i class="fa fa-thumbs-up"></i> ';
         if(!empty($userLike)) {
             $message .= '<span class="you"><a href="#">You</a>'.
-                (($likeCount > 3) ? '<span>,</span>' : null).'</span> ';
+                (($likeCount >= 3) ? '<span>,</span>' : null).'</span> ';
         }
 
         // there be atleast 3 names to be shown

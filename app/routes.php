@@ -62,6 +62,7 @@ Route::post('ajax/group/reset-group-code', 'AjaxGroupController@changeGroupCode'
 
 // AJAX Like Routes
 Route::post('ajax/like/like-post', 'AjaxLikeController@likePost');
+Route::post('ajax/like/unlike-post', 'AjaxLikeController@unlikePost');
 
 // AJAX Modal Routes
 Route::get('ajax/modal/show_create_group', 'AjaxModalController@showCreateGroup');

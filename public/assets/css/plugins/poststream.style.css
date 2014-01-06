@@ -12,7 +12,7 @@
 
 .post-stream .post-holder { background-color: #fff; border: 1px solid #dfe4e8; margin-bottom: 10px; }
 .post-stream .post-holder .writer-profile img { margin: 20px 0 0 20px; }
-.post-stream .post-holder .post-content { margin: 20px 0 20px 20px; width: 84%; }
+.post-stream .post-holder .post-content { margin: 20px 20px 20px 90px; }
 .post-stream .post-holder .post-content .post-content-container { padding: 10px 0; }
 .post-stream .post-holder .post-content .post-content-container .alert {
     font-weight: bold;
