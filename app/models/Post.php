@@ -22,6 +22,10 @@ class Post extends Eloquent {
         if($likeCount != 0) {
             // get the list of likers
             $likes->likers = Helper::likes($post->post_id);
+            // check if the current user liked the post
+            $likes->user_liked_post = Like::where('post_id', '=', $post->post_id)
+                ->where('user_id', '=', Auth::user()->id)
+                ->first();
         }
         // check if the post is an assignment
         if($post->post_type == 'assignment') {
@@ -181,6 +185,10 @@ class Post extends Eloquent {
                 if($likeCount != 0) {
                     // get the list of likers
                     $likes->likers = Helper::likes($post->post_id);
+                    // check if the current user liked the post
+                    $likes->user_liked_post = Like::where('post_id', '=', $post->post_id)
+                        ->where('user_id', '=', Auth::user()->id)
+                        ->first();
                 }
                 // check if the post is an assignment
                 if($post->post_type == 'assignment') {

@@ -15,7 +15,9 @@
                     <tr>
                         <a class="quiz-title quiz-to-load">{{ $quiz->title }}</a>
                         <div class="quiz-options">
-
+                            <a href="/quiz-creator/{{ $quiz->quiz_id }}">Edit</a>
+                            <span class="text-muted">|</span>
+                            <a href="#">Delete Quiz</a>
                         </div>
                     </tr>
                     @endforeach

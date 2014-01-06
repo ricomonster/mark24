@@ -4,7 +4,7 @@
     <a href="/profile/{{ $post->username }}" class="writer-profile">
         {{ Helper::avatar(50, "small", "img-rounded pull-left", $post->id) }}
     </a>
-    <div class="post-content pull-left">
+    <div class="post-content">
 
         <div class="dropdown dropdown-post-options pull-right">
             <a data-toggle="dropdown" href="#"><i class="fa fa-gear"></i></a>

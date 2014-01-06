@@ -308,6 +308,8 @@ var QuizCreator = {
             // load the new one
             currentQuestionWrapper.find('.responses-wrapper')
                 .append(response);
+            // set also the question type for the hidden value
+            currentQuestionWrapper.find('.question-type[data-question-id="'+self.config.questionId+'"]').val(self.config.selectQuestionType.val());
             // set the current question
             self.config.questionType = self.config.selectQuestionType.val();
             // hide the message

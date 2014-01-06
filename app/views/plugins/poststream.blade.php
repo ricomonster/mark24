@@ -62,7 +62,7 @@
                     @foreach($post->recipients->users as $key => $userRecipient)
                     @if($key != $userCount -1)
                     <a href="#" class="post-receiver-name">
-                        <?php if($userRecipient->account_type == 1) { echo $userRecipient->salutation.'. '; } ?>
+                        <?php if($userRecipient->account_type == 1) { echo $userRecipient->salutation; } ?>
                         {{ $userRecipient->name }}
                     </a><span class="post-receiver-comma">,</span>
                     @else
