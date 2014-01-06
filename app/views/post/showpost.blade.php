@@ -14,7 +14,7 @@ Hello
 }
 
 .post-wrapper .post-holder .writer-profile img { margin: 20px 0 0 20px; }
-.post-wrapper .post-holder .post-content { margin: 20px 0 20px 20px; width: 84%; }
+.post-wrapper .post-holder .post-content { margin: 20px 20px 20px 90px; }
 .post-wrapper .post-holder .post-content .post-content-container { padding: 10px 0; }
 .post-wrapper .post-holder .post-content .post-content-container .alert {
     font-weight: bold;
@@ -109,7 +109,7 @@ Hello
 .post-comment-holder { background-color: #f3f5f6; padding: 0; }
 .post-comment-holder .comment-stream { list-style: none; padding: 0; }
 .post-comment-holder .comment-stream li { border-top: 1px solid #e0e3e7; padding: 10px 0 0 34px; }
-.post-comment-holder .comment-stream li .comment-content-holder { margin-left: 20px; }
+.post-comment-holder .comment-stream li .comment-content-holder { margin-left: 55px; }
 
 .comment-form-holder { background-color: #f3f5f6; border-top: 1px solid #e0e3e7; padding: 10px 30px 10px 0; }
 .comment-form-holder .comment-form { margin-left: 90px; }
@@ -133,7 +133,7 @@ Hello
         <a href="/profile/{{ $post->user->username }}" class="writer-profile">
             {{ Helper::avatar(50, "small", "img-rounded pull-left", $post->user->id) }}
         </a>
-        <div class="post-content pull-left">
+        <div class="post-content">
 
             <div class="dropdown dropdown-post-options pull-right">
                 <a data-toggle="dropdown" href="#"><i class="fa fa-gear"></i></a>
@@ -371,7 +371,5 @@ Hello
 @section('js')
 <script src="/assets/js/sitefunc/comment.creator.js"></script>
 <script src="/assets/js/sitefunc/poststream.js"></script>
-<script>
-
-</script>
+<script src="/assets/js/plugins/expanding.js"></script>
 @stop

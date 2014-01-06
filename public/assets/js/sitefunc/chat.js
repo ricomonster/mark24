@@ -49,7 +49,11 @@ var Chat = {
         if (e.keyCode === 13 && !e.shiftKey) {
             e.preventDefault();
             // submit comment
-            self.submitChat($this);
+            if ($this.val() !== '' || $this.val().length !== 0) {
+                self.submitChat($this);
+                $this.val('');
+            }
+
             return;
         }
     },
@@ -60,22 +64,19 @@ var Chat = {
         var conversationId = self.config.groupChatWrapper.attr('data-conversation-id');
 
         clearInterval(self.config.fetchInterval);
-        if(element.val() !== '' || element.val().length !== 0) {
-            $.ajax({
-                type : 'post',
-                url : '/ajax/chat/send-message',
-                data : {
-                    conversation_id : conversationId,
-                    message : element.val()
-                },
-                dataType : 'json'
-            }).done(function(response) {
-                // trigger fetch message
-                element.val('');
-                self.getMessages(response.last_conversation_id);
-                self.fetchMessages();
-            });
-        }
+        $.ajax({
+            type : 'post',
+            url : '/ajax/chat/send-message',
+            data : {
+                conversation_id : conversationId,
+                message : element.val()
+            },
+            dataType : 'json'
+        }).done(function(response) {
+            // trigger fetch message
+            self.getMessages(response.last_conversation_id);
+            self.fetchMessages();
+        });
     },
 
     fetchMessages : function()

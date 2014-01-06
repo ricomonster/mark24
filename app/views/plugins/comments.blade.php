@@ -8,7 +8,7 @@
             <a href="/profile/{{ $comment->username }}">
                 {{ Helper::avatar(35, "small", "img-rounded pull-left", $comment->id) }}
             </a>
-            <div class="comment-content-holder pull-left">
+            <div class="comment-content-holder">
                 <div class="commenter-details">
                     @if($comment->id == Auth::user()->id)
                     <a href="/profile/{{ $comment->username }}">Me</a>

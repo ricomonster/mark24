@@ -107,7 +107,7 @@
 .post-comment-holder { background-color: #f3f5f6; padding: 0; }
 .post-comment-holder .comment-stream { list-style: none; padding: 0; }
 .post-comment-holder .comment-stream li { border-top: 1px solid #e0e3e7; padding: 10px 0 0 34px; }
-.post-comment-holder .comment-stream li .comment-content-holder { margin-left: 20px; }
+.post-comment-holder .comment-stream li .comment-content-holder { margin-left: 55px; }
 
 .comment-form-holder { background-color: #f3f5f6; border-top: 1px solid #e0e3e7; padding: 10px 30px 10px 0; }
 .comment-form-holder .comment-form { margin-left: 90px; }
