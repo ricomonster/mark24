@@ -166,7 +166,7 @@
                                 <div class="form-group">
                                     <input type="text" name="student-group-code" id="student_group_code"
                                     class="form-control student-group-code" placeholder="Group Code"
-                                    value="hdxbvh" readonly>
+                                    value="xe4ara" readonly>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" name="student-username" id="student_username"

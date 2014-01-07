@@ -2,10 +2,10 @@
     <div class="overlay"><p>Sending...</p></div>
     @if(Auth::user()->account_type == 1)
     <ul class="nav nav-tabs" id="post_creator_options">
-        <li class="<?php echo (isset($quiz)) ? null : 'active'; ?>"><a href="#note"><i class="fa fa-edit"></i> Note</a></li>
-        <li><a href="#alert"><i class="fa fa-exclamation-triangle"></i> Alert</a></li>
-        <li><a href="#assignment"><i class="fa fa-check-circle"></i> Assigment</a></li>
-        <li class="<?php echo (isset($quiz)) ? 'active' : null; ?>"><a href="#quiz"><i class="fa fa-question-circle"></i> Quiz</a></li>
+        <li class="<?php echo (isset($quiz)) ? null : 'active'; ?>"><a href="#note"><i class="fa fa-edit"></i> <span>Note</span></a></li>
+        <li><a href="#alert"><i class="fa fa-exclamation-triangle"></i> <span>Alert</span></a></li>
+        <li><a href="#assignment"><i class="fa fa-check-circle"></i> <span>Assigment</span></a></li>
+        <li class="<?php echo (isset($quiz)) ? 'active' : null; ?>"><a href="#quiz"><i class="fa fa-question-circle"></i> <span>Quiz</span></a></li>
     </ul>
     @endif
     <div class="tab-content">
@@ -41,10 +41,10 @@
                     </div>
 
                     <div class="attached-files">
-                        <div class="progress">
+                        <div class="notes-progress progress">
                             <div class="progress-bar progress-bar-success"></div>
                         </div>
-                        <ul class="files"></ul>
+                        <ul class="notes-files files"></ul>
                     </div>
 
                     <div class="postcreator-form-controls">
@@ -126,7 +126,7 @@
                         class="form-control assignment-title pull-left"
                         placeholder="Assignment title">
                     </div>
-                    <a href="#" class="load-assignment btn btn-default pull-left">Load Assignment</a>
+                    <a href="#" class="load-assignment btn btn-default">Load Assignment</a>
                     <div class="input-group">
                         <input type="text" name="due-date" class="form-control assignment-due-date pull-left"
                         placeholder="due date" id="assignment_due_date">
@@ -170,10 +170,10 @@
                     </div>
 
                     <div class="attached-files">
-                        <div class="progress">
+                        <div class="assignment-progress progress">
                             <div class="progress-bar progress-bar-success"></div>
                         </div>
-                        <ul class="files"></ul>
+                        <ul class="assignment-files files"></ul>
                     </div>
 
                     <div class="postcreator-form-controls">

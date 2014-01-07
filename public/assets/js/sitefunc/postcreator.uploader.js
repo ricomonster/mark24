@@ -6,7 +6,7 @@ $(function() {
         dataType: 'json',
         done: function (e, data) {
             if(data.result.error) {
-                $('#notes .files').show().append(
+                $('.notes-files').show().append(
                     '<li class="attached-file error-upload clearfix">'+
                     '<a href="#" class="remove-uploaded-file">'+
                     '<span class="glyphicon glyphicon-remove"></span>'+
@@ -17,7 +17,7 @@ $(function() {
             }
 
             if(!data.result.error) {
-                $('#notes .files').show().append(
+                $('.notes-files').show().append(
                     '<li class="attached-file clearfix">'+
                     '<a href="#" class="remove-uploaded-file"><span class="glyphicon glyphicon-remove"></span></a>'+
                     '<span class="upload-filename">'+data.result.file.file_name+'</span>'+
@@ -26,12 +26,12 @@ $(function() {
                     '</li>');
             }
 
-            $('.progress').hide();
+            $('.notes-progress').hide();
         },
         progressall: function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
-            $('.progress').show();
-            $('.progress .progress-bar').css(
+            $('.notes-progress').show();
+            $('.notes-progress .progress-bar').css(
                 'width',
                 progress + '%');
         }
@@ -44,7 +44,7 @@ $(function() {
         dataType: 'json',
         done: function (e, data) {
             if(data.result.error) {
-                $('#assignment .files').show().append(
+                $('.assignment-files').show().append(
                     '<li class="attached-file error-upload clearfix">'+
                     '<a href="#" class="remove-uploaded-file">'+
                     '<span class="glyphicon glyphicon-remove"></span>'+
@@ -55,7 +55,7 @@ $(function() {
             }
 
             if(!data.result.error) {
-                $('#assignment .files').show().append(
+                $('.assignment-files').show().append(
                     '<li class="attached-file clearfix">'+
                     '<a href="#" class="remove-uploaded-file"><span class="glyphicon glyphicon-remove"></span></a>'+
                     '<span class="upload-filename">'+data.result.file.file_name+'</span>'+
@@ -64,12 +64,12 @@ $(function() {
                     '</li>');
             }
 
-            $('.progress').hide();
+            $('.assignment-progress').hide();
         },
         progressall: function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
-            $('.progress').show();
-            $('.progress .progress-bar').css(
+            $('.assignment-progress').show();
+            $('.assignment-progress .progress-bar').css(
                 'width',
                 progress + '%');
         }

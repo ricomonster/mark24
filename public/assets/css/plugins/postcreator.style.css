@@ -28,7 +28,7 @@
 
 .assignment-details { margin-bottom: 15px; }
 .assignment-details .form-group { margin: 0; }
-.assignment-details .assignment-title { float: left; margin-right: 10px; width: 360px; }
+.assignment-details .assignment-title { float: left; margin-right: 10px; }
 .assignment-details .load-assignment { float: left; margin-right: 10px; }
 .assignment-details .input-group { float:left; width: 140px; }
 
@@ -58,3 +58,38 @@
 }
 
 .post-creator-holder .overlay p { padding-top: 100px; text-align: center; }
+
+/* Plugin CSS Override
+---------------------------------------------------------------*/
+.chosen-container-multi .chosen-choices li.search-choice {
+    position: relative;
+    background-color: #428bca !important;
+    margin: 3px 0 3px 5px;
+    padding: 3px 20px 3px 5px;
+    border: 1px solid #357ebd !important;
+    border-radius: 3px;
+    background-image: none !important;
+    background-clip: padding-box;
+    box-shadow: none !important;
+    color: #fff !important;
+    line-height: 13px;
+    cursor: default;
+}
+
+/* Responsive Shizs
+---------------------------------------------------------------*/
+@media (max-width: 480px) {
+    .post-creator-holder .nav-tabs li a span { display: none; }
+    .assignment-details .load-assignment { margin-bottom: 10px; }
+}
+@media (max-width: 767px) {
+    .assignment-details .assignment-title { margin-bottom: 10px; }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .assignment-details .assignment-title { width: 384px; }
+}
+
+@media (min-width: 992px) {
+    .assignment-details .assignment-title { width: 360px; }
+}

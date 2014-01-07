@@ -15,21 +15,24 @@ Quiz Creator
 .item-list-wrapper ul li.has-error a,
 .item-list-wrapper ul li.has-error:hover a { color: #b94a48; font-weight: bold; }
 
-.quiz-creator-header { padding: 19px 0; }
+.quiz-creator-header { padding: 19px 15px; }
 .quiz-creator-header .form-group { margin: 0; }
+.quiz-creator-header .form-group:first-child { margin-bottom: 10px; }
 .quiz-creator-header .form-group label { font-weight: bold; }
 .quiz-creator-header .form-group #quiz_time_limit { display: inline-block; width: 50px; }
 
 .quiz-creator-welcome-wrapper .page-header { padding: 0 19px; }
 
-.quiz-first-question-wrapper { margin-bottom: 20px; }
+.quiz-first-question-wrapper { margin-bottom: 10px; padding: 0 15px; }
+.quiz-first-question-wrapper .form-group { display: inline-block; width: 200px; }
 .quiz-first-question-wrapper .form-group .form-control { display: inline-block; width: 150px; }
+.quiz-first-question-wrapper .other-options { display: inline-block; }
 
 .quiz-creator-welcome-message-wrapper { padding: 0 19px 19px; }
 
 .quiz-creator-proper { display: none; }
-.quiz-creator-proper .question-proper-header { border-bottom: 1px solid #e3e3e3; padding: 19px 0; }
-.quiz-creator-proper .question-proper-header .form-group { margin: 0; }
+.quiz-creator-proper .question-proper-header { border-bottom: 1px solid #e3e3e3; padding: 19px 15px; }
+.quiz-creator-proper .question-proper-header .form-group { display: inline-block; margin: 0 10px 0; }
 .quiz-creator-proper .question-proper-header .form-group #question_type { display: inline-block; width: 150px; }
 .quiz-creator-proper .question-proper-header .form-group #question_point { display: inline-block; width: 50px; }
 .quiz-creator-proper .question-proper-header .form-group .remove-question { display: inline-block; display: none; }
@@ -87,11 +90,11 @@ Quiz Creator
         <div class="alert alert-danger top-message-holder"></div>
         <div class="col-md-9">
             <div class="quiz-creator-header well">
-                <div class="form-group col-md-7">
+                <div class="form-group">
                     <input type="text" name="quiz-title" id="quiz_title" class="form-control"
                     value="Untitled quiz-<?php echo date('Y-m-d-h-i-s'); ?>">
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group">
                     <label class="quiz-time-limit">Time Limit</label>
                     <input text="text" name="quiz-time-limit" id="quiz_time_limit"
                     class="form-control">
@@ -120,7 +123,7 @@ Quiz Creator
                             </div>
 
                             <div class="quiz-first-question-wrapper">
-                                <div class="form-group col-md-5">
+                                <div class="form-group">
                                     <label for="first-question-type">Type</label>
                                     <select name="first-question-type" id="first_question_type"
                                     class="form-control">
@@ -129,11 +132,14 @@ Quiz Creator
                                         <option value="SHORT_ANSWER">Short Answer</option>
                                     </select>
                                 </div>
-                                <button type="button" id="submit_first_question" class="btn btn-default">
-                                    Add First Question
-                                </button>
-                                <span class="">or</span>
-                                <a href="#">Load First Question</a>
+                                <div class="other-options">
+                                    <button type="button" id="submit_first_question"
+                                    class="btn btn-default">
+                                        Add First Question
+                                    </button>
+                                    <span class="text-muted">or</span>
+                                    <a href="#">Load First Question</a>
+                                </div>
                             </div>
 
                             <div class="quiz-creator-welcome-message-wrapper">
@@ -154,7 +160,7 @@ Quiz Creator
 
                         <div class="quiz-creator-proper">
                             <div class="question-proper-header">
-                                <div class="form-group col-md-5">
+                                <div class="form-group">
                                     <label for="question-type">Type</label>
                                     <select name="question-type" id="question_type"
                                     class="form-control">
@@ -163,7 +169,7 @@ Quiz Creator
                                         <option value="SHORT_ANSWER">Short Answer</option>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-7">
+                                <div class="form-group">
                                     <label for="question-point">Points</label>
                                     <input type="text" name="question-point" id="question_point"
                                     class="form-control">
@@ -173,12 +179,9 @@ Quiz Creator
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
-
                             <!-- question stream -->
                             <ul class="question-stream-holder"></ul>
-
                         </div>
-
                     </div>
                 </div>
             </div>

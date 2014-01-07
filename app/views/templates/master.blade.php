@@ -38,13 +38,14 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
+                    <a class="navbar-brand" href="/"></a>
                 </div>
                 <div class="collapse navbar-collapse navigation-items">
                     <ul class="nav navbar-nav">
                         <li>
                             <a href="/home" data-toggle="tooltip" title="Home"
                             class="menu-items">
-                                <i class="fa fa-home"></i>
+                                <i class="fa fa-home"></i> <span>Home</span>
                             </a>
                         </li>
                         <!-- <li>
@@ -56,13 +57,13 @@
                         <li>
                             <a href="/the-forum" data-toggle="tooltip" title="The Forum"
                             class="menu-items">
-                                <i class="fa fa-comments-o"></i>
+                                <i class="fa fa-comments-o"></i> <span>The Forum</span>
                             </a>
                         </li>
                         <li>
                             <a href="/the-library" data-toggle="tooltip" title="The Library"
                             class="menu-items">
-                                <i class="fa fa-archive"></i>
+                                <i class="fa fa-archive"></i> <span>The Library</span>
                             </a>
                         </li>
                     </ul>

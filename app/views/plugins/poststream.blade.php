@@ -203,7 +203,7 @@
                                 @endif
                             </a>
                         </div>
-                        <div class="file-details pull-left">
+                        <div class="file-details">
                             <a href="/file/{{ $file->file_library_id }}">{{ $file->file_name }}</a>
                             <span class="file-type">
                                 {{ strtoupper($file->file_extension) }} File

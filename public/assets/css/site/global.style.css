@@ -6,6 +6,13 @@ body {
     padding: 70px 0;
 }
 
+.navbar-header .navbar-brand {
+    background: url('/assets/images/logo.png') no-repeat center top;
+    display: none;
+    height: 48px;
+    width: 120px;
+}
+
 .navigation-items .navbar-nav li a {
     border-right: 1px solid #ffffff;
     line-height: 22px;
@@ -16,11 +23,11 @@ body {
     border-left: 1px solid #ffffff;
 }
 
-.navigation-items .navbar-nav li .menu-items { font-size: 24px; }
+.navigation-items .navbar-nav li a.menu-items { font-size: 24px; }
+.navigation-items .navbar-nav li a span { font-size: 13px; display: none; }
 .nav-profile-avatar a { padding: 9px 12px !important; }
 .nav-profile-avatar a img { margin: 0 5px 0; }
 .navigation-items .navbar-nav .dropdown .dropdown-menu li a { padding: 3px 20px; }
-.navigation-items .navbar-form .input-group { width: 400px; }
 
 /* override Bootstrap Components */
 .well {
@@ -86,3 +93,18 @@ subtext should be a span
 .group-chat-notification ul { list-style: none; margin: 0; padding: 0; }
 .group-chat-notification ul li a { margin: 10px 0; }
 .group-chat-notification ul li a:last-child { margin-left: 10px; }
+
+/* Responsive Shizs
+---------------------------------------------------------------*/
+@media (max-width: 767px) {
+    /*.navbar-header .navbar-brand { display: block; }*/
+    .navigation-items .navbar-nav li a span { display: inline-block; }
+}
+
+@media (min-width: 768px) {
+    .navigation-items .navbar-form .input-group { width: 240px; }
+}
+
+@media (min-width: 992px) {
+    .navigation-items .navbar-form .input-group { width: 440px; }
+}
