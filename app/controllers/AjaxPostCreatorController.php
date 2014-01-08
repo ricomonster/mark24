@@ -51,7 +51,7 @@ class AjaxPostCreatorController extends BaseController {
             }
 
             // setup the notification
-            Notification::create('posted', array(
+            Notification::setup('posted', array(
                 'involved_id' => $newNote->post_id));
 
             // return the HTML to show the newest post
@@ -88,7 +88,7 @@ class AjaxPostCreatorController extends BaseController {
             }
 
             // setup the notification
-            Notification::create('posted', array(
+            Notification::setup('posted', array(
                 'involved_id' => $newAlert->post_id));
 
             // return the HTML to show the newest post
@@ -128,7 +128,7 @@ class AjaxPostCreatorController extends BaseController {
             }
 
             // setup the notification
-            Notification::create('posted', array(
+            Notification::setup('posted', array(
                 'involved_id' => $newQuiz->post_id));
 
             // return the HTML to show the newest post
@@ -192,7 +192,7 @@ class AjaxPostCreatorController extends BaseController {
             }
 
             // setup the notification
-            Notification::create('posted', array(
+            Notification::setup('posted', array(
                 'involved_id' => $newAssignment->post_id));
 
             // return the HTML to show the newest post

@@ -201,10 +201,12 @@ class AjaxUsersController extends BaseController {
             $addMember->group_id        = $group->group_id;
             $addMember->save();
 
-            // setup notification that the user joined the group
-
             // set the Auth to login the user
             Auth::loginUsingId($studentUser->id);
+
+            // setup notification that the user joined the group
+            Notification::setup('join_group', array(
+                'involved_id' => $group->group_id));
 
             return Response::json(array(
                 'error' => false,

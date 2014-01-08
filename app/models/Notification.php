@@ -5,7 +5,7 @@ class Notification extends Eloquent
     protected $table = 'notifications';
     protected $primaryKey = 'notification_id';
 
-    public static function create($type, $settings)
+    public static function setup($type, $settings)
     {
         $time = time();
         switch($type) {
@@ -161,6 +161,33 @@ class Notification extends Eloquent
                 break;
             // likes
             case 'liked_post' :
+                // get the post
+                $post = Post::find($settings['involved_id']);
+                // check if the notifcation already exists
+                $exists = Notification::where('notification_type', '=', 'liked_post')
+                    ->where('involved_id', '=', $post->post_id)
+                    ->where('sender_id', '=', Auth::user()->id)
+                    ->where('receiver_id', '=', $post->user_id)
+                    ->first();
+                // notification doesn't exists
+                if(empty($exists)) {
+                    // create the notification
+                    $notification = new Notification;
+                    $notification->receiver_id = $post->user_id;
+                    $notification->sender_id = Auth::user()->id;
+                    $notification->notification_type = 'liked_post';
+                    $notification->involved_id = $post->post_id;
+                    $notification->notification_timestamp = $time;
+                    $notification->save();
+                }
+
+                // notification exists, just update
+                if(!empty($exists)) {
+                    $notification->seen = 'false';
+                    $notification->notification_timestamp = $time;
+                    $notification->save();
+                }
+
                 break;
             // posts
             case 'posted' :

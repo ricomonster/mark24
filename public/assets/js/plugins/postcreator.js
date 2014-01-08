@@ -17,32 +17,36 @@
     $('#submit_note').on('click', function(e) {
         // validate first
         var wrapperHeight = $('.post-creator-holder').height();
+        var wrapperWidth = $('.post-creator-holder').width();
         var overlay = $('.post-creator-holder .overlay');
 
         $('.note-errors').empty().hide();
         validateNote();
 
         if(error == 0) {
-            overlay.height(wrapperHeight).slideDown();
-            $.ajax({
-                type    : 'post',
-                url     : $('#note form').attr('action'),
-                data    : $('#note form').serialize(),
-                async   : false
+            overlay.height(wrapperHeight).width(wrapperWidth)
+                .slideDown();
+            setTimeout(function() {
+                $.ajax({
+                    type    : 'post',
+                    url     : $('#note form').attr('action'),
+                    data    : $('#note form').serialize(),
+                    async   : false
 
-            }).done(function(response) {
-                // assuming no errors occured
-                // reset to former state
-                overlay.slideUp();
-                $('#note .postcreator-hidden').hide();
-                // let's reset the form elements
-                $('#note_content').val('');
-                $('#note_recipients').val('').trigger('chosen:updated');
-                // show the newest to stream
-                $('.post-stream-holder .post-stream').prepend(response)
-                    .find('li:first').hide().slideDown(800);
-                $('.post-stream-holder .post-stream').find('.no-post-found').hide();
-            });
+                }).done(function(response) {
+                    // assuming no errors occured
+                    // reset to former state
+                    $('#note .postcreator-hidden').hide();
+                    overlay.slideUp();
+                    // let's reset the form elements
+                    $('#note_content').val('');
+                    $('#note_recipients').val('').trigger('chosen:updated');
+                    // show the newest to stream
+                    $('.post-stream-holder .post-stream').prepend(response)
+                        .find('li:first').hide().slideDown(800);
+                    $('.post-stream-holder .post-stream').find('.no-post-found').hide();
+                });
+            }, 800);
         }
 
         e.preventDefault();
@@ -56,33 +60,37 @@
 
     $('#submit_alert').on('click', function(e) {
         var wrapperHeight = $('.post-creator-holder').height();
+        var wrapperWidth = $('.post-creator-holder').width();
         var overlay = $('.post-creator-holder .overlay');
 
         $('.alert-errors').empty().hide();
         validateAlert();
 
         if(error == 0) {
-            overlay.height(wrapperHeight).slideDown();
-            $.ajax({
-                type    : 'post',
-                url     : $('#alert form').attr('action'),
-                data    : $('#alert form').serialize(),
-                async   : false
-            }).done(function(response) {
-                if(response) {
-                    // assuming no errors occured
-                    // reset to former state
-                    overlay.slideUp();
-                    $('#alert .postcreator-hidden').hide();
-                    // let's reset the form elements
-                    $('#alert_content').val('');
-                    $('#alert_recipients').val('').trigger('chosen:updated');
-                    // show the newest to stream
-                    $('.post-stream-holder .post-stream').prepend(response)
-                        .find('li:first').hide().slideDown(800);
-                    $('.post-stream-holder .post-stream').find('.no-post-found').hide();
-                }
-            })
+            overlay.height(wrapperHeight).width(wrapperWidth)
+                .slideDown();
+            setTimeout(function() {
+                $.ajax({
+                    type    : 'post',
+                    url     : $('#alert form').attr('action'),
+                    data    : $('#alert form').serialize(),
+                    async   : false
+                }).done(function(response) {
+                    if(response) {
+                        // assuming no errors occured
+                        // reset to former state
+                        overlay.slideUp();
+                        $('#alert .postcreator-hidden').hide();
+                        // let's reset the form elements
+                        $('#alert_content').val('');
+                        $('#alert_recipients').val('').trigger('chosen:updated');
+                        // show the newest to stream
+                        $('.post-stream-holder .post-stream').prepend(response)
+                            .find('li:first').hide().slideDown(800);
+                        $('.post-stream-holder .post-stream').find('.no-post-found').hide();
+                    }
+                });
+            }, 800);
         }
 
         e.preventDefault();
@@ -96,6 +104,7 @@
 
     $('#submit_assignment').on('click', function(e) {
         var wrapperHeight = $('.post-creator-holder').height();
+        var wrapperWidth = $('.post-creator-holder').width();
         var overlay = $('.post-creator-holder .overlay');
 
         // validate first
@@ -103,31 +112,34 @@
         validateAssignment();
 
         if(error == 0) {
-            overlay.height(wrapperHeight).slideDown();
-            $.ajax({
-                type    : 'post',
-                url     : $('#assignment form').attr('action'),
-                data    : $('#assignment form').serialize(),
-                async   : false
+            overlay.height(wrapperHeight).width(wrapperWidth)
+                .slideDown();
+            setTimeout(function() {
+                $.ajax({
+                    type    : 'post',
+                    url     : $('#assignment form').attr('action'),
+                    data    : $('#assignment form').serialize(),
+                    async   : false
 
-            }).done(function(response) {
-                if(response) {
-                    // assuming no errors occured
-                    // reset to former state
-                    overlay.slideUp();
-                    $('#assignment .postcreator-hidden').hide();
-                    // let's reset the form elements
-                    $('#assignment_title').val('');
-                    $('#assignment_due_date').val('');
-                    $('#assignment_description').val('');
-                    $('#assignment_lock').attr('checked', false);
-                    $('#assignment_recipients').val('').trigger('chosen:updated');
-                    // show the newest to stream
-                    $('.post-stream-holder .post-stream').prepend(response)
-                        .find('li:first').hide().slideDown(800);
-                    $('.post-stream-holder .post-stream').find('.no-post-found').hide();
-                }
-            });
+                }).done(function(response) {
+                    if(response) {
+                        // assuming no errors occured
+                        // reset to former state
+                        overlay.slideUp();
+                        $('#assignment .postcreator-hidden').hide();
+                        // let's reset the form elements
+                        $('#assignment_title').val('');
+                        $('#assignment_due_date').val('');
+                        $('#assignment_description').val('');
+                        $('#assignment_lock').attr('checked', false);
+                        $('#assignment_recipients').val('').trigger('chosen:updated');
+                        // show the newest to stream
+                        $('.post-stream-holder .post-stream').prepend(response)
+                            .find('li:first').hide().slideDown(800);
+                        $('.post-stream-holder .post-stream').find('.no-post-found').hide();
+                    }
+                });
+            }, 800);
         }
 
         e.preventDefault();
@@ -136,30 +148,35 @@
     // submits a quiz
     $('#submit_quiz').on('click', function(e) {
         var wrapperHeight = $('.post-creator-holder').height();
+        var wrapperWidth = $('.post-creator-holder').width();
         var overlay = $('.post-creator-holder .overlay');
 
         validateQuiz();
 
         if(error == 0) {
-            $.ajax({
-                type    : 'post',
-                url     : $('#quiz form').attr('action'),
-                data    : $('#quiz form').serialize(),
-                async   : false
-            }).done(function(response) {
-                // assuming no errors occured
-                // remove the quiz form
-                $('#quiz form').remove();
-                // show the create quiz links
-                $('#quiz').find('.quiz-first-choices').show();
-                // let's reset the form elements
-                $('#quiz_recipients').val('').trigger('chosen:updated');
-                overlay.slideUp();
-                // show the newest to stream
-                $('.post-stream-holder .post-stream').prepend(response)
-                    .find('li:first').hide().slideDown(800);
-                $('.post-stream-holder .post-stream').find('.no-post-found').hide();
-            })
+            overlay.height(wrapperHeight).width(wrapperWidth)
+                .slideDown();
+            setTimeout(function() {
+                $.ajax({
+                    type    : 'post',
+                    url     : $('#quiz form').attr('action'),
+                    data    : $('#quiz form').serialize(),
+                    async   : false
+                }).done(function(response) {
+                    // assuming no errors occured
+                    // remove the quiz form
+                    $('#quiz form').remove();
+                    // show the create quiz links
+                    $('#quiz').find('.quiz-first-choices').show();
+                    // let's reset the form elements
+                    $('#quiz_recipients').val('').trigger('chosen:updated');
+                    overlay.slideUp();
+                    // show the newest to stream
+                    $('.post-stream-holder .post-stream').prepend(response)
+                        .find('li:first').hide().slideDown(800);
+                    $('.post-stream-holder .post-stream').find('.no-post-found').hide();
+                });
+            }, 800);
         }
 
         e.preventDefault();
