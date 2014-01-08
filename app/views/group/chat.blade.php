@@ -22,7 +22,7 @@
 
 .group-chat-wrapper .group-chat-details { border-bottom: 1px solid #dfe4e8; padding: 10px 20px; }
 .group-chat-proper .group-chat-stream-holder .chat-stream {
-    height: 400px;
+    height: 300px;
     list-style: none;
     margin: 0;
     overflow: scroll;

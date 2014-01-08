@@ -54,7 +54,7 @@ var TheQuizSheet = {
                     self.config.quizTimeLimit = self.config.theQuizSheet.data('time-limit');
                 }
 
-                self.quizTimer();
+                // self.quizTimer();
 
                 // load the questions
                 self.loadQuestions();
@@ -93,7 +93,7 @@ var TheQuizSheet = {
             self.loadQuestions();
 
             // start quiz
-            self.quizTimer();
+            // self.quizTimer();
         })
 
         e.preventDefault();
@@ -321,7 +321,7 @@ var TheQuizSheet = {
             // redirect page
             window.location.href = response.lz;
         })
-        
+
         e.preventDefault();
     },
 

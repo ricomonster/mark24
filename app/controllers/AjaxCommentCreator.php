@@ -16,7 +16,6 @@ class AjaxCommentCreator extends BaseController
         $newComment->save();
 
         // create notification
-        Notification::createNotification($postId, 'comment');
 
         // get the details of the comment
         $comment = Comment::where('comment_id', '=', $newComment->comment_id)

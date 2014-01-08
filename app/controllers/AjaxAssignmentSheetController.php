@@ -17,6 +17,8 @@ class AjaxAssignmentSheetController extends BaseController
 
         // get the latest response
         $responseDetails = AssignmentResponse::find($newResponse->assignment_response_id);
+        // create notification
+
         // return as json
         return Response::json(array(
             'response' => $responseDetails->toArray(),

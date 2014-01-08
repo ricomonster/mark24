@@ -11,6 +11,8 @@ class AjaxLikeController extends BaseController
         $like->post_id = $postId;
         $like->save();
 
+        // create like notifications
+
         // get the likers
         $likers = Helper::likes($postId);
 

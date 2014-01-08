@@ -32,7 +32,7 @@ The Quiz Sheet
 .the-quiz-sheet-proper .the-quiz-sheet-header .quiz-timer {
     display: inline-block;
     text-align: center;
-    width: 80px;
+    width: 90px;
 }
 
 .quiz-items-holder { background-color: #f3f5f7; padding: 10px 0; text-align: center; }
@@ -98,6 +98,15 @@ The Quiz Sheet
 .assigned-wrapper .assigned-details { margin-top: 5px; }
 .assigned-wrapper .assigned-details p { margin: 0 0 0 10px; }
 .instruction-wrapper { border-top: 2px solid #dfe4e8; margin-top: 15px; padding-top: 10px; }
+/* Responsive Shizs
+---------------------------------------------------------------*/
+@media (max-width: 420px) {
+    .the-quiz-sheet-proper .the-quiz-sheet-header .questions-completed { margin-bottom: 10px }
+}
+
+@media (max-width: 991px) {
+    .the-quiz-sheet-proper .the-quiz-sheet-header .quiz-title { margin-bottom: 10px; width: 100%; }
+}
 </style>
 @stop
 

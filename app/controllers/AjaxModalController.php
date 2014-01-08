@@ -80,9 +80,6 @@ class AjaxModalController extends BaseController {
             $addGroupMember->save();
 
             // setup notification that the user joined the group
-            Notification::createNotification(array(
-                'reference_id' => Auth::user()->id,
-                'referral_id' => $group->group_id), 'join_group');
 
             // set json shits
             $return['error'] = false;
