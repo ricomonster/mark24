@@ -415,6 +415,10 @@ class ForumController extends BaseController
             $redirectUrl = 'the-forum/thread/'.$thread->seo_url.'/'.$thread->forum_thread_id.'?page='.$lastPage;
         }
 
+        // setup the notification
+            Notification::setup('forum_reply', array(
+                'involved_id' => $thread->forum_thread_id));
+
         // redirect to the page
         return Redirect::to($redirectUrl);
     }

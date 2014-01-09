@@ -224,6 +224,11 @@ class AjaxTheQuizSheetController extends BaseController
         $taker->time_remaining = $timeRemaining;
         $taker->save();
 
+        // create notification
+        Notification::setup('quiz_graded', array(
+            'quiz_id' => $quizId,
+            'involved_id' => $quizTakerId));
+
         // return redirect url
         return Response::json(array('lz' => Request::root().'/home'));
     }

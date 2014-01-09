@@ -164,7 +164,7 @@ data-conversation-id="{{ $conversation->conversation_id }}">
 
 @section('js')
 <script src="/assets/js/plugins/bootstrap-datepicker.js"></script>
-<script src="/assets/js/plugins/groups.js"></script>
+<script src="/assets/js/sitefunc/groups.js"></script>
 <script src="/assets/js/sitefunc/chat.js"></script>
 @stop
 

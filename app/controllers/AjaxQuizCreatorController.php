@@ -25,6 +25,7 @@ class AjaxQuizCreatorController extends BaseController {
                 'question_type'     => $question->question_type,
                 'question_point'    => $question->question_point,
                 'question_count'    => $questionCount,
+                'quiz_description'  => $existingQuiz->description,
                 'active'            => true));
         }
 
@@ -98,12 +99,25 @@ class AjaxQuizCreatorController extends BaseController {
 
     public function postUpdateQuiz()
     {
-        $quizId     = Input::get('quiz_id');
-        $quizTitle  = Input::get('title');
+        $quizId         = Input::get('quiz_id');
+        $quizTitle      = Input::get('title');
+        $timeLimit      = Input::get('time_limit');
+        $description    = Input::get('description');
 
         // update the quiz
         $quiz = Quiz::find($quizId);
-        $quiz->title = $quizTitle;
+        if(isset($quizTitle)) {
+            $quiz->title = $quizTitle;
+        }
+
+        if(isset($timeLimit)) {
+            $quiz->time_limit = $timeLimit * 60;
+        }
+
+        if(isset($description)) {
+            $quiz->description = $description;
+        }
+
         $quiz->save();
 
         // send a response

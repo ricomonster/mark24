@@ -26,7 +26,9 @@ var QuizCreator = {
             .on('blur', this.config.textareaQuestionPrompt.selector, this.changeQuestionText)
             .on('blur', this.config.textareaMultipleChoiceOption.selector, this.changeMultipleChoiceText)
             .on('blur', this.config.inputQuestionPoint.selector, this.updateQuestionPoint)
-            .on('click', this.config.aSetOptionCorrectAnswer.selector, this.changeCorrectOption);
+            .on('click', this.config.aSetOptionCorrectAnswer.selector, this.changeCorrectOption)
+            .on('blur', this.config.inputQuizTimeLimit.selector, this.updateQuizTimeLimit)
+            .on('blur', this.config.textareaQuizDescription.selector, this.updateQuizDescription);
     },
 
     // check for active quiz
@@ -68,6 +70,8 @@ var QuizCreator = {
                 self.config.selectQuestionType.val(response.question_type);
                 // set the question point
                 self.config.inputQuestionPoint.val(response.question_point);
+                // set the quiz description
+                self.config.textareaQuizDescription.val(response.quiz_description);
                 // load the question lists
                 self.loadQuestionLists();
                 // load all the questions
@@ -75,6 +79,8 @@ var QuizCreator = {
             }
 
             self.config.messageHolder.hide();
+            self.config.buttonAssignQuiz.removeClass('btn-disabled')
+                .removeAttr('disabled');
         });
     },
 
@@ -125,6 +131,9 @@ var QuizCreator = {
             self.loadQuestionLists();
             // load the first question wrapper
             self.loadQuestion();
+
+            self.config.buttonAssignQuiz.removeClass('btn-disabled')
+                .removeAttr('disabled');
         });
     },
 
@@ -152,12 +161,46 @@ var QuizCreator = {
 
     // updates the time limit of the quiz
     updateQuizTimeLimit : function() {
+        var self    = QuizCreator;
+        var $this   = $(this);
 
+        if($this.val() != '' && $this.val().lenght != 0) {
+            // trigger ajax call
+            $.ajax({
+                type        : 'post',
+                url         : '/ajax/quiz-creator/update-quiz',
+                data        : {
+                    quiz_id : self.config.quizId,
+                    time_limit   : $this.val()
+                },
+                dataType    : 'json',
+                async       : false
+            }).done(function(response) {
+
+            })
+        }
     },
 
     // updates the description of the quiz
     updateQuizDescription : function() {
+        var self    = QuizCreator;
+        var $this   = $(this);
 
+        if($this.val() != '' && $this.val().lenght != 0) {
+            // trigger ajax call
+            $.ajax({
+                type        : 'post',
+                url         : '/ajax/quiz-creator/update-quiz',
+                data        : {
+                    quiz_id : self.config.quizId,
+                    description   : $this.val()
+                },
+                dataType    : 'json',
+                async       : false
+            }).done(function(response) {
+
+            })
+        }
     },
 
     updateQuestionPoint : function() {
@@ -804,5 +847,6 @@ QuizCreator.init({
     selectTrueFalseOption           : $('.true-false-option'),
 
     textareaQuestionPrompt          : $('.question-prompt'),
-    textareaMultipleChoiceOption    : $('.multiple-choice-option')
+    textareaMultipleChoiceOption    : $('.multiple-choice-option'),
+    textareaQuizDescription         : $('.quiz-description')
 });

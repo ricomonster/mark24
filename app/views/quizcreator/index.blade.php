@@ -188,7 +188,8 @@ Quiz Creator
         </div>
         <div class="col-md-3">
             <div class="well">
-                <button class="btn btn-primary btn-lg btn-block assign-quiz">Assign Quiz</button>
+                <button class="btn btn-primary btn-lg btn-block assign-quiz btn-disabled"
+                disabled>Assign Quiz</button>
 
                 <div class="about-quiz-holder">
                     <span class="quiz-total-score pull-right label label-primary"></span>

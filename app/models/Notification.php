@@ -13,6 +13,18 @@ class Notification extends Eloquent
             case 'assignment_graded' :
                 break;
             case 'assignment_submitted' :
+                $assignmentId = $settings['assignment_id'];
+                $involvedId = $settings['involved_id'];
+                // get assignment details
+                $assignment = Assignment::find($assignmentId);
+
+                $notification = new Notification;
+                $notification->receiver_id = $assignment->user_id;
+                $notification->sender_id = Auth::user()->id;
+                $notification->notification_type = 'assignment_submitted';
+                $notification->involved_id = $involvedId;
+                $notification->notification_timestamp = $time;
+                $notification->save();
                 break;
             // comments
             case 'commented' :
@@ -117,6 +129,33 @@ class Notification extends Eloquent
                 break;
             // direct message
             case 'direct_message' :
+                $receiverId = $settings['receiver_id'];
+                $senderId = $settings['sender_id'];
+                $involvedId = $settings['involved_id'];
+                // check if notification exists
+                $exists = Notification::where('notification_type', '=', 'direct_message')
+                    ->where('involved_id', '=', $involvedId)
+                    ->where('sender_id', '=', $senderId)
+                    ->where('receiver_id', '=', $receiverId)
+                    ->first();
+                if(empty($exists)) {
+                    // create notification
+                    $notification = new Notification;
+                    $notification->receiver_id = $receiverId;
+                    $notification->sender_id = $senderId;
+                    $notification->notification_type = 'direct_message';
+                    $notification->involved_id = $involvedId;
+                    $notification->notification_timestamp = $time;
+                    $notification->save();
+                }
+
+                // if already exists update settings
+                if(!empty($exists)) {
+                    $exists->seen = 'false';
+                    $exists->notification_timestamp = $time;
+                    $exists->save();
+                }
+
                 break;
             // forum reply
             case 'forum_reply' :
@@ -198,35 +237,45 @@ class Notification extends Eloquent
                 // extract the recipients
                 foreach($recipients as $key => $recipient) {
                     // make sure the recipient type is group
-                    if($recipient->recipient_type != 'group') continue;
-                    // get the members of the group
-                    $members = GroupMember::where('group_id', '=', $recipient->recipient_id)
-                        ->get();
-                    // extract the members of the group
-                    foreach($members as $member) {
-                        if(Auth::user()->id == $member->group_member_id) continue;
+                    if($recipient->recipient_type == 'group') {
+                        // get the members of the group
+                        $members = GroupMember::where('group_id', '=', $recipient->recipient_id)
+                            ->get();
+                        // extract the members of the group
+                        foreach($members as $member) {
+                            if(Auth::user()->id == $member->group_member_id) continue;
 
-                        $exists = Notification::where('notification_type', '=', 'posted')
-                            ->where('involved_id', '=', $post->post_id)
-                            ->where('receiver_id', '=', $member->group_member_id)
-                            ->first();
+                            $exists = Notification::where('notification_type', '=', 'posted')
+                                ->where('involved_id', '=', $post->post_id)
+                                ->where('receiver_id', '=', $member->group_member_id)
+                                ->first();
 
-                        // notification not yet created
-                        if(empty($exists)) {
-                            $notification = new Notification;
-                            $notification->receiver_id = $member->group_member_id;
-                            $notification->sender_id = $post->user_id;
-                            $notification->notification_type = 'posted';
-                            $notification->involved_id = $post->post_id;
-                            $notification->notification_timestamp = $time;
-                            $notification->save();
+                            // notification not yet created
+                            if(empty($exists)) {
+                                $notification = new Notification;
+                                $notification->receiver_id = $member->group_member_id;
+                                $notification->sender_id = $post->user_id;
+                                $notification->notification_type = 'posted';
+                                $notification->involved_id = $post->post_id;
+                                $notification->notification_timestamp = $time;
+                                $notification->save();
+                            }
+
+                            // notification already present
+                            if(!empty($exists)) {
+                                $exists->seen = 'false';
+                                $exists->notification_timestamp = $time;
+                                $exists->save();
+                            }
                         }
+                    }
 
-                        // notification already present
-                        if(!empty($exists)) {
-                            $exists->seen = 'false';
-                            $exists->notification_timestamp = $time;
-                            $exists->save();
+                    if($recipient->recipient_type == 'user') {
+                        if(Auth::user()->id != $recipient->recipient_id) {
+                            Notification::setup('direct_message', array(
+                                'receiver_id' => $recipient->recipient_id,
+                                'sender_id' => Auth::user()->id,
+                                'involved_id' => $post->post_id));
                         }
                     }
                 }
@@ -234,45 +283,65 @@ class Notification extends Eloquent
                 break;
             // quiz
             case 'quiz_graded' :
+                $quizTakerId = $settings['involved_id'];
+                $quizId = $settings['quiz_id'];
+                // get quiz details
+                $quiz = Quiz::find($quizId);
+                // create notification
+                $notification = new Notification;
+                $notification->receiver_id = $quiz->user_id;
+                $notification->sender_id = Auth::user()->id;
+                $notification->notification_type = 'quiz_graded';
+                $notification->involved_id = $quizTakerId;
+                $notification->notification_timestamp = $time;
+                $notification->save();
                 break;
             case 'quiz_submitted' :
                 break;
         }
     }
 
-    public static function showNotifications()
+    public static function lists()
     {
-        switch($type) {
-            // assignment
-            case 'assignment_graded' :
-                break;
-            case 'assignment_submitted' :
-                break;
-            // comments
-            case 'commented' :
-                break;
-            // direct message
-            case 'direct_message' :
-                break;
-            // forum reply
-            case 'forum_reply' :
-                break;
-            // group notifications
-            case 'join_group' :
-                break;
-            case 'left_group' :
-                break;
-            // likes
-            case 'liked_post' :
-                break;
-            // posts
-            case 'posted' :
-                break;
-            // quiz
-            case 'quiz_graded' :
-                break;
-            case 'quiz_submitted' :
-                break;
+        // get the notifications for this user
+        $notifications = Notification::where('receiver_id', '=', Auth::user()->id)
+            ->groupBy('involved_id')
+            ->orderBy('notification_timestamp', 'DESC')
+            ->get();
+        $lists = new StdClass();
+        foreach($notifications as $notification) {
+            switch($notification->notification_type) {
+                // assignment
+                case 'assignment_graded' :
+                    break;
+                case 'assignment_submitted' :
+                    break;
+                // comments
+                case 'commented' :
+                    break;
+                // direct message
+                case 'direct_message' :
+                    break;
+                // forum reply
+                case 'forum_reply' :
+                    break;
+                // group notifications
+                case 'join_group' :
+                    break;
+                case 'left_group' :
+                    break;
+                // likes
+                case 'liked_post' :
+                    break;
+                // posts
+                case 'posted' :
+                    break;
+                // quiz
+                case 'quiz_graded' :
+                    break;
+                case 'quiz_submitted' :
+                    break;
+            }
         }
     }
 }

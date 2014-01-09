@@ -11,6 +11,7 @@
         </div>
         @endif
     </div>
+    @if(!empty($response))
     <div class="taker-score pull-right">
         @if($assignment->total_score == 0 && $response->score == 0)
         <div class="no-score-set">
@@ -73,6 +74,7 @@
         </div>
         @endif
     </div>
+    @endif
     <div class="clearfix"></div>
 </div>
 @if(empty($response))

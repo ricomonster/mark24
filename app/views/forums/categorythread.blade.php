@@ -88,7 +88,7 @@ The Forum
         <div class="well forum-body">
             <div class="forum-title">
                 <h3>The Forum: {{ $categoryDetails->category_name }}</h3>
-                <div class="text-muted"><?php echo nl2br($categoryDetails->description); ?></div>
+                <div class="text-muted">{{{ $categoryDetails->description }}}</div>
             </div>
 
             <ul class="nav nav-tabs forum-thread-types">

@@ -197,7 +197,7 @@
 @stop
 
 @section('js')
-<script src="/assets/js/plugins/groups.js"></script>
+<script src="/assets/js/sitefunc/groups.js"></script>
 @if(Auth::user()->account_type == 1)
 <script>
 (function($) {

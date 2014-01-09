@@ -173,10 +173,10 @@
 <script src="/assets/js/plugins/expanding.js"></script>
 <script src="/assets/js/plugins/bootstrap-datepicker.js"></script>
 
-<script src="/assets/js/plugins/postcreator.js"></script>
+<script src="/assets/js/sitefunc/postcreator.js"></script>
 <script src="/assets/js/sitefunc/comment.creator.js"></script>
 <script src="/assets/js/sitefunc/poststream.js"></script>
-<script src="/assets/js/plugins/groups.js"></script>
+<script src="/assets/js/sitefunc/groups.js"></script>
 
 @if(Auth::user()->account_type == 1)
 <!-- File Upload -->

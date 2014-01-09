@@ -9,9 +9,9 @@ class NotificationController extends BaseController
      */
     public function index()
     {
-        $notifications = Notification::getNotifications();
-        echo '<pre>';
-        print_r($notifications);
-        echo '</pre>';
+        Notification::lists();
+        // echo '<pre>';
+        // print_r($notifications);
+        // echo '</pre>';
     }
 }
