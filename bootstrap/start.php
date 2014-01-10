@@ -68,5 +68,7 @@ require $framework.'/Illuminate/Foundation/start.php';
 | from the actual running of the application and sending responses.
 |
 */
+// Fixes the problem: 'X-Frame-Options' to 'SAMEORIGIN'
+$app->forgetMiddleware('Illuminate\Http\FrameGuard');
 
 return $app;
