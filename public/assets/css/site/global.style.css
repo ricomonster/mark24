@@ -6,6 +6,7 @@ body {
     padding: 70px 0;
 }
 
+.navbar { background-color: #5bc0de; }
 .navbar-header .navbar-brand {
     background: url('/assets/images/logo.png') no-repeat center top;
     display: none;
@@ -14,14 +15,17 @@ body {
 }
 
 .navigation-items .navbar-nav li a {
-    border-right: 1px solid #ffffff;
+    border-right: 1px solid #46b8da;
+    color: #ffffff;
     line-height: 22px;
     padding: 12px 15px;
 }
 
 .navigation-items .navbar-nav li:first-child a {
-    border-left: 1px solid #ffffff;
+    border-left: 1px solid #46b8da;
 }
+
+.navigation-items .navbar-nav li a i { color: #a5c9f1; }
 
 .navigation-items .navbar-nav li a.menu-items { font-size: 24px; }
 .navigation-items .navbar-nav li a span { font-size: 13px; display: none; }

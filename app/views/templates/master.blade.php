@@ -1,6 +1,3 @@
-<?php
-    header('X-Frame-Options: GOFORIT');
-?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -51,24 +48,20 @@
                                 <i class="fa fa-home"></i> <span>Home</span>
                             </a>
                         </li>
-                        <!-- <li>
-                            <a href="/planner" data-toggle="tooltip" title="Planner"
-                            class="menu-items">
-                                <i class="fa fa-list-alt"></i>
-                            </a>
-                        </li> -->
                         <li>
                             <a href="/the-forum" data-toggle="tooltip" title="The Forum"
                             class="menu-items">
                                 <i class="fa fa-comments-o"></i> <span>The Forum</span>
                             </a>
                         </li>
+                        @if(Auth::user()->account_type == 1)
                         <li>
                             <a href="/the-library" data-toggle="tooltip" title="The Library"
                             class="menu-items">
                                 <i class="fa fa-archive"></i> <span>The Library</span>
                             </a>
                         </li>
+                        @endif
                     </ul>
                     <form class="navbar-form navbar-left" role="search">
                         <div class="input-group">
