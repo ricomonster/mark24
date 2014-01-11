@@ -173,10 +173,10 @@ Quiz Creator
                                     <label for="question-point">Points</label>
                                     <input type="text" name="question-point" id="question_point"
                                     class="form-control">
-                                    <button class="remove-question btn btn-default pull-right">
-                                        Remove Question
-                                    </button>
                                 </div>
+                                <button class="remove-question btn btn-default pull-right">
+                                    Remove Question
+                                </button>
                                 <div class="clearfix"></div>
                             </div>
                             <!-- question stream -->

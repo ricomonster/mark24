@@ -43,24 +43,24 @@ class QuestionList extends Eloquent {
             $questions['list'][$key] = $list;
             $questions['list'][$key]['question'] = $question;
             $questions['list'][$key]['question']['response'] = $response;
-            
+
             // check if quizTakerId is not null
             if(!is_null($quizTakerId)) {
                 // get the response of the user
-                $questions['list'][$key]['question']['answer_details'] = 
-                    QuestionList::quizTakerAnswer($quizTakerId,$question['question_id']);
+                $questions['list'][$key]['question']['answer_details'] =
+                    QuestionList::quizTakerAnswer($quizTakerId, $question['question_id']);
             }
         }
 
         return $questions;
     }
-    
+
     public static function quizTakerAnswer($quizTakerId, $questionId)
     {
         $answer = QuizAnswer::where('quiz_taker_id', '=', $quizTakerId)
             ->where('question_id', '=', $questionId)
             ->first();
-        
+
         return (empty($answer)) ? null : $answer->toArray();
     }
 }

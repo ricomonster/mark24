@@ -16,6 +16,7 @@ The Quiz Result
 
 .quiz-result .welcome-quiz-sheet-wrapper .welcome-contents .quiz-stats { padding: 10px 0 20px 20px; }
 .quiz-result .welcome-quiz-sheet-wrapper .welcome-contents .show-results { margin: 0 0 19px 20px; }
+.quiz-result .welcome-quiz-sheet-wrapper .welcome-contents .quiz-finished-message { padding: 10px 0 10px 20px; }
 
 .quiz-result-proper .quiz-result-header .quiz-title {
     display: inline-block;
@@ -26,7 +27,7 @@ The Quiz Result
 .quiz-result-proper .quiz-result-header .questions-completed {
     display: inline-block;
     text-align: center;
-    width: 70px;
+    width: 175px;
 }
 
 .quiz-result-proper .quiz-result-header .quiz-timer {
@@ -52,6 +53,7 @@ The Quiz Result
 .quiz-sheet .quiz-questions-stream { list-style: none; margin: 0; padding: 0; }
 .quiz-sheet .quiz-questions-stream .question-holder { display: none; padding: 19px; }
 .quiz-sheet .quiz-questions-stream .show-question { display: block; }
+.quiz-sheet .quiz-questions-stream .question-holder .question-text { margin-top: 10px; }
 .quiz-sheet .quiz-questions-stream .question-holder .question-responses {
     border-top: 1px solid #e3e3e3;
     margin-top: 20px;
@@ -94,6 +96,13 @@ The Quiz Result
     color: #ffffff;
 }
 
+.question-responses .multiple-choice-response-holder .wrong-choice .option-holder {
+    background-color: #d93f44;
+}
+.question-responses .multiple-choice-response-holder .wrong-choice .option-holder .choice-letter {
+    color: #ffffff;
+}
+
 .assigned-wrapper { border-top: 2px solid #dfe4e8; margin-top: 15px; padding-top: 10px; }
 .assigned-wrapper .assigned-details { margin-top: 5px; }
 .assigned-wrapper .assigned-details p { margin: 0 0 0 10px; }
@@ -118,18 +127,21 @@ The Quiz Result
 
 <div class="quiz-result" data-quiz-id="{{ $quiz->quiz_id }}"
 data-time-limit="{{ $quiz->time_limit }}">
-    <div class="welcome-quiz-sheet-wrapper well">
+    <div class="welcome-quiz-sheet-wrapper well"  style="display: none;">
         <div class="welcome-contents">
             <h2>{{ $quiz->title }}</h2>
             <div class="quiz-stats">
-                <span class="total-questions">Total questions: 1</span>
+                <span class="total-questions">Total questions:
+                <?php echo count($questions['list']); ?></span>
                 <span class="quiz-result-divider">|</span>
                 <span class="time-limit-quiz">Time Limit: 1:00:00</span>
                 <span class="quiz-result-divider">|</span>
                 <span class="time-limit-quiz">Time Taken: 1:00:00</span>
             </div>
             <div class="quiz-finished-message">
-                <span>This quiz is finished. You completed 3/3 questions.</span>
+                <span>This quiz is finished.
+                You completed 3/<?php echo count($questions['list']); ?>
+                questions.</span>
             </div>
             <button class="btn btn-primary btn-large show-results"
             data-quiz-id="{{ $quiz->quiz_id }}">
@@ -138,15 +150,14 @@ data-time-limit="{{ $quiz->time_limit }}">
         </div>
     </div>
 
-    <div class="quiz-result-proper" style="display: none;">
+    <div class="quiz-result-proper">
         <div class="row">
             <div class="col-md-9">
                 <div class="quiz-result-header well">
                     <input type="text" class="form-control quiz-title" value="{{ $quiz->title }}">
-                    <input type="text" class="form-control questions-completed" value="0/1" readonly>
-                    <span class="quiz-result-label">questions completed</span>
-                    <input type="text" class="form-control quiz-timer" value="00:00:00" readonly>
-                    <span class="quiz-result-label">left</span>
+                    <span class="questions-completed">3/<?php echo count($questions['list']); ?>
+                    questions completed</span>
+                    <span class="quiz-result-label">00:00:00 limit</span>
                 </div>
 
                 <div class="row">
@@ -182,16 +193,142 @@ data-time-limit="{{ $quiz->time_limit }}">
                                 <div class="clearfix"></div>
                             </div>
 
-                            <ul class="quiz-questions-stream"></ul>
+                            <ul class="quiz-questions-stream">
+                                @foreach($questions['list'] as $key => $question)
+                                <?php $response = $question['question']['response']; ?>
+                                <?php $answer = $question['question']['answer_details']; ?>
+                                <?php
+                                $answer = Helper::getAnswer(
+                                    $takerDetails['quiz_taker_id'],
+                                    $question['question']['question_id']);
+                                ?>
+                                <li class="question-holder <?php echo ($key == 0) ? 'show-question' : null; ?>"
+                                data-question-list-id="{{ $question['question_list_id'] }}"
+                                data-question-id="{{ $question['question']['question_id'] }}">
+                                    @if(empty($answer))
+                                    <div class="question-status pull-left label label-warning">
+                                        You haven't answered this question
+                                    </div>
+                                    @endif
+                                    @if(!empty($answer) && $answer['is_correct'] === 'TRUE')
+                                    <div class="question-status pull-left label label-success">
+                                        Your answer is correct
+                                    </div>
+                                    @endif
+                                    @if(!empty($answer) && $answer['is_correct'] === 'FALSE')
+                                    <div class="question-status pull-left label label-danger">
+                                        Your answer is not correct
+                                    </div>
+                                    @endif
+                                    @if(!empty($answer) && empty($answer['is_correct']))
+                                    <div class="question-status pull-left label label-info">
+                                        Your answer is not yet graded
+                                    </div>
+                                    @endif
+                                    <div class="question-point pull-right">Question Total: {{ $question['question']['question_point'] }} points</div>
+                                    <div class="clearfix"></div>
+
+                                    <div class="question-text">
+                                        {{ $question['question']['question'] }}
+                                    </div>
+
+                                    <div class="question-responses">
+                                        @if($question['question']['question_type'] == 'MULTIPLE_CHOICE')
+                                        <ul class="multiple-choice-response-holder">
+                                            <?php $alpha = 'A'; ?>
+                                            @foreach($response as $key => $choice)
+                                            @if(empty($answer) || $answer['is_correct'] === 'TRUE')
+                                            <li class="clearfix option-wrapper
+                                            <?php
+                                            echo ($choice['is_answer'] === 'TRUE') ?
+                                            'choice-answer' : null;
+                                            ?>">
+                                                <div class="option-holder">
+                                                    <div class="choice-letter">
+                                                        <?php echo ($key == 0) ? 'A' : ++$alpha; ?>
+                                                    </div>
+                                                    <div class="choice-text">
+                                                        {{ $choice['choice_text'] }}
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            @endif
+
+                                            @if(!empty($answer) && $answer['is_correct'] === 'FALSE')
+                                            <li class="clearfix option-wrapper
+                                            <?php
+                                            echo ($choice['is_answer'] === 'TRUE') ? 'choice-answer' : null;
+                                            ?>
+                                            <?php
+                                            echo ($choice['multiple_choice_id'] === $answer['multiple_choice_answer']) ?
+                                            'wrong-choice' : null;
+                                            ?>">
+                                                <div class="option-holder">
+                                                    <div class="choice-letter">
+                                                        <?php echo ($key == 0) ? 'A' : ++$alpha; ?>
+                                                    </div>
+                                                    <div class="choice-text">
+                                                        {{ $choice['choice_text'] }}
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            @endif
+                                            @endforeach
+                                        </ul>
+                                        @elseif($question['question']['question_type'] == 'TRUE_FALSE')
+                                        <div class="response-true-false"
+                                        data-question-id="{{ $question['question']['question_id'] }}">
+                                            @if(empty($answer) || $answer['is_correct'] === 'TRUE')
+                                            <button class="btn true-false-answer
+                                            <?php echo ($response['answer'] === 'TRUE') ?
+                                            'btn-success' : 'btn-default '; ?>">
+                                                TRUE
+                                            </button>
+
+                                            <button class="btn true-false-answer
+                                            <?php echo ($response['answer'] === 'FALSE') ?
+                                            'btn-success' : 'btn-default '; ?>">
+                                                FALSE
+                                            </button>
+                                            @endif
+                                            @if(!empty($answer))
+                                            @if($answer['is_correct'] === 'FALSE')
+                                            @if($answer['true_false_answer'] === 'TRUE')
+                                            <button class="btn true-false-answer btn-danger">TRUE</button>
+                                            @else
+                                            <button class="btn true-false-answer btn-success">TRUE</button>
+                                            @endif
+
+                                            @if($answer['true_false_answer'] === 'FALSE')
+                                            <button class="btn true-false-answer btn-danger">FALSE</button>
+                                            @else
+                                            <button class="btn true-false-answer btn-success">FALSE</button>
+                                            @endif
+                                            @endif
+
+                                            @endif
+                                        </div>
+                                        @elseif($question['question']['question_type'] == 'SHORT_ANSWER')
+                                        <?php
+                                        $shortAnswerText = (!empty($answer) && !empty($answer->short_answer_text)) ?
+                                            $answer->short_answer_text : null;
+                                        ?>
+                                        <div class="response-short-answer">
+                                            <textarea class="form-control short-answer-text"
+                                            data-question-id="{{ $question['question']['question_id'] }}">{{ $shortAnswerText }}</textarea>
+                                        </div>
+                                        @endif
+                                    </div>
+                                </li>
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="quiz-result-details well">
-                    <button class="btn btn-primary btn-large btn-block submit-quiz">
-                        Submit Quiz
-                    </button>
+                    <div class="quiz-results"></div>
 
                     <div class="assigned-wrapper">
                         <strong>Assigned By</strong>
@@ -222,7 +359,7 @@ data-time-limit="{{ $quiz->time_limit }}">
 @stop
 
 @section('js')
-<!-- <script type="text/javascript" src="/assets/js/sitefunc/thequizsheet.js"></script> -->
+<script type="text/javascript" src="/assets/js/sitefunc/quizresult.js"></script>
 <script>
 // // prototype counter
 // var counter = 0;

@@ -54,7 +54,7 @@ var TheQuizSheet = {
                     self.config.quizTimeLimit = self.config.theQuizSheet.data('time-limit');
                 }
 
-                // self.quizTimer();
+                self.quizTimer();
 
                 // load the questions
                 self.loadQuestions();
