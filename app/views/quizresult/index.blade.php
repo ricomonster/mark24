@@ -16,7 +16,10 @@ The Quiz Result
 
 .quiz-result .welcome-quiz-sheet-wrapper .welcome-contents .quiz-stats { padding: 10px 0 20px 20px; }
 .quiz-result .welcome-quiz-sheet-wrapper .welcome-contents .show-results { margin: 0 0 19px 20px; }
-.quiz-result .welcome-quiz-sheet-wrapper .welcome-contents .quiz-finished-message { padding: 10px 0 10px 20px; }
+.quiz-result .welcome-quiz-sheet-wrapper .welcome-contents .quiz-finished-message {
+    font-weight: bold;
+    padding: 5px 0 10px 20px;
+}
 
 .quiz-result-proper .quiz-result-header .quiz-title {
     display: inline-block;
@@ -107,6 +110,17 @@ The Quiz Result
 .assigned-wrapper .assigned-details { margin-top: 5px; }
 .assigned-wrapper .assigned-details p { margin: 0 0 0 10px; }
 .instruction-wrapper { border-top: 2px solid #dfe4e8; margin-top: 15px; padding-top: 10px; }
+
+.quiz-result-details .quiz-results {
+    background: #f3f5f7;
+    border: 1px solid #dfe4e8;
+    margin-bottom: 20px;
+    padding: 7px;
+    text-align: center;
+}
+
+.quiz-result-details .quiz-results .taker-score h3 { font-weight: bold; margin: 0; padding: 0; }
+.quiz-result-details .quiz-results .ungraded-details { font-weight: bold; margin-top: 10px; }
 /* Responsive Shizs
 ---------------------------------------------------------------*/
 @media (max-width: 420px) {
@@ -127,20 +141,20 @@ The Quiz Result
 
 <div class="quiz-result" data-quiz-id="{{ $quiz->quiz_id }}"
 data-time-limit="{{ $quiz->time_limit }}">
-    <div class="welcome-quiz-sheet-wrapper well"  style="display: none;">
+    <div class="welcome-quiz-sheet-wrapper well">
         <div class="welcome-contents">
             <h2>{{ $quiz->title }}</h2>
-            <div class="quiz-stats">
+            <div class="quiz-stats text-muted">
                 <span class="total-questions">Total questions:
                 <?php echo count($questions['list']); ?></span>
                 <span class="quiz-result-divider">|</span>
-                <span class="time-limit-quiz">Time Limit: 1:00:00</span>
+                <span class="time-limit-quiz">Time Limit: <?php echo $timeDetails['limit']; ?></span>
                 <span class="quiz-result-divider">|</span>
-                <span class="time-limit-quiz">Time Taken: 1:00:00</span>
+                <span class="time-limit-quiz">Time Taken: <?php echo $timeDetails['spent']; ?></span>
             </div>
-            <div class="quiz-finished-message">
+            <div class="quiz-finished-message text-muted">
                 <span>This quiz is finished.
-                You completed 3/<?php echo count($questions['list']); ?>
+                You completed <?php echo $answerCount; ?>/<?php echo count($questions['list']); ?>
                 questions.</span>
             </div>
             <button class="btn btn-primary btn-large show-results"
@@ -150,14 +164,15 @@ data-time-limit="{{ $quiz->time_limit }}">
         </div>
     </div>
 
-    <div class="quiz-result-proper">
+    <div class="quiz-result-proper" style="display: none;">
         <div class="row">
             <div class="col-md-9">
                 <div class="quiz-result-header well">
                     <input type="text" class="form-control quiz-title" value="{{ $quiz->title }}">
-                    <span class="questions-completed">3/<?php echo count($questions['list']); ?>
+                    <span class="questions-completed text-muted">3/<?php echo count($questions['list']); ?>
                     questions completed</span>
-                    <span class="quiz-result-label">00:00:00 limit</span>
+                    <i class="fa fa-clock-o"></i>
+                    <span class="quiz-result-label text-muted"><?php echo $timeDetails['limit']; ?> limit</span>
                 </div>
 
                 <div class="row">
@@ -328,7 +343,19 @@ data-time-limit="{{ $quiz->time_limit }}">
             </div>
             <div class="col-md-3">
                 <div class="quiz-result-details well">
-                    <div class="quiz-results"></div>
+                    <div class="quiz-results">
+                        <div class="taker-score">
+                            <h3>
+                                {{ $takerDetails->score }}/{{ $quiz->total_score }}
+                            </h3>
+                            <span class="">total points</span>
+                        </div>
+                        @if($ungraded != 0)
+                        <div class="ungraded-details">
+                            ({{ $ungraded}} not graded)
+                        </div>
+                        @endif
+                    </div>
 
                     <div class="assigned-wrapper">
                         <strong>Assigned By</strong>
@@ -346,8 +373,8 @@ data-time-limit="{{ $quiz->time_limit }}">
                     <div class="instruction-wrapper">
                         <strong>Instructions</strong>
                         <p>
-                            Answer each question to the left. When you have answered
-                            all of the questions, click the "Submit Quiz" button above.
+                            Congratulations! You have completed this quiz.
+                            Study your results to the left.
                         </p>
                     </div>
                 </div>

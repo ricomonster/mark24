@@ -1,4 +1,4 @@
-var TheQuizSheet = {
+var QuizResult = {
     init : function(config)
     {
         // this acts as the constructor which gets
@@ -10,15 +10,28 @@ var TheQuizSheet = {
     bindEvents : function()
     {
         $(document)
+            .on('click', this.config.showResults.selector, this.showResultProper)
             .on('click', this.config.questionItem.selector, this.changeQuestion)
             .on('click', this.config.nextButton.selector, this.changeNextQuestion)
             .on('click', this.config.previousButton.selector, this.changePreviousQuestion);
     },
 
+    // shows the results
+    showResultProper : function(e)
+    {
+        var self = QuizResult;
+        self.config.messageHolder.show().find('span').text('Loading...');
+        self.config.welcomeWrapper.hide();
+        self.config.resultProper.show();
+        self.config.messageHolder.hide();
+
+        return false;
+    },
+
     // changes the question shown
     changeQuestion : function(e)
     {
-        var self            = TheQuizSheet;
+        var self            = QuizResult;
         var $this           = $(this);
         var questionList    = $this.data('question-list-id');
 
@@ -44,7 +57,7 @@ var TheQuizSheet = {
     // selects and shows the next question
     changeNextQuestion : function()
     {
-        var self = TheQuizSheet;
+        var self = QuizResult;
         var $this = $(this);
 
         self.config.messageHolder.show().find('span').text('Loading...');
@@ -76,7 +89,7 @@ var TheQuizSheet = {
     // selects and shows the previous question
     changePreviousQuestion : function()
     {
-        var self = TheQuizSheet;
+        var self = QuizResult;
         var $this = $(this);
 
         self.config.messageHolder.show().find('span').text('Loading...');
@@ -108,7 +121,7 @@ var TheQuizSheet = {
     // this will also indicate the state of the navigation buttons
     validateNavigation : function()
     {
-        var self = TheQuizSheet;
+        var self = QuizResult;
         var listHolder = $('.question-items-holder');
         var firstChild = listHolder.find('.active').is(':first-child');
         var lastChild = listHolder.find('.active').is(':last-child');
@@ -129,28 +142,16 @@ var TheQuizSheet = {
     }
 }
 
-TheQuizSheet.init({
-    quizTakerId : 0,
-    quizTimeLimit : 0,
-    activeTimer : 0,
-
-    startQuiz : $('.start-quiz'),
-    questionItem : $('.question-item'),
-    choiceText : $('.choice-text'),
-    trueFalseAnswer : $('.true-false-answer'),
-    shortAnswerText : $('.short-answer-text'),
-    submitButton : $('.submit-quiz'),
-
-    theQuizSheet : $('.the-quiz-sheet'),
+QuizResult.init({
+    showResults : $('.show-results'),
     welcomeWrapper : $('.welcome-quiz-sheet-wrapper'),
-    theQuizSheetProper : $('.the-quiz-sheet-proper'),
-    quizTimer : $('.quiz-timer'),
+    resultProper : $('.quiz-result-proper'),
+    questionItem : $('.question-item'),
+    nextButton : $('.show-next'),
+    previousButton : $('.show-previous'),
+    messageHolder : $('.message-holder'),
 
     questionStream : $('.quiz-questions-stream'),
     questionItemsHolder : $('.question-items-holder'),
-    questionNumberLabel : $('.question-number-label'),
-
-    nextButton : $('.show-next'),
-    previousButton : $('.show-previous'),
-    messageHolder : $('.message-holder')
+    questionNumberLabel : $('.question-number-label')
 })

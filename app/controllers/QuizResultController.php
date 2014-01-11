@@ -20,10 +20,20 @@ class QuizResultController extends BaseController
             ->first();
 
         // validate if quiz is empty
-        if(empty($quiz)) {
+        if(empty($quiz) || empty($alreadyTaken)) {
             // redirect to 404
             return View::make('templates.fourohfour');
         }
+
+        // get how many questions does the user taken
+        $countAnswer = QuizAnswer::where('quiz_taker_id', '=', $alreadyTaken->quiz_taker_id)
+            ->get()
+            ->count();
+        // count ungraded answers
+        $countUngraded = QuizAnswer::where('quiz_taker_id', '=', $alreadyTaken->quiz_taker_id)
+            ->where('is_correct', '=', '')
+            ->get()
+            ->count();
 
         // get the questions
         $questions = QuestionList::getQuizQuestions($quizId, $alreadyTaken->quiz_taker_id);
@@ -34,7 +44,26 @@ class QuizResultController extends BaseController
         return View::make('quizresult.index')
             ->with('quiz', $quiz)
             ->with('takerDetails', $alreadyTaken)
+            ->with('timeDetails', array(
+                'limit' => $this->timeConverter($quiz->time_limit),
+                'spent' => $this->timeConverter($quiz->time_limit - $alreadyTaken->time_remaining)))
             ->with('questions', $questions)
-            ->with('assigned', $assigned);
+            ->with('assigned', $assigned)
+            ->with('answerCount', $countAnswer)
+            ->with('ungraded', $countUngraded);
+    }
+
+    protected function timeConverter($timeInSeconds)
+    {
+        $totalSeconds = $timeInSeconds;
+        $hours = ( $totalSeconds / 3600 ) % 24;
+        $minutes = ( $totalSeconds / 60 ) % 60;
+        $seconds = $totalSeconds % 60;
+
+        $result = ($hours < 10 ? "0".$hours : $hours).":"
+            .($minutes < 10 ? "0".$minutes : $minutes).":"
+            .($seconds  < 10 ? "0".$seconds : $seconds);
+
+        return $result;
     }
 }
