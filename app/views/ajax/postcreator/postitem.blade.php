@@ -76,37 +76,36 @@
                     $content = $post->alert_content;
                     break;
                 case 'quiz' :
-                    $quizDetails = Helper::getQuizDetails($post->quiz_id);
             ?>
-                <strong class="quiz-title">{{ $quizDetails['title'] }}</strong>
-                <div class="quiz-button-wrapper">
-                    @if(Auth::user()->account_type == 1)
-                    <a href="/quiz-manager/{{ $post->quiz_id }}" class="btn btn-default">
-                        Turned In (0)
-                    </a>
-                    <span class="due-date">Due {{ date('M d, Y', strtotime($post->quiz_due_date)) }}</span>
-                    @endif
+                    <strong class="quiz-title">{{ $post->quiz->details->title }}</strong>
+                    <div class="quiz-button-wrapper">
+                        @if(Auth::user()->account_type == 1)
+                        <a href="/quiz-manager/{{ $post->quiz_id }}" class="btn btn-default">
+                            Turned In ({{ $post->quiz->turned_in->takers }})
+                        </a>
+                        <span class="due-date">
+                            Due {{ date('M d, Y', strtotime($post->quiz_due_date)) }}
+                        </span>
+                        @endif
 
-                    @if(Auth::user()->account_type == 2)
-                    <?php $taken = Helper::checkQuizTaken($post->quiz_id); ?>
-                    @if(empty($taken))
-                    <a href="/quiz-sheet/{{ $post->quiz_id }}" class="btn btn-default">
-                        Take Quiz
-                    </a>
-                    <span class="due-date">Due {{ date('M d, Y', strtotime($post->
-                    quiz_due_date)) }}</span>
-                    @endif
-                    @if(!empty($taken))
-                    <a href="/quiz-result/{{ $post->quiz_id }}" class="btn btn-default">
-                        Quiz Result
-                    </a>
-                    @endif
-
-                    @endif
-                </div>
-                <div class="question-count-wrapper">
-                    <strong class="count-text">x question</strong>
-                </div>
+                        @if(Auth::user()->account_type == 2)
+                        @if(empty($post->quiz->taken))
+                        <a href="/quiz-sheet/{{ $post->quiz_id }}" class="btn btn-default">
+                            Take Quiz
+                        </a>
+                        <span class="due-date">Due {{ date('M d, Y', strtotime($post->
+                        quiz_due_date)) }}</span>
+                        @endif
+                        @if(!empty($post->quiz->taken))
+                        <a href="/quiz-result/{{ $post->quiz_id }}" class="btn btn-default">
+                            Quiz Result
+                        </a>
+                        @endif
+                        @endif
+                    </div>
+                    <div class="question-count-wrapper">
+                        <strong class="count-text">{{ $post->quiz->question_count }}</strong>
+                    </div>
             <?php
                     break;
                 default :
