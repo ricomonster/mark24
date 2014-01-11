@@ -190,6 +190,9 @@ Route::get('quiz-creator', 'QuizCreatorController@getIndex');
 // Quiz Manager Routes
 Route::get('quiz-manager/{quizId}', 'QuizManagerController@index');
 
+// Quiz Result Routes
+Route::get('quiz-result/{quizId}', 'QuizResultController@index');
+
 // Quiz Sheet Routes
 Route::get('quiz-sheet/{quizId}', 'QuizSheetController@index');
 
