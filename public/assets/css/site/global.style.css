@@ -50,6 +50,19 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Noto Sans'; }
     display: none;
 }
 .navigation-items .navbar-nav .notification-dropdown .notification-stream { width: 400px; }
+.navigation-items .navbar-nav .notification-dropdown .notification-stream li a { color:  #428bca; }
+.navigation-items .navbar-nav .notification-dropdown .notification-stream li a:hover { color: #ffffff; }
+.navigation-items .navbar-nav .notification-dropdown .notification-stream .see-all a {
+    font-weight: bold;
+    text-align: center;
+}
+
+.navigation-items .navbar-nav .notification-dropdown .notification-stream li a i { margin-right: 5px; }
+.navigation-items .navbar-nav .notification-dropdown .notification-stream .see-all a:hover {
+    background-color: #ffffff;
+    color:  #428bca;
+    text-decoration: underline;
+}
 
 /* override Bootstrap Components */
 .well {

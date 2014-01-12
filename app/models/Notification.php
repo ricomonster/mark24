@@ -453,6 +453,7 @@ class Notification extends Eloquent
                     }
 
                     $link = '/post/'.$post->post_id;
+                    $icon = 'fa-comment';
                     break;
                 // direct message
                 case 'direct_message' :
@@ -473,6 +474,7 @@ class Notification extends Eloquent
                     }
 
                     $link = '/the-forum/thread/'.$thread->seo_url.'/'.$thread->forum_thread_id;
+                    $icon = 'fa-comments';
                     break;
                 // group notifications
                 case 'join_group' :
@@ -488,6 +490,7 @@ class Notification extends Eloquent
                     }
 
                     $link = '/groups/'.$group->group_id;
+                    $icon = 'fa-plus';
                     break;
                 case 'left_group' :
                     break;
@@ -503,16 +506,19 @@ class Notification extends Eloquent
                     }
 
                     $link = '/post/'.$notification->involved_id;
+                    $icon = 'fa-thumbs-up';
                     break;
                 // posts
                 case 'posted' :
                     $message = $last->name.' posted something on your group.';
                     $link = '/post/'.$notification->involved_id;
+                    $icon = 'fa-pencil';
                     break;
                 // quiz
                 case 'quiz_graded' :
                     $message = $last->name.' already graded your quiz';
                     $link = '/quiz-result/'.$notification->involved_id;
+                    $icon = 'fa-star';
                     break;
                 case 'quiz_submitted' :
                     if(empty($all) || (!empty($all) && $all->count() == 1)) {
@@ -524,12 +530,14 @@ class Notification extends Eloquent
                         $message = $last->name.' and '.($all->count() - 1).' submitted a quiz.';
                     }
                     $link = '/quiz-result/'.$notification->involved_id;
+                    $icon = 'fa-clipboard';
                     break;
             }
 
             // echo $message.'<br/>'.$link.'<br/>';
             $lists->$key->message = $message;
             $lists->$key->link = $link;
+            $lists->$key->icon = $icon;
         }
 
         return $lists;

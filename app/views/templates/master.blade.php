@@ -82,7 +82,12 @@
                             </a>
                             <ul class="notification-stream dropdown-menu"
                             role="menu" aria-labelledby="drop1">
-                                <li class="spinner">Spinner</li>
+                                <li class="see-all">
+                                    <a href="/notifications">
+                                        <i class="fa fa-list-ul"></i> See all notifications
+                                    </a>
+                                </li>
+                                <!-- <li class="spinner">Spinner</li> -->
                             </ul>
                         </li>
                         <li class="dropdown nav-profile-avatar">
@@ -213,13 +218,13 @@
                     var notificationStream = $('.notification-stream');
                     var notificationCounter = $('.notification-count');
                     // empty the contents
-                    notificationStream.contents(':not(.spinner)').remove();
+                    notificationStream.contents(':not(.spinner, .see-all)').remove();
                     // fetch data
                     $.ajax({
                         url : '/ajax/notifications/fetch'
                     }).done(function(response) {
                         if(response) {
-                            notificationStream.append(response)
+                            notificationStream.prepend(response)
                                 .find('.spinner').hide();
                             notificationCounter.fadeOut(300);
                             notificationCounter.parent().delay(310)
