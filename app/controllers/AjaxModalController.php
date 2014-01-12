@@ -246,7 +246,9 @@ class AjaxModalController extends BaseController {
         // delete the post from the recipients
         PostRecipient::where('post_id', '=', $postId)->delete();
         // delete the post
-        $post = Post::find($postId)->delete();
+        $post = Post::find($postId);
+        $post->post_active = 0;
+        $post->save();
 
         return Response::json(array('error' => false));
     }

@@ -16,8 +16,8 @@ Quiz Creator
 .item-list-wrapper ul li.has-error:hover a { color: #b94a48; font-weight: bold; }
 
 .quiz-creator-header { padding: 19px 15px; }
-.quiz-creator-header .form-group { margin: 0; }
-.quiz-creator-header .form-group:first-child { margin-bottom: 10px; }
+.quiz-creator-header .form-group { display: inline-block; margin: 0; }
+.quiz-creator-header .form-group:first-child { width: 475px; }
 .quiz-creator-header .form-group label { font-weight: bold; }
 .quiz-creator-header .form-group #quiz_time_limit { display: inline-block; width: 50px; }
 
@@ -81,6 +81,43 @@ Quiz Creator
 .about-quiz-holder { border-top: 2px solid #e3e3e3; margin-top: 20px; padding-top: 10px; }
 .quiz-total-score { font-size: 14px; }
 .quiz-description { margin-top: 10px; }
+
+/* Responsive Shizs
+---------------------------------------------------------------*/
+@media(max-width: 732px) {
+    .quiz-creator-header .form-group:first-child { margin-bottom: 10px; width: 100%; }
+}
+
+@media(max-width: 610px) and (min-width: 501px) {
+    .multiple-choice-response .multiple-choice-response-holder li .form-control {
+        width: 93% !important;
+    }
+}
+
+@media(max-width: 500px) and (min-width: 480px)  {
+    .multiple-choice-response .multiple-choice-response-holder li .form-control {
+        width: 92% !important;
+    }
+}
+
+@media(max-width: 565px) {
+    .quiz-first-question-wrapper .form-group { width: 100%; }
+    .quiz-first-question-wrapper .form-group:first-child select { width: 100%; }
+}
+
+@media(max-width: 550px) {
+    .quiz-creator-proper .question-proper-header .form-group { width: 45%; }
+    .quiz-creator-proper .question-proper-header .remove-question {
+        float: left !important;
+        margin-top: 10px;
+        width: 100%;
+    }
+}
+
+@media(max-width: 515px) {
+    .quiz-creator-proper .question-proper-header .form-group { width: 40%; }
+    .quiz-creator-proper .question-proper-header .form-group:first-child { width: 46%; }
+}
 </style>
 @stop
 
