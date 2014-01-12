@@ -9,9 +9,10 @@ class NotificationController extends BaseController
      */
     public function index()
     {
-        Notification::lists();
-        // echo '<pre>';
-        // print_r($notifications);
-        // echo '</pre>';
+        // this will show the unsummarized version of the notifications
+        $notifications = Notification::summarized();
+        echo '<pre>';
+        print_r($notifications);
+        echo '</pre>';
     }
 }

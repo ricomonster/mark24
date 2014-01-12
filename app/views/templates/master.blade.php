@@ -74,10 +74,16 @@
                         </div>
                     </form>
                     <ul class="nav navbar-nav pull-right">
-                        <li>
-                            <a href="#" class="menu-items" data-toggle="tooltip" title="Notifications">
+                        <li class="dropdown notification-dropdown">
+                            <a href="#" role="button" data-toggle="dropdown"
+                            class="dropdown-toggle menu-items fetch-notifications">
                                 <i class="fa fa-bell-o"></i>
+                                <span class="label label-danger notification-count"></span>
                             </a>
+                            <ul class="notification-stream dropdown-menu"
+                            role="menu" aria-labelledby="drop1">
+                                <li class="spinner">Spinner</li>
+                            </ul>
                         </li>
                         <li class="dropdown nav-profile-avatar">
                             <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
@@ -140,6 +146,17 @@
         </script>
         <script>
             (function($) {
+                var notificationCounter = $('.notification-count');
+                // first to trigger on every page load to check for notifications
+                $.ajax({
+                    url : '/ajax/notifications/check'
+                }).done(function(response) {
+                    if(response.count) {
+                        notificationCounter.text(response.count)
+                            .animate({ width: 'toggle' }, 350);
+                    }
+                })
+
                 $(document).on('click', '.show-report-problem', function(e) {
                     var modal = $('#the_modal');
                     modal.modal('show');
@@ -191,6 +208,27 @@
 
                     e.preventDefault();
                 });
+
+                $(document).on('click', '.fetch-notifications', function(e) {
+                    var notificationStream = $('.notification-stream');
+                    var notificationCounter = $('.notification-count');
+                    // empty the contents
+                    notificationStream.contents(':not(.spinner)').remove();
+                    // fetch data
+                    $.ajax({
+                        url : '/ajax/notifications/fetch'
+                    }).done(function(response) {
+                        if(response) {
+                            notificationStream.append(response)
+                                .find('.spinner').hide();
+                            notificationCounter.fadeOut(300);
+                            notificationCounter.parent().delay(310)
+                                .animate({ width: '54px' }, 350);
+                        }
+                    });
+
+                    e.preventDefault();
+                })
             })(jQuery);
         </script>
     </body>

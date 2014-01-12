@@ -90,6 +90,10 @@ Route::post('ajax/modal/delete-post', 'AjaxModalController@deletePost');
 Route::post('ajax/modal/start-group-chat', 'AjaxModalController@startGroupChat');
 Route::post('ajax/modal/submit-problem', 'AjaxModalController@submitProblem');
 
+// AJAX Notification Routes
+Route::get('ajax/notifications/fetch', 'AjaxNotificationController@fetch');
+Route::get('ajax/notifications/check', 'AjaxNotificationController@fetchCount');
+
 // AJAX QuizCreator Routes
 Route::post('ajax/quiz-creator/create-new-quiz', 'AjaxQuizCreatorController@postCreateQuiz');
 Route::post('ajax/quiz-creator/update-quiz', 'AjaxQuizCreatorController@postUpdateQuiz');
