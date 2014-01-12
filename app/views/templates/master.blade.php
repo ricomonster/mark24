@@ -10,7 +10,7 @@
         <title>eLinet | @yield('title')</title>
 
         <!-- Bootstrap core CSS -->
-        <link href="/assets/css/bootstrap.css" rel="stylesheet">
+        <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
         <!-- Font Awesome CSS -->
         <link href="/assets/css/font-awesome/font-awesome.min.css" rel="stylesheet">
         <!-- Global CSS -->
