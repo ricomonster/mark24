@@ -489,7 +489,7 @@ class Notification extends Eloquent
                             ' others joined your group '.$group->name.'.';
                     }
 
-                    $link = '/groups/'.$group->group_id;
+                    $link = '/groups/'.$group->group_id.'/members';
                     $icon = 'fa-plus';
                     break;
                 case 'left_group' :
@@ -544,6 +544,11 @@ class Notification extends Eloquent
     }
 
     public static function unsummarized()
+    {
+
+    }
+
+    public static function seen()
     {
 
     }

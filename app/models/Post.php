@@ -6,108 +6,114 @@ class Post extends Eloquent {
 
     public static function getPost($postId)
     {
-        $post = Post::find($postId);
+        $post = Post::where('post_id', '=', $postId)
+            ->where('post_active', '=', 1)
+            ->first();
 
-        $details = new StdClass();
-        $details = $post;
-        // get recipients
-        $details->recipients = PostRecipient::getRecipients($post->post_id);
-        // get user
-        $details->user = User::find($post->user_id);
-        // check if the post is an assignment
-        if($post->post_type == 'assignment') {
-            $assignment = Assignment::find($post->assignment_id);
-            $details->assignment = $assignment;
-            // if the user is a instructor
-            // get the number of users who submitted the quiz
-            if(Auth::user()->account_type == 1) {
-                $submittedAssignments = AssignmentResponse::where(
-                    'assignment_id', '=', $post->assignment_id)
-                    ->get()
-                    ->count();
-                $details->assignments_submitted = $submittedAssignments;
-            }
+        if(!empty($post)) {
+            $details = new StdClass();
+            $details = $post;
+            // get recipients
+            $details->recipients = PostRecipient::getRecipients($post->post_id);
+            // get user
+            $details->user = User::find($post->user_id);
+            // check if the post is an assignment
+            if($post->post_type == 'assignment') {
+                $assignment = Assignment::find($post->assignment_id);
+                $details->assignment = $assignment;
+                // if the user is a instructor
+                // get the number of users who submitted the quiz
+                if(Auth::user()->account_type == 1) {
+                    $submittedAssignments = AssignmentResponse::where(
+                        'assignment_id', '=', $post->assignment_id)
+                        ->get()
+                        ->count();
+                    $details->assignments_submitted = $submittedAssignments;
+                }
 
-            // if the user is a student
-            // check if the student user already submitted the assignment
-            if(Auth::user()->account_type == 2) {
-                $assignmentSubmitted = AssignmentResponse::where('user_id', '=', Auth::user()->id)
-                    ->where('assignment_id', '=', $post->assignment_id)
-                    ->first();
-                if(!empty($assignmentSubmitted)) {
-                    $details->assignment_submitted = $assignmentSubmitted;
+                // if the user is a student
+                // check if the student user already submitted the assignment
+                if(Auth::user()->account_type == 2) {
+                    $assignmentSubmitted = AssignmentResponse::where('user_id', '=', Auth::user()->id)
+                        ->where('assignment_id', '=', $post->assignment_id)
+                        ->first();
+                    if(!empty($assignmentSubmitted)) {
+                        $details->assignment_submitted = $assignmentSubmitted;
+                    }
                 }
             }
-        }
 
-        // if the post is a quiz
-        if($post->post_type == 'quiz') {
-            $quiz = new StdClass();
-            $quiz->details = Helper::getQuizDetails($post->quiz_id);
-            // count number of questions
-            $count = QuestionList::where('quiz_id', '=', $post->quiz_id)
-                ->get()
-                ->count();
-            $quiz->question_count = ($count == 1) ?
-                $count.' question' : $count.' questions';
-
-            // check the account type of the user
-            if(Auth::user()->account_type == 1) {
-                // get details of the quiz
-                $turnedIn = new StdClass();
-                // get turned in stats
-                $turnedIn->takers = QuizTaker::where('quiz_id', '=', $post->quiz_id)
-                    ->where(function($query) {
-                        $query->orWhere('status', '=', 'PASSED')
-                            ->orWhere('status', '=', 'GRADED');
-                    })
+            // if the post is a quiz
+            if($post->post_type == 'quiz') {
+                $quiz = new StdClass();
+                $quiz->details = Helper::getQuizDetails($post->quiz_id);
+                // count number of questions
+                $count = QuestionList::where('quiz_id', '=', $post->quiz_id)
                     ->get()
                     ->count();
-                $quiz->turned_in = $turnedIn;
+                $quiz->question_count = ($count == 1) ?
+                    $count.' question' : $count.' questions';
+
+                // check the account type of the user
+                if(Auth::user()->account_type == 1) {
+                    // get details of the quiz
+                    $turnedIn = new StdClass();
+                    // get turned in stats
+                    $turnedIn->takers = QuizTaker::where('quiz_id', '=', $post->quiz_id)
+                        ->where(function($query) {
+                            $query->orWhere('status', '=', 'PASSED')
+                                ->orWhere('status', '=', 'GRADED');
+                        })
+                        ->get()
+                        ->count();
+                    $quiz->turned_in = $turnedIn;
+                }
+
+                // check if the user already take the quiz
+                if(Auth::user()->account_type == 2) {
+                    // check if the user already took the quiz
+                    $taken = Helper::checkQuizTaken($post->quiz_id);
+                    $quiz->taken = (empty($taken)) ? null : $taken;
+                }
+
+                $details->quiz = $quiz;
             }
 
-            // check if the user already take the quiz
-            if(Auth::user()->account_type == 2) {
-                // check if the user already took the quiz
-                $taken = Helper::checkQuizTaken($post->quiz_id);
-                $quiz->taken = (empty($taken)) ? null : $taken;
+            // get likes
+            $likes = new StdClass();
+            $likeCount = Like::where('post_id', '=', $post->post_id)
+                ->get()->count();
+            $likes->count = $likeCount;
+            if($likeCount != 0) {
+                // get the list of likers
+                $likes->likers = Helper::likes($post->post_id);
+                // check if the current user liked the post
+                $likes->user_liked_post = Like::where('post_id', '=', $post->post_id)
+                    ->where('user_id', '=', Auth::user()->id)
+                    ->first();
             }
 
-            $details->quiz = $quiz;
-        }
-
-        // get likes
-        $likes = new StdClass();
-        $likeCount = Like::where('post_id', '=', $post->post_id)
-            ->get()->count();
-        $likes->count = $likeCount;
-        if($likeCount != 0) {
-            // get the list of likers
-            $likes->likers = Helper::likes($post->post_id);
-            // check if the current user liked the post
-            $likes->user_liked_post = Like::where('post_id', '=', $post->post_id)
-                ->where('user_id', '=', Auth::user()->id)
-                ->first();
-        }
-
-        // create object for the comments
-        $comments = new StdClass();
-        $comments = Comment::where('post_id', '=', $post->post_id)
-            ->join('users', 'comments.user_id', '=', 'users.id')
-            ->orderBy('comments.comment_id', 'ASC')
-            ->get();
-        // create if there are files attached
-        if($post->post_attached_files == 'true') {
-            $details->files = FileAttached::where('post_id', '=', $post->post_id)
-                ->leftJoin('file_library', 'file_attached.file_id', '=', 'file_library.file_library_id')
+            // create object for the comments
+            $comments = new StdClass();
+            $comments = Comment::where('post_id', '=', $post->post_id)
+                ->join('users', 'comments.user_id', '=', 'users.id')
+                ->orderBy('comments.comment_id', 'ASC')
                 ->get();
+            // create if there are files attached
+            if($post->post_attached_files == 'true') {
+                $details->files = FileAttached::where('post_id', '=', $post->post_id)
+                    ->leftJoin('file_library', 'file_attached.file_id', '=', 'file_library.file_library_id')
+                    ->get();
+            }
+
+            // assign the objects
+            $details->likes = $likes;
+            $details->comments = $comments;
+
+            return $details;
         }
 
-        // assign the objects
-        $details->likes = $likes;
-        $details->comments = $comments;
-
-        return $details;
+        return false;
     }
 
     public static function getAllPosts() {

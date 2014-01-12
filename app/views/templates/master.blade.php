@@ -226,8 +226,8 @@
                         if(response) {
                             notificationStream.prepend(response)
                                 .find('.spinner').hide();
-                            notificationCounter.fadeOut(300);
-                            notificationCounter.parent().delay(310)
+                            notificationCounter.fadeOut(400);
+                            notificationCounter.parent().delay(400)
                                 .animate({ width: '54px' }, 350);
                         }
                     });

@@ -247,14 +247,12 @@ Hello
                         $content = null;
                         break;
                     case 'quiz' :
-                        $quizDetails = Helper::getQuizDetails($post->quiz_id);
                 ?>
-                    <strong class="quiz-title">{{ $quizDetails['title'] }}</strong>
+                    <strong class="quiz-title">{{ $post->quiz->details->title }}</strong>
                     <div class="quiz-button-wrapper">
-                        <?php $turnedIn = Helper::getTakenDetails($post->quiz_id); ?>
                         @if(Auth::user()->account_type == 1)
                         <a href="/quiz-manager/{{ $post->quiz_id }}" class="btn btn-default">
-                            Turned In ({{ $turnedIn['takers'] }})
+                            Turned In ({{ $post->quiz->turned_in->takers }})
                         </a>
                         <span class="due-date">
                             Due {{ date('M d, Y', strtotime($post->quiz_due_date)) }}
@@ -262,24 +260,22 @@ Hello
                         @endif
 
                         @if(Auth::user()->account_type == 2)
-                        <?php $taken = Helper::checkQuizTaken($post->quiz_id); ?>
-                        @if(empty($taken))
+                        @if(empty($post->quiz->taken))
                         <a href="/quiz-sheet/{{ $post->quiz_id }}" class="btn btn-default">
                             Take Quiz
                         </a>
                         <span class="due-date">Due {{ date('M d, Y', strtotime($post->
                         quiz_due_date)) }}</span>
                         @endif
-                        @if(!empty($taken))
+                        @if(!empty($post->quiz->taken))
                         <a href="/quiz-result/{{ $post->quiz_id }}" class="btn btn-default">
                             Quiz Result
                         </a>
                         @endif
-
                         @endif
                     </div>
                     <div class="question-count-wrapper">
-                        <strong class="count-text">{{ $turnedIn['count'] }}</strong>
+                        <strong class="count-text">{{ $post->quiz->question_count }}</strong>
                     </div>
                 <?php
                         break;
@@ -344,7 +340,6 @@ Hello
         </div>
         <div class="clearfix"></div>
         <div class="user-post-likes" @if($post->likes->count != 0) style="display: block;" @endif>
-            <i class="fa fa-thumbs-up"></i>
             @if($post->likes->count != 0)
             {{ $post->likes->likers }}
             @endif
