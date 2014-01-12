@@ -131,3 +131,7 @@ subtext should be a span
 @media (min-width: 992px) {
     .navigation-items .navbar-form .input-group { width: 440px; }
 }
+
+@media (max-width: 500px) {
+    .modal-medium-size { width: 440px; }
+}

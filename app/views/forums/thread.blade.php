@@ -178,7 +178,7 @@ The Forum - {{ $thread->title }}
 
                 @if(empty($page) || $page == 1)
                 <li class="thread-holder">
-                    <?php $timestamp = Helper::timestamp($thread->timestamp); ?>
+                    <?php $timestamp = Helper::timestamp($thread->thread_timestamp); ?>
                     <div class="author-details pull-left">
                         {{ Helper::avatar(70, "normal", "img-rounded", $thread->id) }}
                         <a href="/profile/{{ $thread->username }}">{{ $thread->username }}</a>
