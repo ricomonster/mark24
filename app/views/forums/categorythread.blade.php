@@ -120,7 +120,6 @@ The Forum
                 @endif
                 @if(!$threads->isEmpty())
                 @foreach($threads as $thread)
-                <?php $timestamp = Helper::timestamp($thread->timestamp); ?>
                 <li class="thread-holder">
                     {{ Helper::avatar(70, "normal", "img-rounded pull-left", $thread->id) }}
                     <div class="thread-details-holder pull-left">
@@ -134,7 +133,9 @@ The Forum
                         </div>
                         <div class="thread-details">
                             By <a href="/profile/{{ $thread->username }}" class="thread-author">{{ $thread->username }}</a>,
-                            <span class="thread-timestamp">{{ $timestamp }}</span> in
+                            <span class="thread-timestamp">
+                                {{ Helper::timestamp($thread->thread_timestamp) }}
+                            </span> in
                             <a href="/the-forum/{{ $thread->seo_name }}" class="thread-category">{{ $thread->category_name }}</a>
                         </div>
                     </div>

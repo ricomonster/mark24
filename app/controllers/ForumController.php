@@ -153,7 +153,7 @@ class ForumController extends BaseController
             $newThread->description = Input::get('thread-description');
             $newThread->seo_url     = $seoUrl;
             $newThread->sticky_post = (empty($stickyPost)) ? 'FALSE' : 'TRUE';
-            $newThread->timestamp   = time();
+            $newThread->thread_timestamp   = time();
             $newThread->save();
 
             // add thread to threads followed
@@ -192,7 +192,7 @@ class ForumController extends BaseController
                 // get latest threads
                 $threads = ForumThread::orderBy('forum_thread_id', 'DESC')
                     ->where('category_id', '=', $category->forum_category_id)
-                    ->orderBy('timestamp', 'DESC')
+                    ->orderBy('thread_timestamp', 'DESC')
                     ->orderBy('sticky_post', 'DESC')
                     ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
                     ->leftJoin('forum_categories',
@@ -205,7 +205,7 @@ class ForumController extends BaseController
                 $threads = ForumThread::where('views', '!=', '0')
                     ->where('category_id', '=', $category->forum_category_id)
                     ->orderBy('views', 'DESC')
-                    ->orderBy('timestamp', 'DESC')
+                    ->orderBy('thread_timestamp', 'DESC')
                     ->orderBy('replies', 'DESC')
                     ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
                     ->leftJoin('forum_categories',
@@ -236,14 +236,14 @@ class ForumController extends BaseController
                         '=',
                         'forum_categories.forum_category_id')
                     ->orderBy('forum_threads.last_reply_timestamp', 'DESC')
-                    ->orderBy('forum_threads.timestamp', 'DESC')
+                    ->orderBy('forum_threads.thread_timestamp', 'DESC')
                     ->get();
                 break;
             case 'my-topics' :
                 $threads = ForumThread::where('user_id', '=', Auth::user()->id)
                     ->where('forum_threads.category_id', '=', $category->forum_category_id)
                     ->orderBy('last_reply_timestamp', 'DESC')
-                    ->orderBy('timestamp', 'DESC')
+                    ->orderBy('thread_timestamp', 'DESC')
                     ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
                     ->leftJoin('forum_categories',
                         'forum_threads.category_id',
@@ -416,10 +416,10 @@ class ForumController extends BaseController
         }
 
         // setup the notification
-            Notification::setup('forum_reply', array(
-                'involved_id' => $thread->forum_thread_id));
+        Notification::setup('forum_reply', array(
+            'involved_id' => $thread->forum_thread_id));
 
         // redirect to the page
-        return Redirect::to($redirectUrl);
+        return Redirect::to($redirectUrl.'/#last');
     }
 }

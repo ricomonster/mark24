@@ -56,7 +56,7 @@ class Notification extends Eloquent
 
                 if(!empty($exists)) {
                     // update the notification
-                    $exists->seen = 'false';
+                    $exists->seen = 0;
                     $exists->notification_timestamp = $time;
                     $exists->save();
                 }
@@ -84,7 +84,7 @@ class Notification extends Eloquent
 
                     // notification already present
                     if(!empty($exists)) {
-                        $exists->seen = 'false';
+                        $exists->seen = 0;
                         $exists->notification_timestamp = $time;
                         $exists->save();
                     }
@@ -119,7 +119,7 @@ class Notification extends Eloquent
 
                         // notification already present
                         if(!empty($exists)) {
-                            $exists->seen = 'false';
+                            $exists->seen = 0;
                             $exists->notification_timestamp = $time;
                             $exists->save();
                         }
@@ -151,7 +151,7 @@ class Notification extends Eloquent
 
                 // if already exists update settings
                 if(!empty($exists)) {
-                    $exists->seen = 'false';
+                    $exists->seen = 0;
                     $exists->notification_timestamp = $time;
                     $exists->save();
                 }
@@ -159,6 +159,97 @@ class Notification extends Eloquent
                 break;
             // forum reply
             case 'forum_reply' :
+                // get the thread id details
+                $thread = ForumThread::find($settings['involved_id']);
+                // get the users who commented to the thread
+                $repliers = ForumThreadReply::where('forum_thread_id', '=', $thread->forum_thread_id)
+                    ->get();
+                // get the followers of the thread
+                $followers = FollowedForumThread::where('forum_thread_id', '=', $thread->forum_thread_id)
+                    ->get();
+                // check if the current owner of the post is the user
+                if(Auth::user()->id != $thread->user_id) {
+                    // check if the notification exists
+                    $exists = Notification::where('notification_type', '=', 'forum_reply')
+                        ->where('involved_id', '=', $thread->forum_thread_id)
+                        ->where('sender_id', '=', Auth::user()->id)
+                        ->where('receiver_id', '=', $thread->user_id)
+                        ->first();
+                    // if empty, create
+                    if(empty($exists)) {
+                        $notification = new Notification;
+                        $notification->receiver_id = $thread->user_id;
+                        $notification->sender_id = Auth::user()->id;
+                        $notification->notification_type = 'forum_reply';
+                        $notification->involved_id = $thread->forum_thread_id;
+                        $notification->notification_timestamp = $time;
+                        $notification->save();
+                    }
+
+                    // not empty, update
+                    if(!empty($exists)) {
+                        $exists->seen = 0;
+                        $exists->notification_timestamp = $time;
+                        $exists->save();
+                    }
+                }
+
+                foreach($repliers as $replier) {
+                    // check first the user
+                    if(Auth::user()->id == $replier->user_id) continue;
+                    // check if the notification already exists
+                    $exists = Notification::where('notification_type', '=', 'forum_reply')
+                        ->where('involved_id', '=', $thread->forum_thread_id)
+                        ->where('sender_id', '=', Auth::user()->id)
+                        ->where('receiver_id', '=', $replier->user_id)
+                        ->first();
+                    // if empty, create
+                    if(empty($exists)) {
+                        $notification = new Notification;
+                        $notification->receiver_id = $replier->user_id;
+                        $notification->sender_id = Auth::user()->id;
+                        $notification->notification_type = 'forum_reply';
+                        $notification->involved_id = $thread->forum_thread_id;
+                        $notification->notification_timestamp = $time;
+                        $notification->save();
+                    }
+
+                    // not empty, update
+                    if(!empty($exists)) {
+                        $exists->seen = 0;
+                        $exists->notification_timestamp = $time;
+                        $exists->save();
+                    }
+                }
+
+                foreach($followers as $follower) {
+                    // check first the user
+                    if(Auth::user()->id == $follower->user_id) continue;
+                    // check if the notification already exists
+                    $exists = Notification::where('notification_type', '=', 'forum_reply')
+                        ->where('involved_id', '=', $thread->forum_thread_id)
+                        ->where('sender_id', '=', Auth::user()->id)
+                        ->where('receiver_id', '=', $follower->user_id)
+                        ->first();
+                    // if empty, create
+                    if(empty($exists)) {
+                        $notification = new Notification;
+                        $notification->receiver_id = $follower->user_id;
+                        $notification->sender_id = Auth::user()->id;
+                        $notification->notification_type = 'forum_reply';
+                        $notification->involved_id = $thread->forum_thread_id;
+                        $notification->notification_timestamp = $time;
+                        $notification->save();
+                    }
+
+                    // not empty, update
+                    if(!empty($exists)) {
+                        $exists->seen = 0;
+                        $exists->notification_timestamp = $time;
+                        $exists->save();
+                    }
+                }
+
                 break;
             // group notifications
             case 'join_group' :
@@ -189,7 +280,7 @@ class Notification extends Eloquent
 
                     // notification already present
                     if(!empty($exists)) {
-                        $exists->seen = 'false';
+                        $exists->seen = 0;
                         $exists->notification_timestamp = $time;
                         $exists->save();
                     }
@@ -263,7 +354,7 @@ class Notification extends Eloquent
 
                             // notification already present
                             if(!empty($exists)) {
-                                $exists->seen = 'false';
+                                $exists->seen = 0;
                                 $exists->notification_timestamp = $time;
                                 $exists->save();
                             }

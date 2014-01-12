@@ -55,16 +55,16 @@ The Forum
         <div class="well forum-add-thread">
             {{ Form::open(array('url' => 'the-forum/submit-new-thread')) }}
                 <div class="form-group
-                <?php echo (empty($errors->first('thread-title'))) ? null : 'has-error'; ?>">
-                    @if(!empty($errors->first('thread-title')))
+                <?php echo (!$errors->has('thread-title')) ? null : 'has-error'; ?>">
+                    @if($errors->has('thread-title'))
                     <span class="help-block">{{ $errors->first('thread-title') }}</span>
                     @endif
                     <input type="text" name="thread-title" class="form-control"
                     placeholder="Choose a thread title" value="{{ Input::old('thread-title') }}">
                 </div>
                 <div class="form-group
-                <?php echo (empty($errors->first('thread-category'))) ? null : 'has-error'; ?>">
-                    @if(!empty($errors->first('thread-category')))
+                <?php echo (!$errors->has('thread-category')) ? null : 'has-error'; ?>">
+                    @if($errors->has('thread-category'))
                     <span class="help-block">{{ $errors->first('thread-category') }}</span>
                     @endif
                     <select name="thread-category" class="form-control">
@@ -78,8 +78,8 @@ The Forum
                     </select>
                 </div>
                 <div class="form-group
-                <?php echo (empty($errors->first('thread-description'))) ? null : 'has-error'; ?>">
-                    @if(!empty($errors->first('thread-description')))
+                <?php echo (!$errors->has('thread-description')) ? null : 'has-error'; ?>">
+                    @if($errors->has('thread-description'))
                     <span class="help-block">{{ $errors->first('thread-description') }}</span>
                     @endif
                     <textarea name="thread-description" class="form-control"

@@ -58,8 +58,7 @@ The Forum - {{ $thread->title }}
 .forum-thread-stream .thread-holder .author-details img { margin-bottom: 10px; }
 .forum-thread-stream .thread-holder .author-details .user-type { display: block; }
 .forum-thread-stream .thread-holder .thread-details-holder {
-    margin: 20px 0 20px 20px;
-    width: 80%;
+    margin: 20px 20px 20px 120px;
 }
 
 .forum-thread-stream .thread-holder .thread-details-holder .thread-holder-title {
@@ -78,8 +77,7 @@ The Forum - {{ $thread->title }}
 .forum-thread-stream .thread-reply-holder .author-details img { margin-bottom: 10px; }
 .forum-thread-stream .thread-reply-holder .author-details .user-type { display: block; }
 .forum-thread-stream .thread-reply-holder .thread-reply-details-holder {
-    margin: 20px 0 20px 20px;
-    width: 80%;
+    margin: 20px 20px 20px 120px;
 }
 .forum-thread-stream .thread-reply-holder .thread-reply-details-holder .thread-reply-description {
     margin-top: 10px;
@@ -90,10 +88,9 @@ The Forum - {{ $thread->title }}
 .forum-thread-stream .reply-to-thread-holder .author-details img { margin-bottom: 10px; }
 .forum-thread-stream .reply-to-thread-holder .author-details .user-type { display: block; }
 .forum-thread-stream .reply-to-thread-holder .reply-to-thread-form {
-    margin: 20px 0 0 20px;
-    width: 80%;
-
+    margin: 20px 20px 0 120px;
 }
+
 .forum-thread-stream .reply-to-thread-holder .reply-to-thread-form textarea {
     height: 200px;
     resize: none;
@@ -193,10 +190,15 @@ The Forum - {{ $thread->title }}
                             Student
                             @endif
                         </span>
-                        <span class="text-muted">{{ $thread->forum_posts }} posts</span>
+                        <span class="text-muted">{{{ $thread->forum_posts }}} posts</span>
                     </div>
-                    <div class="thread-details-holder pull-left">
-                        <div class="thread-holder-title">{{ $thread->title }}</div>
+                    <div class="thread-details-holder">
+                        @if($thread->user_id == Auth::user()->id)
+                        <div class="thread-controls pull-right">
+                            <a href="#" class="edit-thread">Edit Thread</a>
+                        </div>
+                        @endif
+                        <div class="thread-holder-title">{{{ $thread->title }}}</div>
                         <span class="thread-holder-timestamp text-muted">{{ $timestamp }}</span>
                         <div class="thread-holder-description">
                             <?php echo nl2br($thread->description); ?>
@@ -207,9 +209,11 @@ The Forum - {{ $thread->title }}
                 @endif
 
                 @if(!$replies->isEmpty())
+                <?php $items = count($replies); ?>
+                <?php $i = 0; ?>
                 @foreach($replies as $reply)
                 <?php $timestamp = Helper::timestamp($reply->reply_timestamp); ?>
-                <li id="thread_{{ $reply->forum_thread_reply_id }}" class="thread-reply-holder">
+                <li class="thread-reply-holder" {{ (++$i === $items) ? 'id="last"' : null }}>
                     <div class="author-details pull-left">
                         {{ Helper::avatar(70, "normal", "img-rounded", $reply->id) }}
                         <a href="/profile/{{ $reply->username }}">{{ $reply->username }}</a>
@@ -223,10 +227,15 @@ The Forum - {{ $thread->title }}
                         </span>
                         <span class="text-muted">{{ $reply->forum_posts }} posts</span>
                     </div>
-                    <div class="thread-reply-details-holder pull-left">
+                    <div class="thread-reply-details-holder">
+                        @if($reply->user_id == Auth::user()->id)
+                        <div class="thread-controls pull-right">
+                            <a href="#" class="edit-thread-reply">Edit Reply</a>
+                        </div>
+                        @endif
                         <span class="thread-reply-timestamp text-muted">{{ $timestamp }}</span>
                         <div class="thread-reply-description">
-                            <?php echo nl2br($reply->reply); ?>
+                            <?php echo nl2br(htmlentities($reply->reply)); ?>
                         </div>
                     </div>
                     <div class="clearfix"></div>
@@ -252,7 +261,7 @@ The Forum - {{ $thread->title }}
                         </span>
                         <span class="text-muted">{{ Auth::user()->forum_posts }} posts</span>
                     </div>
-                    {{ Form::open(array('url' => 'the-forum/create-thread-reply', 'class' => 'reply-to-thread-form pull-left')) }}
+                    {{ Form::open(array('url' => 'the-forum/create-thread-reply', 'class' => 'reply-to-thread-form')) }}
                         <div class="form-group">
                             <textarea class="form-control" name="thread-reply"
                             class="form-control thread-reply" placeholder="Reply to this thread"></textarea>
