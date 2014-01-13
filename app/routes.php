@@ -190,6 +190,7 @@ Route::get('profile/{user}', 'ProfileController@showIndex');
 
 // Quiz Creator Routes
 Route::get('quiz-creator', 'QuizCreatorController@getIndex');
+Route::get('quiz-creator/{quizId}/edit', 'QuizCreatorController@editQuiz');
 
 // Quiz Manager Routes
 Route::get('quiz-manager/{quizId}', 'QuizManagerController@index');
