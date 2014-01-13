@@ -153,14 +153,10 @@
             (function($) {
                 var notificationCounter = $('.notification-count');
                 // first to trigger on every page load to check for notifications
-                $.ajax({
-                    url : '/ajax/notifications/check'
-                }).done(function(response) {
-                    if(response.count) {
-                        notificationCounter.text(response.count)
-                            .animate({ width: 'toggle' }, 350);
-                    }
-                })
+                fetchNotifications();
+                var notificationInverval = setInterval(function() {
+                    fetchNotifications();
+                }, 30000);
 
                 $(document).on('click', '.show-report-problem', function(e) {
                     var modal = $('#the_modal');
@@ -233,7 +229,20 @@
                     });
 
                     e.preventDefault();
-                })
+                });
+
+                function fetchNotifications()
+                {
+                    $.ajax({
+                        url : '/ajax/notifications/check'
+                    }).done(function(response) {
+                        if(response.count) {
+                            notificationCounter.parent().animate({ width: '85px' }, 350);
+                            notificationCounter.text(response.count).delay(400)
+                                .animate({ width: 'toggle' }, 400);
+                        }
+                    });
+                }
             })(jQuery);
         </script>
     </body>

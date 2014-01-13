@@ -13,15 +13,15 @@ var CommentCreator = {
             .on('click', this.config.submitCommentButton.selector, this.submitComment)
             .on('submit', this.config.commentForm.selector, this.submitFormComment);
     },
-    
+
     showForm : function(e)
     {
         var self = CommentCreator;
         var $this = $(this);
-        
+
         $('.comment-form-holder[data-post-id="'+$this.data('post-id')+'"]')
             .show();
-        
+
         e.preventDefault();
     },
 
@@ -48,8 +48,11 @@ var CommentCreator = {
         if (e.keyCode === 13 && !e.shiftKey) {
             e.preventDefault();
             // submit comment
-            self.submitComment($this);
-            return;
+            if ($this.val() !== '' || $this.val().length !== 0) {
+                self.submitComment($this);
+                $this.val('').blur();
+                return;
+            }
         }
     },
 
@@ -69,9 +72,6 @@ var CommentCreator = {
             },
             async : false
         }).done(function(response) {
-            // unset content of the form
-            $this.val('').blur();
-
             // unhide the comment stream wrapper
             commentStreamHolder.show()
                 .find('ul').append(response).find('li:last-child')

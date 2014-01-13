@@ -400,6 +400,7 @@ class Notification extends Eloquent
         // get the notifications for this user
         $notifications = Notification::where('receiver_id', '=', Auth::user()->id)
             ->where('sender_id', '!=', Auth::user()->id)
+            ->where('seen', '=', 0)
             ->groupBy('involved_id', 'notification_type')
             ->orderBy('notification_timestamp', 'DESC')
             ->get();
@@ -413,12 +414,14 @@ class Notification extends Eloquent
             $last = Notification::where('involved_id', '=', $notification->involved_id)
                 ->where('notification_type', '=', $notification->notification_type)
                 ->where('sender_id', '!=', Auth::user()->id)
+                ->where('seen', '=', 0)
                 ->leftJoin('users', 'notifications.sender_id', '=', 'users.id')
                 ->first();
             // get all notification
             $all = Notification::where('involved_id', '=', $notification->involved_id)
                 ->where('notification_type', '=', $notification->notification_type)
                 ->where('sender_id', '!=', Auth::user()->id)
+                ->where('seen', '=', 0)
                 ->leftJoin('users', 'notifications.sender_id', '=', 'users.id')
                 ->get();
 
@@ -439,6 +442,7 @@ class Notification extends Eloquent
                         ->where('notification_type', '=', $notification->notification_type)
                         ->where('sender_id', '!=', $last->id)
                         ->where('sender_id', '!=', Auth::user()->id)
+                        ->where('seen', '=', 0)
                         ->leftJoin('users', 'notifications.sender_id', '=', 'users.id')
                         ->get();
 

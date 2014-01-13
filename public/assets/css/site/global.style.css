@@ -45,7 +45,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Noto Sans'; }
 .navigation-items .navbar-nav li a span { font-size: 13px; display: none; }
 .nav-profile-avatar a { padding: 9px 12px !important; }
 .nav-profile-avatar a img { margin: 0 5px 0; }
-.navigation-items .navbar-nav .dropdown .dropdown-menu li a { padding: 3px 20px; }
+.navigation-items .navbar-nav .dropdown .dropdown-menu li a { padding: 3px 10px; }
 .navigation-items .navbar-nav .notification-dropdown .notification-count {
     display: none;
 }
@@ -57,7 +57,14 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Noto Sans'; }
     text-align: center;
 }
 
-.navigation-items .navbar-nav .notification-dropdown .notification-stream li a i { margin-right: 5px; }
+.navigation-items .navbar-nav .notification-dropdown .notification-stream li a i { margin: 5px 5px 0; vertical-align: top; }
+.navigation-items .navbar-nav .notification-dropdown .notification-stream li a .message {
+    display: inline-block;
+    width: 330px;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
 .navigation-items .navbar-nav .notification-dropdown .notification-stream .see-all a:hover {
     background-color: #ffffff;
     color:  #428bca;
