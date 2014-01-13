@@ -120,8 +120,7 @@ class Post extends Eloquent {
         // get first posts for the current user
         $groupIds = Group::getMyGroupsId();
         if(!empty($groupIds)) {
-            $posts = PostRecipient::where('posts.post_active', '=', 1)
-                ->orWhere('posts.user_id', '=', Auth::user()->id)
+            $posts = PostRecipient::leftJoin('posts', 'post_recipients.post_id', '=', 'posts.post_id')
                 ->orWhere(function($query) {
                     $query->whereIn('post_recipients.recipient_id', Group::getMyGroupsId())
                         ->where('post_recipients.recipient_type', '=', 'group');
@@ -130,7 +129,9 @@ class Post extends Eloquent {
                     $query->where('post_recipients.recipient_id', '=', Auth::user()->id)
                         ->where('post_recipients.recipient_type', '=', 'user');
                 })
-                ->leftJoin('posts', 'post_recipients.post_id', '=', 'posts.post_id')
+
+                ->where('posts.post_active', '=', 1)
+                ->orWhere('posts.user_id', '=', Auth::user()->id)
                 ->groupBy('posts.post_id')
                 ->orderBy('posts.post_id', 'DESC')
                 ->get();

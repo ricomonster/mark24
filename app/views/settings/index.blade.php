@@ -68,6 +68,7 @@ Settings
                     value="{{ Auth::user()->email }}">
                 </div>
 
+                @if(Auth::user()->account_type == 1)
                 <div class="row">
                     <div class="form-group col-md-2">
                         <label for="salutation">Title</label>
@@ -91,6 +92,21 @@ Settings
                         value="{{ Auth::user()->lastname }}">
                     </div>
                 </div>
+                @endif
+
+                @if(Auth::user()->account_type == 2)
+                <div class="form-group">
+                    <label for="firstname">First Name</label>
+                    <input type="text" name="firstname" class="form-control"
+                    value="{{ Auth::user()->firstname }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="lastname">Last Name</label>
+                    <input type="text" name="lastname" class="form-control"
+                    value="{{ Auth::user()->lastname }}">
+                </div>
+                @endif
 
                 <button type="submit" id="submit_personal_info" class="btn btn-primary">
                     Save Personal Info
@@ -135,6 +151,7 @@ Settings
         var $this = $(this);
 
         $this.attr('disabled');
+        $('.message-holder').show().find('span').text('Saving...');
 
         $.ajax({
             type : 'put',
@@ -143,6 +160,7 @@ Settings
             dataType : 'json'
         }).done(function(response) {
             if(response.error) {
+                $('.message-holder').show().find('span').text('An error occured...');
                 if(response.field == 'email') {
                     $this.removeAttr('disabled');
 
@@ -151,10 +169,15 @@ Settings
                 }
             } else {
                 $this.removeAttr('disabled');
-
+                $('.message-holder').show().find('span')
+                    .text('You have successfully updated your profile');
                 $('.personal-information-form .form-group').removeClass('has-error')
                     .find('.help-block').hide();
             }
+
+            setTimeout(function() {
+                $('.message-holder').hide();
+            }, 5000);
         })
 
         e.preventDefault();

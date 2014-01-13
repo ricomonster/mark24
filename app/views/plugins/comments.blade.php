@@ -32,6 +32,6 @@
 <?php echo ($comments->isEmpty()) ? 'style="display: none;"' : null; ?>>
     <form class="comment-form" data-post-id="{{ $post->post_id }}">
         <textarea name="post-comment" class="post-comment form-control"
-        data-post-id="{{ $post->post_id }}"></textarea>
+        data-post-id="{{ $post->post_id }}" placeholder="Write a comment..."></textarea>
     </form>
 </div>
