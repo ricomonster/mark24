@@ -5,25 +5,24 @@
             <h4 class="modal-title">Load a previously created Quiz</h4>
         </div>
         <div class="modal-body">
-            <table class="table">
-                <tbody>
-                    @if(empty($quizzes))
-                    <tr>No quizzes found.</tr>
-                    @endif
-                    @if(!empty($quizzes))
-                    @foreach($quizzes as $quiz)
-                    <tr>
-                        <a class="quiz-title quiz-to-load">{{ $quiz->title }}</a>
-                        <div class="quiz-options">
-                            <a href="/quiz-creator/{{ $quiz->quiz_id }}/edit">Edit</a>
-                            <span class="text-muted">|</span>
-                            <a href="#">Delete Quiz</a>
-                        </div>
-                    </tr>
-                    @endforeach
-                    @endif
-                </tbody>
-            </table>
+            <ul class="quiz-list">
+                @if(empty($quizzes))
+                <li>No quizzes found.</li>
+                @endif
+                @if(!empty($quizzes))
+                @foreach($quizzes as $quiz)
+                <li class="test">
+                    <a href="#" class="quiz-title quiz-to-load"
+                    data-quiz-id="{{ $quiz->quiz_id }}">{{ $quiz->title }}</a>
+                    <div class="quiz-options">
+                        <a href="/quiz-creator/{{ $quiz->quiz_id }}/edit">Edit</a>
+                        <span class="text-muted">|</span>
+                        <a href="#">Delete Quiz</a>
+                    </div>
+                </li>
+                @endforeach
+                @endif
+            </ul>
         </div>
         <div class="modal-footer"></div>
     </div>

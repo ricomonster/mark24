@@ -78,6 +78,7 @@ Route::get('ajax/modal/get-quiz-list', 'AjaxModalController@showQuizList');
 Route::get('ajax/modal/show-confirm-chat', 'AjaxModalController@showStartGroupChat');
 Route::get('ajax/modal/confirm-stop-chat', 'AjaxModalController@confirmStopGroupChat');
 Route::get('ajax/modal/get-report-form', 'AjaxModalController@showReportProblemForm');
+Route::get('ajax/modal/get-quiz-details', 'AjaxModalController@getQuizDetails');
 
 Route::post('ajax/modal/create_group', 'AjaxModalController@createGroup');
 Route::post('ajax/modal/join_group', 'AjaxModalController@joinGroup');

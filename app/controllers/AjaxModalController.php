@@ -327,6 +327,22 @@ class AjaxModalController extends BaseController {
             ->with('quizzes', $list);
     }
 
+    public function getQuizDetails()
+    {
+        $quizId = Input::get('quiz_id');
+        // get quiz details
+        $quiz           = Quiz::find($quizId);
+        // get the users groups
+        $groups         = Group::getMyGroups();
+        // get all group members of the groups
+        $groupMembers   = GroupMember::getAllGroupMembers();
+
+        return View::make('ajax.modal.postcreator.quizdetails')
+            ->with('quiz', $quiz)
+            ->with('groups', $groups)
+            ->with('groupMembers', $groupMembers);
+    }
+
     public function showReportProblemForm()
     {
         return View::make('ajax.modal.global.reportproblem');

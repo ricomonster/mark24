@@ -92,6 +92,10 @@ input, select, textarea { border-radius: 0 !important; }
 .modal-body form { margin: 0; }
 .delete-post-modal-message { text-align: center; }
 
+/* quiz list */
+.modal-body .quiz-list { list-style: none; margin: 0 -20px; padding: 0; }
+.modal-body .quiz-list li { border-top: 1px solid #ccc; padding: 5px 20px; }
+
 .modal-body.report-problem-modal .things-to-write { margin: 0; padding: 0 15px; }
 .modal-body.report-problem-modal form { margin-top: 10px; }
 

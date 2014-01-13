@@ -146,7 +146,7 @@
     });
 
     // submits a quiz
-    $('#submit_quiz').on('click', function(e) {
+    $(document).on('click', '#submit_quiz', function(e) {
         var wrapperHeight = $('.post-creator-holder').height();
         var wrapperWidth = $('.post-creator-holder').width();
         var overlay = $('.post-creator-holder .overlay');
@@ -267,7 +267,45 @@
         element.parent('.attached-file').remove();
 
         e.preventDefault();
-    })
+    });
+
+    // gets quiz details and append to the post creator
+    $(document).on('click', '.quiz-to-load', function(e) {
+        var element = $(this);
+        $('.message-holder').show().find('span').text('Loading...');
+        // ajax sir!
+        $.ajax({
+            url : '/ajax/modal/get-quiz-details',
+            data : { quiz_id : element.attr('data-quiz-id') }
+        }).done(function(response) {
+            if(response) {
+                $('#the_modal').modal('hide');
+                // hide the default setup
+                $('.quiz-first-choices').hide();
+                // show the quiz module in postcreator
+                // append!
+                $('#quiz').append(response);
+                // sets the chosen plugin
+                $('#quiz .post-recipients').chosen();
+                // date picker
+                var nowTemp = new Date();
+                var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
+                var checkin = $('#quiz_due_date').datepicker({
+                    onRender: function(date) {
+                        return date.valueOf() < now.valueOf() ? 'disabled' : '';
+                    },
+                    format : 'yyyy-mm-dd'
+                }).on('changeDate', function(ev) {
+                    checkin.hide();
+                }).data('datepicker');
+
+                $('.message-holder').hide();
+            }
+        });
+
+        e.preventDefault();
+    });
 
     // functions
     function validateNote() {
