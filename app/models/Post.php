@@ -61,7 +61,7 @@ class Post extends Eloquent {
                     // get turned in stats
                     $turnedIn->takers = QuizTaker::where('quiz_id', '=', $post->quiz_id)
                         ->where(function($query) {
-                            $query->orWhere('status', '=', 'PASSED')
+                            $query->orWhere('status', '=', 'UNGRADED')
                                 ->orWhere('status', '=', 'GRADED');
                         })
                         ->get()

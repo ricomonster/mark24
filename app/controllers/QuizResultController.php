@@ -6,10 +6,14 @@ class QuizResultController extends BaseController
         $this->beforeFilter('are-you-a-student');
     }
 
-    public function index($quizId)
+    public function index($quizId, $postId)
     {
         // get quiz details
         $quiz = Quiz::find($quizId);
+        $post = Post::where('post_type', '=', 'quiz')
+            ->where('post_id', '=', $postId)
+            ->where('quiz_id', '=', $quiz->quiz_id)
+            ->first();
         // check if the user already answered the quiz
         $alreadyTaken = QuizTaker::where('user_id', '=', Auth::user()->id)
             ->where('quiz_id', '=', $quiz->quiz_id)

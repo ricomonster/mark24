@@ -377,19 +377,33 @@ class Notification extends Eloquent
             // quiz
             case 'quiz_graded' :
                 $quizTakerId = $settings['involved_id'];
-                $quizId = $settings['quiz_id'];
+                // quiz taker details
+                $taker = QuizTaker::find($quizTakerId);
                 // get quiz details
-                $quiz = Quiz::find($quizId);
+                $quiz = Quiz::find($taker->quiz_id);
                 // create notification
                 $notification = new Notification;
-                $notification->receiver_id = Auth::user()->id;
-                $notification->sender_id = $quizTakerId;
+                $notification->receiver_id = $taker->user_id;
+                $notification->sender_id = $quiz->user_id;
                 $notification->notification_type = 'quiz_graded';
-                $notification->involved_id = $quizId;
+                $notification->involved_id = $quizTakerId;
                 $notification->notification_timestamp = $time;
                 $notification->save();
                 break;
             case 'quiz_submitted' :
+                $quizTakerId = $settings['involved_id'];
+                // quiz taker details
+                $taker = QuizTaker::find($quizTakerId);
+                // get quiz details
+                $quiz = Quiz::find($taker->quiz_id);
+                // create notification
+                $notification = new Notification;
+                $notification->receiver_id = $quiz->user_id;
+                $notification->sender_id = Auth::user()->id;
+                $notification->notification_type = 'quiz_submitted';
+                $notification->involved_id = $quizTakerId;
+                $notification->notification_timestamp = $time;
+                $notification->save();
                 break;
         }
     }
@@ -520,11 +534,13 @@ class Notification extends Eloquent
                     break;
                 // quiz
                 case 'quiz_graded' :
+                    $taker = QuizTaker::find($notification->involved_id);
                     $message = $last->name.' already graded your quiz';
-                    $link = '/quiz-result/'.$notification->involved_id;
+                    $link = '/quiz-result/'.$taker->quiz_id.'/'.$taker->post_id;
                     $icon = 'fa-star';
                     break;
                 case 'quiz_submitted' :
+                    $taker = QuizTaker::find($notification->involved_id);
                     if(empty($all) || (!empty($all) && $all->count() == 1)) {
                         $message = $last->name.' submitted a quiz.';
                     }
@@ -533,7 +549,8 @@ class Notification extends Eloquent
                         // count the number of users who joined
                         $message = $last->name.' and '.($all->count() - 1).' submitted a quiz.';
                     }
-                    $link = '/quiz-result/'.$notification->involved_id;
+
+                    $link = '/quiz-manager/'.$taker->quiz_id.'/'.$taker->post_id;
                     $icon = 'fa-clipboard';
                     break;
             }

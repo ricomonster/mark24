@@ -194,13 +194,13 @@ Route::get('quiz-creator', 'QuizCreatorController@getIndex');
 Route::get('quiz-creator/{quizId}/edit', 'QuizCreatorController@editQuiz');
 
 // Quiz Manager Routes
-Route::get('quiz-manager/{quizId}', 'QuizManagerController@index');
+Route::get('quiz-manager/{quizId}/{postId}', 'QuizManagerController@index');
 
 // Quiz Result Routes
-Route::get('quiz-result/{quizId}', 'QuizResultController@index');
+Route::get('quiz-result/{quizId}/{postId}', 'QuizResultController@index');
 
 // Quiz Sheet Routes
-Route::get('quiz-sheet/{quizId}', 'QuizSheetController@index');
+Route::get('quiz-sheet/{quizId}/{postId}', 'QuizSheetController@index');
 
 // Setting Routes
 Route::get('settings', 'SettingsController@getIndex');

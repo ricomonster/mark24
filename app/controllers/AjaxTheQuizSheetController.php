@@ -7,8 +7,10 @@ class AjaxTheQuizSheetController extends BaseController
         // checks if the current user already took the
         // quiz and checks if the user already finished the quiz
         $quizId = Input::get('quiz_id');
+        $postId = Input::get('post_id');
 
         $taker = QuizTaker::where('quiz_id', '=', $quizId)
+            ->where('post_id', '=', $postId)
             ->where('status', '=', 'NOT YET PASSED')
             ->where('user_id', '=', Auth::user()->id)
             ->first();
@@ -41,9 +43,11 @@ class AjaxTheQuizSheetController extends BaseController
     public function startQuiz()
     {
         $quizId = Input::get('quiz_id');
+        $postId = Input::get('post_id');
         // insert new quiz taker
         $taker = new QuizTaker;
         $taker->user_id = Auth::user()->id;
+        $taker->post_id = $postId;
         $taker->quiz_id = $quizId;
         $taker->save();
 
@@ -211,7 +215,7 @@ class AjaxTheQuizSheetController extends BaseController
 
         // check if there are unchecked questions
         $unchecked = QuizAnswer::where('quiz_taker_id', '=', $quizTakerId)
-            ->whereNull('is_correct', '=', '')
+            ->where('is_correct', '=', '')
             ->first();
 
         $status = (empty($unchecked)) ? 'GRADED' : 'UNGRADED';
@@ -224,10 +228,14 @@ class AjaxTheQuizSheetController extends BaseController
         $taker->time_remaining = $timeRemaining;
         $taker->save();
 
-        // create notification
-        Notification::setup('quiz_graded', array(
-            'quiz_id' => $quizId,
+        Notification::setup('quiz_submitted', array(
             'involved_id' => $quizTakerId));
+
+        // create notification
+        if(empty($unchecked)) {
+            Notification::setup('quiz_graded', array(
+                'involved_id' => $quizTakerId));
+        }
 
         // return redirect url
         return Response::json(array('lz' => Request::root().'/home'));

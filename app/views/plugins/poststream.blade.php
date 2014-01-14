@@ -132,7 +132,8 @@
                             <strong class="quiz-title">{{ $post->quiz->details->title }}</strong>
                             <div class="quiz-button-wrapper">
                                 @if(Auth::user()->account_type == 1)
-                                <a href="/quiz-manager/{{ $post->quiz_id }}" class="btn btn-default">
+                                <a href="/quiz-manager/{{ $post->quiz_id }}/{{ $post->post_id }}"
+                                class="btn btn-default">
                                     Turned In ({{ $post->quiz->turned_in->takers }})
                                 </a>
                                 <span class="due-date">
@@ -142,14 +143,16 @@
 
                                 @if(Auth::user()->account_type == 2)
                                 @if(empty($post->quiz->taken))
-                                <a href="/quiz-sheet/{{ $post->quiz_id }}" class="btn btn-default">
+                                <a href="/quiz-sheet/{{ $post->quiz_id }}/{{ $post->post_id }}"
+                                class="btn btn-default">
                                     Take Quiz
                                 </a>
                                 <span class="due-date">Due {{ date('M d, Y', strtotime($post->
                                 quiz_due_date)) }}</span>
                                 @endif
                                 @if(!empty($post->quiz->taken))
-                                <a href="/quiz-result/{{ $post->quiz_id }}" class="btn btn-default">
+                                <a href="/quiz-result/{{ $post->quiz_id }}/{{ $post->post_id }}"
+                                class="btn btn-default">
                                     Quiz Result
                                 </a>
                                 @endif

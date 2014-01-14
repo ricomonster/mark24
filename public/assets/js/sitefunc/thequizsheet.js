@@ -36,7 +36,8 @@ var TheQuizSheet = {
         $.ajax({
             url : '/ajax/the-quiz-sheet/check-quiz-taker',
             data : {
-                quiz_id : self.config.theQuizSheet.data('quiz-id')
+                quiz_id : self.config.theQuizSheet.data('quiz-id'),
+                post_id : self.config.theQuizSheet.data('post-id')
             },
             dataType : 'json'
         }).done(function(response) {
@@ -77,7 +78,8 @@ var TheQuizSheet = {
             type : 'post',
             url : '/ajax/the-quiz-sheet/start-quiz',
             data : {
-                quiz_id : $this.data('quiz-id')
+                quiz_id : $this.data('quiz-id'),
+                post_id : $this.data('post-id')
             },
             dataType : 'json',
             async : false
@@ -304,7 +306,7 @@ var TheQuizSheet = {
     submitQuiz : function(e)
     {
         var self = TheQuizSheet;
-
+        window.onbeforeunload = null;
         self.config.messageHolder.show().find('span').text('Loading...');
 
         $.ajax({
@@ -312,6 +314,7 @@ var TheQuizSheet = {
             url : '/ajax/the-quiz-sheet/submit-quiz',
             data : {
                 quiz_id         : self.config.theQuizSheet.data('quiz-id'),
+                post_id         : self.config.theQuizSheet.data('post-id'),
                 quiz_taker_id   : self.config.quizTakerId,
                 time_remaining  : self.config.activeTimer
             },

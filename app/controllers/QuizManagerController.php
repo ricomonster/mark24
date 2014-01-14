@@ -6,17 +6,18 @@ class QuizManagerController extends BaseController
         $this->beforeFilter('are-you-a-teacher');
     }
 
-    public function index($id)
+    public function index($id, $postId)
     {
         $quiz = Quiz::find($id);
+        $post = Post::where('post_type', '=', 'quiz')
+            ->where('post_id', '=', $postId)
+            ->where('quiz_id', '=', $quiz->quiz_id)
+            ->first();
         // get recipients of the quiz
         $takers = QuizTaker::getQuizRecipients($id, 'all');
         // get the questions
         $questions = QuestionList::getQuizQuestions($id);
         // get the details of the post
-        $post = Post::where('post_type', '=', 'quiz')
-            ->where('quiz_id', '=', $quiz->quiz_id)
-            ->first();
 
         // get the users with high scores
         $topnotchers = QuizTaker::where('quiz_id', '=', $quiz->quiz_id)

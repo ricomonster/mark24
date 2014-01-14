@@ -6,12 +6,15 @@ class QuizSheetController extends BaseController
         $this->beforeFilter('are-you-a-student');
     }
 
-    public function index($quizId)
+    public function index($quizId, $postId)
     {
         // get quiz details
         $quiz = Quiz::find($quizId);
+        $post = Post::find($postId);
         // check if the user already answered the quiz
         $alreadyTaken = QuizTaker::where('user_id', '=', Auth::user()->id)
+            ->where('quiz_id', '=', $quiz->quiz_id)
+            ->where('post_id', '=', $post->post_id)
             ->where('status', '=', 'PASSED')
             ->first();
 
@@ -33,6 +36,7 @@ class QuizSheetController extends BaseController
         // show quiz sheet page
         return View::make('quizsheet.index')
             ->with('quiz', $quiz)
+            ->with('post', $post)
             ->with('questions', $questions)
             ->with('assigned', $assigned);
     }

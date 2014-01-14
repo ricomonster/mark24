@@ -117,6 +117,7 @@ The Quiz Sheet
 </div>
 
 <div class="the-quiz-sheet" data-quiz-id="{{ $quiz->quiz_id }}"
+data-post-id="{{ $post->post_id }}"
 data-time-limit="{{ $quiz->time_limit }}">
     <div class="welcome-quiz-sheet-wrapper well">
         <div class="welcome-contents">
@@ -127,7 +128,7 @@ data-time-limit="{{ $quiz->time_limit }}">
                 <span class="time-limit-quiz">Time Limit: 1:00:00</span>
             </div>
             <button class="btn btn-primary btn-large start-quiz"
-            data-quiz-id="{{ $quiz->quiz_id }}">
+            data-quiz-id="{{ $quiz->quiz_id }}" data-post-id="{{ $post->post_id }}">
                 Start Quiz
             </button>
         </div>
