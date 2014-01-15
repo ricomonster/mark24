@@ -21,7 +21,9 @@ Route::get('/', array('before' => 'logged-in', function()
 }));
 
 Route::get('test', function() {
-    echo Helper::drawCalendar(1, 2014);
+    echo '<pre>';
+    print_r(GroupMember::countAllGroupMembers()->toArray());
+    echo '</pre>';
 });
 
 // AJAX Routes

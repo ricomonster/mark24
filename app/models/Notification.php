@@ -409,7 +409,7 @@ class Notification extends Eloquent
     }
 
     // summarized notifications
-    public static function summarized()
+    public static function unread()
     {
         // get the notifications for this user
         $notifications = Notification::where('receiver_id', '=', Auth::user()->id)
@@ -564,9 +564,159 @@ class Notification extends Eloquent
         return $lists;
     }
 
-    public static function unsummarized()
+    public static function all()
     {
+        // get the notifications for this user
+        $notifications = Notification::where('receiver_id', '=', Auth::user()->id)
+            ->where('sender_id', '!=', Auth::user()->id)
+            ->where('seen', '=', 0)
+            ->groupBy('involved_id', 'notification_type')
+            ->orderBy('notification_timestamp', 'DESC')
+            ->get();
 
+        $lists = new StdClass();
+        $message = null;
+        $link = null;
+        foreach($notifications as $key => $notification) {
+            $lists->$key = new StdClass();
+            // get the last user of the notification
+            $last = Notification::where('involved_id', '=', $notification->involved_id)
+                ->where('notification_type', '=', $notification->notification_type)
+                ->where('sender_id', '!=', Auth::user()->id)
+                ->where('seen', '=', 0)
+                ->leftJoin('users', 'notifications.sender_id', '=', 'users.id')
+                ->first();
+            // get all notification
+            $all = Notification::where('involved_id', '=', $notification->involved_id)
+                ->where('notification_type', '=', $notification->notification_type)
+                ->where('sender_id', '!=', Auth::user()->id)
+                ->where('seen', '=', 0)
+                ->leftJoin('users', 'notifications.sender_id', '=', 'users.id')
+                ->get();
+
+            switch($notification->notification_type) {
+                // assignment
+                case 'assignment_graded' :
+                    break;
+                case 'assignment_submitted' :
+                    break;
+                // comments
+                case 'commented' :
+                    // get the post
+                    $post = Post::find($notification->involved_id);
+                    $ownership = ($post->user_id == Auth::user()->id) ?
+                        'your post' : 'a post that you have also commented.';
+                    // override the all
+                    $all = Notification::where('involved_id', '=', $notification->involved_id)
+                        ->where('notification_type', '=', $notification->notification_type)
+                        ->where('sender_id', '!=', $last->id)
+                        ->where('sender_id', '!=', Auth::user()->id)
+                        ->where('seen', '=', 0)
+                        ->leftJoin('users', 'notifications.sender_id', '=', 'users.id')
+                        ->get();
+
+                    if($all->isEmpty() || (!$all->isEmpty() && $all->count() == 1)) {
+                        $message = $last->name.' commented on '.$ownership;
+                    }
+
+                    if(!empty($all) && $all->count() > 1) {
+                        // count the number of users who joined
+                        $message = $last->name.' and '.($all->count() - 1).
+                            ' others commented on '.$ownership;
+                    }
+
+                    $link = '/post/'.$post->post_id;
+                    $icon = 'fa-comment';
+                    break;
+                // direct message
+                case 'direct_message' :
+                    break;
+                // forum reply
+                case 'forum_reply' :
+                    // get the thread
+                    $thread = ForumThread::find($notification->involved_id);
+                    $ownership = ($thread->user_id == Auth::user()->id) ? 'your' : 'a';
+                    if(empty($all) || (!empty($all) && $all->count() == 1)) {
+                        $message = $last->name.' replied on '.$ownership.' thread.';
+                    }
+
+                    if(!empty($all) && $all->count() > 1) {
+                        // count the number of users who joined
+                        $message = $last->name.' and '.($all->count() - 1).
+                            ' others replied on '.$ownership.' thread.';
+                    }
+
+                    $link = '/the-forum/thread/'.$thread->seo_url.'/'.$thread->forum_thread_id;
+                    $icon = 'fa-comments';
+                    break;
+                // group notifications
+                case 'join_group' :
+                    $group = Group::find($notification->involved_id);
+                    if(empty($all) || (!empty($all) && $all->count() == 1)) {
+                        $message = $last->name.' joined your group '.$group->name.'.';
+                    }
+
+                    if(!empty($all) && $all->count() > 1) {
+                        // count the number of users who joined
+                        $message = $last->name.' and '.($all->count() - 1).
+                            ' others joined your group '.$group->name.'.';
+                    }
+
+                    $link = '/groups/'.$group->group_id.'/members';
+                    $icon = 'fa-plus';
+                    break;
+                case 'left_group' :
+                    break;
+                // likes
+                case 'liked_post' :
+                    if(empty($all) || (!empty($all) && $all->count() == 1)) {
+                        $message = $last->name.' liked your post';
+                    }
+
+                    if(!empty($all) && $all->count() > 1) {
+                        // count the number of users who joined
+                        $message = $last->name.' and '.($all->count() - 1).' others liked your post.';
+                    }
+
+                    $link = '/post/'.$notification->involved_id;
+                    $icon = 'fa-thumbs-up';
+                    break;
+                // posts
+                case 'posted' :
+                    $message = $last->name.' posted something on your group.';
+                    $link = '/post/'.$notification->involved_id;
+                    $icon = 'fa-pencil';
+                    break;
+                // quiz
+                case 'quiz_graded' :
+                    $taker = QuizTaker::find($notification->involved_id);
+                    $message = $last->name.' already graded your quiz';
+                    $link = '/quiz-result/'.$taker->quiz_id.'/'.$taker->post_id;
+                    $icon = 'fa-star';
+                    break;
+                case 'quiz_submitted' :
+                    $taker = QuizTaker::find($notification->involved_id);
+                    if(empty($all) || (!empty($all) && $all->count() == 1)) {
+                        $message = $last->name.' submitted a quiz.';
+                    }
+
+                    if(!empty($all) && $all->count() > 1) {
+                        // count the number of users who joined
+                        $message = $last->name.' and '.($all->count() - 1).' submitted a quiz.';
+                    }
+
+                    $link = '/quiz-manager/'.$taker->quiz_id.'/'.$taker->post_id;
+                    $icon = 'fa-clipboard';
+                    break;
+            }
+
+            // echo $message.'<br/>'.$link.'<br/>';
+            $lists->$key->message = $message;
+            $lists->$key->link = $link;
+            $lists->$key->icon = $icon;
+        }
+
+        return $lists;
     }
 
     public static function seen()

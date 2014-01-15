@@ -32,11 +32,6 @@
 .assignment-details .load-assignment { float: left; margin-right: 10px; }
 .assignment-details .input-group { float:left; width: 140px; }
 
-/* plugin */
-.chosen-choices { min-height: 32px !important; }
-.chosen-choices .search-field input { height: 32px !important; }
-.chosen-choices .search-choice { padding: 6px 8px !important; }
-
 /* file upload */
 .attached-files .progress { display: none; margin-top: 10px; }
 .attached-files .files { display: none; list-style: none; margin: 10px 0; padding: 0; }
@@ -44,6 +39,14 @@
 
 /*.postcreator-textarea { height: 32px !important; }*/
 .postcreator-form-controls .postcreator-controls { list-style: none; margin: 0; padding: 0 }
+.postcreator-form-controls .postcreator-controls li .fileuploader-container { margin: 7px 0 0 0; }
+.postcreator-form-controls .postcreator-controls li .fileuploader-container .fileuploader-icon {
+    display: none;
+}
+
+.postcreator-form-controls .postcreator-controls li .fileuploader-container input[type="file"] {
+
+}
 
 .post-creator-holder .overlay {
     background-color: #fff;
@@ -61,6 +64,20 @@
 
 /* Plugin CSS Override
 ---------------------------------------------------------------*/
+.chosen-choices { min-height: 32px !important; }
+.chosen-choices .search-field input { height: 32px !important; }
+.chosen-choices .search-choice { padding: 6px 20px 6px 8px !important; }
+.chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
+    top: 7px !important;
+    right: 4px !important;
+    color: #fff !important;
+}
+
+.chosen-container .chosen-results li.highlighted {
+  background-color: #428bca;
+  color: #fff;
+}
+
 .chosen-container-multi .chosen-choices li.search-choice {
     position: relative;
     background-color: #428bca !important;

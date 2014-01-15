@@ -3,7 +3,7 @@ class AjaxNotificationController extends BaseController
 {
     public function fetch()
     {
-        $notifications = Notification::summarized();
+        $notifications = Notification::unread();
         // update seen notifications
         $seens = Notification::where('receiver_id', '=', Auth::user()->id)
             ->where('sender_id', '!=', Auth::user()->id)

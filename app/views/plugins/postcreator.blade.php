@@ -50,7 +50,11 @@
                     <div class="postcreator-form-controls">
                         <ul class="postcreator-controls pull-left">
                             <li>
-                                <input class="fileupload-notes" type="file" name="files" multiple>
+                                <label class="fileuploader-container">
+                                    <i class="fileuploader-icon fa fa-paperclip"></i>
+                                    <input class="fileupload-notes" type="file"
+                                    name="files" multiple>
+                                </label>
                             </li>
                         </ul>
 
@@ -179,7 +183,11 @@
                     <div class="postcreator-form-controls">
                         <ul class="postcreator-controls pull-left">
                             <li>
-                                <input class="fileupload-assignment" type="file" name="files" multiple>
+                                <label class="fileuploader-container">
+                                    <i class="fileuploader-icon fa fa-paperclip"></i>
+                                    <input class="fileupload-assignment" type="file"
+                                    name="files" multiple>
+                                </label>
                             </li>
                         </ul>
 

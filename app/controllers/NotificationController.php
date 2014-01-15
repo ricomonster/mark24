@@ -10,7 +10,7 @@ class NotificationController extends BaseController
     public function index()
     {
         // this will show the unsummarized version of the notifications
-        $notifications = Notification::summarized();
+        $notifications = Notification::unread();
         echo '<pre>';
         print_r($notifications);
         echo '</pre>';
