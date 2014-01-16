@@ -44,6 +44,9 @@
             .student-signup-form .section-title { font-size: 18px; }
             .student-signup-form form { padding-top: 20px; }
             .student-signup-form form .form-group .alert { margin-bottom: 5px; padding: 8px 10px; }
+
+            .teacher-signup-form form .notice,
+            .student-signup-form form .notice { margin-top: 10px; }
             /* Footer */
             .footer { font-size: 13px; margin-top: 30px; padding: 20px 0; position: relative; text-align: center; }
             /* Background Image */
@@ -148,6 +151,11 @@
                                 <div class="form-buttons">
                                     <button type="submit" class="btn btn-primary" id="teacher_signup_button">Sign up</button>
                                     <button class="btn btn-default" id="teacher_signup_cancel">Cancel</button>
+
+                                    <p class="notice">
+                                        By clicking "Sign up", you agree to our terms
+                                        of service and privacy policy.
+                                    </p>
                                 </div>
                             {{ Form::close() }}
                         </div>
@@ -192,6 +200,11 @@
                                 <div class="form-buttons">
                                     <button type="submit" class="btn btn-primary" id="student_signup_button">Sign up</button>
                                     <button class="btn btn-default" id="student_signup_cancel">Cancel</button>
+
+                                    <p class="notice">
+                                        By clicking "Sign up", you agree to our terms
+                                        of service and privacy policy.
+                                    </p>
                                 </div>
                             {{ Form::close() }}
                         </div>
