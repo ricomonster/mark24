@@ -282,9 +282,9 @@ class Helper
         } else if($date == date('Y-m-d', strtotime('-1 day'))) {
             return 'Yesterday';
         } else if($date > date('Y-m-d', strtotime('-1 year'))) {
-            return date('M d, Y', strtotime($date));
+            return date('F d, Y', strtotime($date));
         } else {
-            return date('M d', strtotime($date));
+            return date('F d', strtotime($date));
         }
     }
 
