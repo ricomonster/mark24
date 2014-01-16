@@ -7,7 +7,7 @@ class AjaxNotificationController extends BaseController
         // no unread notifications
         if(empty($notifications)) {
             // fetch the previous notifications
-            $notifications = null; // for the meantime, let's set it to null
+            $notifications = Notification::seen(); // for the meantime, let's set it to null
         }
 
         // there are unread notifications

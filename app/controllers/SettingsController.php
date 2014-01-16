@@ -8,7 +8,8 @@ class SettingsController extends BaseController {
     }
 
     public function getIndex() {
-        return View::make('settings.index');
+        return View::make('settings.index')
+            ->with('countries', $this->countries());
     }
 
     public function getPasswordPage() {

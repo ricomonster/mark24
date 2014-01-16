@@ -5,7 +5,7 @@ class ProfileController extends BaseController
     public function __construct() {
         $this->beforeFilter('auth');
     }
-    
+
     public function showIndex($user)
     {
         // check if the user var is an int
@@ -24,7 +24,7 @@ class ProfileController extends BaseController
         // most likely it's a false user
         if(empty($user)) {
             // show or redirect to 404
-            echo '404';
+            return View::make('templates.fourohfour');
             exit;
         }
 

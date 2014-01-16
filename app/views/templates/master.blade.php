@@ -110,7 +110,7 @@
             </div>
         </div>
 
-        <div class="container">
+        <div class="container ultimate-mega-container">
             <div class="message-holder"><span></span></div>
             <div class="modal fade" id="the_modal" tabindex="-1" role="dialog"
             aria-labelledby="the_modal_label" aria-hidden="true"></div>
@@ -134,7 +134,7 @@
                     <li>Privacy</li>
                 </ul>
             </div>
-        </di
+        </div>
 
         <script src="/assets/js/jquery.min.js"></script>
         <script src="/assets/js/bootstrap.min.js"></script>

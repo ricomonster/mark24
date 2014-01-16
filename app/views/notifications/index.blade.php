@@ -11,9 +11,10 @@ Notifications
 .notifications-holder .page-header { margin: 0; padding: 10px 20px; }
 .notifications-holder .page-header h3 { margin: 0; padding: 0; }
 .notifications-holder .notifications-stream { list-style: none; margin: 0; padding: 10px 0; }
-.notifications-holder .notifications-stream li.date { margin-top: 10px; padding: 5px 20px; }
-.notifications-holder .notifications-stream li.date:first-child { margin-top: 0; }
+.notifications-holder .notifications-stream li.date { border-bottom: 1px solid #ccc; margin-top: 10px; padding: 5px 20px; }
+.notifications-holder .notifications-stream li.date:first-child { margin-top: 0; padding-top: 2px; }
 .notifications-holder .notifications-stream li.date span { font-weight: bold; }
+.notifications-holder .notifications-stream li { border-bottom: 1px solid #e9e9e9; padding: 5px 0; }
 .notifications-holder .notifications-stream li a { padding: 5px 20px; }
 .notifications-holder .notifications-stream li a i { margin: 0 5px 0; }
 .notifications-holder .notifications-stream li a:hover i { text-decoration: none; }

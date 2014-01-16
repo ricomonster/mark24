@@ -108,6 +108,18 @@ Settings
                 </div>
                 @endif
 
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <select name="country" class="form-control">
+                        <option value="" selected>-- Select Country --</option>
+                        @foreach($countries as $country)
+                        <option value="{{ $country }}"
+                        {{ (Auth::user()->country == $country) ?
+                        'selected' : null; }}>{{ $country }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <button type="submit" id="submit_personal_info" class="btn btn-primary">
                     Save Personal Info
                 </button>

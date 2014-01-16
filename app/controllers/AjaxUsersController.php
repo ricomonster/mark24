@@ -101,6 +101,7 @@ class AjaxUsersController extends BaseController {
                 Input::get('salutation') : null;
             $updateUser->firstname      = ucwords(Input::get('firstname'));
             $updateUser->lastname       = ucwords(Input::get('lastname'));
+            $updateUser->country        = Input::get('country');
             $updateUser->save();
 
             $return['error'] = false;
