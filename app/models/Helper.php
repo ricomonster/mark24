@@ -113,9 +113,10 @@ class Helper
         return $answer;
     }
 
-    public static function checkQuizTaken($quizId)
+    public static function checkQuizTaken($quizId, $postId)
     {
         $check = QuizTaker::where('quiz_id', '=', $quizId)
+            ->where('post_id', '=', $postId)
             ->where(function($query) {
                 $query->orWhere('status', '=', 'UNGRADED')
                     ->orWhere('status', '=', 'GRADED');

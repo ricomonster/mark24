@@ -60,6 +60,7 @@ class Post extends Eloquent {
                     $turnedIn = new StdClass();
                     // get turned in stats
                     $turnedIn->takers = QuizTaker::where('quiz_id', '=', $post->quiz_id)
+                        ->where('post_id', '=', $post->post_id)
                         ->where(function($query) {
                             $query->orWhere('status', '=', 'UNGRADED')
                                 ->orWhere('status', '=', 'GRADED');
@@ -72,7 +73,7 @@ class Post extends Eloquent {
                 // check if the user already take the quiz
                 if(Auth::user()->account_type == 2) {
                     // check if the user already took the quiz
-                    $taken = Helper::checkQuizTaken($post->quiz_id);
+                    $taken = Helper::checkQuizTaken($post->quiz_id, $post->post_id);
                     $quiz->taken = (empty($taken)) ? null : $taken;
                 }
 
@@ -185,6 +186,7 @@ class Post extends Eloquent {
                             $turnedIn = new StdClass();
                             // get turned in stats
                             $turnedIn->takers = QuizTaker::where('quiz_id', '=', $post->quiz_id)
+                                ->where('post_id', '=', $post->post_id)
                                 ->where(function($query) {
                                     $query->orWhere('status', '=', 'PASSED')
                                         ->orWhere('status', '=', 'GRADED');
@@ -197,7 +199,7 @@ class Post extends Eloquent {
                         // check if the user already take the quiz
                         if(Auth::user()->account_type == 2) {
                             // check if the user already took the quiz
-                            $taken = Helper::checkQuizTaken($post->quiz_id);
+                            $taken = Helper::checkQuizTaken($post->quiz_id, $post->post_id);
                             $quiz->taken = (empty($taken)) ? null : $taken;
                         }
 
@@ -302,6 +304,7 @@ class Post extends Eloquent {
                         $turnedIn = new StdClass();
                         // get turned in stats
                         $turnedIn->takers = QuizTaker::where('quiz_id', '=', $post->quiz_id)
+                            ->where('post_id', '=', $post->post_id)
                             ->where(function($query) {
                                 $query->orWhere('status', '=', 'PASSED')
                                     ->orWhere('status', '=', 'GRADED');
@@ -314,7 +317,7 @@ class Post extends Eloquent {
                     // check if the user already take the quiz
                     if(Auth::user()->account_type == 2) {
                         // check if the user already took the quiz
-                        $taken = Helper::checkQuizTaken($post->quiz_id);
+                        $taken = Helper::checkQuizTaken($post->quiz_id, $post->post_id);
                         $quiz->taken = (empty($taken)) ? null : $taken;
                     }
 
