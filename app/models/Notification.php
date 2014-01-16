@@ -8,6 +8,7 @@ class Notification extends Eloquent
     public static function setup($type, $settings)
     {
         $time = time();
+        $date = date('Y-m-d');
         switch($type) {
             // assignment
             case 'assignment_graded' :
@@ -24,6 +25,7 @@ class Notification extends Eloquent
                 $notification->notification_type = 'assignment_submitted';
                 $notification->involved_id = $involvedId;
                 $notification->notification_timestamp = $time;
+                $notification->date_added = $date;
                 $notification->save();
                 break;
             // comments
@@ -52,6 +54,7 @@ class Notification extends Eloquent
                         $notification->notification_type = 'commented';
                         $notification->involved_id = $post->post_id;
                         $notification->notification_timestamp = $time;
+                        $notification->date_added = $date;
                         $notification->save();
                     }
 
@@ -59,6 +62,7 @@ class Notification extends Eloquent
                     if(!empty($exists)) {
                         $exists->seen = 0;
                         $exists->notification_timestamp = $time;
+                        $exists->date_added = $date;
                         $exists->save();
                     }
                 }
@@ -81,6 +85,7 @@ class Notification extends Eloquent
                         $notification->notification_type = 'commented';
                         $notification->involved_id = $post->post_id;
                         $notification->notification_timestamp = $time;
+                        $notification->date_added = $date;
                         $notification->save();
                     }
 
@@ -88,6 +93,7 @@ class Notification extends Eloquent
                     if(!empty($exists)) {
                         $exists->seen = 0;
                         $exists->notification_timestamp = $time;
+                        $exists->date_added = $date;
                         $exists->save();
                     }
                 }
@@ -148,6 +154,7 @@ class Notification extends Eloquent
                     $notification->notification_type = 'direct_message';
                     $notification->involved_id = $involvedId;
                     $notification->notification_timestamp = $time;
+                    $notification->date_added = $date;
                     $notification->save();
                 }
 
@@ -155,6 +162,7 @@ class Notification extends Eloquent
                 if(!empty($exists)) {
                     $exists->seen = 0;
                     $exists->notification_timestamp = $time;
+                    $exists->date_added = $date;
                     $exists->save();
                 }
 
@@ -185,6 +193,7 @@ class Notification extends Eloquent
                         $notification->notification_type = 'forum_reply';
                         $notification->involved_id = $thread->forum_thread_id;
                         $notification->notification_timestamp = $time;
+                        $notification->date_added = $date;
                         $notification->save();
                     }
 
@@ -192,6 +201,7 @@ class Notification extends Eloquent
                     if(!empty($exists)) {
                         $exists->seen = 0;
                         $exists->notification_timestamp = $time;
+                        $exists->date_added = $date;
                         $exists->save();
                     }
                 }
@@ -213,6 +223,7 @@ class Notification extends Eloquent
                         $notification->notification_type = 'forum_reply';
                         $notification->involved_id = $thread->forum_thread_id;
                         $notification->notification_timestamp = $time;
+                        $notification->date_added = $date;
                         $notification->save();
                     }
 
@@ -220,6 +231,7 @@ class Notification extends Eloquent
                     if(!empty($exists)) {
                         $exists->seen = 0;
                         $exists->notification_timestamp = $time;
+                        $exists->date_added = $date;
                         $exists->save();
                     }
                 }
@@ -241,6 +253,7 @@ class Notification extends Eloquent
                         $notification->notification_type = 'forum_reply';
                         $notification->involved_id = $thread->forum_thread_id;
                         $notification->notification_timestamp = $time;
+                        $notification->date_added = $date;
                         $notification->save();
                     }
 
@@ -248,6 +261,7 @@ class Notification extends Eloquent
                     if(!empty($exists)) {
                         $exists->seen = 0;
                         $exists->notification_timestamp = $time;
+                        $exists->date_added = $date;
                         $exists->save();
                     }
                 }
@@ -277,6 +291,7 @@ class Notification extends Eloquent
                         $notification->notification_type = 'join_group';
                         $notification->involved_id = $groupId;
                         $notification->notification_timestamp = $time;
+                        $notification->date_added = $date;
                         $notification->save();
                     }
 
@@ -284,6 +299,7 @@ class Notification extends Eloquent
                     if(!empty($exists)) {
                         $exists->seen = 0;
                         $exists->notification_timestamp = $time;
+                        $exists->date_added = $date;
                         $exists->save();
                     }
                 }
@@ -310,14 +326,16 @@ class Notification extends Eloquent
                     $notification->notification_type = 'liked_post';
                     $notification->involved_id = $post->post_id;
                     $notification->notification_timestamp = $time;
+                    $notification->date_added = $date;
                     $notification->save();
                 }
 
                 // notification exists, just update
                 if(!empty($exists)) {
-                    $notification->seen = 'false';
-                    $notification->notification_timestamp = $time;
-                    $notification->save();
+                    $exists->seen = 'false';
+                    $exists->notification_timestamp = $time;
+                    $exists->date_added = $date;
+                    $exists->save();
                 }
 
                 break;
@@ -351,6 +369,7 @@ class Notification extends Eloquent
                                 $notification->notification_type = 'posted';
                                 $notification->involved_id = $post->post_id;
                                 $notification->notification_timestamp = $time;
+                                $notification->date_added = $date;
                                 $notification->save();
                             }
 
@@ -358,6 +377,7 @@ class Notification extends Eloquent
                             if(!empty($exists)) {
                                 $exists->seen = 0;
                                 $exists->notification_timestamp = $time;
+                                $exists->date_added = $date;
                                 $exists->save();
                             }
                         }
@@ -388,6 +408,7 @@ class Notification extends Eloquent
                 $notification->notification_type = 'quiz_graded';
                 $notification->involved_id = $quizTakerId;
                 $notification->notification_timestamp = $time;
+                $notification->date_added = $date;
                 $notification->save();
                 break;
             case 'quiz_submitted' :
@@ -403,6 +424,7 @@ class Notification extends Eloquent
                 $notification->notification_type = 'quiz_submitted';
                 $notification->involved_id = $quizTakerId;
                 $notification->notification_timestamp = $time;
+                $notification->date_added = $date;
                 $notification->save();
                 break;
         }
@@ -564,156 +586,165 @@ class Notification extends Eloquent
         return $lists;
     }
 
-    public static function all()
+    public static function everything($limit = 0)
     {
-        // get the notifications for this user
-        $notifications = Notification::where('receiver_id', '=', Auth::user()->id)
+        // get notifications per date
+        $grouped = Notification::where('receiver_id', '=', Auth::user()->id)
             ->where('sender_id', '!=', Auth::user()->id)
-            ->where('seen', '=', 0)
-            ->groupBy('involved_id', 'notification_type')
+            ->groupBy('date_added')
             ->orderBy('notification_timestamp', 'DESC')
             ->get();
-
         $lists = new StdClass();
-        $message = null;
-        $link = null;
-        foreach($notifications as $key => $notification) {
-            $lists->$key = new StdClass();
-            // get the last user of the notification
-            $last = Notification::where('involved_id', '=', $notification->involved_id)
-                ->where('notification_type', '=', $notification->notification_type)
+        foreach($grouped as $key => $group) {
+            // get the notifications for this user
+            $notifications = Notification::where('receiver_id', '=', Auth::user()->id)
                 ->where('sender_id', '!=', Auth::user()->id)
-                ->where('seen', '=', 0)
-                ->leftJoin('users', 'notifications.sender_id', '=', 'users.id')
-                ->first();
-            // get all notification
-            $all = Notification::where('involved_id', '=', $notification->involved_id)
-                ->where('notification_type', '=', $notification->notification_type)
-                ->where('sender_id', '!=', Auth::user()->id)
-                ->where('seen', '=', 0)
-                ->leftJoin('users', 'notifications.sender_id', '=', 'users.id')
+                ->where('date_added', '=', $group->date_added)
+                ->groupBy('involved_id', 'notification_type')
+                ->orderBy('notification_timestamp', 'DESC')
                 ->get();
 
-            switch($notification->notification_type) {
-                // assignment
-                case 'assignment_graded' :
-                    break;
-                case 'assignment_submitted' :
-                    break;
-                // comments
-                case 'commented' :
-                    // get the post
-                    $post = Post::find($notification->involved_id);
-                    $ownership = ($post->user_id == Auth::user()->id) ?
-                        'your post' : 'a post that you have also commented.';
-                    // override the all
-                    $all = Notification::where('involved_id', '=', $notification->involved_id)
-                        ->where('notification_type', '=', $notification->notification_type)
-                        ->where('sender_id', '!=', $last->id)
-                        ->where('sender_id', '!=', Auth::user()->id)
-                        ->where('seen', '=', 0)
-                        ->leftJoin('users', 'notifications.sender_id', '=', 'users.id')
-                        ->get();
+            $alerts = new StdClass();
+            $message = null;
+            $link = null;
+            foreach($notifications as $key2 => $notification) {
+                $alerts->$key2 = new StdClass();
+                // get the last user of the notification
+                $last = Notification::where('involved_id', '=', $notification->involved_id)
+                    ->where('notification_type', '=', $notification->notification_type)
+                    ->where('sender_id', '!=', Auth::user()->id)
+                    ->leftJoin('users', 'notifications.sender_id', '=', 'users.id')
+                    ->first();
+                // get all notification
+                $all = Notification::where('involved_id', '=', $notification->involved_id)
+                    ->where('notification_type', '=', $notification->notification_type)
+                    ->where('sender_id', '!=', Auth::user()->id)
+                    ->leftJoin('users', 'notifications.sender_id', '=', 'users.id')
+                    ->get();
 
-                    if($all->isEmpty() || (!$all->isEmpty() && $all->count() == 1)) {
-                        $message = $last->name.' commented on '.$ownership;
-                    }
+                switch($notification->notification_type) {
+                    // assignment
+                    case 'assignment_graded' :
+                        break;
+                    case 'assignment_submitted' :
+                        break;
+                    // comments
+                    case 'commented' :
+                        // get the post
+                        $post = Post::find($notification->involved_id);
+                        $ownership = ($post->user_id == Auth::user()->id) ?
+                            'your post' : 'a post that you have also commented.';
+                        // override the all
+                        $all = Notification::where('involved_id', '=', $notification->involved_id)
+                            ->where('notification_type', '=', $notification->notification_type)
+                            ->where('sender_id', '!=', $last->id)
+                            ->where('sender_id', '!=', Auth::user()->id)
+                            ->leftJoin('users', 'notifications.sender_id', '=', 'users.id')
+                            ->get();
 
-                    if(!empty($all) && $all->count() > 1) {
-                        // count the number of users who joined
-                        $message = $last->name.' and '.($all->count() - 1).
-                            ' others commented on '.$ownership;
-                    }
+                        if($all->isEmpty() || (!$all->isEmpty() && $all->count() == 1)) {
+                            $message = $last->name.' commented on '.$ownership;
+                        }
 
-                    $link = '/post/'.$post->post_id;
-                    $icon = 'fa-comment';
-                    break;
-                // direct message
-                case 'direct_message' :
-                    break;
-                // forum reply
-                case 'forum_reply' :
-                    // get the thread
-                    $thread = ForumThread::find($notification->involved_id);
-                    $ownership = ($thread->user_id == Auth::user()->id) ? 'your' : 'a';
-                    if(empty($all) || (!empty($all) && $all->count() == 1)) {
-                        $message = $last->name.' replied on '.$ownership.' thread.';
-                    }
+                        if(!empty($all) && $all->count() > 1) {
+                            // count the number of users who joined
+                            $message = $last->name.' and '.($all->count() - 1).
+                                ' others commented on '.$ownership;
+                        }
 
-                    if(!empty($all) && $all->count() > 1) {
-                        // count the number of users who joined
-                        $message = $last->name.' and '.($all->count() - 1).
-                            ' others replied on '.$ownership.' thread.';
-                    }
+                        $link = '/post/'.$post->post_id;
+                        $icon = 'fa-comment';
+                        break;
+                    // direct message
+                    case 'direct_message' :
+                        break;
+                    // forum reply
+                    case 'forum_reply' :
+                        // get the thread
+                        $thread = ForumThread::find($notification->involved_id);
+                        $ownership = ($thread->user_id == Auth::user()->id) ? 'your' : 'a';
+                        if(empty($all) || (!empty($all) && $all->count() == 1)) {
+                            $message = $last->name.' replied on '.$ownership.' thread.';
+                        }
 
-                    $link = '/the-forum/thread/'.$thread->seo_url.'/'.$thread->forum_thread_id;
-                    $icon = 'fa-comments';
-                    break;
-                // group notifications
-                case 'join_group' :
-                    $group = Group::find($notification->involved_id);
-                    if(empty($all) || (!empty($all) && $all->count() == 1)) {
-                        $message = $last->name.' joined your group '.$group->name.'.';
-                    }
+                        if(!empty($all) && $all->count() > 1) {
+                            // count the number of users who joined
+                            $message = $last->name.' and '.($all->count() - 1).
+                                ' others replied on '.$ownership.' thread.';
+                        }
 
-                    if(!empty($all) && $all->count() > 1) {
-                        // count the number of users who joined
-                        $message = $last->name.' and '.($all->count() - 1).
-                            ' others joined your group '.$group->name.'.';
-                    }
+                        $link = '/the-forum/thread/'.$thread->seo_url.'/'.$thread->forum_thread_id;
+                        $icon = 'fa-comments';
+                        break;
+                    // group notifications
+                    case 'join_group' :
+                        $group = Group::find($notification->involved_id);
+                        if(empty($all) || (!empty($all) && $all->count() == 1)) {
+                            $message = $last->name.' joined your group '.$group->name.'.';
+                        }
 
-                    $link = '/groups/'.$group->group_id.'/members';
-                    $icon = 'fa-plus';
-                    break;
-                case 'left_group' :
-                    break;
-                // likes
-                case 'liked_post' :
-                    if(empty($all) || (!empty($all) && $all->count() == 1)) {
-                        $message = $last->name.' liked your post';
-                    }
+                        if(!empty($all) && $all->count() > 1) {
+                            // count the number of users who joined
+                            $message = $last->name.' and '.($all->count() - 1).
+                                ' others joined your group '.$group->name.'.';
+                        }
 
-                    if(!empty($all) && $all->count() > 1) {
-                        // count the number of users who joined
-                        $message = $last->name.' and '.($all->count() - 1).' others liked your post.';
-                    }
+                        $link = '/groups/'.$group->group_id.'/members';
+                        $icon = 'fa-plus';
+                        break;
+                    case 'left_group' :
+                        break;
+                    // likes
+                    case 'liked_post' :
+                        if(empty($all) || (!empty($all) && $all->count() == 1)) {
+                            $message = $last->name.' liked your post';
+                        }
 
-                    $link = '/post/'.$notification->involved_id;
-                    $icon = 'fa-thumbs-up';
-                    break;
-                // posts
-                case 'posted' :
-                    $message = $last->name.' posted something on your group.';
-                    $link = '/post/'.$notification->involved_id;
-                    $icon = 'fa-pencil';
-                    break;
-                // quiz
-                case 'quiz_graded' :
-                    $taker = QuizTaker::find($notification->involved_id);
-                    $message = $last->name.' already graded your quiz';
-                    $link = '/quiz-result/'.$taker->quiz_id.'/'.$taker->post_id;
-                    $icon = 'fa-star';
-                    break;
-                case 'quiz_submitted' :
-                    $taker = QuizTaker::find($notification->involved_id);
-                    if(empty($all) || (!empty($all) && $all->count() == 1)) {
-                        $message = $last->name.' submitted a quiz.';
-                    }
+                        if(!empty($all) && $all->count() > 1) {
+                            // count the number of users who joined
+                            $message = $last->name.' and '.($all->count() - 1).' others liked your post.';
+                        }
 
-                    if(!empty($all) && $all->count() > 1) {
-                        // count the number of users who joined
-                        $message = $last->name.' and '.($all->count() - 1).' submitted a quiz.';
-                    }
+                        $link = '/post/'.$notification->involved_id;
+                        $icon = 'fa-thumbs-up';
+                        break;
+                    // posts
+                    case 'posted' :
+                        $message = $last->name.' posted something on your group.';
+                        $link = '/post/'.$notification->involved_id;
+                        $icon = 'fa-pencil';
+                        break;
+                    // quiz
+                    case 'quiz_graded' :
+                        $taker = QuizTaker::find($notification->involved_id);
+                        $message = $last->name.' already graded your quiz';
+                        $link = '/quiz-result/'.$taker->quiz_id.'/'.$taker->post_id;
+                        $icon = 'fa-star';
+                        break;
+                    case 'quiz_submitted' :
+                        $taker = QuizTaker::find($notification->involved_id);
+                        if(empty($all) || (!empty($all) && $all->count() == 1)) {
+                            $message = $last->name.' submitted a quiz.';
+                        }
 
-                    $link = '/quiz-manager/'.$taker->quiz_id.'/'.$taker->post_id;
-                    $icon = 'fa-clipboard';
-                    break;
+                        if(!empty($all) && $all->count() > 1) {
+                            // count the number of users who joined
+                            $message = $last->name.' and '.($all->count() - 1).' submitted a quiz.';
+                        }
+
+                        $link = '/quiz-manager/'.$taker->quiz_id.'/'.$taker->post_id;
+                        $icon = 'fa-clipboard';
+                        break;
+                }
+
+                $alerts->$key2->message = $message;
+                $alerts->$key2->link = $link;
+                $alerts->$key2->icon = $icon;
             }
 
-            // echo $message.'<br/>'.$link.'<br/>';
-            $lists->$key->message = $message;
-            $lists->$key->link = $link;
-            $lists->$key->icon = $icon;
+            $lists->$key = new StdClass();
+            $lists->$key->date = $group->date_added;
+            $lists->$key->notifications = $alerts;
         }
 
         return $lists;

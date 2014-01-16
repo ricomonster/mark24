@@ -4,16 +4,25 @@ class AjaxNotificationController extends BaseController
     public function fetch()
     {
         $notifications = Notification::unread();
-        // update seen notifications
-        $seens = Notification::where('receiver_id', '=', Auth::user()->id)
-            ->where('sender_id', '!=', Auth::user()->id)
-            ->where('seen', '=', 0)
-            ->get();
-        // update!
-        foreach($seens as $seen) {
-            $unseen = Notification::find($seen->notification_id);
-            $unseen->seen = 1;
-            $unseen->save();
+        // no unread notifications
+        if(empty($notifications)) {
+            // fetch the previous notifications
+            $notifications = null; // for the meantime, let's set it to null
+        }
+
+        // there are unread notifications
+        if(!empty($notifications)) {
+            // update seen notifications
+            $seens = Notification::where('receiver_id', '=', Auth::user()->id)
+                ->where('sender_id', '!=', Auth::user()->id)
+                ->where('seen', '=', 0)
+                ->get();
+            // update!
+            foreach($seens as $seen) {
+                $unseen = Notification::find($seen->notification_id);
+                $unseen->seen = 1;
+                $unseen->save();
+            }
         }
 
         return View::make('ajax.notifications.lists')

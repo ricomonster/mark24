@@ -275,6 +275,19 @@ class Helper
         return $string;
     }
 
+    public static function notificationDates($date)
+    {
+        if($date == date('Y-m-d')) {
+            return 'Today';
+        } else if($date == date('Y-m-d', strtotime('-1 day'))) {
+            return 'Yesterday';
+        } else if($date > date('Y-m-d', strtotime('-1 year'))) {
+            return date('M d, Y', strtotime($date));
+        } else {
+            return date('M d', strtotime($date));
+        }
+    }
+
     public static function likes($postId)
     {
         $message = null;

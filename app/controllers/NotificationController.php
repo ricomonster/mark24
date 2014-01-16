@@ -9,10 +9,10 @@ class NotificationController extends BaseController
      */
     public function index()
     {
-        // this will show the unsummarized version of the notifications
-        $notifications = Notification::unread();
-        echo '<pre>';
-        print_r($notifications);
-        echo '</pre>';
+        // this will show all notifications
+        $notifications = Notification::everything();
+
+        return View::make('notifications.index')
+            ->with('notifications', $notifications);
     }
 }
