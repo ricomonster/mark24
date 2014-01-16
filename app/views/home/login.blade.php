@@ -3,11 +3,11 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
+        <meta name="description" content="Learn better, together.">
+        <meta name="author" content="Federico A. Maglayon">
         <link rel="shortcut icon" href="/assets/ico/favicon.png">
 
-        <title>eLinet | Where Learning Happens | Sign up, Sign in</title>
+        <title>eLinet | Learn better, together | Sign up, Sign in</title>
 
         <!-- Bootstrap core CSS -->
         <link href="/assets/css/bootstrap.css" rel="stylesheet">
@@ -18,7 +18,7 @@
             .header .text-muted { position: relative; }
             .main-content { min-height: 450px; padding-top: 20px; }
             .left-panel { color: #fff; margin: auto !important; width: 400px; }
-            .left-panel h1 { font-size: 60px; text-shadow: 0 0 10px #000; }
+            .left-panel h1 { font-size: 64px; text-shadow: 0 0 10px #000; }
             .right-panel { width: 350px; margin: auto !important; }
             .left-panel p { font-size: 22px; text-shadow: 0 0 10px #000; }
 

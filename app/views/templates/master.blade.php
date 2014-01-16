@@ -3,8 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
+        <meta name="description" content="Learn better, together.">
+        <meta name="author" content="Federico A. Maglayon">
         <link rel="shortcut icon" href="/assets/ico/favicon.png">
 
         <title>eLinet | @yield('title')</title>
@@ -129,17 +129,12 @@
                 <strong>eLinet - eLearning Networking &copy; {{ date('Y') }}</strong>
                 <ul>
                     <li>About</li>
-                    <li>Blog</li>
-                    <li>Platform</li>
-                    <li>Press</li>
                     <li>Help</li>
-                    <li>Jobs</li>
                     <li>Terms</li>
                     <li>Privacy</li>
-                    <li>Mobile</li>
                 </ul>
             </div>
-        </div>
+        </di
 
         <script src="/assets/js/jquery.min.js"></script>
         <script src="/assets/js/bootstrap.min.js"></script>
