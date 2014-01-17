@@ -190,6 +190,7 @@ Route::get('planner', 'PlannerController@index');
 
 // Profile Routes
 Route::get('profile/{user}', 'ProfileController@showIndex');
+Route::get('profile/{user}/{action}', 'ProfileController@showActions');
 
 // Quiz Creator Routes
 Route::get('quiz-creator', 'QuizCreatorController@getIndex');

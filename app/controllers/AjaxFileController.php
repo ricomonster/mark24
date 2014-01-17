@@ -80,6 +80,7 @@ class AjaxFileController extends BaseController
                 'file_name' => $file->getClientOriginalName(),
                 'message'   => "File '".$file->getClientOriginalName()."' could not be uploaded. Please try again later"));
         }
+
         $details = FileLibrary::find(5);
 
         return Response::json(array('error' => false, 'attached' => $details->toArray()));

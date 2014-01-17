@@ -32,12 +32,16 @@ class GroupMember extends Eloquent {
                             array(Auth::user()->id, Auth::user()->id));
     }
 
-    public static function countAllGroupMembers()
+    public static function allGroupMembers($option = null)
     {
         // get first the groups of the user
-        return GroupMember::whereIn('group_id', Group::getMyGroupsId())
+        $members = GroupMember::whereIn('group_id', Group::getMyGroupsId())
+            ->where('group_members.group_member_id', '!=', Auth::user()->id)
             ->leftJoin('users', 'group_members.group_member_id', '=', 'users.id')
-            ->groupBy('group_member_id')
-            ->get();
+            ->groupBy('group_member_id');
+        if(!empty($option) && $option == 'teachers') $members->where('users.account_type', '=', 1);
+        if(!empty($option) && $option == 'students') $members->where('users.account_type', '=', 2);
+
+        return $members->get();
     }
 }

@@ -1,7 +1,7 @@
 @extends('templates.master')
 
 @section('title')
-Profile
+{{ $user->name }} - Activity
 @stop
 
 @section('internalCss')
@@ -12,7 +12,6 @@ Profile
 @stop
 
 @section('content')
-
 <div class="profile-header well">
     <div class="profile-avatar pull-left">
         {{ Helper::avatar(140, "large", "img-rounded", $user->id) }}
@@ -83,9 +82,7 @@ Profile
     </div>
 
     <div class="col-md-9">
-        <div class="well">
-
-        </div>
+        <div class="well"></div>
     </div>
 </div>
 

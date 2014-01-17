@@ -1,0 +1,29 @@
+.profile-header .profile-user-details { margin-left: 20px; width: 82%; }
+.profile-header .profile-user-details .profile-user-fullname { margin: 0 0 10px; }
+.profile-header .profile-user-details .profile-user-type,
+.profile-header .profile-user-details .profile-user-country { color: #839096; }
+.profile-header .profile-user-details .divider { padding: 0 5px; }
+.profile-header .profile-user-details hr { margin: 10px 0; }
+.profile-header .profile-user-details .user-stats { list-style: none; margin: 0; padding: 0; }
+.profile-header .profile-user-details .user-stats li { display: inline-block; margin-right: 50px; text-align: center; }
+.profile-header .profile-user-details .user-stats li p { margin: 0; }
+.profile-header .profile-user-details .user-stats li .stat-number { color: #3784d5; margin: 0; padding: 0; }
+.profile-header .profile-user-details .user-stats li .stat-name { color: #839096; font-size: 13px; }
+
+.profile-control-holder { padding: 0; }
+.profile-control-holder ul li { margin: 0; }
+.profile-control-holder ul li a {
+    background-color: #ffffff;
+    border: 1px solid #dfe4e8 !important;
+    border-top: 0 !important;
+    border-radius: 0;
+}
+
+.profile-control-holder ul li.active a,
+.profile-control-holder ul li.active a:hover { background-color: #f3f5f7; color: #2a6496; }
+
+.profile-control-holder ul li.active i {  }
+
+.profile-proper-container { padding: 0; }
+.profile-proper-container .page-header { padding: 15px 20px; margin: 0; }
+.profile-proper-container .page-header h3 { margin: 0; padding: 0; }
