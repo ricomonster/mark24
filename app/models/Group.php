@@ -14,8 +14,17 @@ class Group extends Eloquent {
         return (empty($group)) ? false : $group;
     }
 
-    public static function getMyGroupsId() {
-        $groupMember = User::find(Auth::user()->id)->groupMember;
+    public static function getMyGroupsId($user = null) {
+        // check if theres a specific user
+        if(is_null($user)) {
+            $id = Auth::user()->id;
+        }
+
+        if(!is_null($user)) {
+            $id = $user;
+        }
+
+        $groupMember = User::find($id)->groupMember;
 
         foreach($groupMember as $member) {
             $group = Group::find($member->group_id);

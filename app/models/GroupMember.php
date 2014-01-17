@@ -34,14 +34,14 @@ class GroupMember extends Eloquent {
 
     public static function allGroupMembers($option = null)
     {
-        // get first the groups of the user
-        $members = GroupMember::whereIn('group_id', Group::getMyGroupsId())
-            ->where('group_members.group_member_id', '!=', Auth::user()->id)
-            ->leftJoin('users', 'group_members.group_member_id', '=', 'users.id')
-            ->groupBy('group_member_id');
-        if(!empty($option) && $option == 'teachers') $members->where('users.account_type', '=', 1);
-        if(!empty($option) && $option == 'students') $members->where('users.account_type', '=', 2);
+        // // get first the groups of the user
+        // $members = GroupMember::whereIn('group_id', Group::getMyGroupsId())
+        //     ->where('group_members.group_member_id', '!=', Auth::user()->id)
+        //     ->leftJoin('users', 'group_members.group_member_id', '=', 'users.id')
+        //     ->groupBy('group_member_id');
+        // if(!empty($option) && $option == 'teachers') $members->where('users.account_type', '=', 1);
+        // if(!empty($option) && $option == 'students') $members->where('users.account_type', '=', 2);
 
-        return $members->get();
+        // return $members->get();
     }
 }

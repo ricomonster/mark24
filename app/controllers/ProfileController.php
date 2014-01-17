@@ -75,15 +75,21 @@ class ProfileController extends BaseController
 
     protected function _details()
     {
-        $user = User::find($this->_user->id);
+        $user = $this->_user;
         $details = new StdClass();
         // count the groups of the user
-        $details->group_count = User::find(Auth::user()->id)->groupMember->count();
+        $details->group_count = User::find($user->id)->groupMember->count();
         // check first the user
         if($user->account_type == 1) {
             // teacher
             // count students
-            $details->student_count = GroupMember::allGroupMembers()->count();
+            $details->student_count = GroupMember::whereIn('group_id', Group::getMyGroupsId($user->id))
+                ->where('group_members.group_member_id', '!=', $user->id)
+                ->leftJoin('users', 'group_members.group_member_id', '=', 'users.id')
+                ->groupBy('group_member_id')
+                ->get()
+                ->count();
+
             // count number of files in the library
             $details->file_count = FileLibrary::where('user_id', '=', $user->id)
                 ->get()
@@ -107,7 +113,13 @@ class ProfileController extends BaseController
         // this page is for teachers only
         if($this->_user->account_type != 1) return View::make('templates.fourohfour');
         // get the students of the users
-        $students = GroupMember::allGroupMembers('students');
+        $students = GroupMember::whereIn('group_id', Group::getMyGroupsId($this->_user->id))
+            ->where('group_members.group_member_id', '!=', $this->_user->id)
+            ->where('users.account_type', '=', 2)
+            ->leftJoin('users', 'group_members.group_member_id', '=', 'users.id')
+            ->groupBy('group_member_id')
+            ->get();
+
         return View::make('profile.actions.students')
             ->with('user', $this->_user)
             ->with('details', $this->_details())
@@ -119,7 +131,13 @@ class ProfileController extends BaseController
         // this page is for students only
         if($this->_user->account_type != 2) return View::make('templates.fourohfour');
         // get the students of the users
-        $teachers = GroupMember::allGroupMembers('teachers');
+        $teachers = GroupMember::whereIn('group_id', Group::getMyGroupsId($this->_user->id))
+            ->where('group_members.group_member_id', '!=', $this->_user->id)
+            ->where('users.account_type', '=', 1)
+            ->leftJoin('users', 'group_members.group_member_id', '=', 'users.id')
+            ->groupBy('group_member_id')
+            ->get();
+
         return View::make('profile.actions.teachers')
             ->with('user', $this->_user)
             ->with('details', $this->_details())
@@ -132,7 +150,7 @@ class ProfileController extends BaseController
         if($this->_user->account_type != 2) return View::make('templates.fourohfour');
 
         // get the students of the users
-        $classmates = GroupMember::whereIn('group_id', Group::getMyGroupsId())
+        $classmates = GroupMember::whereIn('group_id', Group::getMyGroupsId($this->_user->id))
             ->where('group_members.group_member_id', '!=', $this->_user->id)
             ->where('users.account_type', '=', 2)
             ->leftJoin('users', 'group_members.group_member_id', '=', 'users.id')
