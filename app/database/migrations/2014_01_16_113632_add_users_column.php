@@ -15,9 +15,6 @@ class AddUsersColumn extends Migration {
 		Schema::table('users', function(Blueprint $table)
 		{
 			$table->string('country', 50)->nullable()->after('password');
-			$table->text('description')->nullable()->after('country');
-			$table->text('what_to_learn')->nullable()->after('description');
-			$table->text('goals')->nullable()->after('what_to_learn');
 		});
 	}
 
@@ -31,9 +28,6 @@ class AddUsersColumn extends Migration {
 		Schema::table('users', function(Blueprint $table)
 		{
 			$table->dropColumn('country');
-			$table->dropColumn('description');
-			$table->dropColumn('what_to_learn');
-			$table->dropColumn('goals');
 		});
 	}
 

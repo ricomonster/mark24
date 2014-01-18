@@ -10,7 +10,7 @@ class GroupsController extends BaseController {
         // check first if groupId is valid
         $group = Group::find($groupId);
         if(!is_numeric($groupId) || empty($group)) {
-            App::abort('404');
+            return View::make('templates.fourohfour');
         }
 
         // get current user groups
@@ -40,7 +40,7 @@ class GroupsController extends BaseController {
         // check first if groupId is valid
         $group = Group::find($groupId);
         if(!is_numeric($groupId) || empty($group)) {
-            App::abort('404');
+            return View::make('templates.fourohfour');
         }
 
         // get group owner
@@ -67,7 +67,7 @@ class GroupsController extends BaseController {
          // check first if groupId is valid
         $group = Group::find($groupId);
         if(!is_numeric($groupId) || empty($group)) {
-            App::abort('404');
+            return View::make('templates.fourohfour');
         }
 
         // check if there's an existing converation

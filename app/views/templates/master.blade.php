@@ -40,23 +40,6 @@
                     </button>
 
                     <a class="navbar-brand" href="/"></a>
-
-                    <div class="dropdown notification-dropdown pull-right" style="display: none;">
-                        <a href="#" role="button" data-toggle="dropdown"
-                        class="dropdown-toggle menu-items fetch-notifications">
-                            <i class="fa fa-bell-o"></i>
-                            <span class="label label-danger notification-count"></span>
-                        </a>
-                        <ul class="notification-stream dropdown-menu"
-                        role="menu" aria-labelledby="drop1">
-                            <li class="see-all">
-                                <a href="/notifications">
-                                    <i class="fa fa-list-ul"></i> See all notifications
-                                </a>
-                            </li>
-                            <!-- <li class="spinner">Spinner</li> -->
-                        </ul>
-                    </div>
                 </div>
                 <div class="collapse navbar-collapse navigation-items">
                     <ul class="nav navbar-nav">
@@ -234,7 +217,7 @@
                     }).done(function(response) {
                         if(response) {
                             notificationStream.prepend(response)
-                                .find('.spinner').hide();
+                                // .find('.spinner').hide();
                             notificationCounter.fadeOut(400);
                             notificationCounter.parent().delay(400)
                                 .animate({ width: '54px' }, 350);
