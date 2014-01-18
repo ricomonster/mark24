@@ -9,7 +9,12 @@ class GroupsController extends BaseController {
     public function showIndex($groupId) {
         // check first if groupId is valid
         $group = Group::find($groupId);
-        if(!is_numeric($groupId) || empty($group)) {
+        // check if the current user is a member of the group
+        $member = GroupMember::where('group_member_id', '=', Auth::user()->id)
+            ->where('group_id', '=', $groupId)
+            ->first();
+
+        if(!is_numeric($groupId) || empty($group) || empty($member)) {
             return View::make('templates.fourohfour');
         }
 
@@ -39,7 +44,11 @@ class GroupsController extends BaseController {
     public function showMembers($groupId) {
         // check first if groupId is valid
         $group = Group::find($groupId);
-        if(!is_numeric($groupId) || empty($group)) {
+        // check if the current user is a member of the group
+        $member = GroupMember::where('group_member_id', '=', Auth::user()->id)
+            ->where('group_id', '=', $groupId)
+            ->first();
+        if(!is_numeric($groupId) || empty($group) || empty($member)) {
             return View::make('templates.fourohfour');
         }
 
@@ -66,7 +75,11 @@ class GroupsController extends BaseController {
     {
          // check first if groupId is valid
         $group = Group::find($groupId);
-        if(!is_numeric($groupId) || empty($group)) {
+        // check if the current user is a member of the group
+        $member = GroupMember::where('group_member_id', '=', Auth::user()->id)
+            ->where('group_id', '=', $groupId)
+            ->first();
+        if(!is_numeric($groupId) || empty($group) || empty($member)) {
             return View::make('templates.fourohfour');
         }
 
