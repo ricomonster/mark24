@@ -166,7 +166,7 @@
                         {{ Helper::avatar(80, "normal", "pull-left", $member->id) }}
                     </a>
                     <div class="member-content-holder pull-right">
-                        @if(Auth::user()->account_type == 1)
+                        @if(Auth::user()->account_type == 1 && $member->account_type == 2)
                         <div class="dropdown pull-right">
                             <a data-toggle="dropdown" href="#">More <i class="fa fa-chevron-down"></i></a>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -180,7 +180,14 @@
                         <div class="member-name-text">
                             <a href="/profile/{{ $member->username }}">{{ $member->name }}</a>
                         </div>
-                        <div class="member-type text-muted">Student</div>
+                        <div class="member-type text-muted">
+                            @if($member->account_type == 1)
+                            Teacher
+                            @endif
+                            @if($member->account_type == 2)
+                            Student
+                            @endif
+                        </div>
                         <div class="member-username text-muted">{{ $member->username }}</div>
 
 
