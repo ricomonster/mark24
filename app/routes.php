@@ -149,10 +149,10 @@ Route::get('assignment-sheet/{assignmentId}', 'AssignmentSheetController@index')
     ->where('assignmentId', '[0-9]+');
 
 // Control Routes
-Route::get('control', 'ControlController@index');
-Route::get('control/dashboard', array(
+// Route::get('control', 'ControlController@index');
+Route::get('control', array(
     'before' => 'super-admin',
-    'uses' => 'ControlController@dashboard'));
+    'uses' => 'ControlController@index'));
 
 // File Routes
 Route::get('file/{fileId}', 'FileController@downloadFile');

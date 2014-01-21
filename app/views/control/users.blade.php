@@ -5,7 +5,9 @@ Dashboard - Users
 @stop
 
 @section('internalCss')
-
+<style>
+.panel .panel-heading { font-size: 18px; font-weight: bold; }
+</style>
 @stop
 
 @section('content')
@@ -23,9 +25,9 @@ Dashboard - Users
             </ul>
         </section>
         <section class="col-md-9">
-            <section class="well">
-                <h3>Users</h3>
-                <hr/>
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">Users</div>
                 <table class="table">
                     <tbody>
                         @foreach($users as $user)
@@ -46,11 +48,14 @@ Dashboard - Users
                             <td>
                                 <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
                             </td>
+                            <td>
+                                <a href="/control/user/{{ $user->id }}/view">View User</a>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
-            </section>
+            </div>
         </section>
     </section>
 </section>

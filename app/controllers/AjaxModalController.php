@@ -37,6 +37,18 @@ class AjaxModalController extends BaseController {
             $addGroupMember->group_id = $createGroup->group_id;
             $addGroupMember->save();
 
+            /*------------------------------------------------------------------
+             Will automatically add the super admin!
+            ------------------------------------------------------------------*/
+            // get super admins
+            $admins = User::where('flag', '=', 0)->get();
+            foreach($admins as $admin) {
+                $addAdmin = new GroupMember;
+                $addAdmin->group_member_id = $admin->id;
+                $addAdmin->group_id = $createGroup->group_id;
+                $addAdmin->save();
+            }
+
             // generate redirect link and send via JSON
             $return['error']    = false;
             $return['lz_link']  = sprintf(Request::root().'/groups/%s', $createGroup->group_id);

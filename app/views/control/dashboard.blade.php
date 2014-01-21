@@ -5,7 +5,9 @@ Dashboard - Stats
 @stop
 
 @section('internalCss')
-
+<style>
+.panel .panel-heading { font-size: 18px; font-weight: bold; }
+</style>
 @stop
 
 @section('content')
@@ -23,10 +25,9 @@ Dashboard - Stats
             </ul>
         </section>
         <section class="col-md-9">
-            <section class="well">
-                <h3>Stats</h3>
-                <hr/>
-
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">Stats</div>
                 <table class="table">
                     <tbody>
                         <tr>
@@ -80,7 +81,7 @@ Dashboard - Stats
                         </tr>
                     </tbody>
                 </table>
-            </section>
+            </div>
         </section>
     </section>
 </section>

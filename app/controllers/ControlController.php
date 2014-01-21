@@ -4,11 +4,6 @@ class ControlController extends BaseController
 {
     public function index()
     {
-        // login page
-    }
-
-    public function dashboard()
-    {
         // dashboard
         $sort = Input::get('sort');
 
@@ -17,7 +12,7 @@ class ControlController extends BaseController
         }
 
         if(!empty($sort)) {
-            switch ($sort) {
+            switch (strtolower($sort)) {
                 case 'stats':
                     return $this->stats();
                     break;
@@ -25,7 +20,7 @@ class ControlController extends BaseController
                     return $this->users();
                     break;
                 case 'groups':
-
+                    return $this->_groups();
                     break;
                 case 'posts':
 
@@ -73,6 +68,14 @@ class ControlController extends BaseController
 
         return View::make('control.users')
             ->with('users', $users);
+    }
+
+    protected function _groups()
+    {
+        // get all groups
+        $groups = Group::orderBy('group_name', 'ASC')->get();
+        return View::make('control.groups')
+            ->with('groups', $groups);
     }
 
     protected function reports()

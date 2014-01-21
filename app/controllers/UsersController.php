@@ -31,8 +31,8 @@ class UsersController extends BaseController {
         if(Auth::attempt($credentials)) {
             // there's a chance that the super user admin will
             // login here
-            if(Auth::user()->account_type == 0) {
-                return Redirect::to('control/dashboard');
+            if(Auth::user()->flag == 0) {
+                return Redirect::to('control/choose-account-type');
             }
 
             return Redirect::to('home');

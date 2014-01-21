@@ -103,6 +103,12 @@
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="/settings">Settings</a></li>
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="#"
                                 class="show-report-problem">Report a Problem</a></li>
+                                @if(Auth::user()->flag == 0)
+                                <li role="presentation"><a role="menuitem" tabindex="-1"
+                                href="/control/">Control</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1"
+                                href="/control/choose-account-type">Change Account Type</a></li>
+                                @endif
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="/signout">Logout</a></li>
                             </ul>
                         </li>
