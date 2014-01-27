@@ -66,10 +66,12 @@ The Forum - {{ $thread->title }}
     font-size: 28px;
     margin-bottom: 20px;
     padding-bottom: 10px;
+    word-wrap: break-word;
 }
 
 .forum-thread-stream .thread-holder .thread-details-holder .thread-holder-description {
     margin-top: 10px;
+    word-wrap: break-word;
 }
 
 .forum-thread-stream .thread-reply-holder { border: 1px solid #dfe4e8; margin-bottom: 20px; }

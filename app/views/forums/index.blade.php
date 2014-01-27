@@ -43,7 +43,7 @@ The Forum
     width: 45%;
 }
 
-.forum-thread-stream .thread-holder .thread-details-holder .thread-title { font-size: 20px; }
+.forum-thread-stream .thread-holder .thread-details-holder .thread-title { font-size: 20px; word-wrap: break-word; }
 .forum-thread-stream .thread-holder .thread-details-holder .thread-details { color: #999999; }
 .forum-thread-stream .thread-holder .thread-stats {
     font-size: 16px;
