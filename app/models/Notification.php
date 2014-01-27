@@ -473,13 +473,10 @@ class Notification extends Eloquent
                     $post = Post::find($notification->involved_id);
                     $ownership = ($post->user_id == Auth::user()->id) ?
                         'your post' : 'a post that you have also commented.';
-                    // override the all
-                    $all = Notification::where('involved_id', '=', $notification->involved_id)
-                        ->where('notification_type', '=', $notification->notification_type)
-                        ->where('sender_id', '!=', $last->id)
-                        ->where('sender_id', '!=', Auth::user()->id)
-                        ->where('seen', '=', 0)
-                        ->leftJoin('users', 'notifications.sender_id', '=', 'users.id')
+                    // all comments from the post
+                    $all = Comment::where('post_id', '=', $post->post_id)
+                        ->where('user_id', '!=', Auth::user()->id)
+                        ->groupBy('user_id')
                         ->get();
 
                     if($all->isEmpty() || (!$all->isEmpty() && $all->count() == 1)) {
@@ -789,12 +786,10 @@ class Notification extends Eloquent
                     $post = Post::find($notification->involved_id);
                     $ownership = ($post->user_id == Auth::user()->id) ?
                         'your post' : 'a post that you have also commented.';
-                    // override the all
-                    $all = Notification::where('involved_id', '=', $notification->involved_id)
-                        ->where('notification_type', '=', $notification->notification_type)
-                        ->where('sender_id', '!=', $last->id)
-                        ->where('sender_id', '!=', Auth::user()->id)
-                        ->leftJoin('users', 'notifications.sender_id', '=', 'users.id')
+                    // all comments from the post
+                    $all = Comment::where('post_id', '=', $post->post_id)
+                        ->where('user_id', '!=', Auth::user()->id)
+                        ->groupBy('user_id')
                         ->get();
 
                     if($all->isEmpty() || (!$all->isEmpty() && $all->count() == 1)) {
