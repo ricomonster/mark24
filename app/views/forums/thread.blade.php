@@ -207,6 +207,16 @@ The Forum - {{ $thread->title }}
                             <?php echo nl2br($thread->description); ?>
                         </div>
                     </div>
+                    {{ Form::open(array('url' => 'ajax/the-forum/update-thread', 'style' => 'display:none')) }}
+                        <div class="form-group">
+                            <input type="text" name="thread-title"
+                            class="form-control thread-title">
+                        </div>
+                        <div class="form-group">
+                            <textarea name="thread-description"
+                            class="form-control thread-description"></textarea>
+                        </div>
+                    {{ Form::close() }}
                     <div class="clearfix"></div>
                 </li>
                 @endif

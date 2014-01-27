@@ -80,15 +80,11 @@
                     <?php
                     switch($post->post_type) {
                         case 'note' :
-                    ?>
-                            {{{ $post->note_content }}}
-                    <?php
+                            echo nl2br(htmlentities(($post->note_content)));
                             $content = $post->note_content;
                             break;
                         case 'alert' :
-                    ?>
-                            {{{ $post->alert_content }}}
-                    <?php
+                            echo nl2br(htmlentities(($post->alert_content)));
                             $content = $post->alert_content;
                             break;
                         case 'assignment' :

@@ -12,6 +12,21 @@ class Notification extends Eloquent
         switch($type) {
             // assignment
             case 'assignment_graded' :
+                $assignmentResponseId   = $settings['assignment_response_id'];
+                $assignmentId           = $settings['assignment_id'];
+                // get the assignment details
+                $assignment = Assignment::find($assignmentId);
+                // get the taker details
+                $taker = AssignmentResponse::find($assignmentResponseId);
+
+                $notification                           = new Notification;
+                $notification->receiver_id              = $taker->user_id;
+                $notification->sender_id                = Auth::user()->id;
+                $notification->notification_type        = 'assignment_graded';
+                $notification->involved_id              = $taker->assignment_response_id;
+                $notification->notification_timestamp   = $time;
+                $notification->date_added = $date;
+                $notification->save();
                 break;
             case 'assignment_submitted' :
                 $assignmentId = $settings['assignment_id'];
@@ -464,8 +479,26 @@ class Notification extends Eloquent
             switch($notification->notification_type) {
                 // assignment
                 case 'assignment_graded' :
+                    // get the taker id details
+                    $taker = AssignmentResponse::where('assignment_response_id', '=', $notification->involved_id)
+                        ->first();
+                    // get the assignment
+                    $assignment = Assignment::where('assignment_id', '=', $taker->assignment_id)
+                        ->leftJoin('users', 'assignments.user_id', '=', 'users.id')
+                        ->first();
+                    $message = $assignment->salutation.$assignment->firstname.' '.$assignment->lastname.
+                        ' already graded your assignment';
+                    $link = '/assignment-sheet/'.$assignment->assignment_id;
+                    $icon = 'fa-star';
                     break;
                 case 'assignment_submitted' :
+                    // get details of the assignment
+                    $response = AssignmentResponse::where('assignment_response_id', '=', $notification->involved_id)
+                        ->leftJoin('users', 'assignment_responses.user_id', '=', 'users.id')
+                        ->first();
+                    $message = $response->firstname.' '.$response->lastname.' submitted an assignment.';
+                    $link = '/assignment-manager/'.$response->assignment_id;
+                    $icon = 'fa-share';
                     break;
                 // comments
                 case 'commented' :
@@ -622,8 +655,26 @@ class Notification extends Eloquent
                 switch($notification->notification_type) {
                     // assignment
                     case 'assignment_graded' :
+                        // get the taker id details
+                        $taker = AssignmentResponse::where('assignment_response_id', '=', $notification->involved_id)
+                            ->first();
+                        // get the assignment
+                        $assignment = Assignment::where('assignment_id', '=', $taker->assignment_id)
+                            ->leftJoin('users', 'assignments.user_id', '=', 'users.id')
+                            ->first();
+                        $message = $assignment->salutation.$assignment->firstname.' '.$assignment->lastname.
+                            ' already graded your assignment';
+                        $link = '/assignment-sheet/'.$assignment->assignment_id;
+                        $icon = 'fa-star';
                         break;
                     case 'assignment_submitted' :
+                        // get details of the assignment
+                        $response = AssignmentResponse::where('assignment_response_id', '=', $notification->involved_id)
+                            ->leftJoin('users', 'assignment_responses.user_id', '=', 'users.id')
+                            ->first();
+                        $message = $response->firstname.' '.$response->lastname.' submitted an assignment.';
+                        $link = '/assignment-manager/'.$response->assignment_id;
+                        $icon = 'fa-share';
                         break;
                     // comments
                     case 'commented' :
@@ -777,8 +828,26 @@ class Notification extends Eloquent
             switch($notification->notification_type) {
                 // assignment
                 case 'assignment_graded' :
+                    // get the taker id details
+                    $taker = AssignmentResponse::where('assignment_response_id', '=', $notification->involved_id)
+                        ->first();
+                    // get the assignment
+                    $assignment = Assignment::where('assignment_id', '=', $taker->assignment_id)
+                        ->leftJoin('users', 'assignments.user_id', '=', 'users.id')
+                        ->first();
+                    $message = $assignment->salutation.$assignment->firstname.' '.$assignment->lastname.
+                        ' already graded your assignment';
+                    $link = '/assignment-sheet/'.$assignment->assignment_id;
+                    $icon = 'fa-star';
                     break;
                 case 'assignment_submitted' :
+                    // get details of the assignment
+                    $response = AssignmentResponse::where('assignment_response_id', '=', $notification->involved_id)
+                        ->leftJoin('users', 'assignment_responses.user_id', '=', 'users.id')
+                        ->first();
+                    $message = $response->firstname.' '.$response->lastname.' submitted an assignment.';
+                    $link = '/assignment-manager/'.$response->assignment_id;
+                    $icon = 'fa-share';
                     break;
                 // comments
                 case 'commented' :
