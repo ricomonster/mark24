@@ -227,6 +227,10 @@
                             notificationCounter.fadeOut(400);
                             notificationCounter.parent().delay(400)
                                 .animate({ width: '54px' }, 350);
+                            var title = document.title;
+                            title = title.split(" (");
+                            document.title = title[0];
+
                         }
                     });
 
@@ -242,6 +246,9 @@
                             notificationCounter.parent().animate({ width: '85px' }, 350);
                             notificationCounter.text(response.count).delay(400)
                                 .animate({ width: 'toggle' }, 400);
+                            var title = document.title;
+                            title = title.split(" (");
+                            document.title = title[0]+' ('+response.count+')';
                         }
                     });
                 }

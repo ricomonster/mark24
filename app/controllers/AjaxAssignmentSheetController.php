@@ -20,7 +20,7 @@ class AjaxAssignmentSheetController extends BaseController
         // create notification
         Notification::setup('assignment_submitted', array(
             'assignment_id' => $responseDetails->assignment_id,
-            'involved_id' => $responseDetails->assignment_response_id))
+            'involved_id' => $responseDetails->assignment_response_id));
 
         // return as json
         return Response::json(array(

@@ -83,6 +83,7 @@ The Forum - {{ $thread->title }}
 }
 .forum-thread-stream .thread-reply-holder .thread-reply-details-holder .thread-reply-description {
     margin-top: 10px;
+    word-wrap: break-word;
 }
 
 .forum-thread-stream .reply-to-thread-holder { border: 1px solid #dfe4e8; margin-bottom: 20px; }
