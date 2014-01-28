@@ -205,23 +205,48 @@ class AjaxPostCreatorController extends BaseController {
     public function updatePost()
     {
         if(Request::ajax()) {
-            $postId = Input::get('post-id');
-            $messagePost = Input::get('message-post');
+            $postId         = Input::get('post-id');
+            $assignmentId   = Input::get('assignment-id');
+            $messagePost    = Input::get('message-post');
 
-            // check first what type of post is the post
-            $post = Post::find($postId);
-            switch ($post->post_type) {
-                case 'note':
-                    $post->note_content = $messagePost;
-                    break;
-                case 'alert':
-                    $post->alert_content = $messagePost;
-                    break;
+            if(isset($messagePost)) {
+                // check first what type of post is the post
+                $post = Post::find($postId);
+                switch ($post->post_type) {
+                    case 'note':
+                        $post->note_content = $messagePost;
+                        break;
+                    case 'alert':
+                        $post->alert_content = $messagePost;
+                        break;
+                }
+
+                $post->save();
+
+                $response = array('error' => false);
             }
 
-            $post->save();
+            if(isset($assignmentId)) {
+                $title = Input::get('assignment-title');
+                $description = Input::get('assignment-description');
+                $date = Input::get('due-date');
 
-            return Response::json(array('error' => false));
+                // update the due date at the posts table
+                $post                       = Post::find($postId);
+                $post->assignment_due_date  = $date;
+                $post->save();
+                // save assignment details
+                $assignment                 = Assignment::find($assignmentId);
+                $assignment->title          = $title;
+                $assignment->description    = $description;
+                $assignment->save();
+
+                $response = array(
+                    'error'     => false,
+                    'due_date'  => date('M d, Y', strtotime($post->assignment_due_date)));
+            }
+
+            return Response::json($response);
         }
     }
 }

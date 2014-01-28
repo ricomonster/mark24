@@ -91,6 +91,7 @@
 .post-stream .post-holder .post-content .dropdown-post-options a { color: #383d48; }
 
 .post-content .post-content-container .edit-post-form { display: none; }
+.post-content .post-content-container .edit-post-form .input-group { margin-bottom: 10px; width: 135px; }
 
 .user-post-likes {
     background-color: #f3f5f6;

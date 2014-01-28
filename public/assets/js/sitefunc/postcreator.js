@@ -233,6 +233,7 @@
         var postHolder = $('.post-holder[data-post-id="'+postId+'"]');
 
         $('.message-holder').show().find('span').text('Updating...');
+        // validate fields first
 
         $.ajax({
             type        : 'post',
@@ -247,12 +248,43 @@
 
             if(!response.error) {
                 // no error
-                var message = $('.edit-post-form[data-post-id="'+postId+'"]').find('.message-post')
                 // hide form
                 $('.edit-post-form[data-post-id="'+postId+'"]').hide();
-                // show post content with the new message
-                postHolder.find('.post-content').find('.post-content-container')
-                    .find('.post').text(message.val()).show();
+                // check first if the edited post is an assignment or not
+                var assignmentId = $('.edit-post-form[data-post-id="'+postId+'"]')
+                    .find('.assignment-id');
+                if(assignmentId.length === 0) {
+                    var message = $('.edit-post-form[data-post-id="'+postId+'"]')
+                        .find('.message-post');
+                    // post is either a note or alert
+                    // show post content with the new message
+                    postHolder.find('.post-content').find('.post-content-container')
+                        .find('.post').text(message.val()).show();
+                }
+
+                if(assignmentId.length !== 0) {
+                    var title = $('.edit-post-form[data-post-id="'+postId+'"]')
+                        .find('.assignment-title');
+                    var description = $('.edit-post-form[data-post-id="'+postId+'"]')
+                        .find('.assignment-description');
+
+                    // post is an assignment
+                    postHolder.find('.post-content').find('.post-content-container')
+                        .find('.post').show();
+                    // put the new title
+                    postHolder.find('.post-content').find('.post-content-container')
+                        .find('.post').find('strong').text(title.val());
+                    // put the new description
+                    postHolder.find('.post-content')
+                        .find('.post-content-container')
+                        .find('.post')
+                        .find('.assignment-description')
+                        .text(description.val());
+                    // put the new due date
+                    postHolder.find('.post-content').find('.post-content-container')
+                        .find('.post').find('.assignment-description')
+                        .text(response.due_date);
+                }
 
                 $('.message-holder').hide();
             }

@@ -80,7 +80,7 @@
                     <strong>{{{ $post->assignment->title }}}</strong>
                     <div class="assignment-details">
                         @if(Auth::user()->account_type == 1)
-                        <a href="/assignment-manager/{{ $post->assignment->assignment_id }}"
+                        <a href="/assignment-manager/{{ $post->assignment->assignment_id }}/{{ $post->post_id }}"
                         class="btn btn-default">
                             Turned In ({{ $post->assignments_submitted }})
                         </a>
@@ -90,14 +90,14 @@
                         @endif
                         @if(Auth::user()->account_type == 2)
                         @if(isset($post->assignment_submitted))
-                        <a href="/assignment-sheet/{{ $post->assignment->assignment_id }}"
+                        <a href="/assignment-sheet/{{ $post->assignment->assignment_id }}/{{ $post->post_id }}"
                         class="btn btn-default">Turned In</a>
                         <span class="due-date">
                             {{ ucfirst(strtolower($post->assignment_submitted->status)) }}
                         </span>
                         @endif
                         @if(!isset($post->assignment_submitted))
-                        <a href="/assignment-sheet/{{ $post->assignment->assignment_id }}"
+                        <a href="/assignment-sheet/{{ $post->assignment->assignment_id }}/{{ $post->post_id }}"
                         class="btn btn-default">Turn In</a>
                         <span class="due-date">
                             Due {{ date('M d, Y', strtotime($post->assignment_due_date)) }}
@@ -149,16 +149,38 @@
             }
             ?>
             </div>
-            @if($post->post_type != 'quiz' && $post->post_type != 'assignment')
+            @if($post->post_type != 'quiz' && $post->user_id == Auth::user()->id)
             {{ Form::open(array(
                 'url' => '/ajax/post_creator/update-post',
                 'class' => 'edit-post-form',
                 'data-post-id' => $post->post_id))
             }}
+                @if($post->post_type == 'assignment')
+                <div class="form-group">
+                    <input type="text" name="assignment-title" class="form-control"
+                    value="{{ $post->assignment->title }}">
+                </div>
+                <div class="form-group">
+                    <textarea name="assignment-description"
+                    class="form-control">{{ nl2br($post->assignment->description) }}</textarea>
+                </div>
+                <div class="input-group">
+                    <input type="text" name="due-date" class="form-control assignment-due-date"
+                    placeholder="due date" id="assignment_due_date"
+                    value="{{ $post->assignment_due_date }}">
+                    <span class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </span>
+                </div>
+                <input type="hidden" name="assignment-id" class="assignment-id"
+                value="{{ $post->assignment->assignment_id }}">
+                @endif
+                @if($post->post_type != 'assignment')
                 <div class="form-group">
                     <textarea name="message-post" class="form-control message-post"
                     data-post-id="{{ $post->post_id }}">{{ $content }}</textarea>
                 </div>
+                @endif
                 <input type="hidden" name='post-id' value="{{ $post->post_id }}">
 
                 <button class="btn btn-primary save-edit-post"
