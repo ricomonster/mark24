@@ -6,12 +6,14 @@ class AjaxAssignmentManagerController extends BaseController
     {
         $userId         = Input::get('user_id');
         $assignmentId   = Input::get('assignment_id');
+        $postId         = Input::get('post_id');
 
         // get user details
         $user       = User::find($userId);
         $assignment = Assignment::find($assignmentId);
         // get user assignment response
         $response = AssignmentResponse::where('assignment_id', '=', $assignment->assignment_id)
+            ->where('post_id', '=', $postId)
             ->where('user_id', '=', $user->id)
             ->first();
 

@@ -152,6 +152,8 @@ Assignment Sheet
                     <div class="button-control">
                         <input type="hidden" name="assignment-id"
                         value="{{ $assignment->assignment_id }}">
+                        <input type="hidden" name="post-id"
+                        value="{{ $post->post_id }}">
                         <button type="submit" class="btn btn-primary pull-right submit-response">
                             Turn in Assignment
                         </button>

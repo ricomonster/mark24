@@ -6,13 +6,14 @@ class AssignmentManagerController extends BaseController
         $this->beforeFilter('are-you-a-teacher');
     }
 
-    public function index($assignmentId)
+    public function index($assignmentId, $postId)
     {
         $attached = null;
         // check if assignment exists
         $assignment = Assignment::find($assignmentId);
         // get the post
         $post = Post::where('post_type', '=', 'assignment')
+            ->where('post_id', '=', $postId)
             ->where('assignment_id', '=', $assignment->assignment_id)
             ->first();
 

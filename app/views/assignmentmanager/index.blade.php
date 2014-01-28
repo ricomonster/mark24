@@ -122,7 +122,8 @@ Assignment Sheet
                         <li>
                             <a href="#" class="show-taker-details"
                             data-user-id="{{ $member->id }}"
-                            data-assignment-id="{{ $assignment->assignment_id }}">
+                            data-assignment-id="{{ $assignment->assignment_id }}"
+                            data-post-id="{{ $post->post_id }}">
                                 {{ $member->firstname.' '.$member->lastname }}
                             </a>
                         </li>

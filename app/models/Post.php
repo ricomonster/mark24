@@ -26,6 +26,7 @@ class Post extends Eloquent {
                 if(Auth::user()->account_type == 1) {
                     $submittedAssignments = AssignmentResponse::where(
                         'assignment_id', '=', $post->assignment_id)
+                        ->where('post_id', '=', $post->post_id)
                         ->get()
                         ->count();
                     $details->assignments_submitted = $submittedAssignments;
@@ -36,6 +37,7 @@ class Post extends Eloquent {
                 if(Auth::user()->account_type == 2) {
                     $assignmentSubmitted = AssignmentResponse::where('user_id', '=', Auth::user()->id)
                         ->where('assignment_id', '=', $post->assignment_id)
+                        ->where('post_id', '=', $post->post_id)
                         ->first();
                     if(!empty($assignmentSubmitted)) {
                         $details->assignment_submitted = $assignmentSubmitted;
@@ -152,6 +154,7 @@ class Post extends Eloquent {
                         if(Auth::user()->account_type == 1) {
                             $submittedAssignments = AssignmentResponse::where(
                                 'assignment_id', '=', $post->assignment_id)
+                                ->where('post_id', '=', $post->post_id)
                                 ->get()
                                 ->count();
                             $details->$key->assignments_submitted = $submittedAssignments;
@@ -162,6 +165,7 @@ class Post extends Eloquent {
                         if(Auth::user()->account_type == 2) {
                             $assignmentSubmitted = AssignmentResponse::where('user_id', '=', Auth::user()->id)
                                 ->where('assignment_id', '=', $post->assignment_id)
+                                ->where('post_id', '=', $post->post_id)
                                 ->first();
                             if(!empty($assignmentSubmitted)) {
                                 $details->$key->assignment_submitted = $assignmentSubmitted;

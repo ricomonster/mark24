@@ -141,12 +141,10 @@ Route::post('ajax/users/validate-teacher', 'AjaxUsersController@validateTeacherD
 Route::put('ajax/users/update-personal-info', 'AjaxUsersController@putUserInfo');
 
 // Assignment Manager Routes
-Route::get('assignment-manager/{assignmentId}', 'AssignmentManagerController@index')
-    ->where('assignmentId', '[0-9]+');
+Route::get('assignment-manager/{assignmentId}/{postId}', 'AssignmentManagerController@index');
 
 // Assignment Sheet Routes
-Route::get('assignment-sheet/{assignmentId}', 'AssignmentSheetController@index')
-    ->where('assignmentId', '[0-9]+');
+Route::get('assignment-sheet/{assignmentId}/{postId}', 'AssignmentSheetController@index');
 
 // Control Routes
 // Route::get('control', 'ControlController@index');

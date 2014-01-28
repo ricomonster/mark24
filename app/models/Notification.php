@@ -488,7 +488,7 @@ class Notification extends Eloquent
                         ->first();
                     $message = $assignment->salutation.$assignment->firstname.' '.$assignment->lastname.
                         ' already graded your assignment';
-                    $link = '/assignment-sheet/'.$assignment->assignment_id;
+                    $link = '/assignment-sheet/'.$assignment->assignment_id.'/'.$taker->post_id;
                     $icon = 'fa-star';
                     break;
                 case 'assignment_submitted' :
@@ -497,7 +497,7 @@ class Notification extends Eloquent
                         ->leftJoin('users', 'assignment_responses.user_id', '=', 'users.id')
                         ->first();
                     $message = $response->firstname.' '.$response->lastname.' submitted an assignment.';
-                    $link = '/assignment-manager/'.$response->assignment_id;
+                    $link = '/assignment-manager/'.$response->assignment_id.'/'.$response->post_id;
                     $icon = 'fa-share';
                     break;
                 // comments
@@ -607,7 +607,6 @@ class Notification extends Eloquent
                     break;
             }
 
-            // echo $message.'<br/>'.$link.'<br/>';
             $lists->$key->message = $message;
             $lists->$key->link = $link;
             $lists->$key->icon = $icon;
@@ -664,7 +663,7 @@ class Notification extends Eloquent
                             ->first();
                         $message = $assignment->salutation.$assignment->firstname.' '.$assignment->lastname.
                             ' already graded your assignment';
-                        $link = '/assignment-sheet/'.$assignment->assignment_id;
+                        $link = '/assignment-sheet/'.$assignment->assignment_id.'/'.$taker->post_id;
                         $icon = 'fa-star';
                         break;
                     case 'assignment_submitted' :
@@ -672,8 +671,9 @@ class Notification extends Eloquent
                         $response = AssignmentResponse::where('assignment_response_id', '=', $notification->involved_id)
                             ->leftJoin('users', 'assignment_responses.user_id', '=', 'users.id')
                             ->first();
-                        $message = $response->firstname.' '.$response->lastname.' submitted an assignment.';
-                        $link = '/assignment-manager/'.$response->assignment_id;
+                        $name = $response->name;
+                        $message = $name.' submitted an assignment.';
+                        $link = '/assignment-manager/'.$response->assignment_id.'/'.$response->post_id;
                         $icon = 'fa-share';
                         break;
                     // comments
@@ -837,7 +837,7 @@ class Notification extends Eloquent
                         ->first();
                     $message = $assignment->salutation.$assignment->firstname.' '.$assignment->lastname.
                         ' already graded your assignment';
-                    $link = '/assignment-sheet/'.$assignment->assignment_id;
+                    $link = '/assignment-sheet/'.$assignment->assignment_id.'/'.$taker->post_id;
                     $icon = 'fa-star';
                     break;
                 case 'assignment_submitted' :
@@ -846,7 +846,7 @@ class Notification extends Eloquent
                         ->leftJoin('users', 'assignment_responses.user_id', '=', 'users.id')
                         ->first();
                     $message = $response->firstname.' '.$response->lastname.' submitted an assignment.';
-                    $link = '/assignment-manager/'.$response->assignment_id;
+                    $link = '/assignment-manager/'.$response->assignment_id.'/'.$response->post_id;
                     $icon = 'fa-share';
                     break;
                 // comments
@@ -956,7 +956,6 @@ class Notification extends Eloquent
                     break;
             }
 
-            // echo $message.'<br/>'.$link.'<br/>';
             $lists->$key->message = $message;
             $lists->$key->link = $link;
             $lists->$key->icon = $icon;

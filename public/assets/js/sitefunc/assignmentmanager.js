@@ -19,13 +19,15 @@ var AssignmentManager = {
         var element = $(this);
         var userId = element.attr('data-user-id');
         var assignmentId = element.attr('data-assignment-id');
+        var postId = element.attr('data-post-id');
 
         self.config.messageHolder.find('span').text('Loading...').show();
         $.ajax({
             url : '/ajax/assignment-manager/get-taker',
             data : {
-                user_id : userId,
-                assignment_id : assignmentId
+                user_id         : userId,
+                assignment_id   : assignmentId,
+                post_id         : postId
             }
         }).done(function(response) {
             // hide the default wrapper
@@ -92,9 +94,9 @@ var AssignmentManager = {
                     form.parent().empty()
                         .removeClass('no-score-set')
                         .addClass('user-total-score')
-                        .append('<span class="user-score">'+response.assignment.score+'</span>'+
+                        .append('<span class="user-score">'+response.assignment_response.score+'</span>'+
                             '<span class="seperator">/</span>'+
-                            '<span class="total-score">'+response.assignment_response.total_score+'</span>');
+                            '<span class="total-score">'+response.assignment.total_score+'</span>');
                 }
             })
         }
