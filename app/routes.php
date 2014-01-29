@@ -56,6 +56,8 @@ Route::post('ajax/thelibrary/upload-file', 'AjaxFileController@uploadPost');
 // AJAX Forum Routes
 Route::post('ajax/the-forum/follow-thread', 'AjaxForumController@followThread');
 Route::post('ajax/the-forum/unfollow-thread', 'AjaxForumController@unfollowThread');
+Route::post('ajax/the-forum/update-thread', 'AjaxForumController@updateThread');
+Route::post('ajax/the-forum/update-reply', 'AjaxForumController@updateThreadReply');
 
 // AJAX Group Routes
 Route::post('ajax/group/lock-group', 'AjaxGroupController@lockGroup');

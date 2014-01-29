@@ -74,6 +74,12 @@ The Forum - {{ $thread->title }}
     word-wrap: break-word;
 }
 
+.forum-thread-stream .thread-holder .update-thread-form {
+    display: none;
+    margin: 20px 0 0 120px;
+    padding: 0 20px 0;
+}
+
 .forum-thread-stream .thread-reply-holder { border: 1px solid #dfe4e8; margin-bottom: 20px; }
 .forum-thread-stream .thread-reply-holder .author-details { margin: 20px 0 0 20px; text-align: center; width: 80px; }
 .forum-thread-stream .thread-reply-holder .author-details img { margin-bottom: 10px; }
@@ -81,6 +87,13 @@ The Forum - {{ $thread->title }}
 .forum-thread-stream .thread-reply-holder .thread-reply-details-holder {
     margin: 20px 20px 20px 120px;
 }
+
+.forum-thread-stream .thread-reply-holder .update-reply-form {
+    display: none;
+    margin: 20px 0 0 100px;
+    padding: 0 20px 0;
+}
+
 .forum-thread-stream .thread-reply-holder .thread-reply-details-holder .thread-reply-description {
     margin-top: 10px;
     word-wrap: break-word;
@@ -207,16 +220,29 @@ The Forum - {{ $thread->title }}
                             <?php echo nl2br($thread->description); ?>
                         </div>
                     </div>
-                    {{ Form::open(array('url' => 'ajax/the-forum/update-thread', 'style' => 'display:none')) }}
+                    @if($thread->user_id == Auth::user()->id)
+                    {{ Form::open(array(
+                        'url' => 'ajax/the-forum/update-thread',
+                        'class' => 'update-thread-form'))
+                    }}
                         <div class="form-group">
                             <input type="text" name="thread-title"
-                            class="form-control thread-title">
+                            class="form-control thread-title"
+                            value="{{ $thread->title }}">
                         </div>
                         <div class="form-group">
                             <textarea name="thread-description"
-                            class="form-control thread-description"></textarea>
+                            class="form-control thread-description">{{ $thread->description }}</textarea>
+                        </div>
+                        <div class="button-controls">
+                            <input type="hidden" name="thread-id"
+                            value="{{ $thread->forum_thread_id }}">
+
+                            <button type="submit" class="btn btn-primary update-thread">Update</button>
+                            <button class="btn btn-default cancel-thread-edit">Cancel</button>
                         </div>
                     {{ Form::close() }}
+                    @endif
                     <div class="clearfix"></div>
                 </li>
                 @endif
@@ -226,7 +252,8 @@ The Forum - {{ $thread->title }}
                 <?php $i = 0; ?>
                 @foreach($replies as $reply)
                 <?php $timestamp = Helper::timestamp($reply->reply_timestamp); ?>
-                <li class="thread-reply-holder" {{ (++$i === $items) ? 'id="last"' : null }}>
+                <li class="thread-reply-holder" {{ (++$i === $items) ? 'id="last"' : null }}
+                data-reply-id="{{ $reply->forum_thread_reply_id }}">
                     <div class="author-details pull-left">
                         {{ Helper::avatar(70, "normal", "img-rounded", $reply->id) }}
                         <a href="/profile/{{ $reply->username }}">{{ $reply->username }}</a>
@@ -243,7 +270,8 @@ The Forum - {{ $thread->title }}
                     <div class="thread-reply-details-holder">
                         @if($reply->user_id == Auth::user()->id)
                         <div class="thread-controls pull-right">
-                            <a href="#" class="edit-thread-reply">Edit Reply</a>
+                            <a href="#" class="edit-thread-reply"
+                            data-reply-id="{{ $reply->forum_thread_reply_id }}">Edit Reply</a>
                         </div>
                         @endif
                         <span class="thread-reply-timestamp text-muted">{{ $timestamp }}</span>
@@ -251,6 +279,27 @@ The Forum - {{ $thread->title }}
                             <?php echo nl2br(htmlentities($reply->reply)); ?>
                         </div>
                     </div>
+                    @if($reply->user_id == Auth::user()->id)
+                    {{ Form::open(array(
+                        'url' => 'ajax/the-forum/update-reply',
+                        'data-reply-id' => $reply->forum_thread_reply_id,
+                        'class' => 'update-reply-form'))
+                    }}
+                        <div class="form-group">
+                            <textarea name="reply-description"
+                            class="form-control reply-description">{{ $reply->reply }}</textarea>
+                        </div>
+                        <div class="button-controls">
+                            <input type="hidden" name="reply-id"
+                            value="{{ $reply->forum_thread_reply_id }}">
+
+                            <button type="submit" class="btn btn-primary update-thread-reply"
+                            data-reply-id="{{ $reply->forum_thread_reply_id }}">Update</button>
+                            <button class="btn btn-default cancel-thread-reply"
+                            data-reply-id="{{ $reply->forum_thread_reply_id }}">Cancel</button>
+                        </div>
+                    {{ Form::close() }}
+                    @endif
                     <div class="clearfix"></div>
                 </li>
                 @endforeach

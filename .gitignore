@@ -5,6 +5,7 @@
 /public/assets/thelibrary
 /public/googlee5398f479e6f9a80.html
 .idea
+.project
 composer.phar
 composer.lock
 .DS_Store
