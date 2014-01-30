@@ -21,9 +21,11 @@ Route::get('/', array('before' => 'logged-in', function()
 }));
 
 Route::get('test', function() {
-    echo '<pre>';
-    print_r(GroupMember::countAllGroupMembers()->toArray());
-    echo '</pre>';
+    // $data = array('test');
+    // $message = 'testing';
+    // Mail::send('emails.test', $data, function($message) {
+       // $message->to('riconess@gmail.com', 'Test')->subject('Welcome to the Laravel 4 Auth App!');
+    // });
 });
 
 // AJAX Routes
@@ -134,6 +136,9 @@ Route::post('ajax/post_creator/create_alert', 'AjaxPostCreatorController@createA
 Route::post('ajax/post_creator/create_quiz', 'AjaxPostCreatorController@postCreateQuiz');
 Route::post('ajax/post_creator/create_assignment', 'AjaxPostCreatorController@postCreateAssignment');
 Route::post('ajax/post_creator/update-post', 'AjaxPostCreatorController@updatePost');
+
+// AJAX Search Route
+Route::get('ajax/search', 'AjaxSearchController@search');
 
 // AJAX User Routes
 Route::post('ajax/users/upload-photo', 'AjaxUsersController@postUploadPhoto');
