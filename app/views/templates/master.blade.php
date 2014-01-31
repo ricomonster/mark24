@@ -70,11 +70,6 @@
                         <div class="input-group">
                             <input type="text" class="form-control" id="search_bar" 
                             placeholder="Search">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
                         </div>
                     </form>
                     <ul class="nav navbar-nav pull-right right-navbar">
@@ -155,20 +150,20 @@
                 $('[data-toggle="tooltip"]').tooltip({'placement': 'bottom'});
                 // selectize
                 $('#search_bar').selectize({
-                    valueField: 'name',
-                    labelField: 'name',
-                    searchField: ['name'],
+                    valueField: 'url',
+                    labelField: 'content',
+                    searchField: ['content'],
                     maxOptions: 10,
                     options: [],
                     create: false,
                     render: {
                         option: function(item, escape) {
-                            return '<div><a href="'+item.url+'">'+item.icon+escape(item.name)+'</a></div>';
+                            return '<div class="search-result"><a href="'+item.url+'">'+item.icon+escape(item.content)+'</a></div>';
                         }
                     },
                     optgroups: [
                         {value: 'users', label: 'Users'},
-                        {value: 'posts', label: 'Posts'}
+                        {value: 'forums', label: 'Forums'}
                     ],
                     optgroupField: 'class',
                     optgroupOrder: ['users','posts'],

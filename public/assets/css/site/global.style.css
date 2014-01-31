@@ -41,6 +41,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Noto Sans'; }
     border-left: 1px solid #ffffff;
 }
 
+.navigation-items .navbar-form { margin: 8px 0 4px 0; }
 .navbar-header .notification-mobile { width: 54px; }
 .navbar-header .notification-mobile a.dropdown-toggle {
     display: inline-block;
@@ -99,6 +100,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Noto Sans'; }
 }
 
 input, select, textarea { border-radius: 0 !important; }
+
 /* Modal */
 .modal-small-size { width: 300px; }
 .modal-medium-size { width: 500px; }
@@ -156,6 +158,11 @@ subtext should be a span
 .group-chat-notification ul { list-style: none; margin: 0; padding: 0; }
 .group-chat-notification ul li a { margin: 10px 0; }
 .group-chat-notification ul li a:last-child { margin-left: 10px; }
+
+/* Search Bar */
+.selectize-dropdown-content .search-result a img { margin-right: 10px; }
+.selectize-dropdown-content .search-result a i { margin-right: 10px; }
+.selectize-dropdown-content .search-result a:hover i { text-decoration: none; }
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 12px; }

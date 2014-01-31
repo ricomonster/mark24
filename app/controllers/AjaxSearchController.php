@@ -9,12 +9,14 @@ class AjaxSearchController extends BaseController
         // check if the query is empty
         if(!$query && empty($query)) return Response::json(array(), 400);
         $results = array();
-        // fetch data
         // user (teacher and student)
-        $results = $this->getUsers($query);
+        $users = $this->getUsers($query);
         // forum threads
+        $forums = $this->getForums($query);
         
-        return Response::json(array('data' => null));
+        $results = array_merge($users, $forums);
+        
+        return Response::json(array('data' => $results));
    } 
    
    protected function getUsers($query)
@@ -38,7 +40,7 @@ class AjaxSearchController extends BaseController
    
    protected function appendPosts($query)
    {
-       $notes = Post::select('note_content as content')
+       $notes = Post::select('post_id', 'note_content as content')
             ->where('note_content', 'LIKE', '%'.$query.'%')
             ->where('post_type', '=', 'note')
             ->where('post_active', '=', 1)
@@ -65,6 +67,25 @@ class AjaxSearchController extends BaseController
         }
         
         // get assignments
-                
-   }
+    }
+
+    protected function getForums($query)
+    {
+        // let's search for forum titles
+        $forums = ForumThread::select('forum_thread_id', 'title as content', 'seo_url')
+            ->where('title', 'LIKE', '%'.$query.'%')
+            ->orWhere('description', 'LIKE', '%'.$query.'%')
+            ->get()
+            ->toArray();
+        $forumArray = array();
+        foreach($forums as $key => $forum) {
+            $forumArray[$key] = $forum;
+            $forumArray[$key]['class'] = 'forums';
+            $forumArray[$key]['url'] = '/the-forum/thread/'.
+                $forum['seo_url'].'/'.$forum['forum_thread_id']; 
+            $forumArray[$key]['icon'] = '<i class="fa fa-comment"></i>';
+        }
+        
+        return $forumArray;
+    }
 }
