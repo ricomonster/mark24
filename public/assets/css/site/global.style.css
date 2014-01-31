@@ -173,6 +173,7 @@ subtext should be a span
 ---------------------------------------------------------------*/
 @media (max-width: 767px) {
     .navbar-header .navbar-brand { display: block; }
+    .navigation-items .navbar-form .input-group { width: 100%; }
     .navigation-items .navbar-nav li a span { display: inline-block; }
     .navigation-items .right-navbar { display: none; }
 }

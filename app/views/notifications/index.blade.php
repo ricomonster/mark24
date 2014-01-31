@@ -26,6 +26,7 @@ Notifications
     <div class="col-md-9">
         <div class="well notifications-holder">
             <div class="page-header"><h3>Notifications</h3></div>
+            @if(!empty($notifications))
             <ul class="notifications-stream">
                 @foreach($notifications as $date)
                 <li class="date"><span>{{ Helper::notificationDates($date->date) }}</span></li>
@@ -39,6 +40,7 @@ Notifications
                 @endforeach
                 @endforeach
             </ul>
+            @endif
         </div>
     </div>
 </div>

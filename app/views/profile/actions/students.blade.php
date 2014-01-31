@@ -86,7 +86,8 @@
             <ul class="student-list-stream">
                 @foreach($students as $student)
                 <li>
-                    <a href="/profile/{{ $student->username }}">
+                    <a href="/profile/{{ $student->username }}" data-toggle="tooltip"
+                    title="{{ $student->name }}">
                         {{ Helper::avatar(150, "large", "img-circle", $student->id) }}
                     </a>
                 </li>

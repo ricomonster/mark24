@@ -257,8 +257,85 @@ class AjaxModalController extends BaseController {
         $postId = Input::get('post_id');
         // delete the post from the recipients
         PostRecipient::where('post_id', '=', $postId)->delete();
-        // delete the post
+        // find the post
         $post = Post::find($postId);
+        // check if there are files attached
+        if($post->post_attached_files == 'true') {
+            FileAttached::where('post_id', '=', $post->post_id)->delete();
+        }
+        
+        // check the type of post
+        switch($post->post_type) {
+            case 'quiz' :
+                // get quiz takers
+                $takers = QuizTaker::where('post_id', '=', $post->post_id)
+                    ->where('quiz_id', '=', $post->quiz_id)
+                    ->get();
+                if($takers->isEmpty()) continue;
+                foreach($takers as $taker) {
+                    // delete the answers
+                    QuizAnswer::where('quiz_taker_id', '=', $taker->quiz_taker_id)
+                        ->delete();
+                    // delete notification
+                    Notification::where('involved_id', '=', $taker->quiz_taker_id)
+                        ->where(function($query) {
+                            $query->where('notification_type', '=', 'quiz_submitted')
+                                ->orWhere('notification_type', '=', 'quiz_graded');
+                        })
+                        ->delete();
+                } 
+                
+                break;
+            case 'assignment' :
+                // get assignment responses
+                $responses = AssignmentResponse::where('post_id', '=', $post->post_id)
+                    ->where('assignment_id', '=', $post->assignment_id)
+                    ->get();
+                if($responses->isEmpty()) continue;
+                foreach($responses as $response) {
+                    // delete notification
+                    Notification::where('involved_id', '=', $response->assignment_response_id)
+                        ->where(function($query) {
+                            $query->where('notification_type', '=', 'quiz_submitted')
+                                ->orWhere('notification_type', '=', 'quiz_graded');
+                        })
+                        ->delete();
+                    $assignment = AssignmentResponse::find($response->assignment_response_id);
+                    // delete
+                    $assignment->delete();
+                }
+                
+                break;
+        }
+        
+        // check if there are comments
+        $comments = Comment::where('post_id', '=', $post->post_id)
+            ->first();
+        // if there are comments, delete
+        if(!empty($comments)) {
+            // delete
+            Comment::where('post_id', '=', $post->post_id)->delete();
+        }
+        
+        // check if there are likes
+        $likes = Like::where('post_id', '=', $post->post_id)
+            ->first();
+        // if there are likes, delete
+        if(!empty($likes)) {
+            // delete
+            Like::where('post_id', '=', $post->post_id)->delete();
+        }
+        
+        // delete also the notifications
+        Notification::where('involved_id', '=', $post->post_id)
+            ->where(function($query) {
+                $query->where('notification_type', '=', 'posted')
+                    ->orWhere('notification_type', '=', 'liked_post')
+                    ->orWhere('notification_type', '=', 'commented');
+            })
+            ->delete();
+        
+        // set post to inactive
         $post->post_active = 0;
         $post->save();
 
