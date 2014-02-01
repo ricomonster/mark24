@@ -96,6 +96,12 @@ data-conversation-id="{{ $conversation->conversation_id }}">
                         <span class="label label-success pull-right">{{ $members->count() }} joined</span>
                     </a>
                 </li>
+                <li>
+                    <a href="/groups/{{ $groupDetails->group_id }}/forums">
+                        <i class="fa fa-chevron-right pull-right"></i>
+                        <i class="group-control-icon fa fa-comments-o"></i> Group Forums
+                    </a>
+                </li>
                 @if(Auth::user()->account_type == 1)
                 <li class="active dropdown">
                     <a data-toggle="dropdown" href="#">

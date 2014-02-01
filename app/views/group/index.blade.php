@@ -85,6 +85,18 @@
                         <span class="label label-success pull-right">{{ $memberCount }} joined</span>
                     </a>
                 </li>
+                <li>
+                    <a href="/groups/{{ $groupDetails->group_id }}/the-forums">
+                        <i class="fa fa-chevron-right pull-right"></i>
+                        <i class="group-control-icon fa fa-comments-o"></i> Group Forums
+                    </a>
+                </li>
+                <li>
+                    <a href="/groups/{{ $groupDetails->group_id }}/the-library">
+                        <i class="fa fa-chevron-right pull-right"></i>
+                        <i class="group-control-icon fa fa-archive"></i> Group Library
+                    </a>
+                </li>
                 @if(Auth::user()->account_type == 1)
                 <li>
                     @if(empty($ongoingGroupChat))

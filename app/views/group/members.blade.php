@@ -83,6 +83,12 @@
                         </span>
                     </a>
                 </li>
+                <li>
+                    <a href="/groups/{{ $groupDetails->group_id }}/forums">
+                        <i class="fa fa-chevron-right pull-right"></i>
+                        <i class="group-control-icon fa fa-comments-o"></i> Group Forums
+                    </a>
+                </li>
                 @if(Auth::user()->account_type == 1)
                 <li>
                     @if(empty($ongoingGroupChat))

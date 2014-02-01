@@ -11,7 +11,7 @@
     <div class="tab-content">
         <div class="tab-pane well <?php echo (isset($quiz)) ? null : 'active'; ?>" id="note">
             <div class="note-errors alert alert-danger" style="display:none;"></div>
-            {{ Form::open(array('url'=>'ajax/post_creator/create_note')) }}
+            {{ Form::open(array('url'=>'ajax/post_creator/create_note', 'files' => true)) }}
                 <div class="form-group">
                     <textarea name="note-content" id="note_content" class="postcreator-textarea form-control"
                     placeholder="Type your note here..."></textarea>

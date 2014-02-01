@@ -288,7 +288,7 @@
 
                 $('.message-holder').hide();
             }
-        })
+        });
 
         e.preventDefault();
     });
@@ -402,7 +402,7 @@
     }
 
     function validateQuiz() {
-        var quizDueDate     = $('#quiz_due_date')
+        var quizDueDate     = $('#quiz_due_date');
         var quizRecipients  = $('#quiz_recipients');
 
         // set error counter to zero to reset
@@ -483,4 +483,4 @@
         }
     }
 
-})(jQuery)
+})(jQuery);

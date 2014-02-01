@@ -1,7 +1,7 @@
 <?php //-->
 
 class AjaxFileController extends BaseController
-{
+{   
     public function getView()
     {
         $view = Input::get('view');
@@ -45,6 +45,17 @@ class AjaxFileController extends BaseController
         $fileName       = $file->getClientOriginalName();
         $fileExtension  = $file->getClientOriginalExtension();
         $mime           = $file->getMimeType();
+        $fileSize       = $file->getSize();
+        
+        // check for the size of the file to uploaded
+        // max size, 10 mb?
+        if((655360) < $fileSize) {
+            return Response::json(array(
+                'error'     => true, 
+                'file_name' => $fileName, 
+                'message'   => 'File too large to upload.'));
+        }
+        
         // upload file
         $file->move($dropPoint, $fileName);
 

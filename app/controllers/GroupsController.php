@@ -71,6 +71,11 @@ class GroupsController extends BaseController {
             ->with('members', $groupMembers);
     }
 
+    public function forums($groupId)
+    {
+        
+    }
+
     public function chat($groupId, $conversationId)
     {
          // check first if groupId is valid

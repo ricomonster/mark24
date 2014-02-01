@@ -3,6 +3,8 @@ $(function() {
     // notes
     $('.fileupload-notes').fileupload({
         url: '/ajax/thelibrary/upload-file',
+        contentType: false,
+        processData: false,
         dataType: 'json',
         done: function (e, data) {
             if(data.result.error) {
