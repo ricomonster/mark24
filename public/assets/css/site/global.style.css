@@ -1,15 +1,6 @@
 /* Fonts
 ---------------------------------------------------------------*/
-@font-face {
-    font-family: 'Noto Sans';
-    src: url('../fonts/notosans-regular-webfont.eot');
-    src: url('../fonts/notosans-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/notosans-regular-webfont.woff') format('woff'),
-         url('../fonts/notosans-regular-webfont.ttf') format('truetype'),
-         url('../fonts/notosans-regular-webfont.svg#noto_sansregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans);
 
 /* Global
 ---------------------------------------------------------------*/
@@ -18,11 +9,11 @@ body {
     background-attachment:fixed;
     background-image:url('/assets/images/maze.png');
     background-repeat:repeat;
-    font-family: 'Noto Sans';
+    font-family: 'Droid Sans';
     padding: 70px 0;
 }
 
-h1, h2, h3, h4, h5, h6 { font-family: 'Noto Sans'; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Droid Sans'; }
 
 .navbar-header .navbar-brand {
     background: url('/assets/images/logo.png') no-repeat center top;

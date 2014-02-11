@@ -15,6 +15,11 @@ The Forum
 }
 
 .the-forum .forum-category-holder ul li { margin: 0; }
+.the-forum .forum-category-holder ul li.active a {
+    background-color: #f3f5f7;
+    color: #2a6496;
+}
+
 .the-forum .forum-category-holder ul li a {
     background-color: #ffffff;
     border: 1px solid #dfe4e8 !important;
@@ -37,17 +42,35 @@ The Forum
         @include('plugins/groupdetails')
         @endif
 
+        @if(isset($group))
+        <a href="/groups/{{ $group->group_id }}/the-forum/add-thread"
+        class="btn btn-info btn-large btn-block post-thread-link">
+            Post a Thread
+        </a>
+        @else
         <a href="/the-forum/add-thread" class="btn btn-info btn-large btn-block post-thread-link">
             Post a Thread
         </a>
+        @endif
 
         <div class="forum-category-holder">
             <div class="title-holder">Forum Categories</div>
             <ul class="nav nav-pills nav-stacked">
-                <li><a href="/the-forum">Home</a></li>
+                @if(isset($group))
+                <li class="active"><a href="/groups/{{ $group->group_id }}/the-forum">Home</a></li>
+                @foreach($categories as $category)
+                <li>
+                    <a href="/groups/{{ $group->group_id }}/the-forum/{{ $category->seo_name }}">
+                        {{ $category->category_name }}
+                    </a>
+                </li>
+                @endforeach
+                @else
+                <li class="active"><a href="/the-forum">Home</a></li>
                 @foreach($categories as $category)
                 <li><a href="/the-forum/{{ $category->seo_name }}">{{ $category->category_name }}</a></li>
                 @endforeach
+                @endif
             </ul>
         </div>
 

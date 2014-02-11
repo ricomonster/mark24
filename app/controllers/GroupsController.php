@@ -4,7 +4,6 @@ class GroupsController extends BaseController {
 
     public function __construct() {
         $this->beforeFilter('auth');
-        // check first if the user is a member of the group
     }
 
     public function showIndex($groupId) {
@@ -362,7 +361,9 @@ class GroupsController extends BaseController {
             ->where('group_id', '=', $groupId)
             ->first();
 
-        if(!is_numeric($groupId) || empty($group) || empty($member)) return View::make('templates.fourohfour');
+        if(!is_numeric($groupId) || empty($group) || empty($member) || Auth::user()->account_type != 1) {
+            return View::make('templates.fourohfour');
+        }
 
         // get current user groups
         $groups = Group::getMyGroups();

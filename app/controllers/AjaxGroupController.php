@@ -35,10 +35,32 @@ class AjaxGroupController extends BaseController
 
         // add the user to the group
         $member = new GroupMember;
-        // remove the request notification
-        // unset the request
+        $member->group_id = $input['group_id'];
+        $member->group_member_id = $input['user_id'];
+        $member->save();
 
-        return Response::json(array('error' => false));
+        // remove the request notification
+        Notification::where('notification_type', '=', 'request_join_group')
+           ->where('sender_id', '=', $input['user_id'])
+           ->where('involved_id', '=', $input['group_id'])
+           ->delete();
+
+        // unset the request
+        $inquire = Inquire::where('type', '=', 'request_join_group')
+            ->where('inquirer_id', '=', $input['user_id'])
+            ->where('involved_id', '=', $input['group_id'])
+            ->first();
+        // update
+        $inquire->status = 0;
+        $inquire->save();
+        // create notification
+        Notification::setup('accepted_join_group', array(
+            'user_id'   => $input['user_id'],
+            'group_id'  => $input['group_id']));
+        // get user details
+        $user = User::find($input['user_id']);
+
+        return Response::json(array('error' => false, 'name' => $user->name));
     }
 
     protected function _generateGroupCode() {

@@ -300,6 +300,16 @@ class Notification extends Eloquent
                 $notification->date_added = $date;
                 $notification->save();
                 break;
+            case 'accepted_join_group' :
+                $notification = new Notification;
+                $notification->receiver_id = $settings['user_id'];
+                $notification->sender_id = Auth::user()->id;
+                $notification->notification_type = 'accepted_join_group';
+                $notification->involved_id = $settings['group_id'];
+                $notification->notification_timestamp = $time;
+                $notification->date_added = $date;
+                $notification->save();
+                break;
             // likes
             case 'liked_post' :
                 // get the post
@@ -556,6 +566,16 @@ class Notification extends Eloquent
                     $link = '/groups/'.$group->group_id.'/join-requests';
                     $icon = 'fa-group';
                     break;
+                case 'accepted_join_group' :
+                    // get the group details
+                    $group = Group::find($notification->involved_id);
+                    // get the sender details
+                    $sender = User::find($notification->sender_id);
+                    $message = $sender->salutation.' '.$sender->name.
+                        ' accepted your request to join the group '.$group->group_name;
+                    $link = '/groups/'.$group->group_id;
+                    $icon = 'fa-check';
+                    break;
                 // likes
                 case 'liked_post' :
                     if(empty($all) || (!empty($all) && $all->count() == 1)) {
@@ -748,6 +768,16 @@ class Notification extends Eloquent
                         $link = '/groups/'.$group->group_id.'/join-requests';
                         $icon = 'fa-group';
                         break;
+                    case 'accepted_join_group' :
+                        // get the group details
+                        $group = Group::find($notification->involved_id);
+                        // get the sender details
+                        $sender = User::find($notification->sender_id);
+                        $message = $sender->salutation.' '.$sender->name.
+                            ' accepted your request to join the group '.$group->group_name;
+                        $link = '/groups/'.$group->group_id;
+                        $icon = 'fa-check';
+                        break;
                     // likes
                     case 'liked_post' :
                         if(empty($all) || (!empty($all) && $all->count() == 1)) {
@@ -932,6 +962,16 @@ class Notification extends Eloquent
 
                     $link = '/groups/'.$group->group_id.'/join-requests';
                     $icon = 'fa-group';
+                    break;
+                case 'accepted_join_group' :
+                    // get the group details
+                    $group = Group::find($notification->involved_id);
+                    // get the sender details
+                    $sender = User::find($notification->sender_id);
+                    $message = $sender->salutation.' '.$sender->name.
+                        ' accepted your request to join the group '.$group->group_name;
+                    $link = '/groups/'.$group->group_id;
+                    $icon = 'fa-check';
                     break;
                 // likes
                 case 'liked_post' :

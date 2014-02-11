@@ -16,14 +16,15 @@
 
     $('#submit_note').on('click', function(e) {
         // validate first
-        var wrapperHeight = $('.post-creator-holder').height();
-        var wrapperWidth = $('.post-creator-holder').width();
         var overlay = $('.post-creator-holder .overlay');
 
         $('.note-errors').empty().hide();
         validateNote();
 
         if(error == 0) {
+            var wrapperHeight = $('.post-creator-holder').height();
+            var wrapperWidth = $('.post-creator-holder').width();
+
             overlay.height(wrapperHeight).width(wrapperWidth)
                 .slideDown();
             setTimeout(function() {
@@ -39,7 +40,10 @@
                     $('#note .postcreator-hidden').hide();
                     overlay.slideUp();
                     // let's reset the form elements
-                    $('#note_content').val('');
+                    $('#note_content').val('')
+                        .parent('.expandingText')
+                        .height('32px');
+
                     $('#note_recipients').val('').trigger('chosen:updated');
                     // show the newest to stream
                     $('.post-stream-holder .post-stream').prepend(response)
@@ -59,14 +63,15 @@
     });
 
     $('#submit_alert').on('click', function(e) {
-        var wrapperHeight = $('.post-creator-holder').height();
-        var wrapperWidth = $('.post-creator-holder').width();
         var overlay = $('.post-creator-holder .overlay');
 
         $('.alert-errors').empty().hide();
         validateAlert();
 
         if(error == 0) {
+            var wrapperHeight = $('.post-creator-holder').height();
+            var wrapperWidth = $('.post-creator-holder').width();
+
             overlay.height(wrapperHeight).width(wrapperWidth)
                 .slideDown();
             setTimeout(function() {
@@ -82,7 +87,9 @@
                         overlay.slideUp();
                         $('#alert .postcreator-hidden').hide();
                         // let's reset the form elements
-                        $('#alert_content').val('');
+                        $('#alert_content').val('')
+                            .parent('.expandingText')
+                            .height('32px');
                         $('#alert_recipients').val('').trigger('chosen:updated');
                         // show the newest to stream
                         $('.post-stream-holder .post-stream').prepend(response)
@@ -103,8 +110,6 @@
     });
 
     $('#submit_assignment').on('click', function(e) {
-        var wrapperHeight = $('.post-creator-holder').height();
-        var wrapperWidth = $('.post-creator-holder').width();
         var overlay = $('.post-creator-holder .overlay');
 
         // validate first
@@ -112,6 +117,9 @@
         validateAssignment();
 
         if(error == 0) {
+            var wrapperHeight = $('.post-creator-holder').height();
+            var wrapperWidth = $('.post-creator-holder').width();
+
             overlay.height(wrapperHeight).width(wrapperWidth)
                 .slideDown();
             setTimeout(function() {
@@ -147,13 +155,14 @@
 
     // submits a quiz
     $(document).on('click', '#submit_quiz', function(e) {
-        var wrapperHeight = $('.post-creator-holder').height();
-        var wrapperWidth = $('.post-creator-holder').width();
         var overlay = $('.post-creator-holder .overlay');
 
         validateQuiz();
 
         if(error == 0) {
+            var wrapperHeight = $('.post-creator-holder').height();
+            var wrapperWidth = $('.post-creator-holder').width();
+
             overlay.height(wrapperHeight).width(wrapperWidth)
                 .slideDown();
             setTimeout(function() {

@@ -225,7 +225,9 @@
                 $('.member-details-holder[data-user-id="'+userId+'"]')
                     .removeClass('active')
                     .slideUp();
-                messageHolder.show().find('span').text('You successfully added the user.');
+                messageHolder.show()
+                    .find('span')
+                    .text('You successfully added the '+response.name+'.');
                 // check if there are still pending requests
                 if($('.member-details-holder.active').length == 0) {
                     // show the no request li

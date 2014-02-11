@@ -25,6 +25,7 @@
         <![endif]-->
         @yield('internalCss')
         <style>
+            .public-service-message { display: none; }
             .public-service-message p { font-size: 16px; }
             .public-service-message small { font-size: 13px; }
         </style>
@@ -68,7 +69,7 @@
                     </ul>
                     <form class="navbar-form navbar-left" role="search">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="search_bar" 
+                            <input type="text" class="form-control" id="search_bar"
                             placeholder="Search">
                         </div>
                     </form>
@@ -187,7 +188,7 @@
                     onChange: function(){
                         window.location = this.items[0];
                     }
-                });                 
+                });
             });
         </script>
         <script>

@@ -61,19 +61,39 @@ The Forum
 @section('content')
 <div class="row the-forum">
     <div class="col-md-3">
+        @if(isset($group))
+        @include('plugins/groupdetails')
+        @endif
+
+        @if(isset($group))
+        <a href="/groups/{{ $group->group_id }}/the-forum/add-thread"
+        class="btn btn-info btn-large btn-block post-thread-link">
+            Post a Thread
+        </a>
+        @else
         <a href="/the-forum/add-thread" class="btn btn-info btn-large btn-block post-thread-link">
             Post a Thread
         </a>
+        @endif
 
         <div class="forum-category-holder">
             <div class="title-holder">Forum Categories</div>
             <ul class="nav nav-pills nav-stacked">
-                <li><a href="/the-forum">Home</a></li>
+                @if(isset($group))
+                <li class="active"><a href="/groups/{{ $group->group_id }}/the-forum">Home</a></li>
                 @foreach($categories as $category)
-                <li class="<?php echo ($categoryDetails->forum_category_id == $category->forum_category_id) ? 'active' : null; ?>">
-                    <a href="/the-forum/{{ $category->seo_name }}">{{ $category->category_name }}</a>
+                <li>
+                    <a href="/groups/{{ $group->group_id }}/the-forum/{{ $category->seo_name }}">
+                        {{ $category->category_name }}
+                    </a>
                 </li>
                 @endforeach
+                @else
+                <li class="active"><a href="/the-forum">Home</a></li>
+                @foreach($categories as $category)
+                <li><a href="/the-forum/{{ $category->seo_name }}">{{ $category->category_name }}</a></li>
+                @endforeach
+                @endif
             </ul>
         </div>
 
