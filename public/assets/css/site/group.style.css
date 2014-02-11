@@ -46,10 +46,13 @@
 /* Members Page */
 /* Main */
 /* Member Stream */
-.member-stream-holder { padding: 0; }
-.member-stream-holder ul { list-style: none; margin: 0; padding: 0; }
-.member-stream-holder .stream-title { border-bottom: 1px solid #dfe4e8; padding: 10px 20px; }
-.member-stream-holder .member-stream .member-details-holder { border-bottom: 1px solid #dfe4e8; padding: 20px; }
+.member-stream-holder, .request-stream-holder { padding: 0; }
+.member-stream-holder ul, .request-stream-holder ul { list-style: none; margin: 0; padding: 0; }
+.member-stream-holder .stream-title,
+.request-stream-holder .stream-title { border-bottom: 1px solid #dfe4e8; padding: 10px 20px; }
+.member-stream-holder .member-stream .member-details-holder,
+.request-stream-holder .member-stream .member-details-holder { border-bottom: 1px solid #dfe4e8; padding: 20px; }
+.request-stream-holder ul .no-member-details { padding: 20px; }
 .member-details-holder .member-content-holder { margin-left: 15px; width: 85%; }
 .member-content-holder .member-type,
 .member-content-holder .member-username { font-size: 13px; }

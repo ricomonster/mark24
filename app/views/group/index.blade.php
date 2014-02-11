@@ -86,7 +86,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/groups/{{ $groupDetails->group_id }}/the-forums">
+                    <a href="/groups/{{ $groupDetails->group_id }}/the-forum">
                         <i class="fa fa-chevron-right pull-right"></i>
                         <i class="group-control-icon fa fa-comments-o"></i> Group Forums
                     </a>

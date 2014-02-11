@@ -25,11 +25,18 @@ The Forum
 .the-forum .add-forum-category { margin-bottom: 20px; }
 .the-forum .forum-add-thread textarea { height: 200px; resize: none; }
 </style>
+@if(isset($group))
+<link href="/assets/css/site/group.style.css" rel="stylesheet">
+@endif
 @stop
 
 @section('content')
 <div class="row the-forum">
     <div class="col-md-3">
+        @if(isset($group))
+        @include('plugins/groupdetails')
+        @endif
+
         <a href="/the-forum/add-thread" class="btn btn-info btn-large btn-block post-thread-link">
             Post a Thread
         </a>
@@ -92,6 +99,9 @@ The Forum
                 </div>
                 @endif
 
+                @if(isset($group))
+                <input type="hidden" name="group-id" value="{{ $group->group_id }}">
+                @endif
                 <button type="submit" class="btn btn-default">Post Thread</button>
             {{ Form::close() }}
         </div>

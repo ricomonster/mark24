@@ -65,6 +65,7 @@ Route::post('ajax/the-forum/update-reply', 'AjaxForumController@updateThreadRepl
 Route::post('ajax/group/lock-group', 'AjaxGroupController@lockGroup');
 Route::post('ajax/group/unlock-group', 'AjaxGroupController@changeGroupCode');
 Route::post('ajax/group/reset-group-code', 'AjaxGroupController@changeGroupCode');
+Route::post('ajax/group/join-the-user', 'AjaxGroupController@joinTheUser');
 
 // AJAX Like Routes
 Route::post('ajax/like/like-post', 'AjaxLikeController@likePost');
@@ -176,6 +177,12 @@ Route::get('groups/{groupId}', 'GroupsController@showIndex')->where('groupId', '
 Route::get('groups/{groupId}/members', 'GroupsController@showMembers')->where('groupId', '[0-9]+');
 Route::get('groups/{groupId}/chat/{conversationId}', 'GroupsController@chat')
     ->where('groupId', '[0-9]+');
+Route::get('groups/{groupId}/join-requests', 'GroupsController@joinRequests')->where('groupId', '[0-9]+');
+
+// Group Forum Routes
+Route::get('groups/{groupId}/the-forum', 'GroupsController@forums');
+Route::get('groups/{groupId}/the-forum/add-thread', 'GroupsController@showAddThread');
+Route::get('groups/{groupId}/the-forum/thread/{slug}/{id}', 'GroupsController@showThread');
 
 // Home Routes
 Route::get('home', 'HomeController@showHome');

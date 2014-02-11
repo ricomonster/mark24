@@ -52,22 +52,47 @@ The Forum
     width: 35%;
 }
 </style>
+@if(isset($group))
+<link href="/assets/css/site/group.style.css" rel="stylesheet">
+@endif
 @stop
 
 @section('content')
 <div class="row the-forum">
     <div class="col-md-3">
+        @if(isset($group))
+        @include('plugins/groupdetails')
+        @endif
+
+        @if(isset($group))
+        <a href="/groups/{{ $group->group_id }}/the-forum/add-thread"
+        class="btn btn-info btn-large btn-block post-thread-link">
+            Post a Thread
+        </a>
+        @else
         <a href="/the-forum/add-thread" class="btn btn-info btn-large btn-block post-thread-link">
             Post a Thread
         </a>
+        @endif
 
         <div class="forum-category-holder">
             <div class="title-holder">Forum Categories</div>
             <ul class="nav nav-pills nav-stacked">
+                @if(isset($group))
+                <li class="active"><a href="/groups/{{ $group->group_id }}/the-forum">Home</a></li>
+                @foreach($categories as $category)
+                <li>
+                    <a href="/groups/{{ $group->group_id }}/the-forum/{{ $category->seo_name }}">
+                        {{ $category->category_name }}
+                    </a>
+                </li>
+                @endforeach
+                @else
                 <li class="active"><a href="/the-forum">Home</a></li>
                 @foreach($categories as $category)
                 <li><a href="/the-forum/{{ $category->seo_name }}">{{ $category->category_name }}</a></li>
                 @endforeach
+                @endif
             </ul>
         </div>
 
@@ -117,19 +142,34 @@ The Forum
                     {{ Helper::avatar(70, "normal", "img-rounded pull-left", $thread->id) }}
                     <div class="thread-details-holder pull-left">
                         <div class="thread-title">
-                            <a href="/the-forum/thread/{{ $thread->seo_url }}/{{ $thread->forum_thread_id }}">
-                                    @if((empty($sort) || $sort == 'latest') && $thread->sticky_post == 'TRUE')
-                                    <span class="sticky-post text-muted">[Sticky]</span>
-                                    @endif
-                                    {{ $thread->title }}
+                            @if(isset($group))
+                            <a href="/groups/{{ $group->group_id }}/the-forum/thread/{{ $thread->seo_url }}/{{ $thread->forum_thread_id }}">
+                                @if((empty($sort) || $sort == 'latest') && $thread->sticky_post == 'TRUE')
+                                <span class="sticky-post text-muted">[Sticky]</span>
+                                @endif
+                                {{ $thread->title }}
                             </a>
+                            @else
+                            <a href="/the-forum/thread/{{ $thread->seo_url }}/{{ $thread->forum_thread_id }}">
+                                @if((empty($sort) || $sort == 'latest') && $thread->sticky_post == 'TRUE')
+                                <span class="sticky-post text-muted">[Sticky]</span>
+                                @endif
+                                {{ $thread->title }}
+                            </a>
+                            @endif
                         </div>
                         <div class="thread-details">
                             By <a href="/profile/{{ $thread->username }}" class="thread-author">{{ $thread->username }}</a>,
                             <span class="thread-timestamp">
                                 {{ Helper::timestamp($thread->thread_timestamp) }}
                             </span> in
-                            <a href="/the-forum/{{ $thread->seo_name }}" class="thread-category">{{ $thread->category_name }}</a>
+                            @if(isset($group))
+                            <a href="/groups/{{ $group->group_id }}/the-forum/{{ $thread->seo_name }}"
+                            class="thread-category">{{ $thread->category_name }}</a>
+                            @else
+                            <a href="/the-forum/{{ $thread->seo_name }}"
+                            class="thread-category">{{ $thread->category_name }}</a>
+                            @endif
                         </div>
                     </div>
                     <div class="thread-stats pull-right">

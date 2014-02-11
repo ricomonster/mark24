@@ -113,42 +113,6 @@ class Notification extends Eloquent
                     }
                 }
 
-                // extract the recipients
-                // foreach($recipients as $recipient) {
-                //     // check if the recipient is group
-                //     if($recipient->recipient_type != 'group') continue;
-                //     // get the group members
-                //     $members = GroupMember::where('group_id', '=', $recipient->recipient_id)
-                //         ->get();
-                //     // extract the members of the group
-                //     foreach($members as $member) {
-                //         if(Auth::user()->id == $member->group_member_id) continue;
-
-                //         $exists = Notification::where('notification_type', '=', 'commented')
-                //             ->where('involved_id', '=', $post->post_id)
-                //             ->where('receiver_id', '=', $member->group_member_id)
-                //             ->first();
-
-                //         // notification not yet created
-                //         if(empty($exists)) {
-                //             $notification = new Notification;
-                //             $notification->receiver_id = $member->group_member_id;
-                //             $notification->sender_id = Auth::user()->id;
-                //             $notification->notification_type = 'commented';
-                //             $notification->involved_id = $post->post_id;
-                //             $notification->notification_timestamp = $time;
-                //             $notification->save();
-                //         }
-
-                //         // notification already present
-                //         if(!empty($exists)) {
-                //             $exists->seen = 0;
-                //             $exists->notification_timestamp = $time;
-                //             $exists->save();
-                //         }
-                //     }
-                // }
-
                 break;
             // direct message
             case 'direct_message' :
@@ -321,6 +285,20 @@ class Notification extends Eloquent
 
                 break;
             case 'left_group' :
+                break;
+            case 'request_join_group' :
+                $involvedId = $settings['involved_id'];
+                // get the owner of the group
+                $group = Group::find($involvedId);
+                // create
+                $notification = new Notification;
+                $notification->receiver_id = $group->owner_id;
+                $notification->sender_id = Auth::user()->id;
+                $notification->notification_type = 'request_join_group';
+                $notification->involved_id = $group->group_id;
+                $notification->notification_timestamp = $time;
+                $notification->date_added = $date;
+                $notification->save();
                 break;
             // likes
             case 'liked_post' :
@@ -564,6 +542,20 @@ class Notification extends Eloquent
                     break;
                 case 'left_group' :
                     break;
+                case 'request_join_group' :
+                    $group = Group::find($notification->involved_id);
+                    if(empty($all) || (!empty($all) && $all->count() == 1)) {
+                        $message = $last->name.' wants to join your group.';
+                    }
+
+                    if(!empty($all) && $all->count() > 1) {
+                        // count the number of users who joined
+                        $message = $last->name.' and '.($all->count() - 1).' wants to join your group.';
+                    }
+
+                    $link = '/groups/'.$group->group_id.'/join-requests';
+                    $icon = 'fa-group';
+                    break;
                 // likes
                 case 'liked_post' :
                     if(empty($all) || (!empty($all) && $all->count() == 1)) {
@@ -742,6 +734,20 @@ class Notification extends Eloquent
                         break;
                     case 'left_group' :
                         break;
+                    case 'request_join_group' :
+                        $group = Group::find($notification->involved_id);
+                        if(empty($all) || (!empty($all) && $all->count() == 1)) {
+                            $message = $last->name.' wants to join your group.';
+                        }
+
+                        if(!empty($all) && $all->count() > 1) {
+                            // count the number of users who joined
+                            $message = $last->name.' and '.($all->count() - 1).' wants to join your group.';
+                        }
+
+                        $link = '/groups/'.$group->group_id.'/join-requests';
+                        $icon = 'fa-group';
+                        break;
                     // likes
                     case 'liked_post' :
                         if(empty($all) || (!empty($all) && $all->count() == 1)) {
@@ -912,6 +918,20 @@ class Notification extends Eloquent
                     $icon = 'fa-plus';
                     break;
                 case 'left_group' :
+                    break;
+                case 'request_join_group' :
+                    $group = Group::find($notification->involved_id);
+                    if(empty($all) || (!empty($all) && $all->count() == 1)) {
+                        $message = $last->name.' wants to join your group.';
+                    }
+
+                    if(!empty($all) && $all->count() > 1) {
+                        // count the number of users who joined
+                        $message = $last->name.' and '.($all->count() - 1).' wants to join your group.';
+                    }
+
+                    $link = '/groups/'.$group->group_id.'/join-requests';
+                    $icon = 'fa-group';
                     break;
                 // likes
                 case 'liked_post' :

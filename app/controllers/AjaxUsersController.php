@@ -196,17 +196,18 @@ class AjaxUsersController extends BaseController {
             // save to database
             $studentUser->save();
 
-            // add student to group as a member
-            $addMember                  = new GroupMember;
-            $addMember->group_member_id = $studentUser->id;
-            $addMember->group_id        = $group->group_id;
-            $addMember->save();
-
             // set the Auth to login the user
             Auth::loginUsingId($studentUser->id);
 
-            // setup notification that the user joined the group
-            Notification::setup('join_group', array(
+            // create request
+            $request = new Inquire;
+            $request->inquirer_id = $studentUser->id;
+            $request->involved_id = $group->group_id;
+            $request->type = 'request_join_group';
+            $request->save();
+
+            // send request to the owner of the group
+            Notification::setup('request_join_group', array(
                 'involved_id' => $group->group_id));
 
             return Response::json(array(

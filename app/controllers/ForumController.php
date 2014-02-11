@@ -16,7 +16,8 @@ class ForumController extends BaseController
         switch($sort) {
             case 'latest' :
                 // get latest threads
-                $threads = ForumThread::orderBy('last_reply_timestamp', 'DESC')
+                $threads = ForumThread::where('thread_source', '=', 0)
+                    ->orderBy('last_reply_timestamp', 'DESC')
                     ->orderBy('thread_timestamp', 'DESC')
                     ->orderBy('sticky_post', 'DESC')
                     ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
@@ -27,7 +28,8 @@ class ForumController extends BaseController
                     ->get();
                 break;
             case 'popular' :
-                $threads = ForumThread::where('views', '!=', '0')
+                $threads = ForumThread::where('thread_source', '=', 0)
+                    ->where('views', '!=', '0')
                     ->orderBy('views', 'DESC')
                     ->orderBy('thread_timestamp', 'DESC')
                     ->orderBy('replies', 'DESC')
@@ -40,7 +42,8 @@ class ForumController extends BaseController
                 break;
             case 'unanswered' :
                 // get unanswered threads
-                $threads = ForumThread::orderBy('thread_timestamp', 'DESC')
+                $threads = ForumThread::where('thread_source', '=', 0)
+                    ->orderBy('thread_timestamp', 'DESC')
                     ->where('replies', '=', 0)
                     ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
                     ->leftJoin('forum_categories',
@@ -50,7 +53,8 @@ class ForumController extends BaseController
                     ->get();
                 break;
             case 'following' :
-                $threads = FollowedForumThread::where('followed_forum_threads.user_id', '=', Auth::user()->id)
+                $threads = FollowedForumThread::where('thread_source', '=', 0)
+                    ->where('followed_forum_threads.user_id', '=', Auth::user()->id)
                     ->leftJoin('forum_threads', 'followed_forum_threads.forum_thread_id', '=', 'forum_threads.forum_thread_id')
                     ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
                     ->leftJoin('forum_categories',
@@ -62,7 +66,8 @@ class ForumController extends BaseController
                     ->get();
                 break;
             case 'my-topics' :
-                $threads = ForumThread::where('user_id', '=', Auth::user()->id)
+                $threads = ForumThread::where('thread_source', '=', 0)
+                    ->where('user_id', '=', Auth::user()->id)
                     ->orderBy('last_reply_timestamp', 'DESC')
                     ->orderBy('thread_timestamp', 'DESC')
                     ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
@@ -73,7 +78,8 @@ class ForumController extends BaseController
                     ->get();
                 break;
             case 'last-viewed' :
-                $threads = ForumThreadView::where('forum_thread_views.user_id', '=', Auth::user()->id)
+                $threads = ForumThreadView::where('thread_source', '=', 0)
+                    ->where('forum_thread_views.user_id', '=', Auth::user()->id)
                     ->orderBy('forum_thread_views.view_timestamp', 'DESC')
                     ->leftJoin(
                         'forum_threads',
@@ -89,7 +95,8 @@ class ForumController extends BaseController
                 break;
             default :
                 // get latest threads
-                $threads = ForumThread::orderBy('forum_thread_id', 'DESC')
+                $threads = ForumThread::where('thread_source', '=', 0)
+                    ->orderBy('forum_thread_id', 'DESC')
                     ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
                     ->leftJoin('forum_categories',
                         'forum_threads.category_id',
@@ -117,6 +124,7 @@ class ForumController extends BaseController
 
     public function submitThread()
     {
+        $groupId = Input::get('group-id');
         // a new thread is submitted
         // let's validate first the form submitted
         $rules = array(
@@ -125,16 +133,22 @@ class ForumController extends BaseController
             'thread-description' => 'required|min:6');
 
         $messages = array(
-            'thread-title.required' => 'Title is required.',
-            'thread-title.min' => 'Title should be atleast 6+ characters long.',
-            'thread-category.required' => 'Category is required',
-            'thread-description.required' => 'Description is required.',
-            'thread-description.min' => 'Description should be atleast 6+ characters long.');
+            'thread-title.required'         => 'Title is required.',
+            'thread-title.min'              => 'Title should be atleast 6+ characters long.',
+            'thread-category.required'      => 'Category is required',
+            'thread-description.required'   => 'Description is required.',
+            'thread-description.min'        => 'Description should be atleast 6+ characters long.');
 
         $validator = Validator::make(Input::all(), $rules, $messages);
 
         // there are errors
         if($validator->fails()) {
+            if(isset($groupId)) {
+                return Redirect::to('groups/'.$groupId.'/the-forum/add-thread')
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
             return Redirect::to('the-forum/add-thread')
                 ->withErrors($validator)
                 ->withInput();
@@ -146,15 +160,24 @@ class ForumController extends BaseController
 
             $seoUrl = Helper::seoFriendlyUrl(Input::get('thread-title'));
             // save thread
-            $newThread              = new ForumThread;
-            $newThread->user_id     = Auth::user()->id;
-            $newThread->category_id = Input::get('thread-category');
-            $newThread->title       = Input::get('thread-title');
-            $newThread->description = Input::get('thread-description');
-            $newThread->seo_url     = $seoUrl;
-            $newThread->sticky_post = (empty($stickyPost)) ? 'FALSE' : 'TRUE';
-            $newThread->thread_timestamp   = time();
+            $newThread                      = new ForumThread;
+            $newThread->user_id             = Auth::user()->id;
+            $newThread->category_id         = Input::get('thread-category');
+            $newThread->title               = Input::get('thread-title');
+            $newThread->description         = Input::get('thread-description');
+            $newThread->seo_url             = $seoUrl;
+            $newThread->sticky_post         = (empty($stickyPost)) ? 'FALSE' : 'TRUE';
+            $newThread->thread_source       = (isset($groupId)) ? 1 : 0;
+            $newThread->thread_timestamp    = time();
             $newThread->save();
+
+            // set the group forum threads
+            if(isset($groupId)) {
+                $groupThread                    = new GroupForumThread;
+                $groupThread->group_id          = $groupId;
+                $groupThread->forum_thread_id   = $newThread->forum_thread_id;
+                $groupThread->save();
+            }
 
             // add thread to threads followed
             $addThread = new FollowedForumThread;
@@ -167,7 +190,11 @@ class ForumController extends BaseController
             $updateCount->forum_posts += 1;
             $updateCount->save();
 
-            // redirect to thread page
+            // redirect
+            if(isset($groupId)) {
+                return Redirect::to('groups/'.$groupId.'/the-forum/thread/'.$seoUrl.'/'.$newThread->forum_thread_id);
+            }
+
             return Redirect::to('the-forum/thread/'.$seoUrl.'/'.$newThread->forum_thread_id);
         }
     }
@@ -290,11 +317,10 @@ class ForumController extends BaseController
     public function showThread($slug, $id)
     {
         $page = Input::get('page');
-
-        // get the details of the thread
         $thread = ForumThread::where('seo_url', '=', $slug)
             ->where('forum_thread_id', '=', $id)
             ->leftJoin('users', 'forum_threads.user_id', '=', 'users.id')
+            ->where('thread_source', '=', 0)
             ->first();
 
         // check if the thread exists
@@ -363,6 +389,7 @@ class ForumController extends BaseController
     {
         $threadReply    = Input::get('thread-reply');
         $threadId       = Input::get('thread-id');
+        $groupId        = Input::get('group-id');
 
         // get thread details
         $thread = ForumThread::find($threadId);
@@ -407,12 +434,26 @@ class ForumController extends BaseController
         $lastPage = ceil($page / 10);
 
         // set up the redirect
-        if($lastPage <= 1) {
-            $redirectUrl = 'the-forum/thread/'.$thread->seo_url.'/'.$thread->forum_thread_id;
-        }
+        if(is_null($groupId)) {
+            if($lastPage <= 1) {
+                $redirectUrl = 'the-forum/thread/'.$thread->seo_url.'/'.
+                    $thread->forum_thread_id;
+            }
 
-        if($lastPage > 1) {
-            $redirectUrl = 'the-forum/thread/'.$thread->seo_url.'/'.$thread->forum_thread_id.'?page='.$lastPage;
+            if($lastPage > 1) {
+                $redirectUrl = 'the-forum/thread/'.$thread->seo_url.'/'.
+                    $thread->forum_thread_id.'?page='.$lastPage;
+            }
+        } else if(!is_null($groupId)) {
+            if($lastPage <= 1) {
+                $redirectUrl = 'groups/'.$groupId.'/the-forum/thread/'.
+                    $thread->seo_url.'/'.$thread->forum_thread_id;
+            }
+
+            if($lastPage > 1) {
+                $redirectUrl = 'groups/'.$groupId.'/the-forum/thread/'.
+                    $thread->seo_url.'/'.$thread->forum_thread_id.'?page='.$lastPage;
+            }
         }
 
         // setup the notification

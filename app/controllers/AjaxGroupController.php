@@ -13,7 +13,7 @@ class AjaxGroupController extends BaseController
         return Response::json(array('error' => false));
     }
 
-    protected function changeGroupCode()
+    public function changeGroupCode()
     {
         $groupId = Input::get('group_id');
 
@@ -27,6 +27,18 @@ class AjaxGroupController extends BaseController
         return Response::json(array(
             'error'         => false,
             'group_code'    => $newGroupCode));
+    }
+
+    public function joinTheUser()
+    {
+        $input = Input::all();
+
+        // add the user to the group
+        $member = new GroupMember;
+        // remove the request notification
+        // unset the request
+
+        return Response::json(array('error' => false));
     }
 
     protected function _generateGroupCode() {

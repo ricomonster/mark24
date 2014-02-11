@@ -14,7 +14,10 @@ class AddThreadSourceColumn extends Migration {
 	{
 		Schema::table('forum_threads', function(Blueprint $table)
 		{
-			$table->integer('thread_source')->unsigned()->after('sticky_post');
+			$table->integer('thread_source')
+                 ->default(0)
+			     ->unsigned()
+			     ->after('sticky_post');
 		});
 	}
 

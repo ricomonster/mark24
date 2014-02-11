@@ -79,7 +79,7 @@
                         <i class="fa fa-chevron-right pull-right"></i>
                         <i class="group-control-icon fa fa-user"></i> Members
                         <span class="label label-success pull-right">
-                            {{ $members->count() }} joined
+                            {{ $memberCount }} joined
                         </span>
                     </a>
                 </li>
@@ -145,44 +145,27 @@
 
     <div class="col-md-9">
         <!-- Main Content -->
-        <div class="member-stream-holder well">
-            <div class="stream-title"><h3>Members</h3></div>
+        <div class="request-stream-holder well">
+            <div class="stream-title"><h3>Pending Join Requests</h3></div>
 
             <ul class="member-stream">
-                <!-- Group Owner Details -->
-                <li class="member-details-holder owner-details-holder">
-                    <a href="/profile/{{ $ownerDetails->username }}">
-                        {{ Helper::avatar(80, "normal", "pull-left", $ownerDetails->id) }}
-                    </a>
-                    <div class="member-content-holder pull-right">
-                        <div class="member-name-text">
-                            <a href="/profile/{{ $ownerDetails->username }}">
-                                {{ $ownerDetails->salutation.' '.$ownerDetails->name }}
-                            </a>
-                        </div>
-                        <div class="member-type text-muted">Teacher (Owner)</div>
-                    </div>
-                    <div class="clearfix"></div>
-                </li>
-
+                @if($members->isEmpty())
+                <li class="no-member-details">No new group requests.</li>
+                @else
                 @foreach($members as $member)
-                @if($member->group_member_id != $ownerDetails->id)
-                <li class="member-details-holder">
+                <li class="member-details-holder active" data-user-id="{{ $member->id }}">
                     <a href="/profile/{{ $member->username }}">
                         {{ Helper::avatar(80, "normal", "pull-left", $member->id) }}
                     </a>
                     <div class="member-content-holder pull-right">
-                        @if(Auth::user()->account_type == 1 && $member->account_type == 2)
-                        <div class="dropdown pull-right">
-                            <a data-toggle="dropdown" href="#">More <i class="fa fa-chevron-down"></i></a>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                <li><a href="#" class="show-change-password"
-                                data-user-id="{{ $member->group_member_id }}">Change Password</a></li>
-                                <li><a href="#">Remove from Group</a></li>
-                            </ul>
+                        <div class="request-controls pull-right">
+                            <button class="btn btn-primary add-user"
+                            data-group-id="{{ $groupDetails->group_id }}"
+                            data-user-id="{{ $member->id }}">Add the User</button>
+                            <button class="btn btn-default cancel-user"
+                            data-group-id="{{ $groupDetails->group_id }}"
+                            data-user-id="{{ $member->id }}">Reject</button>
                         </div>
-                        @endif
-
                         <div class="member-name-text">
                             <a href="/profile/{{ $member->username }}">{{ $member->name }}</a>
                         </div>
@@ -200,8 +183,8 @@
                     </div>
                     <div class="clearfix"></div>
                 </li>
-                @endif
                 @endforeach
+                @endif
             </ul>
         </div>
     </div>
@@ -211,61 +194,51 @@
 
 @section('js')
 <script src="/assets/js/sitefunc/groups.js"></script>
-@if(Auth::user()->account_type == 1)
 <script>
 (function($) {
-    // gets the change password
-    $(document).on('click', '.show-change-password', function(e) {
-        $.get(
-            '/ajax/modal/show-change-password',
-            { user_id : $(this).data('user-id') },
-            function(response) {
-                $('#the_modal').modal('show')
-                $('#the_modal').html(response);
-        });
+    var messageHolder = $('.message-holder');
 
+    $(document).on('click', '.add-user', function(e) {
         e.preventDefault();
-    });
+        var element = $(this);
+        var userId  = element.attr('data-user-id');
+        var groupId = element.attr('data-group-id');
 
-    $(document).on('submit', '.change-password-modal', function(e) {
-        e.preventDefault();
-    })
+        // message holder
+        messageHolder.show().find('span').text('Saving...');
+        // trigger ajax
+        $.ajax({
+            type : 'post',
+            url : '/ajax/group/join-the-user',
+            data : {
+                user_id : userId,
+                group_id : groupId
+            },
+            dataType : 'json'
+        }).done(function(response) {
+            if(response.error) {
+                messageHolder.show().find('span')
+                    .text('There is an error processing your request. Please try again later.');
+            }
 
-    $(document).on('click', '#trigger_reset_password', function(e) {
-        $('.message-holder').show().find('span').text('Saving...');
-
-        if($('#reset-password').val() == '' || $('#reset-password').val().length < 6) {
-            $('#reset-password').parent().addClass('has-error');
-            $('#reset-password').siblings('.alert').addClass('alert-danger')
-                .html('Must be 6+ chars').show();
-
-            $('.message-holder').hide();
-        } else {
-            $('#reset-password').parent().removeClass('has-error');
-            $('#reset-password').siblings('.alert').hide();
-
-            $.ajax({
-                type : 'post',
-                url : '/ajax/modal/reset-password',
-                data : $('.change-password-modal').serialize(),
-                dataType : 'json',
-                async : false
-            }).done(function(response) {
-                if(!response.error) {
-                    $('#the_modal').modal('hide');
-
-                    $('.message-holder').show().find('span').text('Password has been reset...');
-
-                    setInterval(function() {
-                        $('.message-holder').hide();
-                    }, 3000)
+            if(!response.error) {
+                $('.member-details-holder[data-user-id="'+userId+'"]')
+                    .removeClass('active')
+                    .slideUp();
+                messageHolder.show().find('span').text('You successfully added the user.');
+                // check if there are still pending requests
+                if($('.member-details-holder.active').length == 0) {
+                    // show the no request li
+                    $('.member-stream')
+                        .append('<li class="no-member-details">No new group requests.</li>');
                 }
-            })
-        }
+            }
 
-        e.preventDefault();
-    })
+            setTimeout(function() {
+                messageHolder.fadeOut();
+            }, 5000);
+        });
+    });
 })(jQuery);
 </script>
-@endif
 @stop
