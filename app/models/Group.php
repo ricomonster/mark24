@@ -26,12 +26,16 @@ class Group extends Eloquent {
 
         $groupMember = User::find($id)->groupMember;
 
-        foreach($groupMember as $member) {
-            $group = Group::find($member->group_id);
-            $groupIds[] = $group->group_id;
+        if(!empty($groupMember)) {
+            foreach($groupMember as $member) {
+                $group = Group::find($member->group_id);
+                $groupIds[] = $group->group_id;
+            }
+
+            return (empty($groupIds)) ? false : $groupIds;
         }
 
-        return (empty($groupIds)) ? false : $groupIds;
+        return false;
     }
 
     public static function ongoingGroupChats()

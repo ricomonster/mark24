@@ -78,18 +78,26 @@ class ProfileController extends BaseController
     {
         $user = $this->_user;
         $details = new StdClass();
+        $groups = Group::getMyGroupsId($this->_user->id);
+
         // count the groups of the user
         $details->group_count = User::find($user->id)->groupMember->count();
         // check first the user
         if($user->account_type == 1) {
             // teacher
             // count students
-            $details->student_count = GroupMember::whereIn('group_id', Group::getMyGroupsId($user->id))
-                ->where('group_members.group_member_id', '!=', $user->id)
-                ->leftJoin('users', 'group_members.group_member_id', '=', 'users.id')
-                ->groupBy('group_member_id')
-                ->get()
-                ->count();
+            if(empty($groups)) {
+                $details->student_count = 0;
+            }
+
+            if(!empty($groups)) {
+                $details->student_count = GroupMember::whereIn('group_id', Group::getMyGroupsId($user->id))
+                    ->where('group_members.group_member_id', '!=', $user->id)
+                    ->leftJoin('users', 'group_members.group_member_id', '=', 'users.id')
+                    ->groupBy('group_member_id')
+                    ->get()
+                    ->count();
+            }
 
             // count number of files in the library
             $details->file_count = FileLibrary::where('user_id', '=', $user->id)
@@ -113,13 +121,17 @@ class ProfileController extends BaseController
     {
         // this page is for teachers only
         if($this->_user->account_type != 1) return View::make('templates.fourohfour');
+        $groups = Group::getMyGroupsId($this->_user->id);
         // get the students of the users
-        $students = GroupMember::whereIn('group_id', Group::getMyGroupsId($this->_user->id))
-            ->where('group_members.group_member_id', '!=', $this->_user->id)
-            ->where('users.account_type', '=', 2)
-            ->leftJoin('users', 'group_members.group_member_id', '=', 'users.id')
-            ->groupBy('group_member_id')
-            ->get();
+        if(empty($groups)) { $students = null; }
+        if(!empty($groups)) {
+            $students = GroupMember::whereIn('group_id', Group::getMyGroupsId($this->_user->id))
+                ->where('group_members.group_member_id', '!=', $this->_user->id)
+                ->where('users.account_type', '=', 2)
+                ->leftJoin('users', 'group_members.group_member_id', '=', 'users.id')
+                ->groupBy('group_member_id')
+                ->get();
+        }
 
         return View::make('profile.actions.students')
             ->with('user', $this->_user)
@@ -177,8 +189,11 @@ class ProfileController extends BaseController
     protected function _people()
     {
         $people = new StdClass();
+        $groups = Group::getMyGroupsId($this->_user->id);
 
-        $people->students = GroupMember::whereIn('group_id', Group::getMyGroupsId($this->_user->id))
+        if(empty($groups)) return false;
+
+        $people->students = GroupMember::whereIn('group_id', $groups)
             ->where('group_members.group_member_id', '!=', $this->_user->id)
             ->where('users.account_type', '=', 2)
             ->leftJoin('users', 'group_members.group_member_id', '=', 'users.id')

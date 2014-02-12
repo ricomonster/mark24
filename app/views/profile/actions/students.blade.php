@@ -82,10 +82,10 @@
             <div class="page-header">
                 <h3>Students</h3>
             </div>
-            @if($students->isEmpty())
+            @if(empty($students))
                 <p>No students</p>
             @endif
-            @if(!$students->isEmpty())
+            @if(!empty($students))
             <ul class="student-list-stream">
                 @foreach($students as $student)
                 <li>
