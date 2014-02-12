@@ -7,6 +7,19 @@ Profile
 @section('internalCss')
 <link href="/assets/css/site/profile.style.css" rel="stylesheet">
 <style>
+.profile-main-wrapper .well { padding-top: 0; }
+.profile-main-wrapper .profile-content-titles { font-size: 14px; font-weight: bold; }
+
+.people-story-wrapper .bar { border-top: 4px solid #76a7fa; margin: 0 -19px; }
+.profile-story-wrapper .bar { border-top: 4px solid #e46f61; margin: 0 -19px; }
+.profile-education-wrapper .bar { border-top: 4px solid #fbcb43; margin: 0 -19px; }
+.profile-places-wrapper .bar { border-top: 4px solid #bc5679; margin: 0 -19px; }
+
+.profile-story-wrapper .tagline-story { margin-bottom: 10px; }
+.profile-places-wrapper .current-place,
+.profile-places-wrapper .hometown-place { margin-bottom: 10px; }
+</style>
+<style>
 
 </style>
 @stop
@@ -82,9 +95,76 @@ Profile
         </div>
     </div>
 
-    <div class="col-md-9">
-        <div class="well">
+    <div class="col-md-9 profile-main-wrapper">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="well people-story-wrapper">
+                    <div class="bar"></div>
+                    <h3>People</h3>
+                    <div class="teacher-people">
+                        <div class="profile-content-titles">Teachers</div>
+                        <div class="content"></div>
+                    </div>
+                    <div class="student-people">
+                        <div class="profile-content-titles">Students</div>
+                        <div class="content"></div>
+                    </div>
+                </div>
 
+                <div class="well profile-education-wrapper">
+                    <div class="bar"></div>
+                    <h3>Education</h3>
+                </div>
+            </div>
+            <div class="col-md-6">
+                @if(!empty($user->tagline) || !empty($user->description))
+                <div class="well profile-story-wrapper">
+                    <div class="bar"></div>
+                    <h3>Story</h3>
+                    @if(!empty($user->tagline))
+                    <div class="tagline-story">
+                        <div class="profile-content-titles">Tagline</div>
+                        <div class="content">
+                            {{ $user->tagline }}
+                        </div>
+                    </div>
+                    @endif
+                    @if(!empty($user->description))
+                    <div class="description-story">
+                        <div class="profile-content-titles">Description</div>
+                        <div class="content">
+                            {{ $user->description }}
+                        </div>
+                    </div>
+                    @endif
+                </div>
+                @endif
+
+                @if(!empty($user->current_place) || !empty($user->hometown) || !empty($user->country))
+                <div class="well profile-places-wrapper">
+                    <div class="bar"></div>
+                    <h3>Places</h3>
+                    @if(!empty($user->current_place))
+                    <div class="current-place">
+                        <div class="profile-content-titles">Currently</div>
+                        <div class="content">{{ $user->current_place }}</div>
+                    </div>
+                    @endif
+                    @if(!empty($user->hometown))
+                    <div class="hometown-place">
+                        <div class="profile-content-titles">Hometown</div>
+                        <div class="content">{{ $user->hometown }}</div>
+                    </div>
+                    @endif
+                    @if(!empty($user->country))
+                    <div class="country-place">
+                        <div class="profile-content-titles">Country</div>
+                        <div class="content">{{ $user->country }}</div>
+                    </div>
+                    @endif
+                </div>
+                @endif
+            </div>
         </div>
     </div>
 </div>

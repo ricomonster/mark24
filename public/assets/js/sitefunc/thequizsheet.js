@@ -62,7 +62,7 @@ var TheQuizSheet = {
             }
 
             self.config.messageHolder.hide();
-        })
+        });
     },
 
     // starts the quiz
@@ -95,8 +95,8 @@ var TheQuizSheet = {
             self.loadQuestions();
 
             // start quiz
-            // self.quizTimer();
-        })
+            self.quizTimer();
+        });
 
         e.preventDefault();
     },
@@ -184,7 +184,7 @@ var TheQuizSheet = {
                     short_answer    : $this.val()
                 }
             }).done(function(response) {
-                self.config.messageHolder.hide()
+                self.config.messageHolder.hide();
             });
         }
     },
@@ -306,7 +306,16 @@ var TheQuizSheet = {
     submitQuiz : function(e)
     {
         var self = TheQuizSheet;
+        var answer = false;
         window.onbeforeunload = null;
+        // check if there is still time remaining
+        if(self.config.activeTimer) {
+            // confirm
+            answer = confirm("There is still time remaining. Do you want to submit the quiz?");
+        }
+
+        if(!answer) return false;
+
         self.config.messageHolder.show().find('span').text('Loading...');
 
         $.ajax({
@@ -323,7 +332,7 @@ var TheQuizSheet = {
         }).done(function(response) {
             // redirect page
             window.location.href = response.lz;
-        })
+        });
 
         e.preventDefault();
     },
@@ -344,7 +353,7 @@ var TheQuizSheet = {
             // load the question
             self.config.questionStream.append(response);
             self.config.messageHolder.hide();
-        })
+        });
     },
 
     // sets up the time
@@ -395,7 +404,7 @@ var TheQuizSheet = {
 
         }, 10000);
     }
-}
+};
 
 TheQuizSheet.init({
     quizTakerId : 0,
@@ -421,4 +430,4 @@ TheQuizSheet.init({
     nextButton : $('.show-next'),
     previousButton : $('.show-previous'),
     messageHolder : $('.message-holder')
-})
+});

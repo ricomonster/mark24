@@ -145,8 +145,10 @@ Route::get('ajax/search', 'AjaxSearchController@search');
 Route::post('ajax/users/upload-photo', 'AjaxUsersController@postUploadPhoto');
 Route::post('ajax/users/validate-student', 'AjaxUsersController@validateStudentDetails');
 Route::post('ajax/users/validate-teacher', 'AjaxUsersController@validateTeacherDetails');
+Route::post('ajax/users/update-story', 'AjaxUsersController@updateUserStory');
+Route::post('ajax/users/update-places', 'AjaxUsersController@updateUserPlaces');
 
-Route::put('ajax/users/update-personal-info', 'AjaxUsersController@putUserInfo');
+Route::put('ajax/users/update-personal-info', 'AjaxUsersController@updateUserDetails');
 
 // Assignment Manager Routes
 Route::get('assignment-manager/{assignmentId}/{postId}', 'AssignmentManagerController@index');
@@ -219,7 +221,8 @@ Route::get('quiz-sheet/{quizId}/{postId}', 'QuizSheetController@index');
 
 // Setting Routes
 Route::get('settings', 'SettingsController@getIndex');
-Route::get('settings/password', 'SettingsController@getPasswordPage');
+Route::get('settings/profile', 'SettingsController@getProfile');
+// Route::get('settings/password', 'SettingsController@getPasswordPage');
 
 Route::post('ajax/settings/change-password', 'SettingsController@changePassword');
 Route::post('ajax/settings/predefined-avatar', 'SettingsController@predefinedAvatar');

@@ -4,7 +4,7 @@
     <ul class="nav nav-tabs" id="post_creator_options">
         <li class="<?php echo (isset($quiz)) ? null : 'active'; ?>"><a href="#note"><i class="fa fa-edit"></i> <span>Note</span></a></li>
         <li><a href="#alert"><i class="fa fa-exclamation-triangle"></i> <span>Alert</span></a></li>
-        <li><a href="#assignment"><i class="fa fa-check-circle"></i> <span>Assigment</span></a></li>
+        <li><a href="#assignment"><i class="fa fa-check-circle"></i> <span>Exercises</span></a></li>
         <li class="<?php echo (isset($quiz)) ? 'active' : null; ?>"><a href="#quiz"><i class="fa fa-question-circle"></i> <span>Quiz</span></a></li>
     </ul>
     @endif
@@ -128,9 +128,9 @@
                     <div class="form-group">
                         <input type="text" name="assignment-title" id="assignment_title"
                         class="form-control assignment-title pull-left"
-                        placeholder="Assignment title">
+                        placeholder="Exercise title">
                     </div>
-                    <a href="#" class="load-assignment btn btn-default">Load Assignment</a>
+                    <a href="#" class="load-assignment btn btn-default">Load Exercise</a>
                     <div class="input-group">
                         <input type="text" name="due-date" class="form-control assignment-due-date pull-left"
                         placeholder="due date" id="assignment_due_date">
@@ -144,12 +144,12 @@
                 <div class="postcreator-hidden">
                     <div class="form-group">
                         <input type="text" name="assignment-description" class="form-control"
-                        placeholder="Describe the assignment" id="assignment_description">
+                        placeholder="Describe the exercise" id="assignment_description">
                     </div>
                     <div class="checkbox">
                         <label>
                             <input type="checkbox" name="assignment-lock" class="assignment-lock"
-                            value="1" id="assignment_lock"> Lock this assignment after its due date
+                            value="1" id="assignment_lock"> Lock this exercise after its due date
                         </label>
                     </div>
                     <div class="form-group">

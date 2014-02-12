@@ -6,15 +6,20 @@ Settings
 
 @section('internalCss')
 <link rel="stylesheet" type="text/css" href="/assets/css/site/settings.style.css">
+<style>
+.account-details-wrapper { border-bottom: none; margin-bottom: 0; }
+.change-password-wrapper form .form-group .alert { display: none; padding: 8px 13px; }
+</style>
 @stop
 
 @section('content')
 <div class="row">
     <div class="settings-nav-wrapper col-md-3">
         <ul class="nav nav-stacked nav-pills">
-            <li class="active"><a href="/settings">Account</a></li>
-            <li><a href="/settings/password">Password</a></li>
-            <li><a href="/settings/privacy">Privacy</a></li>
+            <li class="active"><a href="/settings">Account Settings</a></li>
+            <li><a href="/settings/profile">Profile Settings</a></li>
+            <!-- <li><a href="/settings/password">Password</a></li> -->
+            <!-- <li><a href="/settings/privacy">Privacy</a></li> -->
         </ul>
     </div>
     <div class="col-md-9">
@@ -58,8 +63,8 @@ Settings
             <div class="clearfix"></div>
         </div>
 
-        <div class="personal-information-wrapper well">
-            <h3>Personal Information</h3>
+        <div class="account-details-wrapper well">
+            <h3>Account Details</h3>
             {{ Form::open(array('url'=>'ajax/users/update-personal-info', 'method'=>'put', 'class'=>'personal-information-form')) }}
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -68,60 +73,38 @@ Settings
                     value="{{ Auth::user()->email }}">
                 </div>
 
-                @if(Auth::user()->account_type == 1)
-                <div class="row">
-                    <div class="form-group col-md-2">
-                        <label for="salutation">Title</label>
-                        <select name="salutation" class="form-control">
-                            <option value="Mr." <?php echo (Auth::user()->salutation == 'Mr.') ? 'selected' : null; ?>>Mr.</option>
-                            <option value="Mrs." <?php echo (Auth::user()->salutation == 'Mrs.') ? 'selected' : null; ?>>Mrs.</option>
-                            <option value="Ms." <?php echo (Auth::user()->salutation == 'Ms.') ? 'selected' : null; ?>>Ms.</option>
-                            <option value="Dr." <?php echo (Auth::user()->salutation == 'Dr.') ? 'selected' : null; ?>>Dr.</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group col-md-5">
-                        <label for="firstname">First Name</label>
-                        <input type="text" name="firstname" class="form-control"
-                        value="{{ Auth::user()->firstname }}">
-                    </div>
-
-                    <div class="form-group col-md-5">
-                        <label for="lastname">Last Name</label>
-                        <input type="text" name="lastname" class="form-control"
-                        value="{{ Auth::user()->lastname }}">
-                    </div>
-                </div>
-                @endif
-
-                @if(Auth::user()->account_type == 2)
-                <div class="form-group">
-                    <label for="firstname">First Name</label>
-                    <input type="text" name="firstname" class="form-control"
-                    value="{{ Auth::user()->firstname }}">
-                </div>
-
-                <div class="form-group">
-                    <label for="lastname">Last Name</label>
-                    <input type="text" name="lastname" class="form-control"
-                    value="{{ Auth::user()->lastname }}">
-                </div>
-                @endif
-
-                <div class="form-group">
-                    <label for="country">Country</label>
-                    <select name="country" class="form-control">
-                        <option value="" selected>-- Select Country --</option>
-                        @foreach($countries as $country)
-                        <option value="{{ $country }}"
-                        {{ (Auth::user()->country == $country) ?
-                        'selected' : null; }}>{{ $country }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
                 <button type="submit" id="submit_personal_info" class="btn btn-primary">
                     Save Personal Info
+                </button>
+            {{ Form::close() }}
+        </div>
+
+        <div class="change-password-wrapper well">
+            <h3>Password</h3>
+            {{ Form::open(array('url'=>'ajax/users/change-password', 'id' => 'change_password_form')) }}
+                <div class="form-group">
+                    <label class="current-password">Current Password</label>
+                    <div class="alert"></div>
+                    <input type="password" name="current-password"
+                    id="current_password" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="new-password">New Password</label>
+                    <div class="alert"></div>
+                    <input type="password" name="new-password"
+                    id="new_password" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="confirm-new-password">Confirm New Password</label>
+                    <div class="alert"></div>
+                    <input type="password" name="confirm-new-password"
+                    id="confirm_new_password" class="form-control">
+                </div>
+
+                <button type="submit" id="submit_password_change" class="btn btn-primary">
+                    Change Password
                 </button>
             {{ Form::close() }}
         </div>
@@ -133,6 +116,8 @@ Settings
 <script type="text/javascript" src="/assets/js/plugins/jquery.form.min.js"></script>
 <script>
 (function($) {
+    var error = 0;
+
     $('#avatar_file').on('change', function() {
 
         $('.message-holder').show().find('span').text('Saving...');
@@ -157,42 +142,6 @@ Settings
                 $('.message-holder').hide();
             }
         }).submit();
-    });
-
-    $('#submit_personal_info').on('click', function(e) {
-        var $this = $(this);
-
-        $this.attr('disabled');
-        $('.message-holder').show().find('span').text('Saving...');
-
-        $.ajax({
-            type : 'put',
-            data : $('.personal-information-form').serialize(),
-            url : $('.personal-information-form').attr('action'),
-            dataType : 'json'
-        }).done(function(response) {
-            if(response.error) {
-                $('.message-holder').show().find('span').text('An error occured...');
-                if(response.field == 'email') {
-                    $this.removeAttr('disabled');
-
-                    $('#email').parent().addClass('has-error').find('.help-block')
-                        .text(response.message);
-                }
-            } else {
-                $this.removeAttr('disabled');
-                $('.message-holder').show().find('span')
-                    .text('You have successfully updated your profile');
-                $('.personal-information-form .form-group').removeClass('has-error')
-                    .find('.help-block').hide();
-            }
-
-            setTimeout(function() {
-                $('.message-holder').hide();
-            }, 5000);
-        })
-
-        e.preventDefault();
     });
 
     // predefined avatar
@@ -227,7 +176,88 @@ Settings
         });
 
         e.preventDefault();
-    })
+    });
+
+    $('#submit_password_change').on('click', function(e) {
+        var $this = $(this);
+        var currentPassword     = $('#current_password');
+        var newPassword         = $('#new_password');
+        var confirmNewPassword  = $('#confirm_new_password');
+
+        $('.message-holder').show().find('span').text('Saving...');
+
+        $.ajax({
+            type        : 'post',
+            url         : '/ajax/settings/change-password',
+            data        : $('#change_password_form').serialize(),
+            dataType    : 'json',
+            async       : false
+        }).done(function(response) {
+            // there are errors
+            if(response.error) {
+                // show the error messages
+                if(response.messages.current_password) {
+                    currentPassword.parent().addClass('has-error');
+                    currentPassword.siblings('.alert').show()
+                        .addClass('alert-danger').text(response.messages.current_password);
+                }
+
+                if(!response.messages.current_password) {
+                    currentPassword.parent().removeClass('has-error');
+                    currentPassword.siblings('.alert').hide();
+                }
+
+                if(response.messages.new_password) {
+                    newPassword.parent().addClass('has-error');
+                    newPassword.siblings('.alert').show()
+                        .addClass('alert-danger').text(response.messages.new_password);
+                }
+
+                if(!response.messages.new_password) {
+                    newPassword.parent().removeClass('has-error');
+                    newPassword.siblings('.alert').hide();
+                }
+
+                if(response.messages.confirm_password) {
+                    confirmNewPassword.parent().addClass('has-error');
+                    confirmNewPassword.siblings('.alert').show()
+                        .addClass('alert-danger').text(response.messages.confirm_password);
+                }
+
+                if(!response.messages.confirm_password) {
+                    confirmNewPassword.parent().removeClass('has-error');
+                    confirmNewPassword.siblings('.alert').hide();
+                }
+
+                $('.message-holder').show().find('span').text('There are errors. Please fix it.');
+                setInterval(function() {
+                    $('.message-holder').fadeOut();
+                }, 3000);
+            }
+
+            // no errors
+            if(!response.error) {
+                // hide the error
+                currentPassword.parent().removeClass('has-error');
+                currentPassword.siblings('.alert').hide();
+
+                newPassword.parent().removeClass('has-error');
+                newPassword.siblings('.alert').hide();
+
+                confirmNewPassword.parent().removeClass('has-error');
+                confirmNewPassword.siblings('.alert').hide();
+
+                $('#change_password_form')[0].reset();
+                $('.message-holder').show().find('span').text('Password successfully changed.');
+
+                setInterval(function() {
+                    $('.message-holder').fadeOut();
+                }, 3000);
+            }
+        });
+
+        e.preventDefault();
+    });
 })(jQuery);
 </script>
 @stop

@@ -1,6 +1,6 @@
 /* Fonts
 ---------------------------------------------------------------*/
-@import url(http://fonts.googleapis.com/css?family=Droid+Sans);
+@import url(http://fonts.googleapis.com/css?family=Roboto);
 
 /* Global
 ---------------------------------------------------------------*/
@@ -9,11 +9,11 @@ body {
     background-attachment:fixed;
     background-image:url('/assets/images/maze.png');
     background-repeat:repeat;
-    font-family: 'Droid Sans';
+    font-family: 'Roboto';
     padding: 70px 0;
 }
 
-h1, h2, h3, h4, h5, h6 { font-family: 'Droid Sans'; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Roboto'; }
 
 .navbar-header .navbar-brand {
     background: url('/assets/images/logo.png') no-repeat center top;

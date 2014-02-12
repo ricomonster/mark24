@@ -8,7 +8,12 @@ class SettingsController extends BaseController {
     }
 
     public function getIndex() {
-        return View::make('settings.index')
+        return View::make('settings.index');
+    }
+
+    public function getProfile()
+    {
+        return View::make('settings.profile')
             ->with('countries', $this->countries());
     }
 

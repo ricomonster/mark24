@@ -691,7 +691,7 @@ var QuizCreator = {
                 // highlight textarera
                 $(this).parent().parent().removeClass('option-error');
                 // highlight the question list number
-                if(questionPrompt.val() != '' && questionPrompt.val().length != 0) {
+                if(questionPrompt.val() != '') {
                     $('.question-list-item[data-question-id="'+questionId+'"]')
                         .parent().removeClass('has-error');
                 }
@@ -719,7 +719,7 @@ var QuizCreator = {
                 if(!response.error) {
                     window.location.href = response.lz;
                 }
-            })
+            });
 
             return false;
         }
@@ -760,7 +760,7 @@ var QuizCreator = {
 
             // hide message holder
             self.config.messageHolder.hide();
-        })
+        });
     },
 
     // ONE TIME FUNCTIONS
@@ -775,7 +775,7 @@ var QuizCreator = {
         }).done(function(response) {
             // load the question lists
             self.config.itemListHolder.append(response);
-        })
+        });
     },
 
     loadQuestions : function() {
@@ -800,9 +800,9 @@ var QuizCreator = {
 
             // hide message holder
             self.config.messageHolder.hide();
-        })
+        });
     }
-}
+};
 
 QuizCreator.init({
     // get all the elements we need!

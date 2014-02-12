@@ -77,7 +77,7 @@ class AjaxUsersController extends BaseController {
         return Response::json($return);
     }
 
-    public function putUserInfo() {
+    public function updateUserAccountDetails() {
         if(Request::ajax()) {
             $email = Input::get('email');
             // check if email is changed
@@ -95,18 +95,59 @@ class AjaxUsersController extends BaseController {
             }
 
             // update user info in database
+            $updateUser = User::find(Auth::user()->id);
+            $updateUser->email = Input::get('email');
+            $updateUser->save();
+
+            $return['error'] = false;
+
+            return Response::json($return);
+        }
+    }
+
+    public function updateUserDetails()
+    {
+        if(Request::ajax()) {
             $updateUser                 = User::find(Auth::user()->id);
             $updateUser->name           = ucwords(Input::get('firstname')).' '.ucwords(Input::get('lastname'));
             $updateUser->salutation     = (Auth::user()->account_type == 1) ?
                 Input::get('salutation') : null;
             $updateUser->firstname      = ucwords(Input::get('firstname'));
             $updateUser->lastname       = ucwords(Input::get('lastname'));
-            $updateUser->country        = Input::get('country');
             $updateUser->save();
 
             $return['error'] = false;
 
             return Response::json($return);
+        }
+    }
+
+    public function updateUserStory()
+    {
+        if(Request::ajax()) {
+            $input = Input::all();
+            // update
+            $user               = User::find(Auth::user()->id);
+            $user->tagline      = $input['tagline'];
+            $user->description  = $input['description'];
+            $user->save();
+
+            return Response::json(array('error' => false));
+        }
+    }
+
+    public function updateUserPlaces()
+    {
+        if(Request::ajax()) {
+            $input = Input::all();
+            // update
+            $user                   = User::find(Auth::user()->id);
+            $user->country          = $input['country'];
+            $user->hometown         = ucwords($input['hometown']);
+            $user->current_place    = ucwords($input['current']);
+            $user->save();
+
+            return Response::json(array('error' => false));
         }
     }
 

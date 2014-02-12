@@ -19,8 +19,9 @@ Settings - Password
     <div class="settings-nav-wrapper col-md-3">
         <ul class="nav nav-stacked nav-pills">
             <li><a href="/settings">Account</a></li>
+            <li><a href="/settings/profile">Profile</a></li>
             <li class="active"><a href="/settings/password">Password</a></li>
-            <li><a href="/settings/privacy">Privacy</a></li>
+            <!-- <li><a href="/settings/privacy">Privacy</a></li> -->
         </ul>
     </div>
     <div class="col-md-9">
