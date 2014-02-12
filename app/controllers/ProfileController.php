@@ -28,7 +28,8 @@ class ProfileController extends BaseController
         // parse the template
         return View::make('profile.index')
             ->with('user', $this->_user)
-            ->with('details', $this->_details());
+            ->with('details', $this->_details())
+            ->with('people', $this->_people());
     }
 
     public function showActions($user, $action)
@@ -171,5 +172,28 @@ class ProfileController extends BaseController
         return View::make('profile.actions.activity')
             ->with('user', $this->_user)
             ->with('details', $this->_details());
+    }
+
+    protected function _people()
+    {
+        $people = new StdClass();
+
+        $people->students = GroupMember::whereIn('group_id', Group::getMyGroupsId($this->_user->id))
+            ->where('group_members.group_member_id', '!=', $this->_user->id)
+            ->where('users.account_type', '=', 2)
+            ->leftJoin('users', 'group_members.group_member_id', '=', 'users.id')
+            ->groupBy('group_member_id')
+            ->get();
+
+        if($this->_user->account_type == 2) {
+            $people->teachers = GroupMember::whereIn('group_id', Group::getMyGroupsId($this->_user->id))
+                ->where('group_members.group_member_id', '!=', $this->_user->id)
+                ->where('users.account_type', '=', 1)
+                ->leftJoin('users', 'group_members.group_member_id', '=', 'users.id')
+                ->groupBy('group_member_id')
+                ->get();
+        }
+
+        return $people;
     }
 }

@@ -23,6 +23,9 @@
             @endif
             {{ $user->name }}
         </h3>
+        @if(!empty($user->tagline))
+        <div class="profile-user-tagline"><em>"{{ $user->tagline }}"</em></div>
+        @endif
         <div class="etc-details">
             <span class="profile-user-type">
             @if($user->account_type == 1) Teacher @endif

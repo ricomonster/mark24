@@ -2,6 +2,7 @@
 .profile-header .profile-user-details .profile-user-fullname { margin: 0 0 10px; }
 .profile-header .profile-user-details .profile-user-type,
 .profile-header .profile-user-details .profile-user-country { color: #839096; }
+.profile-header .profile-user-details  .profile-user-tagline em { color: #839096; font-size: 16px; word-wrap: break-word; }
 .profile-header .profile-user-details .divider { padding: 0 5px; }
 .profile-header .profile-user-details hr { margin: 10px 0; }
 .profile-header .profile-user-details .user-stats { list-style: none; margin: 0; padding: 0; }

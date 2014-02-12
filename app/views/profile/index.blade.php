@@ -18,6 +18,17 @@ Profile
 .profile-story-wrapper .tagline-story { margin-bottom: 10px; }
 .profile-places-wrapper .current-place,
 .profile-places-wrapper .hometown-place { margin-bottom: 10px; }
+
+.people-story-wrapper .people-list-stream { list-style: none; margin: 0; padding: 0; }
+.people-story-wrapper .people-list-stream li {
+    display: inline-block;
+    margin-top: 5px;
+    vertical-align: top;
+    width: 60px;
+    word-wrap: break-word;
+}
+
+.people-story-wrapper .teacher-people { margin-bottom: 10px; }
 </style>
 <style>
 
@@ -37,6 +48,9 @@ Profile
             @endif
             {{ $user->name }}
         </h3>
+        @if(!empty($user->tagline))
+        <div class="profile-user-tagline"><em>"{{ $user->tagline }}"</em></div>
+        @endif
         <div class="etc-details">
             <span class="profile-user-type">
             @if($user->account_type == 1) Teacher @endif
@@ -101,17 +115,41 @@ Profile
                 <div class="well people-story-wrapper">
                     <div class="bar"></div>
                     <h3>People</h3>
+                    @if($user->account_type == 2)
                     <div class="teacher-people">
                         <div class="profile-content-titles">Teachers</div>
-                        <div class="content"></div>
+                        <div class="content">
+                            <ul class="people-list-stream">
+                                @foreach($people->teachers as $teacher)
+                                <li>
+                                    <a href="/profile/{{ $teacher->username }}">
+                                        {{ Helper::avatar(50, "normal", "img-circle", $teacher->id) }}
+                                    </a>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
+                    @endif
                     <div class="student-people">
-                        <div class="profile-content-titles">Students</div>
-                        <div class="content"></div>
+                        <div class="profile-content-titles">
+                            {{ ($user->account_type == 1) ? 'Students' : 'Classmates' }}
+                        </div>
+                        <div class="content">
+                            <ul class="people-list-stream">
+                                @foreach($people->students as $student)
+                                <li>
+                                    <a href="/profile/{{ $student->username }}">
+                                        {{ Helper::avatar(50, "normal", "img-circle", $student->id) }}
+                                    </a>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
-                <div class="well profile-education-wrapper">
+                <div class="well profile-education-wrapper" style="display: none;">
                     <div class="bar"></div>
                     <h3>Education</h3>
                 </div>
