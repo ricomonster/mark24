@@ -220,7 +220,7 @@ The Forum - {{ $thread->title }}
                         <div class="thread-holder-title">{{{ $thread->title }}}</div>
                         <span class="thread-holder-timestamp text-muted">{{ $timestamp }}</span>
                         <div class="thread-holder-description">
-                            <?php echo nl2br($thread->description); ?>
+                            <?php echo nl2br($thread->forum_description); ?>
                         </div>
                     </div>
                     @if($thread->user_id == Auth::user()->id)

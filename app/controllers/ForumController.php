@@ -164,7 +164,7 @@ class ForumController extends BaseController
             $newThread->user_id             = Auth::user()->id;
             $newThread->category_id         = Input::get('thread-category');
             $newThread->title               = Input::get('thread-title');
-            $newThread->description         = Input::get('thread-description');
+            $newThread->forum_description   = Input::get('thread-description');
             $newThread->seo_url             = $seoUrl;
             $newThread->sticky_post         = (empty($stickyPost)) ? 'FALSE' : 'TRUE';
             $newThread->thread_source       = (isset($groupId)) ? 1 : 0;

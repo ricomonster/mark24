@@ -112,7 +112,7 @@ Profile
     <div class="col-md-9 profile-main-wrapper">
         <div class="row">
             <div class="col-md-6">
-                @if(($user->account_type == 1 && !empty($people)))
+                @if(!empty($people))
                 <div class="well people-story-wrapper">
                     <div class="bar"></div>
                     <h3>People</h3>
