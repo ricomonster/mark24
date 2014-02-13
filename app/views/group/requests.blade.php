@@ -74,7 +74,7 @@
                         <i class="group-control-icon fa fa-comment"></i> Posts
                     </a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="/groups/{{ $groupDetails->group_id }}/members">
                         <i class="fa fa-chevron-right pull-right"></i>
                         <i class="group-control-icon fa fa-user"></i> Members
@@ -89,7 +89,19 @@
                         <i class="group-control-icon fa fa-comments-o"></i> Group Forums
                     </a>
                 </li>
+                <li>
+                    <a href="/groups/{{ $groupDetails->group_id }}/the-library">
+                        <i class="fa fa-chevron-right pull-right"></i>
+                        <i class="group-control-icon fa fa-archive"></i> Group Library
+                    </a>
+                </li>
                 @if(Auth::user()->account_type == 1)
+                <li class="active">
+                    <a href="/groups/{{ $groupDetails->group_id }}/join-requests">
+                        <i class="group-control-icon fa fa-plus"></i> Join Requests
+                        <span class="label label-danger pull-right">5</span>
+                    </a>
+                </li>
                 <li>
                     @if(empty($ongoingGroupChat))
                     <a href="#" class="show-start-chat"
@@ -103,6 +115,12 @@
                         <i class="fa fa-exclamation-circle ongoing-chat pull-right"></i>
                     </a>
                     @endif
+                </li>
+                <li>
+                    <a href="/groups/{{ $groupDetails->group_id }}/chat-archives">
+                        <i class="fa fa-chevron-right pull-right"></i>
+                        <i class="fa fa-list-alt group-control-icon"></i> Chat Archives
+                    </a>
                 </li>
                 @endif
                 @if(Auth::user()->account_type == 2 && !empty($ongoingGroupChat))

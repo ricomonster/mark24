@@ -7,6 +7,7 @@ class GroupsController extends BaseController {
     }
 
     public function showIndex($groupId) {
+        $this->checkGroupMember($groupId);
         // check first if groupId is valid
         $group = Group::find($groupId);
         // check if the current user is a member of the group
@@ -42,6 +43,7 @@ class GroupsController extends BaseController {
     }
 
     public function showMembers($groupId) {
+        $this->checkGroupMember($groupId);
         // check first if groupId is valid
         $group = Group::find($groupId);
         // check if the current user is a member of the group
@@ -73,6 +75,7 @@ class GroupsController extends BaseController {
 
     public function forums($groupId)
     {
+        $this->checkGroupMember($groupId);
         // get group details
         // check first if groupId is valid
         $group = Group::find($groupId);
@@ -198,6 +201,7 @@ class GroupsController extends BaseController {
 
     public function showAddThread($groupId)
     {
+        $this->checkGroupMember($groupId);
         // get group details
         // check first if groupId is valid
         $group = Group::find($groupId);
@@ -224,6 +228,7 @@ class GroupsController extends BaseController {
 
     public function showThread($groupId, $slug, $id)
     {
+        $this->checkGroupMember($groupId);
         $page = Input::get('page');
         // get group details
         // check first if groupId is valid
@@ -318,7 +323,8 @@ class GroupsController extends BaseController {
 
     public function chat($groupId, $conversationId)
     {
-         // check first if groupId is valid
+        $this->checkGroupMember($groupId);
+        // check first if groupId is valid
         $group = Group::find($groupId);
         // check if the current user is a member of the group
         $member = GroupMember::where('group_member_id', '=', Auth::user()->id)
@@ -353,6 +359,7 @@ class GroupsController extends BaseController {
 
     public function joinRequests($groupId)
     {
+        $this->checkGroupMember($groupId);
         // get group details
         // check first if groupId is valid
         $group = Group::find($groupId);
@@ -383,5 +390,36 @@ class GroupsController extends BaseController {
             ->with('groups', $groups)
             ->with('members', $wannaBeMembers)
             ->with('memberCount', $groupMembers);
+    }
+
+    protected function chatArchives($groupId)
+    {
+        $this->checkGroupMember($groupId);
+        // get group details
+        // check first if groupId is valid
+        $group = Group::find($groupId);
+        // check if the current user is a member of the group
+        $member = GroupMember::where('group_member_id', '=', Auth::user()->id)
+            ->where('group_id', '=', $groupId)
+            ->first();
+
+        if(!is_numeric($groupId) || empty($group) || empty($member) || Auth::user()->account_type != 1) {
+            return View::make('templates.fourohfour');
+        }
+
+        // get current user groups
+        $groups = Group::getMyGroups();
+        // get number of group members
+        $groupMembers = GroupMember::getGroupMembers($group->group_id)
+            ->count();
+    }
+
+    protected function checkGroupMember($groupId)
+    {
+        $isMember = GroupMember::where('group_member_id', '=', Auth::user()->id)
+            ->where('group_id', '=', $groupId)
+            ->first();
+
+        if(empty($isMember)) return View::make('templates.fourohfour');
     }
 }

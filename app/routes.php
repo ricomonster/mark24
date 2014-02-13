@@ -180,6 +180,7 @@ Route::get('groups/{groupId}/members', 'GroupsController@showMembers')->where('g
 Route::get('groups/{groupId}/chat/{conversationId}', 'GroupsController@chat')
     ->where('groupId', '[0-9]+');
 Route::get('groups/{groupId}/join-requests', 'GroupsController@joinRequests')->where('groupId', '[0-9]+');
+Route::get('groups/{groupId}/chat-archives', 'GroupsController@chatArchives')->where('groupId', '[0-9]+');
 
 // Group Forum Routes
 Route::get('groups/{groupId}/the-forum', 'GroupsController@forums');
