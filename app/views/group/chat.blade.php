@@ -93,7 +93,7 @@ data-conversation-id="{{ $conversation->conversation_id }}">
                     <a href="/groups/{{ $groupDetails->group_id }}/members">
                         <i class="fa fa-chevron-right pull-right"></i>
                         <i class="group-control-icon fa fa-user"></i> Members
-                        <span class="label label-success pull-right">{{ $members->count() }} joined</span>
+                        <span class="label label-success pull-right">{{ $stats['member_count'] }} joined</span>
                     </a>
                 </li>
                 <li>
@@ -112,7 +112,7 @@ data-conversation-id="{{ $conversation->conversation_id }}">
                 <li>
                     <a href="/groups/{{ $groupDetails->group_id }}/join-requests">
                         <i class="group-control-icon fa fa-plus"></i> Join Requests
-                        <span class="label label-danger pull-right">5</span>
+                        <span class="label label-danger pull-right">{{ $stats['join_requests'] }}</span>
                     </a>
                 </li>
                 <li class="active dropdown">

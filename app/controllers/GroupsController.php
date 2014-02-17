@@ -24,10 +24,6 @@ class GroupsController extends BaseController {
         // get posts for the group
         $groupPosts = Post::getGroupPosts($groupId);
 
-        // get number of group members
-        $groupMembers = GroupMember::getGroupMembers($groupId)
-            ->count();
-
         // check if there's an ongoing group chat
         $ongoing = Conversation::where('group_id', '=', $group->group_id)
             ->where('status', '=', 'OPEN')
@@ -37,7 +33,7 @@ class GroupsController extends BaseController {
             ->with('groupDetails', $group)
             ->with('groups', $groups)
             ->with('posts', $groupPosts)
-            ->with('memberCount', $groupMembers)
+            ->with('stats', $this->groupStats($group->group_id))
             ->with('ongoingGroupChat', $ongoing)
             ->with('groupChats', Group::ongoingGroupChats());
     }
@@ -70,6 +66,7 @@ class GroupsController extends BaseController {
             ->with('groups', $groups)
             ->with('ownerDetails', $owner)
             ->with('ongoingGroupChat', $ongoing)
+            ->with('stats', $this->groupStats($group->group_id))
             ->with('members', $groupMembers);
     }
 
@@ -88,9 +85,6 @@ class GroupsController extends BaseController {
 
         // get current user groups
         $groups = Group::getMyGroups();
-        // get number of group members
-        $groupMembers = GroupMember::getGroupMembers($group->group_id)
-            ->count();
 
         $sort = Input::get('sort');
         // let's get the categories
@@ -196,7 +190,7 @@ class GroupsController extends BaseController {
             ->with('sort', $sort)
             ->with('group', $group)
             ->with('groupLists', $groups)
-            ->with('memberCount', $groupMembers);
+            ->with('stats', $this->groupStats($group->group_id));
     }
 
     public function showAddThread($groupId)
@@ -214,16 +208,14 @@ class GroupsController extends BaseController {
 
         // get current user groups
         $groups = Group::getMyGroups();
-        // get number of group members
-        $groupMembers = GroupMember::getGroupMembers($group->group_id)
-            ->count();
+
         // let's get the categories
         $categories = ForumCategory::all();
         return View::make('forums.addthread')
             ->with('categories', $categories)
             ->with('group', $group)
             ->with('groupLists', $groups)
-            ->with('memberCount', $groupMembers);
+            ->with('stats', $this->groupStats($group->group_id));
     }
 
     public function showThread($groupId, $slug, $id)
@@ -244,10 +236,6 @@ class GroupsController extends BaseController {
 
         // get current user groups
         $groups = Group::getMyGroups();
-        // get number of group members
-        $groupMembers = GroupMember::getGroupMembers($group->group_id)
-            ->count();
-
 
         // get the details of the thread
         $thread = ForumThread::where('seo_url', '=', $slug)
@@ -318,7 +306,7 @@ class GroupsController extends BaseController {
             ->with('page', $page)
             ->with('group', $group)
             ->with('groupLists', $groups)
-            ->with('memberCount', $groupMembers);
+            ->with('stats', $this->groupStats($group->group_id));
     }
 
     public function chat($groupId, $conversationId)
@@ -354,6 +342,7 @@ class GroupsController extends BaseController {
             ->with('groupDetails', $group)
             ->with('groups', $groups)
             ->with('members', $groupMembers)
+            ->with('stats', $this->groupStats($group->group_id))
             ->with('conversation', $conversation);
     }
 
@@ -374,9 +363,7 @@ class GroupsController extends BaseController {
 
         // get current user groups
         $groups = Group::getMyGroups();
-        // get number of group members
-        $groupMembers = GroupMember::getGroupMembers($group->group_id)
-            ->count();
+        
         // get lists of join requests
         $wannaBeMembers = Inquire::where('involved_id', '=', $group->group_id)
             ->where('type', '=', 'request_join_group')
@@ -389,7 +376,7 @@ class GroupsController extends BaseController {
             ->with('groupDetails', $group)
             ->with('groups', $groups)
             ->with('members', $wannaBeMembers)
-            ->with('memberCount', $groupMembers);
+            ->with('stats', $this->groupStats($group->group_id));
     }
 
     protected function chatArchives($groupId)
@@ -409,9 +396,6 @@ class GroupsController extends BaseController {
 
         // get current user groups
         $groups = Group::getMyGroups();
-        // get number of group members
-        $groupMembers = GroupMember::getGroupMembers($group->group_id)
-            ->count();
     }
 
     protected function checkGroupMember($groupId)
@@ -421,5 +405,25 @@ class GroupsController extends BaseController {
             ->first();
 
         if(empty($isMember)) return View::make('templates.fourohfour');
+    }
+    
+    protected function groupStats($groupId)
+    {
+        $stats = array();
+        // get the group details
+        $group = Group::find($groupId);
+        $stats['member_count'] = GroupMember::getGroupMembers($group->group_id)
+            ->count();
+        if(Auth::user()->account_type == 1) {
+            // get the counts of join requests
+            $stats['join_requests'] = Inquire::where('involved_id', '=', $group->group_id)
+                ->where('type', '=', 'request_join_group')
+                ->where('status', '=', 1)
+                ->orderBy('inquiry_id', 'DESC')
+                ->get()
+                ->count();    
+        }
+        
+        return $stats;
     }
 }
