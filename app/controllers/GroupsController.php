@@ -363,7 +363,7 @@ class GroupsController extends BaseController {
 
         // get current user groups
         $groups = Group::getMyGroups();
-        
+
         // get lists of join requests
         $wannaBeMembers = Inquire::where('involved_id', '=', $group->group_id)
             ->where('type', '=', 'request_join_group')
@@ -393,17 +393,25 @@ class GroupsController extends BaseController {
         if(!is_numeric($groupId) || empty($group) || empty($member) || Auth::user()->account_type != 1) {
             return View::make('templates.fourohfour');
         }
-        
+
         // get current user groups
         $groups = Group::getMyGroups();
         // get conversations
         $conversations = Conversation::where('group_id', '=', $group->group_id)
+            ->where('status', '=', 'CLOSED')
+            ->orderBy('conversation_id', 'DESC')
             ->get();
-        
+        // get the latest conversation
+        $latestConversation = Conversation::where('group_id', '=', $group->group_id)
+            ->where('status', '=', 'CLOSED')
+            ->orderBy('conversation_id', 'DESC')
+            ->first();
+
         return View::make('group.conversation')
             ->with('groupDetails', $group)
             ->with('groups', $groups)
             ->with('conversations', $conversations)
+            ->with('latestConversation', $latestConversation)
             ->with('stats', $this->groupStats($group->group_id));
     }
 
@@ -415,7 +423,7 @@ class GroupsController extends BaseController {
 
         if(empty($isMember)) return View::make('templates.fourohfour');
     }
-    
+
     protected function groupStats($groupId)
     {
         $stats = array();
@@ -430,9 +438,9 @@ class GroupsController extends BaseController {
                 ->where('status', '=', 1)
                 ->orderBy('inquiry_id', 'DESC')
                 ->get()
-                ->count();    
+                ->count();
         }
-        
+
         return $stats;
     }
 }

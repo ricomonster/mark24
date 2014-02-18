@@ -21,8 +21,17 @@
     padding: 10px 20px 0;
 }
 
+.chat-stream .chat-content { margin-bottom: 10px; }
+.chat-stream .chat-content .chat-details { margin-left: 60px; }
+.chat-stream .chat-content .chat-details .chat-user-details a { font-weight: bold; }
+
 .conversation-lists { padding: 0; }
 .conversation-lists .section-title-holder { background-color: #757f93; color: #ffffff; padding: 12px; }
+.conversation-lists .conversation-list-stream li.active a {
+    background-color: #f3f5f7;
+    border-radius: 0;
+    color: #2a6496;
+}
 </style>
 @stop
 
@@ -178,14 +187,18 @@
     <div class="col-md-6">
         <!-- Main Content -->
         <div class="chat-main-wrapper well">
+            @if(empty($latestConversation))
+            <div class="chat-archive-details"><h3>No conversations found.</h3></div>
+            @else
             <div class="chat-archive-details">
-                <h3>Conversation (date and time)</h3>
+                <h3>Conversation {{ $latestConversation->created_at }}</h3>
             </div>
             <div class="chat-archive-proper">
                 <div class="chat-archive-stream-holder">
                     <ul class="chat-stream"></ul>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 
@@ -195,9 +208,17 @@
                 <span>Conversations</span>
             </div>
             <ul class="nav nav-pills nav-stacked conversation-list-stream">
-                @foreach($conversations as $conversation)
-                <li><a href="#">Conversation {{ $conversation->created_at }}</a></li>
+                @if($conversations->isEmpty())
+                <li>No conversations found.</li>
+                @else
+                @foreach($conversations as $key => $conversation)
+                <li class="{{ ($key == 0) ? 'active' : null }}">
+                    <a href="#" class="get-conversations"
+                    data-conversation-id="{{ $conversation->conversation_id }}"
+                    data-group-id="{{ $group->group_id }}">Conversation {{ $conversation->created_at }}</a>
+                </li>
                 @endforeach
+                @endif
             </ul>
         </div>
     </div>
@@ -209,9 +230,50 @@
 <script src="/assets/js/sitefunc/groups.js"></script>
 <script>
 (function($) {
-    // on load, get the first child from the conversation list stream
-    // get the chats
-    // load to the template
+    var messageHolder = $('.message-holder');
+    messageHolder.show()
+        .find('span')
+        .text('Loading...');
+
+    $.ajax({
+        url : '/ajax/chat/last-conversation',
+        data : {
+            group_id : <?php echo $group->group_id; ?>
+        }
+    }).done(function(response) {
+        messageHolder.fadeOut();
+        if(response) {
+            $('.chat-stream').append(response);
+        }
+    });
+
+    $('.get-conversations').on('click', function(e) {
+        e.preventDefault();
+        var element = $(this);
+        var conversationId = element.attr('data-conversation-id');
+        var groupId = element.attr('data-group-id');
+
+        messageHolder.show()
+            .find('span')
+            .text('Loading...');
+        // unset actives
+        $('.get-conversations').parent().removeClass('active');
+
+        $.ajax({
+            url : '/ajax/chat/get-conversations',
+            data : {
+                conversation_id : conversationId,
+                group_id : groupId
+            }
+        }).done(function(response) {
+            if(response) {
+                element.parent().addClass('active');
+                messageHolder.fadeOut();
+                $('.chat-stream').empty().append(response);
+            }
+        });
+
+    });
 })(jQuery);
 </script>
 @stop

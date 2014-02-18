@@ -43,6 +43,8 @@ Route::get('ajax/chat/check-chat-details', 'AjaxChatController@chatDetails');
 Route::get('ajax/chat/fetch-messages', 'AjaxChatController@getMessages');
 Route::get('ajax/chat/check-online-users', 'AjaxChatController@checkUsersOnline');
 Route::get('ajax/chat/check-status', 'AjaxChatController@checkConversationStatus');
+Route::get('ajax/chat/last-conversation', 'AjaxChatController@getLatestConversation');
+Route::get('ajax/chat/get-conversations', 'AjaxChatController@getArchivedConversation');
 
 Route::post('ajax/chat/send-message', 'AjaxChatController@sendMessage');
 Route::post('ajax/chat/stop-group-chat', 'AjaxChatController@stopGroupChat');
