@@ -76,11 +76,13 @@ var QuizCreator = {
                 self.loadQuestionLists();
                 // load all the questions
                 self.loadQuestions();
+
+                self.config.buttonAssignQuiz
+                    .removeClass('btn-disabled')
+                    .removeAttr('disabled');
             }
 
             self.config.messageHolder.hide();
-            self.config.buttonAssignQuiz.removeClass('btn-disabled')
-                .removeAttr('disabled');
         });
     },
 
@@ -127,6 +129,8 @@ var QuizCreator = {
             self.config.questionCount   = 1;
 
             self.config.totalScoreHolder.text(self.config.quizScore);
+            // set the score
+            self.config.inputQuestionPoint.val(1);
             // load the question lists
             self.loadQuestionLists();
             // load the first question wrapper

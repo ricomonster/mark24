@@ -4,6 +4,7 @@ class AjaxUsersController extends BaseController {
 
     const ALLOWED_SIZE = 25000000;
 
+    protected $_user = null;
     protected $_errors = null;
 
     public function postUploadPhoto() {
@@ -238,7 +239,7 @@ class AjaxUsersController extends BaseController {
             $studentUser->save();
 
             // set the Auth to login the user
-            Auth::loginUsingId($studentUser->id);
+            // Auth::loginUsingId($studentUser->id);
 
             // create request
             $request = new Inquire;
@@ -247,13 +248,15 @@ class AjaxUsersController extends BaseController {
             $request->type = 'request_join_group';
             $request->save();
 
+            $this->_user = $studentUser;
+
             // send request to the owner of the group
             Notification::setup('request_join_group', array(
+                'sender_id' => $studentUser->id,
                 'involved_id' => $group->group_id));
-
             return Response::json(array(
                 'error' => false,
-                'lz'    => Request::root().'/home'));
+                'lz'    => Request::root().'/confirmation-message-sent'));
         }
 
         return Response::json(array(
@@ -336,15 +339,21 @@ class AjaxUsersController extends BaseController {
             // save to database
             $teacherUser->save();
             // set the Auth to login the user
-            Auth::loginUsingId($teacherUser->id);
+            // Auth::loginUsingId($teacherUser->id);
+            $this->_user = $teacherUser;
 
             return Response::json(array(
                 'error' => false,
-                'lz'    => Request::root().'/home'));
+                'lz'    => Request::root().'/confirmation-message-sent'));
         }
 
         return Response::json(array(
             'error'     => true,
             'messages'  => $this->_errors));
+    }
+
+    protected function sendMail()
+    {
+
     }
 }

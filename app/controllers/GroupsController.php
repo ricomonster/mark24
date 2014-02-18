@@ -393,9 +393,18 @@ class GroupsController extends BaseController {
         if(!is_numeric($groupId) || empty($group) || empty($member) || Auth::user()->account_type != 1) {
             return View::make('templates.fourohfour');
         }
-
+        
         // get current user groups
         $groups = Group::getMyGroups();
+        // get conversations
+        $conversations = Conversation::where('group_id', '=', $group->group_id)
+            ->get();
+        
+        return View::make('group.conversation')
+            ->with('groupDetails', $group)
+            ->with('groups', $groups)
+            ->with('conversations', $conversations)
+            ->with('stats', $this->groupStats($group->group_id));
     }
 
     protected function checkGroupMember($groupId)

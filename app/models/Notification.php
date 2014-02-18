@@ -288,12 +288,13 @@ class Notification extends Eloquent
                 break;
             case 'request_join_group' :
                 $involvedId = $settings['involved_id'];
+                $senderId = $settings['sender_id'];
                 // get the owner of the group
                 $group = Group::find($involvedId);
                 // create
                 $notification = new Notification;
                 $notification->receiver_id = $group->owner_id;
-                $notification->sender_id = Auth::user()->id;
+                $notification->sender_id = $senderId;
                 $notification->notification_type = 'request_join_group';
                 $notification->involved_id = $group->group_id;
                 $notification->notification_timestamp = $time;
@@ -303,7 +304,7 @@ class Notification extends Eloquent
             case 'accepted_join_group' :
                 $notification = new Notification;
                 $notification->receiver_id = $settings['user_id'];
-                $notification->sender_id = Auth::user()->id;
+                $notification->sender_id = $senderId;
                 $notification->notification_type = 'accepted_join_group';
                 $notification->involved_id = $settings['group_id'];
                 $notification->notification_timestamp = $time;
