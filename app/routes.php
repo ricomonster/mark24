@@ -21,11 +21,18 @@ Route::get('/', array('before' => 'logged-in', function()
 }));
 
 Route::get('test', function() {
-    // $data = array('test');
+    // $code = '1234';
+    // $email = 'riconess@gmail.com';
+    // $name = 'Rico Maglayon';
+    // $data = array('code' => $code, 'email' => $email);
+    // $user = array('email' => $email, 'name' => $name);
+
     // $message = 'testing';
-    // Mail::send('emails.test', $data, function($message) {
-       // $message->to('riconess@gmail.com', 'Test')->subject('Welcome to the Laravel 4 Auth App!');
+    // Mail::send('emails.confirmemail', $data, function($message) use ($user) {
+    //    $message->to($user['email'], $user['name'])->subject('Welcome to eLinet!');
     // });
+
+    // echo 'yes';
 });
 
 // AJAX Routes
@@ -157,6 +164,10 @@ Route::get('assignment-manager/{assignmentId}/{postId}', 'AssignmentManagerContr
 
 // Assignment Sheet Routes
 Route::get('assignment-sheet/{assignmentId}/{postId}', 'AssignmentSheetController@index');
+
+// Confirmation Routes
+Route::get('confirmation-message-sent', 'ConfirmationController@confirmMessageSuccessfull');
+Route::get('confirm', 'ConfirmationController@confirmedAccount');
 
 // Control Routes
 // Route::get('control', 'ControlController@index');

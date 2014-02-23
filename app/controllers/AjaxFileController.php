@@ -1,7 +1,12 @@
 <?php //-->
 
+ini_set('upload_max_filesize', '100M');
+ini_set('post_max_size', '100M');
+ini_set('max_input_time', 300);
+ini_set('max_execution_time', 300);
+
 class AjaxFileController extends BaseController
-{   
+{
     public function getView()
     {
         $view = Input::get('view');
@@ -39,6 +44,8 @@ class AjaxFileController extends BaseController
     {
         // prep some data
         $dropPoint = public_path().'/assets/thelibrary/'.sha1(Auth::user()->id);
+        print_r($_FILES);
+        exit;
 
         $file = Input::file('files');
 
@@ -46,16 +53,16 @@ class AjaxFileController extends BaseController
         $fileExtension  = $file->getClientOriginalExtension();
         $mime           = $file->getMimeType();
         $fileSize       = $file->getSize();
-        
+
         // check for the size of the file to uploaded
         // max size, 10 mb?
-        if((655360) < $fileSize) {
+        if((655360) > $fileSize) {
             return Response::json(array(
-                'error'     => true, 
-                'file_name' => $fileName, 
+                'error'     => true,
+                'file_name' => $fileName,
                 'message'   => 'File too large to upload.'));
         }
-        
+
         // upload file
         $file->move($dropPoint, $fileName);
 

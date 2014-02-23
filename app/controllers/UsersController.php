@@ -35,6 +35,12 @@ class UsersController extends BaseController {
                 return Redirect::to('control/choose-account-type');
             }
 
+            // if(Auth::user()->confirmed_account == 0) {
+            //     Auth::logout();
+            //     Session::flash('loginError', 'Please confirm your email.');
+            //     return Redirect::to('/');
+            // }
+
             return Redirect::to('home');
         }
 

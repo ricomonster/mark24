@@ -254,6 +254,8 @@ class AjaxUsersController extends BaseController {
             Notification::setup('request_join_group', array(
                 'sender_id' => $studentUser->id,
                 'involved_id' => $group->group_id));
+            // send mail
+            $this->sendMail();
             return Response::json(array(
                 'error' => false,
                 'lz'    => Request::root().'/confirmation-message-sent'));
@@ -329,7 +331,8 @@ class AjaxUsersController extends BaseController {
         if(empty($this->_errors)) {
             $teacherUser                = new User;
             $teacherUser->account_type  = 1;
-            $teacherUser->name          = ucwords(Input::get('teacher-firstname')).' '.ucwords(Input::get('teacher-lastname'));
+            $teacherUser->name          = ucwords(Input::get('teacher-firstname')).' '
+                .ucwords(Input::get('teacher-lastname'));
             $teacherUser->salutation    = Input::get('teacher-title');
             $teacherUser->firstname     = ucwords(Input::get('teacher-firstname'));
             $teacherUser->lastname      = ucwords(Input::get('teacher-lastname'));
@@ -341,7 +344,8 @@ class AjaxUsersController extends BaseController {
             // set the Auth to login the user
             // Auth::loginUsingId($teacherUser->id);
             $this->_user = $teacherUser;
-
+            // send mail
+            $this->sendMail();
             return Response::json(array(
                 'error' => false,
                 'lz'    => Request::root().'/confirmation-message-sent'));
@@ -354,6 +358,32 @@ class AjaxUsersController extends BaseController {
 
     protected function sendMail()
     {
+        $user = User::find($this->_user->id);
+        $code = $this->generateCode();
+        // create code
+        $confirmation = new ConfirmationCode;
+        $confirmation->user_id = $user->id;
+        $confirmation->confirmation_code = $code;
+        $confirmation->confirmation_type = 1;
+        $confirmation->save();
 
+        $details = array(
+            'email' => $user->email,
+            'name'  => $user->name);
+        $data = array(
+            'code'              => $code,
+            'confirmationCode'  => $confirmation->confirmation_code_id,
+            'email'             => $user->email);
+
+        Mail::send('emails.confirmemail', $data, function($message) use ($details) {
+           $message->to($details['email'], $details['name'])
+                ->subject('Welcome to eLinet!');
+        });
+    }
+
+    protected function generateCode()
+    {
+        mt_srand(microtime(true)*100000 + memory_get_usage(true));
+        return base64_encode(uniqid(mt_rand(), true));
     }
 }
