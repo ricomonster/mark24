@@ -44,8 +44,8 @@ class AjaxFileController extends BaseController
     {
         // prep some data
         $dropPoint = public_path().'/assets/thelibrary/'.sha1(Auth::user()->id);
-        print_r($_FILES);
-        exit;
+        // print_r($_FILES);
+        // exit;
 
         $file = Input::file('files');
 
