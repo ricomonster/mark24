@@ -65,6 +65,7 @@ class Post extends Eloquent {
                         ->where('post_id', '=', $post->post_id)
                         ->where(function($query) {
                             $query->orWhere('status', '=', 'UNGRADED')
+                                ->orWhere('status', '=', 'PASSED')
                                 ->orWhere('status', '=', 'GRADED');
                         })
                         ->get()
@@ -311,7 +312,8 @@ class Post extends Eloquent {
                         $turnedIn->takers = QuizTaker::where('quiz_id', '=', $post->quiz_id)
                             ->where('post_id', '=', $post->post_id)
                             ->where(function($query) {
-                                $query->orWhere('status', '=', 'PASSED')
+                                $query->orWhere('status', '=', 'UNGRADED')
+                                    ->orWhere('status', '=', 'PASSED')
                                     ->orWhere('status', '=', 'GRADED');
                             })
                             ->get()
