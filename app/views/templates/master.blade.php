@@ -196,6 +196,7 @@
         <script>
             (function($) {
                 var notificationCounter = $('.notification-count');
+                var messageHolder = $('.message-holder');
                 // first to trigger on every page load to check for notifications
                 fetchNotifications();
                 var notificationInverval = setInterval(function() {
@@ -216,7 +217,6 @@
 
                 $(document).on('click', '#submit_problem', function(e) {
                     var location = window.location;
-                    var messageHolder = $('.message-holder');
                     var modal = $('#the_modal');
                     var form = $('.report-problem-form');
                     var problem = $('textarea[name="problem"]');
@@ -297,6 +297,24 @@
 
                 $('.send-confirmation').on('click', function(e) {
                     e.preventDefault();
+                    messageHolder.show().find('span')
+                        .text('Processing your request...');
+
+                    $.ajax({
+                        type : 'post',
+                        url : '/ajax/users/send-confirmation-mail',
+                        dataType : 'json'
+                    }).done(function(response) {
+                        if (!response.error) {
+                            messageHolder.fadeOut();
+                            // change content
+                            $('.confirm-account').empty()
+                                .text('Please check your email! We already sent the confirmation mail.');
+                            setTimeout(function() {
+                                $('.confirm-account').slideUp();
+                            }, 5000);
+                        }
+                    });
                 });
             })(jQuery);
         </script>

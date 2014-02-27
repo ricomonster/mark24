@@ -54,6 +54,7 @@ class UsersController extends BaseController {
     }
 
     public function getSignout() {
+        Session::flush();
         Auth::logout();
         return Redirect::to('/');
     }

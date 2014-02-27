@@ -156,6 +156,7 @@ Route::post('ajax/users/validate-student', 'AjaxUsersController@validateStudentD
 Route::post('ajax/users/validate-teacher', 'AjaxUsersController@validateTeacherDetails');
 Route::post('ajax/users/update-story', 'AjaxUsersController@updateUserStory');
 Route::post('ajax/users/update-places', 'AjaxUsersController@updateUserPlaces');
+Route::post('ajax/users/send-confirmation-mail', 'AjaxUsersController@sendMail');
 
 Route::put('ajax/users/update-personal-info', 'AjaxUsersController@updateUserDetails');
 

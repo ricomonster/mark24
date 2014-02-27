@@ -358,6 +358,10 @@ class AjaxUsersController extends BaseController {
 
     protected function sendMail()
     {
+        if(empty($this->_user) && isset(Auth::user()->id)) {
+            $this->_user = Auth::user();
+        }
+
         $user = User::find($this->_user->id);
         $code = $this->generateCode();
         // create code
@@ -379,6 +383,11 @@ class AjaxUsersController extends BaseController {
            $message->to($details['email'], $details['name'])
                 ->subject('Welcome to eLinet!');
         });
+
+        if(isset(Auth::user()->id)) {
+            Session::put('email-sent', true);
+            return Response::json(array('error' => false));
+        }
     }
 
     protected function generateCode()
