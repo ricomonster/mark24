@@ -117,6 +117,8 @@
         </div>
 
         <div class="container ultimate-mega-container">
+            {{ Helper::confirmAccount() }}
+
             <div class="message-holder"><span></span></div>
             <div class="modal fade" id="the_modal" tabindex="-1" role="dialog"
             aria-labelledby="the_modal_label" aria-hidden="true"></div>
@@ -292,6 +294,10 @@
                         }
                     });
                 }
+
+                $('.send-confirmation').on('click', function(e) {
+                    e.preventDefault();
+                });
             })(jQuery);
         </script>
     </body>

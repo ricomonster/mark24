@@ -491,4 +491,15 @@ class Helper
         /* all done, return result */
         return $calendar;
     }
+
+    public static function confirmAccount()
+    {
+        if (Auth::user()->confirmed_account == 0) {
+            return '<div class="confirm-account alert alert-info">'
+                .'<strong>Please confirm your email.</strong>'
+                .'<p><a href="#" class="send-confirmation">Just click this link'
+                .'and we will send the confirmation mail.</a></p>'
+                .'</div>';
+        }
+    }
 }

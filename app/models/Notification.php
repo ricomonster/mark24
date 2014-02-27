@@ -304,7 +304,7 @@ class Notification extends Eloquent
             case 'accepted_join_group' :
                 $notification = new Notification;
                 $notification->receiver_id = $settings['user_id'];
-                $notification->sender_id = $senderId;
+                $notification->sender_id = Auth::user()->id;
                 $notification->notification_type = 'accepted_join_group';
                 $notification->involved_id = $settings['group_id'];
                 $notification->notification_timestamp = $time;
