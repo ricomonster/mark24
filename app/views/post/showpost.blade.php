@@ -76,7 +76,12 @@ Hello
     padding: 10px;
 }
 
-.files-attached .file-holder .file-thumbnail img { border: 1px solid #dfe4e8; max-height: 60px; }
+.files-attached .file-holder .file-thumbnail img {
+    border: 1px solid #dfe4e8;
+    /*max-height: 60px;*/
+    width: 80px;
+}
+
 .files-attached .file-holder .file-details { margin-left: 10px; word-wrap: break-word; width: 84%; }
 /*.files-attached .file-holder .file-details a {  }*/
 .files-attached .file-holder .file-details .file-type { color: #839096; display: block; font-size: 13px; }

@@ -56,7 +56,7 @@ class AjaxFileController extends BaseController
 
         // check for the size of the file to uploaded
         // max size, 10 mb?
-        if((655360) > $fileSize) {
+        if((655360) < $fileSize) {
             return Response::json(array(
                 'error'     => true,
                 'file_name' => $fileName,
