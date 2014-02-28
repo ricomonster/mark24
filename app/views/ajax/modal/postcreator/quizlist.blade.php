@@ -17,7 +17,8 @@
                     <div class="quiz-options">
                         <a href="/quiz-creator/{{ $quiz->quiz_id }}/edit">Edit</a>
                         <span class="text-muted">|</span>
-                        <a href="#">Delete Quiz</a>
+                        <a href="#" class="delete-this-quiz"
+                        data-quiz-id="{{ $quiz->quiz_id }}">Delete Quiz</a>
                     </div>
                 </li>
                 @endforeach

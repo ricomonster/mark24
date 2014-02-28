@@ -263,7 +263,7 @@ class AjaxModalController extends BaseController {
         if($post->post_attached_files == 'true') {
             FileAttached::where('post_id', '=', $post->post_id)->delete();
         }
-        
+
         // check the type of post
         switch($post->post_type) {
             case 'quiz' :
@@ -283,8 +283,8 @@ class AjaxModalController extends BaseController {
                                 ->orWhere('notification_type', '=', 'quiz_graded');
                         })
                         ->delete();
-                } 
-                
+                }
+
                 break;
             case 'assignment' :
                 // get assignment responses
@@ -304,10 +304,10 @@ class AjaxModalController extends BaseController {
                     // delete
                     $assignment->delete();
                 }
-                
+
                 break;
         }
-        
+
         // check if there are comments
         $comments = Comment::where('post_id', '=', $post->post_id)
             ->first();
@@ -316,7 +316,7 @@ class AjaxModalController extends BaseController {
             // delete
             Comment::where('post_id', '=', $post->post_id)->delete();
         }
-        
+
         // check if there are likes
         $likes = Like::where('post_id', '=', $post->post_id)
             ->first();
@@ -325,7 +325,7 @@ class AjaxModalController extends BaseController {
             // delete
             Like::where('post_id', '=', $post->post_id)->delete();
         }
-        
+
         // delete also the notifications
         Notification::where('involved_id', '=', $post->post_id)
             ->where(function($query) {
@@ -334,7 +334,7 @@ class AjaxModalController extends BaseController {
                     ->orWhere('notification_type', '=', 'commented');
             })
             ->delete();
-        
+
         // set post to inactive
         $post->post_active = 0;
         $post->save();
@@ -410,6 +410,7 @@ class AjaxModalController extends BaseController {
         // get list of quiz that are ready
         $list = Quiz::where('user_id', '=', Auth::user()->id)
             ->where('status', '=', 'READY')
+            ->where('quiz_active', '=', 1)
             ->get();
 
         return View::make('ajax.modal.postcreator.quizlist')
@@ -456,8 +457,28 @@ class AjaxModalController extends BaseController {
         return Response::json(array('error' => false));
     }
 
-    /* Protected Methods
-    -------------------------------*/
+    public function confirmDeleteQuiz()
+    {
+        $quizId = Input::get('quiz_id');
+        return View::make('ajax.modal.postcreator.confirmdeletequiz')
+            ->with('quizId', $quizId);
+    }
+
+    public function deleteQuiz()
+    {
+        $quizId = Input::get('quiz_id');
+
+        $quiz = Quiz::find($quizId);
+
+        $quiz->quiz_active = 0;
+        $quiz->save();
+
+        return Response::json(array('error' => false));
+    }
+
+    /*--------------------------------------------------------------------------
+    Protected Methods
+    --------------------------------------------------------------------------*/
     protected function _validateGroupCreation() {
         $this->_errors = array();
 

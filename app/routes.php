@@ -95,6 +95,7 @@ Route::get('ajax/modal/show-confirm-chat', 'AjaxModalController@showStartGroupCh
 Route::get('ajax/modal/confirm-stop-chat', 'AjaxModalController@confirmStopGroupChat');
 Route::get('ajax/modal/get-report-form', 'AjaxModalController@showReportProblemForm');
 Route::get('ajax/modal/get-quiz-details', 'AjaxModalController@getQuizDetails');
+Route::get('ajax/modal/confirm-delete-quiz', 'AjaxModalController@confirmDeleteQuiz');
 
 Route::post('ajax/modal/create_group', 'AjaxModalController@createGroup');
 Route::post('ajax/modal/join_group', 'AjaxModalController@joinGroup');
@@ -106,6 +107,7 @@ Route::post('ajax/modal/reset-password', 'AjaxModalController@resetPassword');
 Route::post('ajax/modal/delete-post', 'AjaxModalController@deletePost');
 Route::post('ajax/modal/start-group-chat', 'AjaxModalController@startGroupChat');
 Route::post('ajax/modal/submit-problem', 'AjaxModalController@submitProblem');
+Route::post('ajax/modal/delete-quiz', 'AjaxModalController@deleteQuiz');
 
 // AJAX Notification Routes
 Route::get('ajax/notifications/fetch', 'AjaxNotificationController@fetch');

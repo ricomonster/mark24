@@ -348,6 +348,45 @@
         e.preventDefault();
     });
 
+    // delete a quiz
+    $(document).on('click', '.delete-this-quiz', function(e) {
+        e.preventDefault();
+        var element = $(this);
+        $('.message-holder').show().find('span').text('Loading...');
+        $.ajax({
+            url : '/ajax/modal/confirm-delete-quiz',
+            data : { quiz_id : element.attr('data-quiz-id') }
+        }).done(function(response) {
+            if (response) {
+                $('.message-holder').hide();
+                $('#the_modal').empty()
+                    .html(response);
+            }
+        });
+    });
+
+    // deleting quiz
+    $(document).on('click', '#trigger_delete_quiz', function(e) {
+        e.preventDefault();
+        var element = $(this);
+        $('.message-holder').show().find('span').text('Loading...');
+        $.ajax({
+            type : 'post',
+            url : '/ajax/modal/delete-quiz',
+            data : { quiz_id : element.attr('data-quiz-id') }
+        }).done(function(response) {
+            if(!response.error) {
+                $('#the_modal').modal('hide');
+                $('.message-holder').show()
+                    .find('span').text('Quiz successfully removed.');
+
+                setTimeout(function() {
+                    $('.message-holder').hide();
+                }, 5000);
+            }
+        });
+    });
+
     // functions
     function validateNote() {
         var noteContent     = $('#note_content');
