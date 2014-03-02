@@ -30,14 +30,36 @@
     padding: 10px 20px 0;
 }
 
-.group-chat-proper .group-chat-stream-holder .chat-stream .chat-content {
-    margin-bottom: 10px;
+.chat-stream .chat-holder { margin: 5px 0 15px; }
+.chat-stream .chat-holder.others .chat-content { float: left; }
+.chat-stream .chat-holder.self .chat-content { float: right; }
+.chat-stream .chat-holder.self .chat-content .avatar { float: right; }
+.chat-stream .chat-holder.others .chat-content .avatar { float: left; }
+.chat-stream .chat-holder .chat-content .chat-message {
+    padding: 5px 10px;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
-.chat-stream .chat-content .chat-details { margin-left: 60px; }
-.chat-stream .chat-content .chat-details .chat-user-details a { font-weight: bold; }
+.chat-stream .chat-holder.self .chat-content .chat-message {
+    background-color: #3276b1;
+    color: #ffffff;
+    margin-right: 60px;
+}
+
+.chat-stream .chat-holder.others .chat-content .chat-message {
+    background-color: #eeeeee;
+    margin-left: 60px;
+}
+
+.chat-stream .chat-holder .timestamp { margin-bottom: 5px; }
+.chat-stream .chat-holder.others .timestamp { }
+.chat-stream .chat-holder.self .timestamp {
+    text-align: right;
+}
 
 .group-chat-proper .group-chat-messenger { margin-top: 10px; padding: 5px 10px 10px; }
+.group-chat-wrapper .student-lists { height: 410px; overflow: auto; }
 .group-chat-wrapper .student-lists .user-online { color: #65a830; }
 .group-chat-wrapper .section-title-holder { background-color: #757f93; color: #ffffff; padding: 12px; }
 </style>

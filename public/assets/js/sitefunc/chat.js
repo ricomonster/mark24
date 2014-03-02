@@ -97,7 +97,7 @@ var Chat = {
     {
         var self = Chat;
         var conversationId = self.config.groupChatWrapper.attr('data-conversation-id');
-        var lastId = $('.chat-content').last().attr('data-chat-id');
+        var lastId = $('.chat-holder').last().attr('data-chat-id');
 
         $.ajax({
             url : '/ajax/chat/fetch-messages',
@@ -170,7 +170,7 @@ var Chat = {
     {
         var self = Chat;
         var height = 0;
-        $('.chat-stream .chat-content').each(function(i, value){
+        $('.chat-stream .chat-holder').each(function(i, value){
             height += parseInt($(this).height());
         });
 

@@ -7,15 +7,35 @@ class GroupMember extends Eloquent {
         return $this->belongsTo('User');
     }
 
-    public static function getGroupMembers($groupId) {
-        $members = GroupMember::where('group_id', '=', $groupId)
+    public static function getGroupMembers($groupId, $lastId = null) {
+        if(!is_null($lastId)) {
+            return GroupMember::leftJoin(
+                    'users',
+                    'group_members.group_member_id',
+                    '=',
+                    'users.id')
+                ->where('group_id', '=', $groupId)
+                ->where('users.flag', '=', 1)
+                ->where('users.id', '>', $lastId)
+                ->orderBy('users.account_type', 'ASC')
+                ->orderBy('users.username', 'ASC')
+                ->groupBy('users.id')
+                // ->take(10)
+                ->get();
+        }
+
+        return GroupMember::leftJoin(
+                'users',
+                'group_members.group_member_id',
+                '=',
+                'users.id')
+            ->where('group_id', '=', $groupId)
             ->where('users.flag', '=', 1)
-            ->join('users', 'group_members.group_member_id', '=', 'users.id')
             ->orderBy('users.account_type', 'ASC')
             ->orderBy('users.username', 'ASC')
+            ->groupBy('users.id')
+            // ->take(10)
             ->get();
-
-        return $members;
     }
 
     public static function getAllGroupMembers() {

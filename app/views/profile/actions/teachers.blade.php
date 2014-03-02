@@ -22,6 +22,8 @@
         *display: inline;
         *zoom: 1;
     }
+
+    .teacher-list-stream li a .teacher-username { margin-top: 5px; text-align: center; }
 </style>
 @stop
 
@@ -113,6 +115,7 @@
                 <li>
                     <a href="/profile/{{ $teacher->username }}">
                         {{ Helper::avatar(150, "large", "img-circle", $teacher->id) }}
+                        <p class="teacher-username">{{ $teacher->name }}</p>
                     </a>
                 </li>
                 @endforeach

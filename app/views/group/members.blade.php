@@ -183,9 +183,10 @@
                     <div class="clearfix"></div>
                 </li>
 
-                @foreach($members as $member)
+                @foreach($members as $key => $member)
                 @if($member->group_member_id != $ownerDetails->id)
-                <li class="member-details-holder">
+                <li class="member-details-holder" data-member-id="{{ $member->id }}"
+                data-group-id="{{ $member->group_id }}">
                     <a href="/profile/{{ $member->username }}">
                         {{ Helper::avatar(80, "normal", "pull-left", $member->id) }}
                     </a>
@@ -213,7 +214,6 @@
                             @endif
                         </div>
                         <div class="member-username text-muted">{{ $member->username }}</div>
-
 
                     </div>
                     <div class="clearfix"></div>
@@ -282,7 +282,36 @@
         }
 
         e.preventDefault();
-    })
+    });
+
+    var processing = false;
+    // $(window).scroll(function(e){
+    //     e.preventDefault();
+
+    //     var windowTop = $(window).scrollTop();
+    //     var documentHeight = $(document).height();
+    //     var windowHeight = $(window).height();
+    //     var scrollTrigger = 0.99;
+
+    //     if((windowTop / (documentHeight - windowHeight)) > scrollTrigger && !processing) {
+    //         processing = true;
+    //         var last = $('.member-details-holder').last();
+    //         // trigger ajax
+    //         $.ajax({
+    //             url : '/ajax/group/get-more-members',
+    //             data : {
+    //                 last_id : last.attr('data-member-id'),
+    //                 group_id : last.attr('data-group-id')
+    //             }
+    //         }).done(function(response) {
+    //             if(response) {
+    //                 // load
+    //                 processing = false;
+    //                 $('.member-stream').append(response);
+    //             }
+    //         });
+    //     }
+    // });
 })(jQuery);
 </script>
 @endif

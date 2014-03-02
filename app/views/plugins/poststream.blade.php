@@ -51,9 +51,11 @@
                     @if(!empty($post->recipients->groups))
                     @foreach($post->recipients->groups as $key => $groupRecipient)
                     @if($key != $groupCount -1 || $userCount != 0)
-                    <a href="#" class="post-receiver-name">{{ $groupRecipient->group_name }}</a><span class="post-receiver-comma">,</span>
+                    <a href="/groups/{{ $groupRecipient->group_id }}"
+                    class="post-receiver-name">{{ $groupRecipient->group_name }}</a><span class="post-receiver-comma">,</span>
                     @else
-                    <a href="#" class="post-receiver-name">{{ $groupRecipient->group_name }}</a>
+                    <a href="/groups/{{ $groupRecipient->group_id }}"
+                    class="post-receiver-name">{{ $groupRecipient->group_name }}</a>
                     @endif
                     @endforeach
                     @endif
@@ -61,14 +63,15 @@
                     @if(!empty($post->recipients->users))
                     @foreach($post->recipients->users as $key => $userRecipient)
                     @if($key != $userCount -1)
-                    <a href="#" class="post-receiver-name">
+                    <a href="/profile/{{ $userRecipient->username }}"
+                    class="post-receiver-name">
                         <?php if($userRecipient->account_type == 1) { echo $userRecipient->salutation; } ?>
                         {{ $userRecipient->name }}
                     </a><span class="post-receiver-comma">,</span>
                     @else
-                    <a href="#" class="post-receiver-name">
-                        <?php if($userRecipient->account_type == 1) { echo $userRecipient->salutation.'. '; } ?>
-                        {{ $userRecipient->name }}
+                    <a href="/profile/{{ $userRecipient->username }}"
+                    class="post-receiver-name">
+                        {{ $userRecipient->salutation.$userRecipient->name }}
                     </a>
                     @endif
                     @endforeach

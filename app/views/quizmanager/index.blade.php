@@ -12,6 +12,11 @@ Quiz Manager
 .quiz-manager .manager-sidebar .show-type-holder { padding: 10px; }
 .quiz-manager .manager-sidebar .show-type-holder .show-type { display: inline-block; width: 120px; }
 
+.quiz-manager .manager-sidebar .student-lists {
+    height: 400px;
+    overflow: auto;
+}
+
 .quiz-manager .manager-sidebar .student-lists ul .group-name a {
     background-color: #757f93;
     border-radius: 0;

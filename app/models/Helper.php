@@ -303,7 +303,7 @@ class Helper
         $likeCount = $likers->count();
         $message = '<i class="fa fa-thumbs-up"></i> ';
         if(!empty($userLike)) {
-            $message .= '<span class="you"><a href="#">You</a>'.
+            $message .= '<span class="you"><a href="/profile/'.Auth::user()->username.'">You</a>'.
                 (($likeCount >= 3) ? '<span>,</span>' : null).'</span> ';
         }
 
@@ -313,10 +313,10 @@ class Helper
             foreach($likers as $liker) {
                 if(Auth::user()->id == $liker->user_id) continue;
                 if((empty($userLike) && $counter == 2) || (!empty($userLike) && $counter == 1)) {
-                    $message .= '<span class="liker"><a href="#">'.$liker->name.'</a></span> ';
+                    $message .= '<span class="liker"><a href="/profile/'.$liker->username.'">'.$liker->name.'</a></span> ';
                     break;
                 } else {
-                    $message .= '<span class="liker"><a href="#">'.$liker->name.'</a><span>,</span></span> ';
+                    $message .= '<span class="liker"><a href="/profile/'.$liker->username.'">'.$liker->name.'</a><span>,</span></span> ';
                 }
 
                 $counter++;
@@ -331,11 +331,11 @@ class Helper
             foreach($likers as $liker) {
                 if(Auth::user()->id == $liker->user_id) continue;
                 if(empty($userLike) && $counter == 0) {
-                    $message .= '<span class="liker"><a href="#">'.$liker->name.'</a></span> ';
+                    $message .= '<span class="liker"><a href="/profile/'.$liker->username.'">'.$liker->name.'</a></span> ';
                 }
 
                 if((empty($userLike) && $counter == 1) || !empty($userLike)) {
-                    $message .= '<span>and</span> <span class="liker"><a href="#">'.$liker->name.'</a></span>';
+                    $message .= '<span>and</span> <span class="liker"><a href="/profile/'.$liker->username.'">'.$liker->name.'</a></span>';
                 }
 
                 $counter++;

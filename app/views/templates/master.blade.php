@@ -133,6 +133,13 @@
 
             @yield('content')
 
+            <div class="chat-boxes">
+                <div class="chat-box">
+                    <input type="checkbox" />
+                    <label data-expanded="Close Chatbox" data-collapsed="Open Chatbox"></label>
+                    <div class="chat-box-content">Ciluk baaa!!!</div>
+            </div>
+
             <div class="footer">
                 <strong>eLinet - eLearning Networking &copy; {{ date('Y') }}</strong>
                 <ul>

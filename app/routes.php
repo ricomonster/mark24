@@ -71,6 +71,8 @@ Route::post('ajax/the-forum/update-thread', 'AjaxForumController@updateThread');
 Route::post('ajax/the-forum/update-reply', 'AjaxForumController@updateThreadReply');
 
 // AJAX Group Routes
+Route::get('ajax/group/get-more-members', 'AjaxGroupController@getMoreMembers');
+
 Route::post('ajax/group/lock-group', 'AjaxGroupController@lockGroup');
 Route::post('ajax/group/unlock-group', 'AjaxGroupController@changeGroupCode');
 Route::post('ajax/group/reset-group-code', 'AjaxGroupController@changeGroupCode');

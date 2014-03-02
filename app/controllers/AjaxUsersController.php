@@ -375,6 +375,7 @@ class AjaxUsersController extends BaseController {
             'email' => $user->email,
             'name'  => $user->name);
         $data = array(
+            'accountType'      => $user->account_type,
             'code'              => $code,
             'confirmationCode'  => $confirmation->confirmation_code_id,
             'email'             => $user->email);

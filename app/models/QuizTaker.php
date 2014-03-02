@@ -29,6 +29,7 @@ class QuizTaker extends Eloquent
                         ->whereNotIn('users.account_type', array(0, 1))
                         ->leftJoin('users', 'group_members.group_member_id', '=', 'users.id')
                         ->orderBy('users.lastname')
+                        ->groupBy('users.id')
                         ->get()
                         ->toArray();
                 }
@@ -38,6 +39,7 @@ class QuizTaker extends Eloquent
                         ->whereNotIn('users.account_type', array(0, 1))
                         ->leftJoin('users', 'group_members.group_member_id', '=', 'users.id')
                         ->orderBy('users.lastname')
+                        ->groupBy('users.id')
                         ->get()
                         ->toArray();
 

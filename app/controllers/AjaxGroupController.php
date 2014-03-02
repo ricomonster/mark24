@@ -63,6 +63,21 @@ class AjaxGroupController extends BaseController
         return Response::json(array('error' => false, 'name' => $user->name));
     }
 
+    public function getMoreMembers()
+    {
+        $groupId    = Input::get('group_id');
+        $lastId     = Input::get('last_id');
+
+        // group group details
+        $group = Group::find($groupId);
+        // get group owner
+        $owner = User::find($group->owner_id);
+        exit;
+        return View::make('ajax.group.members')
+            ->with('members', GroupMember::getGroupMembers($group->group_id, $lastId))
+            ->with('ownerDetails', $owner);
+    }
+
     protected function _generateGroupCode() {
         $length = 6;
         $characters = '0123456789abcdefghijklmnopqrstuvwxyz';

@@ -24,7 +24,7 @@ Profile
     display: inline-block;
     margin-top: 5px;
     vertical-align: top;
-    width: 60px;
+    width: 56px;
     word-wrap: break-word;
 }
 

@@ -198,6 +198,7 @@ class ProfileController extends BaseController
             ->where('users.account_type', '=', 2)
             ->leftJoin('users', 'group_members.group_member_id', '=', 'users.id')
             ->groupBy('group_member_id')
+            ->take(20)
             ->get();
 
         if($this->_user->account_type == 2) {
@@ -206,6 +207,7 @@ class ProfileController extends BaseController
                 ->where('users.account_type', '=', 1)
                 ->leftJoin('users', 'group_members.group_member_id', '=', 'users.id')
                 ->groupBy('group_member_id')
+                ->take(10)
                 ->get();
         }
 
