@@ -220,7 +220,7 @@ Hello
                         <strong>{{{ $post->assignment->title }}}</strong>
                         <div class="assignment-details">
                             @if(Auth::user()->account_type == 1)
-                            <a href="/assignment-manager/{{ $post->assignment->assignment_id }}"
+                            <a href="/assignment-manager/{{ $post->assignment->assignment_id }}/{{ $post->post_id }}"
                             class="btn btn-default">
                                 Turned In ({{ $post->assignments_submitted }})
                             </a>
@@ -230,14 +230,14 @@ Hello
                             @endif
                             @if(Auth::user()->account_type == 2)
                             @if(isset($post->assignment_submitted))
-                            <a href="/assignment-sheet/{{ $post->assignment->assignment_id }}"
+                            <a href="/assignment-sheet/{{ $post->assignment->assignment_id }}/{{ $post->post_id }}"
                             class="btn btn-default">Turned In</a>
                             <span class="due-date">
                                 {{ ucfirst(strtolower($post->assignment_submitted->status)) }}
                             </span>
                             @endif
                             @if(!isset($post->assignment_submitted))
-                            <a href="/assignment-sheet/{{ $post->assignment->assignment_id }}"
+                            <a href="/assignment-sheet/{{ $post->assignment->assignment_id }}/{{ $post->post_id }}"
                             class="btn btn-default">Turn In</a>
                             <span class="due-date">
                                 Due {{ date('M d, Y', strtotime($post->assignment_due_date)) }}
@@ -256,7 +256,7 @@ Hello
                     <strong class="quiz-title">{{ $post->quiz->details->title }}</strong>
                     <div class="quiz-button-wrapper">
                         @if(Auth::user()->account_type == 1)
-                        <a href="/quiz-manager/{{ $post->quiz_id }}" class="btn btn-default">
+                        <a href="/quiz-manager/{{ $post->quiz_id }}/{{ $post->post_id }}" class="btn btn-default">
                             Turned In ({{ $post->quiz->turned_in->takers }})
                         </a>
                         <span class="due-date">
@@ -266,14 +266,14 @@ Hello
 
                         @if(Auth::user()->account_type == 2)
                         @if(empty($post->quiz->taken))
-                        <a href="/quiz-sheet/{{ $post->quiz_id }}" class="btn btn-default">
+                        <a href="/quiz-sheet/{{ $post->quiz_id }}/{{ $post->post_id }}" class="btn btn-default">
                             Take Quiz
                         </a>
                         <span class="due-date">Due {{ date('M d, Y', strtotime($post->
                         quiz_due_date)) }}</span>
                         @endif
                         @if(!empty($post->quiz->taken))
-                        <a href="/quiz-result/{{ $post->quiz_id }}" class="btn btn-default">
+                        <a href="/quiz-result/{{ $post->quiz_id }}/{{ $post->post_id }}" class="btn btn-default">
                             Quiz Result
                         </a>
                         @endif
