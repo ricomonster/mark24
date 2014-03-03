@@ -184,13 +184,19 @@ class GroupsController extends BaseController {
                 break;
         }
 
+        // check if there's an ongoing group chat
+        $ongoing = Conversation::where('group_id', '=', $group->group_id)
+            ->where('status', '=', 'OPEN')
+            ->first();
+
         return View::make('forums.index')
             ->with('categories', $categories)
             ->with('threads', $threads)
             ->with('sort', $sort)
             ->with('group', $group)
             ->with('groupLists', $groups)
-            ->with('stats', $this->groupStats($group->group_id));
+            ->with('stats', $this->groupStats($group->group_id))
+            ->with('ongoingGroupChat', $ongoing);
     }
 
     public function showAddThread($groupId)
@@ -372,11 +378,17 @@ class GroupsController extends BaseController {
             ->orderBy('inquiry_id', 'DESC')
             ->get();
 
+        // check if there's an ongoing group chat
+        $ongoing = Conversation::where('group_id', '=', $group->group_id)
+            ->where('status', '=', 'OPEN')
+            ->first();
+
         return View::make('group.requests')
             ->with('groupDetails', $group)
             ->with('groups', $groups)
             ->with('members', $wannaBeMembers)
-            ->with('stats', $this->groupStats($group->group_id));
+            ->with('stats', $this->groupStats($group->group_id))
+            ->with('ongoingGroupChat', $ongoing);
     }
 
     protected function chatArchives($groupId)
@@ -407,12 +419,18 @@ class GroupsController extends BaseController {
             ->orderBy('conversation_id', 'DESC')
             ->first();
 
+        // check if there's an ongoing group chat
+        $ongoing = Conversation::where('group_id', '=', $group->group_id)
+            ->where('status', '=', 'OPEN')
+            ->first();
+
         return View::make('group.conversation')
             ->with('groupDetails', $group)
             ->with('groups', $groups)
             ->with('conversations', $conversations)
             ->with('latestConversation', $latestConversation)
-            ->with('stats', $this->groupStats($group->group_id));
+            ->with('stats', $this->groupStats($group->group_id))
+            ->with('ongoingGroupChat', $ongoing);
     }
 
     protected function checkGroupMember($groupId)
