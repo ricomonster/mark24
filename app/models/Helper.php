@@ -494,13 +494,13 @@ class Helper
 
     public static function confirmAccount()
     {
-        $sent = Session::get('email-sent');
-        if (Auth::user()->confirmed_account == 0 && !$sent) {
-            return '<div class="confirm-account alert alert-info">'
-                .'<strong>Please confirm your email.</strong>'
-                .'<p><a href="#" class="send-confirmation">Just click this link '
-                .'and we will send the confirmation mail.</a></p>'
-                .'</div>';
-        }
+        // $sent = Session::get('email-sent');
+        // if (Auth::user()->confirmed_account == 0 && !$sent) {
+        //     return '<div class="confirm-account alert alert-info">'
+        //         .'<strong>Please confirm your email.</strong>'
+        //         .'<p><a href="#" class="send-confirmation">Just click this link '
+        //         .'and we will send the confirmation mail.</a></p>'
+        //         .'</div>';
+        // }
     }
 }
