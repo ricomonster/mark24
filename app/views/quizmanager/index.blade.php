@@ -45,6 +45,15 @@ Quiz Manager
 .quiz-manager .main-panel .quiz-manager-proper .quiz-item-pagination li a { border-radius: 0; border-top: 0; }
 .quiz-manager .main-panel .quiz-manager-proper .quiz-item-pagination li:first-child a { border-left: 0; }
 
+.quiz-item-pagination li a { font-weight: bold; }
+.quiz-item-pagination li.no-answer a {  }
+.quiz-item-pagination li.true-answer a,
+.quiz-item-pagination li.true-answer a:hover { color: #5cb85c; }
+.quiz-item-pagination li.false-answer a,
+.quiz-item-pagination li.false-answer a:hover { color: #d9534f; }
+.quiz-item-pagination li.no-grade a,
+.quiz-item-pagination li.no-grade a:hover { color: #5bc0de; }
+
 .quiz-manager .main-panel .quiz-manager-proper .user-no-answer-wrapper {
     padding: 100px 0;
     text-align: center;

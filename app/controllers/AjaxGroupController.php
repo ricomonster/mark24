@@ -33,6 +33,26 @@ class AjaxGroupController extends BaseController
     {
         $input = Input::all();
 
+        // check if the user is already part of the group
+        $groupMember = GroupMember::where('group_id', '=', $input['group_id'])
+            ->where('group_member_id', '=', $input['user_id'])
+            ->first();
+        if(!empty($groupMember)) {
+            // unset the request
+            $inquire = Inquire::where('type', '=', 'request_join_group')
+                ->where('inquirer_id', '=', $input['user_id'])
+                ->where('involved_id', '=', $input['group_id'])
+                ->first();
+            // update
+            $inquire->status = 0;
+            $inquire->save();
+
+            return Response::json(array(
+                'error'             => true,
+                'nature_of_error'   => 'duplicate_member',
+                'message'           => 'User is already member of the group.'));
+        }
+
         // add the user to the group
         $member = new GroupMember;
         $member->group_id = $input['group_id'];

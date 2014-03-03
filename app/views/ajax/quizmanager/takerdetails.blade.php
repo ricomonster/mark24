@@ -36,7 +36,19 @@
 @if(!empty($questions))
 <ul class="nav nav-tabs quiz-item-pagination">
     @foreach($questions['list'] as $key => $question)
-    <li class="<?php echo ($key == 0) ? 'active' : null; ?>">
+    <?php
+    $answer = $question['question']['answer_details'];
+    if(empty($answer)) {
+        $class = 'no-answer';
+    } else if(!empty($answer) && $answer['is_correct'] === 'TRUE') {
+        $class = 'true-answer';
+    } else if(!empty($answer) && $answer['is_correct'] === 'FALSE'){
+        $class = 'false-answer';
+    } else if(!empty($answer) && empty($answer['is_correct'])) {
+        $class = 'no-grade';
+    }
+    ?>
+    <li class="{{ ($key == 0) ? 'active' : null }} {{ $class }}">
         <a href="#{{ $key + 1 }}" data-toggle="tab">
             {{ $key + 1 }}
         </a>

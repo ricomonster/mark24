@@ -17,12 +17,6 @@
         <link href="/assets/css/site/global.style.css" rel="stylesheet">
         <!-- Selectize CSS -->
         <link href="/assets/css/plugins/selectize.bootstrap3.css" rel="stylesheet">
-
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-            <script src="../../assets/js/html5shiv.js"></script>
-            <script src="../../assets/js/respond.min.js"></script>
-        <![endif]-->
         @yield('internalCss')
         <style>
             .public-service-message { display: none; }
@@ -133,13 +127,6 @@
 
             @yield('content')
 
-            <div class="chat-boxes">
-                <div class="chat-box">
-                    <input type="checkbox" />
-                    <label data-expanded="Close Chatbox" data-collapsed="Open Chatbox"></label>
-                    <div class="chat-box-content">Ciluk baaa!!!</div>
-            </div>
-
             <div class="footer">
                 <strong>eLinet - eLearning Networking &copy; {{ date('Y') }}</strong>
                 <ul>
@@ -150,6 +137,8 @@
                 </ul>
             </div>
         </div>
+
+        {{ Auxillary::groupChats() }}
 
         <script src="/assets/js/jquery.min.js"></script>
         <script src="/assets/js/bootstrap.min.js"></script>

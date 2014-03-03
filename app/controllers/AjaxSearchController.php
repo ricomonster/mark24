@@ -5,7 +5,7 @@ class AjaxSearchController extends BaseController
    public function search()
    {
        $query = e(Input::get('q', ''));
-       
+
         // check if the query is empty
         if(!$query && empty($query)) return Response::json(array(), 400);
         $results = array();
@@ -13,12 +13,12 @@ class AjaxSearchController extends BaseController
         $users = $this->getUsers($query);
         // forum threads
         $forums = $this->getForums($query);
-        
+
         $results = array_merge($users, $forums);
-        
+
         return Response::json(array('data' => $results));
-   } 
-   
+   }
+
    protected function getUsers($query)
    {
        $users = User::select('id', 'name as content', 'salutation', 'username')
@@ -34,10 +34,10 @@ class AjaxSearchController extends BaseController
            $array[$key]['url'] = '/profile/'.$item['username'];
            $array[$key]['icon'] = Helper::avatar(30, 'small', null, $item['id']);
        }
-       
+
        return $array;
    }
-   
+
    protected function appendPosts($query)
    {
        $notes = Post::select('post_id', 'note_content as content')
@@ -50,7 +50,7 @@ class AjaxSearchController extends BaseController
         foreach($notes as $key => $note) {
             $notesArray[$key] = $note;
             $notesArray[$key]['class'] = 'posts';
-            $notesArray[$key]['url'] = '/posts/'.$note['post_id']; 
+            $notesArray[$key]['url'] = '/posts/'.$note['post_id'];
         }
 
         $alerts = Post::select('alert_content as content')
@@ -63,9 +63,9 @@ class AjaxSearchController extends BaseController
         foreach($alerts as $key => $alert) {
             $alertArray[$key] = $alert;
             $alertArray[$key]['class'] = 'posts';
-            $alertArray[$key]['url'] = '/posts/'.$alert['post_id']; 
+            $alertArray[$key]['url'] = '/posts/'.$alert['post_id'];
         }
-        
+
         // get assignments
     }
 
@@ -74,7 +74,7 @@ class AjaxSearchController extends BaseController
         // let's search for forum titles
         $forums = ForumThread::select('forum_thread_id', 'title as content', 'seo_url')
             ->where('title', 'LIKE', '%'.$query.'%')
-            ->orWhere('description', 'LIKE', '%'.$query.'%')
+            ->orWhere('forum_description', 'LIKE', '%'.$query.'%')
             ->get()
             ->toArray();
         $forumArray = array();
@@ -82,10 +82,10 @@ class AjaxSearchController extends BaseController
             $forumArray[$key] = $forum;
             $forumArray[$key]['class'] = 'forums';
             $forumArray[$key]['url'] = '/the-forum/thread/'.
-                $forum['seo_url'].'/'.$forum['forum_thread_id']; 
+                $forum['seo_url'].'/'.$forum['forum_thread_id'];
             $forumArray[$key]['icon'] = '<i class="fa fa-comment"></i>';
         }
-        
+
         return $forumArray;
     }
 }

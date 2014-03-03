@@ -35,15 +35,15 @@ class UsersController extends BaseController {
                 return Redirect::to('control/choose-account-type');
             }
 
-            $code = ConfirmationCode::where('user_id', '=', Auth::user()->id)
-                ->where('confirmation_type', '=', 1)
-                ->where('used', '=', 0)
-                ->first();
-            if(!empty($code) && Auth::user()->confirmed_account == 0) {
-                Auth::logout();
-                Session::flash('loginError', 'Please confirm your email.');
-                return Redirect::to('/');
-            }
+            // $code = ConfirmationCode::where('user_id', '=', Auth::user()->id)
+            //     ->where('confirmation_type', '=', 1)
+            //     ->where('used', '=', 0)
+            //     ->first();
+            // if(!empty($code) && Auth::user()->confirmed_account == 0) {
+            //     Auth::logout();
+            //     Session::flash('loginError', 'Please confirm your email.');
+            //     return Redirect::to('/');
+            // }
 
             return Redirect::to('home');
         }

@@ -239,6 +239,21 @@
                     .text('There is an error processing your request. Please try again later.');
             }
 
+            if(response.error) {
+                $('.member-details-holder[data-user-id="'+userId+'"]')
+                    .removeClass('active')
+                    .slideUp();
+                messageHolder.show()
+                    .find('span')
+                    .text(response.message);
+                // check if there are still pending requests
+                if($('.member-details-holder.active').length == 0) {
+                    // show the no request li
+                    $('.member-stream')
+                        .append('<li class="no-member-details">No new group requests.</li>');
+                }
+            }
+
             if(!response.error) {
                 $('.member-details-holder[data-user-id="'+userId+'"]')
                     .removeClass('active')

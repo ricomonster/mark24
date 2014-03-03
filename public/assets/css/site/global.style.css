@@ -153,56 +153,63 @@ subtext should be a span
 /*------------------------------------------------------------------------------
 Group Chat
 ------------------------------------------------------------------------------*/
-.chat-box {
-    color:#333;
-    width:200px; /* Chatbox width */
-    border:1px solid #344150;
-    border-bottom:none;
-    background-color:white;
+.chat-boxes-wrapper {
+    display: none;
     position:fixed;
-    right:10px;
-    bottom:0;
-    z-index:9999;
-    -webkit-box-shadow:1px 1px 5px rgba(0,0,0,.2);
-    -moz-box-shadow:1px 1px 5px rgba(0,0,0,.2);
-    box-shadow:1px 1px 5px rgba(0,0,0,.2);
+    right: 10px;
+    bottom: 0;
+    z-index:1;
 }
 
-.chat-box > input[type="checkbox"] {
-    display:block;
-    margin:0 0;
-    padding:0 0;
-    position:absolute;
-    top:0;
-    right:0;
-    left:0;
-    width:100%;
-    height:26px;
-    z-index:4;
-    cursor:pointer;
-    opacity:0;
-    filter:alpha(opacity=0);
+.chat-boxes-wrapper .chat-box { display: inline-block; width: 300px; }
+.chat-boxes-wrapper .chat-box .chat-box-header {
+    background-color: #757f93;
+    color: #ffffff;
+    padding: 12px;
 }
 
-.chat-box > label {
-    display:block;
-    height:24px;
-    line-height:24px;
-    background-color:#344150;
-    color:white;
-    font-weight:bold;
-    padding:0 1em 1px;
+.chat-boxes-wrapper .chat-box .chat-box-content {
+    background-color: #ffffff;
+    border: 1px solid #dfe4e8;
 }
 
-.chat-box > label:before {content:attr(data-collapsed)}
-.chat-box .chat-box-content { padding:10px; display:none; }
-/* hover state */
-.chat-box > input[type="checkbox"]:hover + label { background-color:#404D5A }
+.chat-box-content .chat-stream {
+    height: 250px;
+    list-style: none;
+    margin: 0;
+    overflow: auto;
+    padding: 0 10px;
+}
 
-/* checked state */
-.chat-box > input[type="checkbox"]:checked + label { background-color:#212A35 }
-.chat-box > input[type="checkbox"]:checked + label:before {c ontent:attr(data-expanded) }
-.chat-box > input[type="checkbox"]:checked ~ .chat-box-content { display:block }
+.chat-box-content form .chat-text { resize: none; }
+
+.chat-stream .chat-holder { margin: 5px 0 15px; }
+.chat-stream .chat-holder.others .chat-content { float: left; }
+.chat-stream .chat-holder.self .chat-content { float: right; }
+.chat-stream .chat-holder.self .chat-content .avatar { float: right; }
+.chat-stream .chat-holder.others .chat-content .avatar { float: left; }
+.chat-stream .chat-holder .chat-content .chat-message {
+    padding: 5px 10px;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.chat-stream .chat-holder.self .chat-content .chat-message {
+    background-color: #3276b1;
+    color: #ffffff;
+    margin-right: 48px;
+}
+
+.chat-stream .chat-holder.others .chat-content .chat-message {
+    background-color: #eeeeee;
+    margin-left: 48px;
+}
+
+.chat-stream .chat-holder .timestamp { margin-bottom: 5px; }
+.chat-stream .chat-holder.others .timestamp { }
+.chat-stream .chat-holder.self .timestamp {
+    text-align: right;
+}
 
 /* Search Bar */
 .selectize-dropdown-content .search-result a img { margin-right: 10px; }
