@@ -172,12 +172,8 @@
                                 url: '/ajax/search',
                                 type: 'GET',
                                 dataType: 'json',
-                                data: {
-                                    q: query
-                                },
-                                error: function() {
-                                    callback();
-                                },
+                                data: { q: query },
+                                error: function() { callback(); },
                                 success: function(res) {
                                     callback(res.data);
                                 }
@@ -192,7 +188,7 @@
         <script>
             (function($) {
                 var notificationCounter = $('.notification-count');
-                var messageHolder = $('.message-holder');
+                var messageHolder       = $('.message-holder');
                 // first to trigger on every page load to check for notifications
                 fetchNotifications();
                 var notificationInverval = setInterval(function() {
@@ -205,9 +201,7 @@
                     $.ajax({
                         url : '/ajax/modal/get-report-form'
                     }).done(function(response) {
-                        if(response) {
-                            modal.html(response);
-                        }
+                        if(response) { modal.html(response); }
                     })
                 });
 

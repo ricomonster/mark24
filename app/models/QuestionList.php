@@ -35,6 +35,11 @@ class QuestionList extends Eloquent {
                         ->first()
                         ->toArray();
                     break;
+                case 'IDENTIFICATION' :
+                    $response = Identification::where('question_id', '=', $question['question_id'])
+                        ->first()
+                        ->toArray();
+                    break;
                 case 'SHORT_ANSWER' :
                     $response = null;
                     break;

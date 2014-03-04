@@ -18,7 +18,8 @@ var TheQuizSheet = {
             .on('click', this.config.nextButton.selector, this.changeNextQuestion)
             .on('click', this.config.previousButton.selector, this.changePreviousQuestion)
             .on('click', this.config.submitButton.selector, this.submitQuiz)
-            .on('blur', this.config.shortAnswerText.selector, this.shortAnswer);
+            .on('blur', this.config.shortAnswerText.selector, this.shortAnswer)
+            .on('blur', this.config.identificationAnswer.selector, this.identification);
 
         window.onbeforeunload = function() {
             return 'Are you sure you want to navigate away from this page?';
@@ -182,6 +183,34 @@ var TheQuizSheet = {
                     quiz_taker_id   : self.config.quizTakerId,
                     question_id     : questionId,
                     short_answer    : $this.val()
+                }
+            }).done(function(response) {
+                self.config.messageHolder.hide();
+            });
+        }
+    },
+
+    identification : function()
+    {
+        var self        = TheQuizSheet;
+        var $this       = $(this);
+        var questionId  = $this.data('question-id');
+
+        if($this.val() == '' || $this.val().length == 0) {
+            // add state class
+        }
+
+        if($this.val() != '' || $this.val().length != 0) {
+            self.config.messageHolder.show().find('span').text('Updating...');
+
+            // trigger ajax
+            $.ajax({
+                type : 'post',
+                url : '/ajax/the-quiz-sheet/update-answer',
+                data : {
+                    quiz_taker_id   : self.config.quizTakerId,
+                    question_id     : questionId,
+                    identification_text : $this.val()
                 }
             }).done(function(response) {
                 self.config.messageHolder.hide();
@@ -416,6 +445,7 @@ TheQuizSheet.init({
     choiceText : $('.choice-text'),
     trueFalseAnswer : $('.true-false-answer'),
     shortAnswerText : $('.short-answer-text'),
+    identificationAnswer : $('.identification-answer'),
     submitButton : $('.submit-quiz'),
 
     theQuizSheet : $('.the-quiz-sheet'),

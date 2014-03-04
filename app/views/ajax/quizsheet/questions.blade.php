@@ -65,6 +65,16 @@ data-question-id="{{ $question['question']['question_id'] }}">
             <textarea class="form-control short-answer-text"
             data-question-id="{{ $question['question']['question_id'] }}">{{ $shortAnswerText }}</textarea>
         </div>
+        @elseif($question['question']['question_type'] == 'IDENTIFICATION')
+        <?php
+        $indentificationAnswer = (!empty($answer) && !empty($answer->identification_answer)) ?
+            $answer->identification_answer : null;
+        ?>
+        <div class="response-identification">
+            <input type="text" class="form-control identification-answer"
+            data-question-id="{{ $question['question']['question_id'] }}"
+            value="{{ $indentificationAnswer }}">
+        </div>
         @endif
     </div>
 </li>

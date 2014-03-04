@@ -82,6 +82,12 @@ class AjaxQuizCreatorController extends BaseController {
                 $addAnswer->save();
 
                 break;
+            // identification
+            case 'IDENTIFICATION' :
+                $identification = new Identification;
+                $identification->question_id = $newQuestion->question_id;
+                $identification->save();
+                break;
             default :
                 break;
         }
@@ -148,6 +154,10 @@ class AjaxQuizCreatorController extends BaseController {
                 $response = TrueFalse::where('question_id', '=', $question->question_id)
                     ->first();
                 break;
+            case 'IDENTIFICATION' :
+                $response = Identification::where('question_id', '=', $question->question_id)
+                    ->first();
+                break;
             default :
                 $response = null;
                 break;
@@ -187,6 +197,7 @@ class AjaxQuizCreatorController extends BaseController {
         $questionId         = Input::get('question_id');
         $multipleChoiceId   = Input::get('multiple_choice_id');
         $trueFalseId        = Input::get('true_false_id');
+        $identificationId   = Input::get('identification_id');
 
         $questionType       = Input::get('question_type');
         $questionText       = Input::get('question_text');
@@ -194,6 +205,8 @@ class AjaxQuizCreatorController extends BaseController {
 
         $choiceText         = Input::get('choice_text');
         $trueFalseAnswer    = Input::get('answer');
+
+        $identification     = Input::get('identification');
 
         $question = Question::find($questionId);
 
@@ -206,6 +219,10 @@ class AjaxQuizCreatorController extends BaseController {
                     break;
                 case 'TRUE_FALSE' :
                     TrueFalse::where('question_id', '=', $question->question_id)
+                        ->delete();
+                    break;
+                case 'IDENTIFICATION' :
+                    Identification::where('question_id', '=', $question->question_id)
                         ->delete();
                     break;
                 default :
@@ -237,6 +254,13 @@ class AjaxQuizCreatorController extends BaseController {
 
                     $response = TrueFalse::where('question_id', '=', $question->question_id)
                         ->first();
+                    break;
+                case 'IDENTIFICATION' :
+                    $newIdentification = new Identification;
+                    $newIdentification->question_id = $question->question_id;
+                    $newIdentification->save();
+
+                    $response = $newIdentification;
                     break;
                 default :
                     $response = null;
@@ -308,6 +332,14 @@ class AjaxQuizCreatorController extends BaseController {
             $return['error'] = false;
 
             return Response::json($return);
+        } else if(isset($identificationId) && !empty($identification)) {
+            $newIdentification = Identification::find($identificationId);
+            $newIdentification->answer = $identification;
+            $newIdentification->save();
+
+            $return['error'] = false;
+
+            return Response::json($return);
         }
     }
 
@@ -351,6 +383,12 @@ class AjaxQuizCreatorController extends BaseController {
                 $addAnswer->question_id = $newQuestion->question_id;
                 $addAnswer->save();
 
+                break;
+            // identification
+            case 'IDENTIFICATION' :
+                $identification = new Identification;
+                $identification->question_id = $newQuestion->question_id;
+                $identification->save();
                 break;
             default :
                 break;

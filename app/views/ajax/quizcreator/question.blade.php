@@ -60,6 +60,14 @@ data-question-id="{{ $question->question_id }}">
                 </select>
             </div>
 
+            @elseif($question->question_type == 'IDENTIFICATION')
+
+            <div class="identification-response">
+                <input type="text" class="identification-answer form-control"
+                data-identification-id="{{ $response->identification_id }}"
+                value="{{ $response->answer }}">
+            </div>
+
             @endif
         </div>
     </div>

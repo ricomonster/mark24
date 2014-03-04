@@ -53,7 +53,7 @@ data-question-list-id="{{ $question->question_list_id }}" data-question-id="{{ $
 
             @elseif($question->question_type == 'TRUE_FALSE')
 
-            <div class="true-false-response"
+            <div class="true-false-response">
                 <span class="label label-success">Correct Answer</span>
                 <select class="true-false-option form-control"
                 data-true-false-id="{{ $response->true_false_id }}">
@@ -62,6 +62,14 @@ data-question-list-id="{{ $question->question_list_id }}" data-question-id="{{ $
                     <option value="FALSE"
                     <?php echo ($response->answer == 'FALSE') ? 'selected' : null; ?>>False</option>
                 </select>
+            </div>
+
+            @elseif($question->question_type == 'IDENTIFICATION')
+
+            <div class="identification-response">
+                <input type="text" class="identification-answer form-control"
+                data-identification-id="{{ $response->identification_id }}"
+                value="{{ $response->answer }}">
             </div>
 
             @endif

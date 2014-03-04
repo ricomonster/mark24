@@ -63,6 +63,7 @@ class AjaxTheQuizSheetController extends BaseController
         $choiceId       = Input::get('choice_id');
         $trueFalse      = Input::get('true_false');
         $shortAnswer    = Input::get('short_answer');
+        $identificationAnswer = Input::get('identification_text');
 
         // check first if there's already an existing row
         // for the answer
@@ -121,6 +122,19 @@ class AjaxTheQuizSheetController extends BaseController
             // question is a short answer
             } else if(isset($shortAnswer)) {
                 $toAnswer->short_answer_text = $shortAnswer;
+            } else if(isset($identificationAnswer)) {
+                // get identification answer
+                $thisIdentification = Identification::where('question_id', '=', $questionId)
+                    ->first();
+                if(strtolower($thisIdentification->answer) == strtolower($identificationAnswer)) {
+                    $toAnswer->is_correct = 'TRUE';
+                    $toAnswer->points = $question->question_point;
+                }
+
+                if(strtolower($thisIdentification->answer) != strtolower($identificationAnswer)) {
+                    $toAnswer->is_correct = 'FALSE';
+                    $toAnswer->points = 0;
+                }
             }
 
             $toAnswer->save();
@@ -170,6 +184,20 @@ class AjaxTheQuizSheetController extends BaseController
             // question is a short answer
             } else if(isset($shortAnswer)) {
                 $answer->short_answer_text = $shortAnswer;
+            } else if(isset($identificationAnswer)) {
+                $answer->identification_answer = $identificationAnswer;
+
+                $thisIdentification = Identification::where('question_id', '=', $questionId)
+                    ->first();
+                if(strtolower($thisIdentification->answer) == strtolower($identificationAnswer)) {
+                    $answer->is_correct = 'TRUE';
+                    $answer->points = $question->question_point;
+                }
+
+                if(strtolower($thisIdentification->answer) != strtolower($identificationAnswer)) {
+                    $answer->is_correct = 'FALSE';
+                    $answer->points = 0;
+                }
             }
 
             $answer->save();

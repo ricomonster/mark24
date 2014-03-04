@@ -167,6 +167,7 @@ Quiz Creator
                                         <option value="MULTIPLE_CHOICE" selected>Multiple Choice</option>
                                         <option value="TRUE_FALSE">True or False</option>
                                         <option value="SHORT_ANSWER">Short Answer</option>
+                                        <option value="IDENTIFICATION">Identification</option>
                                     </select>
                                 </div>
                                 <div class="other-options">
@@ -204,6 +205,7 @@ Quiz Creator
                                         <option value="MULTIPLE_CHOICE" selected>Multiple Choice</option>
                                         <option value="TRUE_FALSE">True or False</option>
                                         <option value="SHORT_ANSWER">Short Answer</option>
+                                        <option value="IDENTIFICATION">Identification</option>
                                     </select>
                                 </div>
                                 <div class="form-group">

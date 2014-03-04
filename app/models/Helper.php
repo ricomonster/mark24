@@ -76,6 +76,10 @@ class Helper
                 $response = TrueFalse::where('question_id', '=', $questionId)
                     ->first();
                 break;
+            case 'IDENTIFICATION' :
+                $response = Identification::where('question_id', '=', $questionId)
+                    ->first();
+                break;
             default :
                 $response = null;
                 break;

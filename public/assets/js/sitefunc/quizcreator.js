@@ -28,7 +28,8 @@ var QuizCreator = {
             .on('blur', this.config.inputQuestionPoint.selector, this.updateQuestionPoint)
             .on('click', this.config.aSetOptionCorrectAnswer.selector, this.changeCorrectOption)
             .on('blur', this.config.inputQuizTimeLimit.selector, this.updateQuizTimeLimit)
-            .on('blur', this.config.textareaQuizDescription.selector, this.updateQuizDescription);
+            .on('blur', this.config.textareaQuizDescription.selector, this.updateQuizDescription)
+            .on('blur', this.config.inputIdentification.selector, this.updateIdentificationResponse);
     },
 
     // check for active quiz
@@ -421,6 +422,35 @@ var QuizCreator = {
             }).done(function(response) {
                 self.config.messageHolder.hide();
             })
+        }
+    },
+
+    updateIdentificationResponse : function()
+    {
+        var self = QuizCreator;
+        var $this = $(this);
+
+        // check if it is empty
+        if ($this.val() == '' || $this.val().length == 0) {
+            $this.parent().addClass('has-error');
+        } else {
+            $this.parent().removeClass('has-error');
+            // show saving message
+            self.config.messageHolder.show().find('span').text('Saving...');
+
+            $.ajax({
+                type    : 'post',
+                url     : '/ajax/quiz-creator/update-question',
+                data    : {
+                    identification      : $this.val(),
+                    identification_id   : $this.data('identification-id')
+                },
+
+                dataType    : 'json',
+                async       : false
+            }).done(function(response) {
+                self.config.messageHolder.hide();
+            });
         }
     },
 
@@ -845,6 +875,7 @@ QuizCreator.init({
     inputQuizTitle                  : $('#quiz_title'),
     inputQuizTimeLimit              : $('#quiz_time_limit'),
     inputQuestionPoint              : $('#question_point'),
+    inputIdentification             : $('.identification-answer'),
 
     selectFirstQuestionType         : $('#first_question_type'),
     selectQuestionType              : $('#question_type'),
