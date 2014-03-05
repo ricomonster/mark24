@@ -148,6 +148,9 @@ Quiz Manager
     color: #ffffff;
 }
 
+.response-identification .student-identification-response { padding: 10px 0; }
+.response-identification .student-identification-response.wrong { color: #d9534f; font-weight: bold; }
+
 .answer-ungraded { margin-top: 20px; }
 .answer-ungraded .partial-credit-wrapper { display: inline-block; margin-left: 20px; }
 .answer-ungraded .partial-credit-wrapper .partial-credit { display: inline-block; width: 50px; }

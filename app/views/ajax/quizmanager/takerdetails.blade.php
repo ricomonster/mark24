@@ -177,6 +177,21 @@
                 <?php echo nl2br(htmlentities(($answer['short_answer_text']))); ?>
             </div>
             @endif
+            @if($question['question']['question_type'] == 'IDENTIFICATION')
+            <div class="response-identification">
+                <div class="student-identification-response
+                {{ ($answer['is_correct'] === 'FALSE') ? 'wrong' : null }}">
+                    {{ (empty($answer['identification_answer']))
+                    ? 'User did not answer the question' :$answer['identification_answer'] }}
+                </div>
+                @if($answer['is_correct'] === 'FALSE')
+                <strong>Answer:</strong>
+                <div class="identification-answer">
+                    {{ $response['answer'] }}
+                </div>
+                @endif
+            </div>
+            @endif
         </div>
         @if(!empty($answer) && empty($answer['is_correct']))
         <div class="answer-ungraded">
