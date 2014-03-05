@@ -35,6 +35,7 @@ class GroupsController extends BaseController {
             ->with('posts', $groupPosts)
             ->with('stats', $this->groupStats($group->group_id))
             ->with('ongoingGroupChat', $ongoing)
+            ->with('groupMembers', GroupMember::getAllGroupMembers())
             ->with('groupChats', Group::ongoingGroupChats());
     }
 

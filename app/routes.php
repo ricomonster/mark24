@@ -21,18 +21,9 @@ Route::get('/', array('before' => 'logged-in', function()
 }));
 
 Route::get('test', function() {
-    // $code = '1234';
-    // $email = 'riconess@gmail.com';
-    // $name = 'Rico Maglayon';
-    // $data = array('code' => $code, 'email' => $email);
-    // $user = array('email' => $email, 'name' => $name);
-
-    // $message = 'testing';
-    // Mail::send('emails.confirmemail', $data, function($message) use ($user) {
-    //    $message->to($user['email'], $user['name'])->subject('Welcome to eLinet!');
-    // });
-
-    // echo 'yes';
+    echo '<pre>';
+    print_r(GroupMember::getAllGroupMembers());
+    echo '</pre>';
 });
 
 // AJAX Routes

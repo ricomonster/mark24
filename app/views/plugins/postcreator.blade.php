@@ -22,19 +22,21 @@
                         <select name="note-recipients[]" class="post-recipients"
                         id="note_recipients" data-placeholder="Send to..."
                         <?php echo (Auth::user()->account_type == 1) ? 'multiple="true"' : null; ?>>
-                            @if(!empty($groups))
-                            @foreach($groups as $group)
-                            @if(isset($groupDetails))
-                            <option value="{{ $group->group_id }}-group"
-                            <?php echo ($groupDetails->group_id == $group->group_id) ? 'selected' : null; ?>>{{ $group->group_name }}</option>
-                            @else
-                            <option value="{{ $group->group_id }}-group">{{ $group->group_name }}</option>
+                            @if(!empty($groupMembers))
+                            @foreach($groupMembers as $list)
+                            <option value="{{ $list->group_id }}-group"
+                            style="font-weight: bold;"
+                            {{ ($list->group_id == $group->group_id) ?
+                            'selected' : null }}>
+                                {{ $list->group_name }}
+                            </option>
+                            @if(!empty($list->members))
+                            @foreach($list->members as $member)
+                            @if(Auth::user()->id != $member->id)
+                            <option value="{{ $member->id }}-user">{{ $member->name }}</option>
                             @endif
                             @endforeach
                             @endif
-                            @if(!empty($groupMembers))
-                            @foreach($groupMembers as $groupMember)
-                            <option value="{{ $groupMember->id }}-user">{{ $groupMember->name }}</option>
                             @endforeach
                             @endif
                         </select>
@@ -84,19 +86,21 @@
                     <div class="form-group">
                         <select name="alert-recipients[]" class="post-recipients"
                         id="alert_recipients" multiple="true" data-placeholder="Send to...">
-                            @if(!empty($groups))
-                            @foreach($groups as $group)
-                            @if(isset($groupDetails))
+                            @if(!empty($groupMembers))
+                            @foreach($groupMembers as $list)
                             <option value="{{ $group->group_id }}-group"
-                            <?php echo ($groupDetails->group_id == $group->group_id) ? 'selected' : null; ?>>{{ $group->group_name }}</option>
-                            @else
-                            <option value="{{ $group->group_id }}-group">{{ $group->group_name }}</option>
+                            style="font-weight: bold;"
+                            {{ ($list->group_id == $group->group_id) ?
+                            'selected' : null }}>
+                                {{ $list->group_name }}
+                            </option>
+                            @if(!empty($list->members))
+                            @foreach($list->members as $member)
+                            @if(Auth::user()->id != $member->id)
+                            <option value="{{ $member->id }}-user">{{ $member->name }}</option>
                             @endif
                             @endforeach
                             @endif
-                            @if(!empty($groupMembers))
-                            @foreach($groupMembers as $groupMember)
-                            <option value="{{ $groupMember->id }}-user">{{ $groupMember->name }}</option>
                             @endforeach
                             @endif
                         </select>
@@ -155,19 +159,21 @@
                     <div class="form-group">
                         <select name="assignment-recipients[]" class="post-recipients"
                         id="assignment_recipients" multiple="true" data-placeholder="Send to...">
-                            @if(!empty($groups))
-                            @foreach($groups as $group)
-                            @if(isset($groupDetails))
+                            @if(!empty($groupMembers))
+                            @foreach($groupMembers as $list)
                             <option value="{{ $group->group_id }}-group"
-                            <?php echo ($groupDetails->group_id == $group->group_id) ? 'selected' : null; ?>>{{ $group->group_name }}</option>
-                            @else
-                            <option value="{{ $group->group_id }}-group">{{ $group->group_name }}</option>
+                            style="font-weight: bold;"
+                            {{ ($list->group_id == $group->group_id) ?
+                            'selected' : null }}>
+                                {{ $list->group_name }}
+                            </option>
+                            @if(!empty($list->members))
+                            @foreach($list->members as $member)
+                            @if(Auth::user()->id != $member->id)
+                            <option value="{{ $member->id }}-user">{{ $member->name }}</option>
                             @endif
                             @endforeach
                             @endif
-                            @if(!empty($groupMembers))
-                            @foreach($groupMembers as $groupMember)
-                            <option value="{{ $groupMember->id }}-user">{{ $groupMember->name }}</option>
                             @endforeach
                             @endif
                         </select>
@@ -224,19 +230,21 @@
                     <div class="alert"></div>
                     <select name="quiz-recipients[]" class="post-recipients"
                     id="quiz_recipients" multiple="true" data-placeholder="Send to...">
-                        @if(!empty($groups))
-                        @foreach($groups as $group)
-                        @if(isset($groupDetails))
+                        @if(!empty($groupMembers))
+                        @foreach($groupMembers as $list)
                         <option value="{{ $group->group_id }}-group"
-                        <?php echo ($groupDetails->group_id == $group->group_id) ? 'selected' : null; ?>>{{ $group->group_name }}</option>
-                        @else
-                        <option value="{{ $group->group_id }}-group">{{ $group->group_name }}</option>
+                        style="font-weight: bold;"
+                        {{ ($list->group_id == $group->group_id) ?
+                            'selected' : null }}>
+                            {{ $list->group_name }}
+                        </option>
+                        @if(!empty($list->members))
+                        @foreach($list->members as $member)
+                        @if(Auth::user()->id != $member->id)
+                        <option value="{{ $member->id }}-user">{{ $member->name }}</option>
                         @endif
                         @endforeach
                         @endif
-                        @if(!empty($groupMembers))
-                        @foreach($groupMembers as $groupMember)
-                        <option value="{{ $groupMember->id }}-user">{{ $groupMember->name }}</option>
                         @endforeach
                         @endif
                     </select>
