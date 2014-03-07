@@ -146,7 +146,8 @@
         @yield('js')
         <script>
             $(document).ready(function() {
-                $('[data-toggle="tooltip"]').tooltip({'placement': 'bottom'});
+                $('.menu-items').tooltip({'placement': 'bottom'});
+                $('.postcreator-options').tooltip({'placement': 'bottom'});
                 // selectize
                 $('#search_bar').selectize({
                     valueField: 'url',

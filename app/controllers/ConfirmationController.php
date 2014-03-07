@@ -4,7 +4,11 @@ class ConfirmationController extends BaseController
 {
     public function confirmMessageSuccessfull()
     {
-        return View::make('confirmation.confirmmessagesuccess');
+        if(Auth::guest()) {
+            return View::make('confirmation.confirmmessagesuccess');
+        }
+
+        return View::make('confirmation.loggedconfirmsuccess');
     }
 
     public function confirmedAccount()

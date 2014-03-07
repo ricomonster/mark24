@@ -2,14 +2,35 @@
     <div class="overlay"><p>Sending...</p></div>
     @if(Auth::user()->account_type == 1)
     <ul class="nav nav-tabs" id="post_creator_options">
-        <li class="<?php echo (isset($quiz)) ? null : 'active'; ?>"><a href="#note"><i class="fa fa-edit"></i> <span>Note</span></a></li>
-        <li><a href="#alert"><i class="fa fa-exclamation-triangle"></i> <span>Alert</span></a></li>
-        <li><a href="#assignment"><i class="fa fa-check-circle"></i> <span>Exercises</span></a></li>
-        <li class="<?php echo (isset($quiz)) ? 'active' : null; ?>"><a href="#quiz"><i class="fa fa-question-circle"></i> <span>Quiz</span></a></li>
+        <li class="<?php echo (isset($quiz)) ? null : 'active'; ?>">
+            <a href="#note" data-toggle="tooltip" title="Notes"
+            class="postcreator-options">
+                <i class="fa fa-edit"></i> <span>Note</span>
+            </a>
+        </li>
+        <li>
+            <a href="#alert" data-toggle="tooltip" title="Alerts"
+            class="postcreator-options">
+                <i class="fa fa-exclamation-triangle"></i> <span>Alert</span>
+            </a>
+        </li>
+        <li>
+            <a href="#assignment" data-toggle="tooltip" title="Exercises"
+            class="postcreator-options">
+                <i class="fa fa-check-circle"></i> <span>Exercises</span>
+            </a>
+        </li>
+        <li class="<?php echo (isset($quiz)) ? 'active' : null; ?>">
+            <a href="#quiz" data-toggle="tooltip" title="Quiz"
+            class="postcreator-options">
+                <i class="fa fa-question-circle"></i> <span>Quiz</span>
+            </a>
+        </li>
     </ul>
     @endif
     <div class="tab-content">
-        <div class="tab-pane well <?php echo (isset($quiz)) ? null : 'active'; ?>" id="note">
+        <div class="tab-pane well <?php echo (isset($quiz)) ? null : 'active'; ?>"
+        id="note">
             <div class="note-errors alert alert-danger" style="display:none;"></div>
             {{ Form::open(array('url'=>'ajax/post_creator/create_note', 'files' => true)) }}
                 <div class="form-group">
@@ -26,7 +47,8 @@
                             @foreach($groupMembers as $list)
                             <option value="{{ $list->group_id }}-group"
                             style="font-weight: bold;"
-                            {{ ($list->group_id == $group->group_id) ?
+                            {{ (isset($groupDetails) &&
+                            ($list->group_id == $groupDetails->group_id)) ?
                             'selected' : null }}>
                                 {{ $list->group_name }}
                             </option>
@@ -88,9 +110,10 @@
                         id="alert_recipients" multiple="true" data-placeholder="Send to...">
                             @if(!empty($groupMembers))
                             @foreach($groupMembers as $list)
-                            <option value="{{ $group->group_id }}-group"
+                            <option value="{{ $list->group_id }}-group"
                             style="font-weight: bold;"
-                            {{ ($list->group_id == $group->group_id) ?
+                            {{ (isset($groupDetails) &&
+                            ($list->group_id == $groupDetails->group_id)) ?
                             'selected' : null }}>
                                 {{ $list->group_name }}
                             </option>
@@ -161,9 +184,10 @@
                         id="assignment_recipients" multiple="true" data-placeholder="Send to...">
                             @if(!empty($groupMembers))
                             @foreach($groupMembers as $list)
-                            <option value="{{ $group->group_id }}-group"
+                            <option value="{{ $list->group_id }}-group"
                             style="font-weight: bold;"
-                            {{ ($list->group_id == $group->group_id) ?
+                            {{ (isset($groupDetails) &&
+                            ($list->group_id == $groupDetails->group_id)) ?
                             'selected' : null }}>
                                 {{ $list->group_name }}
                             </option>
@@ -232,10 +256,11 @@
                     id="quiz_recipients" multiple="true" data-placeholder="Send to...">
                         @if(!empty($groupMembers))
                         @foreach($groupMembers as $list)
-                        <option value="{{ $group->group_id }}-group"
+                        <option value="{{ $list->group_id }}-group"
                         style="font-weight: bold;"
-                        {{ ($list->group_id == $group->group_id) ?
-                            'selected' : null }}>
+                        {{ (isset($groupDetails) &&
+                        ($list->group_id == $groupDetails->group_id)) ?
+                        'selected' : null }}>
                             {{ $list->group_name }}
                         </option>
                         @if(!empty($list->members))

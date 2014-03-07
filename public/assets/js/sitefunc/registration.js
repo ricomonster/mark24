@@ -29,7 +29,7 @@ var Registration = {
             if(response.error) {
                 $.each(response.messages, function(i, message) {
                     $('.'+i).parent().addClass('has-error')
-                        .prepend('<div class="alert alert-danger">'+message+'</div>');
+                        .prepend('<span class="help-block text-danger">'+message+'</span>');
                 });
             }
 
@@ -57,7 +57,7 @@ var Registration = {
             if(response.error) {
                 $.each(response.messages, function(i, message) {
                     $('.'+i).parent().addClass('has-error')
-                        .prepend('<div class="alert alert-danger">'+message+'</div>');
+                        .prepend('<span class="help-block text-danger">'+message+'</span>');
                 });
             }
 

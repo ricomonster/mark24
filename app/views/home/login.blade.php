@@ -43,7 +43,6 @@
             .student-signup-form { display: none; }
             .student-signup-form .section-title { font-size: 18px; }
             .student-signup-form form { padding-top: 20px; }
-            .student-signup-form form .form-group .alert { margin-bottom: 5px; padding: 8px 10px; }
 
             .teacher-signup-form form .notice,
             .student-signup-form form .notice { margin-top: 10px; }
@@ -226,6 +225,12 @@
         <script src="/assets/js/sitefunc/registration.js"></script>
         <script>
             (function($) {
+                $('.bg').load(function() {
+                    $(this).fadeIn(1000);
+                });
+
+                $('.bg').fadeIn(1000);
+
                 var signinForm  = $('.signin-form');
                 var teacherForm = $('.teacher-signup-form');
                 var studentForm = $('.student-signup-form');
@@ -265,12 +270,6 @@
 
                     e.preventDefault();
                 });
-
-                $(document).ready(function() {
-                    $('.bg').load(function() {
-                        $(this).fadeIn(1000);
-                    });
-                })
             })(jQuery);
         </script>
     </body>

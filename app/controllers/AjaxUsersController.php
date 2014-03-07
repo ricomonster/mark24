@@ -271,11 +271,11 @@ class AjaxUsersController extends BaseController {
         $this->_errors = array();
 
         $salutation = Input::get('teacher-title');
-        $firstname = Input::get('teacher-firstname');
-        $lastname = Input::get('teacher-lastname');
-        $username = Input::get('teacher-username');
-        $email = Input::get('teacher-email');
-        $password = Input::get('teacher-password');
+        $firstname  = Input::get('teacher-firstname');
+        $lastname   = Input::get('teacher-lastname');
+        $username   = Input::get('teacher-username');
+        $email      = Input::get('teacher-email');
+        $password   = Input::get('teacher-password');
 
         // validate details
         // validate salutation
