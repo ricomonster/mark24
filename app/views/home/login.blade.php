@@ -16,6 +16,10 @@
         <style>
             body { padding-top: 0; }
             .header .text-muted { position: relative; }
+            .header .logo-holder li a:hover { background-color: none; }
+            .header .logo-holders li:first-child a { padding: 24px 0; }
+            .header .logo-holders li:first-child a img { width: 110px;}
+            .header .logo-holders li:last-child a img { width: 80px; }
             .main-content { min-height: 450px; padding-top: 20px; }
             .left-panel { color: #fff; margin: auto !important; width: 400px; }
             .left-panel h1 { font-size: 64px; text-shadow: 0 0 10px #000; }
@@ -67,6 +71,10 @@
         <img src="/assets/images/splash_image.jpg" class="bg">
         <!-- Header -->
         <div class="header container">
+            <ul class="nav nav-pills pull-right logo-holders">
+                <li><a><img src="/assets/images/lorma.png"></a></li>
+                <li><a><img src="/assets/images/ccse.png"></a></li>
+            </ul>
             <h1 class="text-muted"><img src="/assets/images/logo.png"></h1>
         </div>
 
