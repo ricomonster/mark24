@@ -15,9 +15,13 @@
         <link href="/assets/css/site/global.style.css" rel="stylesheet">
         <style>
             body { padding-top: 0; }
-            .header .text-muted { position: relative; }
-            /*.header .logo-holder li:hover a { background-color: none !important; }
-            .header .logo-holder li a:hover { background-color: none !important; }*/
+            .header .text-muted {
+                color: #161616;
+                font-weight: bold;
+                padding-top: 6px;
+                position: relative;
+            }
+
             .header .logo-holders li:first-child { padding: 24px 20px 0; }
             .header .logo-holders li:last-child { padding: 10px 0; }
             .header .logo-holders li:first-child img { width: 110px;}
@@ -77,7 +81,9 @@
                 <li><img src="/assets/images/lorma.png"></li>
                 <li><img src="/assets/images/ccse.png"></li>
             </ul>
-            <h1 class="text-muted"><img src="/assets/images/logo.png"></h1>
+            <h1 class="text-muted"><!-- <img src="/assets/images/logo.png"> -->
+                eLinet: e-Learning Courseware in Network Management Course
+            </h1>
         </div>
 
         <div class="main-content container">
