@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration {
 			$table->string('avatar_large', 255)->default('default_avatar.png');
 			$table->integer('forum_posts')->unsigned();
 			$table->bigInteger('online_timestamp')->unsigned();
+			$table->string('remember_token', 100)->nullable();
 			$table->timestamps();
 		});
 	}
